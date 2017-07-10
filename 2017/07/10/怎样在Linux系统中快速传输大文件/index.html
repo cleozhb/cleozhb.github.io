@@ -97,7 +97,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/07/10/怎样在Linux系统中快速传输大文件/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="由于此次要传输的数据量很大，有1.2T，才开始学习Linux,受到windows中的影响开始的时候我尝试了用2T 的移动硬盘来拷贝数据。然而通过尝试发现，与windows不同，windows对于移动硬盘与U盘都是自动完成挂载的，在ubuntu 系统中并没有这么智能，U盘还好，移动硬盘想要挂载成功读数据已经很不容易，若还要向里面写数据几乎不可能。">
-<meta property="og:updated_time" content="2017-07-09T17:40:14.616Z">
+<meta property="og:updated_time" content="2017-07-10T07:22:53.709Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="怎样在Linux系统中快速传输大文件">
 <meta name="twitter:description" content="由于此次要传输的数据量很大，有1.2T，才开始学习Linux,受到windows中的影响开始的时候我尝试了用2T 的移动硬盘来拷贝数据。然而通过尝试发现，与windows不同，windows对于移动硬盘与U盘都是自动完成挂载的，在ubuntu 系统中并没有这么智能，U盘还好，移动硬盘想要挂载成功读数据已经很不容易，若还要向里面写数据几乎不可能。">
@@ -201,7 +201,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -211,7 +211,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -221,7 +221,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -291,7 +291,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-10T00:36:22+08:00">
                 2017-07-10
@@ -312,7 +312,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -359,8 +359,12 @@
 <p><strong>四、修改SSH配置</strong><br>包括修改端口、是否允许root登录等设置，这一步必须要做，如果不做，会报错 SSH服务器拒绝了密码，请再试一次。应该是应该是sshd的设置不允许root用户用密码远程登录修改<code>/etc/ssh/sshd_config</code>文件，注意，安装了<code>openssh</code>才会有这个文件，如果文件不存在请检查是否安装了<code>openssh</code>。<br>配置文件的位置：<code>/etc/ssh/sshd_config</code><br>使用 gedit 修改配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit /etc/ssh/sshd_config</div></pre></td></tr></table></figure></p>
 <p>找到 <strong><em>PermitRootLogin prohibit-password</em></strong><br>改成 <strong><em>PermitRootLogin yes</em></strong><br><strong>五、重启SSH服务</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/ssh restart</div></pre></td></tr></table></figure></p>
 <p><strong>六、改写要读取的文件夹的权限</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 776 /home/yuyin</div></pre></td></tr></table></figure></p>
-<p><strong>七、链接服务器，传输文件</strong><br>通过<code>ifconfig -a</code>来查看服务器的ip地址<br>远程服务器<code>ip:192.168.2.110</code><br>在客户端远程链接服务器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh <span class="_">-l</span> root 192.168.2.110</div></pre></td></tr></table></figure></p>
-<p>从服务器上下载整个目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r root@192.168.2.110:/home/yuyin/work /home/bokebi</div></pre></td></tr></table></figure></p>
+<p><strong>七、链接服务器，传输文件</strong><br>通过<code>ifconfig -a</code>来查看服务器的ip地址<br>远程服务器<code>ip:192.168.2.110</code><br><em>在客户端远程链接服务器</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh <span class="_">-l</span> root 192.168.2.110</div></pre></td></tr></table></figure></p>
+<p><em>打开新的终端,从服务器上下载整个目录</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r root@192.168.2.110:/home/yuyin/work /home/bokebi/yuyin</div></pre></td></tr></table></figure></p>
+<p><em>上传目录到服务器</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r /home/bokebi/mytest root@192.168.2.110:/home/yuyin/work</div></pre></td></tr></table></figure></p>
+<p><em>从服务器上下载</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp root@192.168.2.110:/home/yuyin/work /home/bokebi</div></pre></td></tr></table></figure></p>
+<p><em>将文件上传到服务器:将test.txt上传到192.168.2.110服务器上的work目录下</em><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp /home/bokebi/test.txt root@192.168.2.110:/home/yuyin/work</div></pre></td></tr></table></figure></p>
+<p>使用scp命令可以用来通过安全、加密打连接在机器之间传输文件，与rcp相似<br><strong>参考文章</strong><br>慕课网：linux达人养成计划1<br><a href="http://blog.csdn.net/arnoldlu/article/details/17394237" target="_blank" rel="external">ubuntu SSH 连接、远程上传下载文件</a><br><a href="http://blog.csdn.net/tfc_l/article/details/51722128" target="_blank" rel="external">Ubuntu下SSH远程连接、文件传输</a></p>
 
       
     </div>
@@ -475,7 +479,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -486,7 +490,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -496,8 +500,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -597,7 +601,7 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
