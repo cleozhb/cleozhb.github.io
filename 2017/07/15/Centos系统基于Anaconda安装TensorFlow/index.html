@@ -90,13 +90,13 @@
 
 
 
-<meta name="description" content="Ubuntu下远程访问linux集群服务器（系统版本：centos6）这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。12ssh zhb@192.168.122.1su root 切换用户，在自己的用户下操作  命令su - [username]选择用户，例如：su - zhb ##首先安">
+<meta name="description" content="Ubuntu下远程访问linux集群服务器（系统版本：centos6）这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。12ssh zhb@192.168.122.1su root">
 <meta name="keywords" content="linux tensorflow Centos">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Centos系统基于Anaconda安装TensorFlow">
 <meta property="og:url" content="http://yoursite.com/2017/07/15/Centos系统基于Anaconda安装TensorFlow/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
-<meta property="og:description" content="Ubuntu下远程访问linux集群服务器（系统版本：centos6）这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。12ssh zhb@192.168.122.1su root 切换用户，在自己的用户下操作  命令su - [username]选择用户，例如：su - zhb ##首先安">
+<meta property="og:description" content="Ubuntu下远程访问linux集群服务器（系统版本：centos6）这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。12ssh zhb@192.168.122.1su root">
 <meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/1%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5centos.jpg">
 <meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/2%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5centos%E6%8E%88%E6%9D%83root.jpg">
 <meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/3cuda%E5%AE%89%E8%A3%85%E9%80%89%E9%A1%B9.jpg">
@@ -111,10 +111,10 @@
 <meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/12%E5%AE%89%E8%A3%85TensorFlow.jpg">
 <meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/13%E5%8D%87%E7%BA%A7GLIBC.jpg">
 <meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/14%E6%B5%8B%E8%AF%95python%E7%A8%8B%E5%BA%8F%E6%8A%A5%E9%94%99.jpg">
-<meta property="og:updated_time" content="2017-07-28T18:06:33.021Z">
+<meta property="og:updated_time" content="2017-07-28T18:16:22.868Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos系统基于Anaconda安装TensorFlow">
-<meta name="twitter:description" content="Ubuntu下远程访问linux集群服务器（系统版本：centos6）这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。12ssh zhb@192.168.122.1su root 切换用户，在自己的用户下操作  命令su - [username]选择用户，例如：su - zhb ##首先安">
+<meta name="twitter:description" content="Ubuntu下远程访问linux集群服务器（系统版本：centos6）这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。12ssh zhb@192.168.122.1su root">
 <meta name="twitter:image" content="http://oqadn1oza.bkt.clouddn.com/1%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5centos.jpg">
 
 
@@ -343,20 +343,21 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Ubuntu下远程访问linux集群服务器（系统版本：centos6）<br>这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssh zhb@192.168.122.1</div><div class="line">su root</div></pre></td></tr></table></figure></p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Ubuntu下远程访问linux集群服务器（系统版本：centos6）<br>这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssh zhb@192.168.122.1</div><div class="line">su root</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>切换用户，在自己的用户下操作  命令su - [username]选择用户，例如：su - zhb<br><img src="http://oqadn1oza.bkt.clouddn.com/1%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5centos.jpg" alt="图1"><br><img src="http://oqadn1oza.bkt.clouddn.com/2%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5centos%E6%8E%88%E6%9D%83root.jpg" alt="图2"></p>
-<p>##首先安装Anaconda<br>下载anaconda安装包，默认安装位置是/home/zhb/anaconda2<br>输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash Anaconda2-4.2.0-Linux-x86_64.sh</div></pre></td></tr></table></figure></p>
+<h2 id="首先安装Anaconda"><a href="#首先安装Anaconda" class="headerlink" title="首先安装Anaconda"></a>首先安装Anaconda</h2><p>下载anaconda安装包，默认安装位置是/home/zhb/anaconda2<br>输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash Anaconda2-4.2.0-Linux-x86_64.sh</div></pre></td></tr></table></figure></p>
 <p>按照提示完成安装，然后输入python测试，发现安装了anaconda后，在终端输入python依然是Linux自带的版本，这是因为.bashrc的更新没有生效<br>命令行中输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ~/.bashrc</div></pre></td></tr></table></figure></p>
 <p>然后再输入python，验证是否安装成功。</p>
-<p>##安装cuda<br>查看系统版本信息，包括位数、版本号、CPU具体型号等<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">uname <span class="_">-a</span> (Linux查看版本当前操作系统内核信息)</div><div class="line">cat /proc/version (Linux查看当前操作系统版本信息)</div></pre></td></tr></table></figure></p>
+<h2 id="安装cuda"><a href="#安装cuda" class="headerlink" title="安装cuda"></a>安装cuda</h2><p>查看系统版本信息，包括位数、版本号、CPU具体型号等<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">uname <span class="_">-a</span> (Linux查看版本当前操作系统内核信息)</div><div class="line">cat /proc/version (Linux查看当前操作系统版本信息)</div></pre></td></tr></table></figure></p>
 <p>在官网上下载对应的cuda版本，上传到服务器并运行以下命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo sh cuda_8.0.61_375.26_linux.run</div></pre></td></tr></table></figure></p>
 <p>第一个是否安装驱动选择no，其他的选择yes<br><img src="http://oqadn1oza.bkt.clouddn.com/3cuda%E5%AE%89%E8%A3%85%E9%80%89%E9%A1%B9.jpg" alt="图3"><br>安装完成后显示：<br><img src="http://oqadn1oza.bkt.clouddn.com/4cuda%E5%AE%89%E8%A3%85%E7%BB%93%E6%9E%9C.jpg" alt="图4"><br>安装完毕后，再声明一下环境变量，并将其写入到 ~/.bashrc 的尾部:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda-8.0/bin<span class="variable">$&#123;PATH:+:$&#123;PATH&#125;</span>&#125;</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda-8.0/lib64<span class="variable">$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</div></pre></td></tr></table></figure></p>
 <p>检查驱动版本,这里显示驱动版本高于最低要求361.00，满足运行要求。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lspci | grep -i vga</div></pre></td></tr></table></figure></p>
 <p><img src="http://oqadn1oza.bkt.clouddn.com/5%E6%9F%A5%E7%9C%8B%E9%A9%B1%E5%8A%A8%E7%89%88%E6%9C%AC.jpg" alt="pic5"><br>测试cuda例子<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /root/NVIDIA_CUDA-8.0_Samples/1_Utilities/deviceQuery</div><div class="line">make</div></pre></td></tr></table></figure></p>
 <p><img src="http://oqadn1oza.bkt.clouddn.com/6%E6%B5%8B%E8%AF%95cuda-1.jpg" alt="pic6"><br><img src="http://oqadn1oza.bkt.clouddn.com/7%E6%B5%8B%E8%AF%95cuda-2.jpg" alt="pic7"><br><img src="http://oqadn1oza.bkt.clouddn.com/8%E6%B5%8B%E8%AF%95cuda-3.jpg" alt="pic8"><br>测试通过</p>
-<p>##安装cudnn<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tar xvzf cudnn-8.0-linux-x64-v5.1.tgz </div><div class="line">sudo cp cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/include </div><div class="line">sudo cp cuda/lib64/libcudnn.so* /usr/<span class="built_in">local</span>/cuda/lib64 </div><div class="line">sudo chmod a+r /usr/<span class="built_in">local</span>/cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/lib64/libcudnn.so*</div></pre></td></tr></table></figure></p>
+<h2 id="安装cudnn"><a href="#安装cudnn" class="headerlink" title="安装cudnn"></a>安装cudnn</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tar xvzf cudnn-8.0-linux-x64-v5.1.tgz </div><div class="line">sudo cp cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/include </div><div class="line">sudo cp cuda/lib64/libcudnn.so* /usr/<span class="built_in">local</span>/cuda/lib64 </div><div class="line">sudo chmod a+r /usr/<span class="built_in">local</span>/cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda/lib64/libcudnn.so*</div></pre></td></tr></table></figure>
 <p>上面第2、3行就是把Cudnn的头文件和库文件复制到Cuda路径下的include和lib目录。<br><img src="http://oqadn1oza.bkt.clouddn.com/9%E5%AE%89%E8%A3%85cudnn.jpg" alt="pic9"><br>Vi模式修改vi ~/.bash_profile文件，添加环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">"<span class="variable">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"</span> <span class="built_in">export</span> CUDA_HOME=/usr/<span class="built_in">local</span>/cuda</div><div class="line"><span class="built_in">source</span> ~/.bash_profile <span class="comment">#使更改的环境变量生效</span></div></pre></td></tr></table></figure></p>
-<p>##使用anaconda安装tensorflow<br>首先新建一个conda 环境，命名为tensorflow<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">conda create -n tensorflow python=2.7</div></pre></td></tr></table></figure></p>
+<h2 id="使用anaconda安装tensorflow"><a href="#使用anaconda安装tensorflow" class="headerlink" title="使用anaconda安装tensorflow"></a>使用anaconda安装tensorflow</h2><p>首先新建一个conda 环境，命名为tensorflow<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">conda create -n tensorflow python=2.7</div></pre></td></tr></table></figure></p>
 <p>激活环境，并在该环境下安装tensorflow<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> activate tensorflow</div></pre></td></tr></table></figure></p>
 <p>在电脑上下载tensorflow的安装文件，打开新的终端用以下命令将文件传到服务器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp /home/bokebi/下载/tensorflow-0.11.0rc1-cp27-none-linux_x86_64.whl zhb@192.168.122.1:/<span class="built_in">export</span>/home/zhb</div></pre></td></tr></table></figure></p>
 <p><img src="http://oqadn1oza.bkt.clouddn.com/10%E8%BF%9C%E7%A8%8B%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E7%A4%BA%E4%BE%8B.jpg" alt="pic10"><br>也可以选择在线安装的方式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.11.0rc1-cp27-none-linux_x86_64.whl </div><div class="line">pip install –ignore-installed –upgrade <span class="variable">$TF_BINARY_URL</span></div></pre></td></tr></table></figure></p>
@@ -368,7 +369,7 @@
 <p>然后编译安装<br>验证是否更新成功，如果运行程序有相似的报错，采用同样的方法进行更新。<br><img src="http://oqadn1oza.bkt.clouddn.com/13%E5%8D%87%E7%BA%A7GLIBC.jpg" alt="pic13"><br>报错<br><img src="http://oqadn1oza.bkt.clouddn.com/14%E6%B5%8B%E8%AF%95python%E7%A8%8B%E5%BA%8F%E6%8A%A5%E9%94%99.jpg" alt="pic14"><br>添加环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">"<span class="variable">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"</span></div><div class="line"><span class="built_in">export</span> CUDA_HOME=/usr/<span class="built_in">local</span>/cuda</div></pre></td></tr></table></figure></p>
 <p>简单测试tensorflow是否安装成功<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>] = <span class="string">"0"</span></div><div class="line"></div><div class="line">hello = tf.constant(<span class="string">'Hello, TensorFlow!'</span>)</div><div class="line">sess = tf.Session(config=tf.ConfigProto(log_device_placement=<span class="keyword">True</span>))</div><div class="line"><span class="keyword">print</span> sess.run(hello)</div><div class="line">a = tf.constant(<span class="number">10</span>)</div><div class="line">b = tf.constant(<span class="number">32</span>)</div><div class="line"><span class="keyword">print</span> sess.run(a+b)</div></pre></td></tr></table></figure></p>
 <p>检查cudnn是否安装正确，以及tensorflow在计算时是否真的将计算分配到GPU上啦。注意在上面的hello world中，尽管cudnn并未安装正确，程序只会报一个libcudnn并未找到的警告，程序还会继续正常去行。要检查cudnn是否正确安装，需要使用用到cudnn的库，可以用下面的代码来检查：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>] = <span class="string">"0"</span></div><div class="line">input = tf.Variable(tf.random_normal([<span class="number">100</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>]))</div><div class="line">filter = tf.Variable(tf.random_normal([<span class="number">5</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">6</span>]))</div><div class="line">sess = tf.Session(config=tf.ConfigProto(log_device_placement=<span class="keyword">True</span>))</div><div class="line">sess.run(tf.initialize_all_variables())</div><div class="line">op = tf.nn.conv2d(input, filter, strides = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding = <span class="string">'VALID'</span>)</div><div class="line">out = sess.run(op)</div></pre></td></tr></table></figure></p>
-<p>##参考文章：<br>1、<a href="http://www.linuxidc.com/Linux/2017-01/139319.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2017-01/139319.htm</a><br>2、<a href="https://baijiahao.baidu.com/s?id=1570349328882915&amp;wfr=spider&amp;for=pc" target="_blank" rel="external">https://baijiahao.baidu.com/s?id=1570349328882915&amp;wfr=spider&amp;for=pc</a><br>3、<a href="http://blog.csdn.net/zhaoyu106/article/details/52793183/" target="_blank" rel="external">http://blog.csdn.net/zhaoyu106/article/details/52793183/</a><br>4、<a href="https://zhuanlan.zhihu.com/p/22410507" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/22410507</a><br>5、<a href="http://www.linuxidc.com/Linux/2017-03/142291.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2017-03/142291.htm</a><br>6、<a href="http://blog.csdn.net/zhangweijiqn/article/details/53199553" target="_blank" rel="external">http://blog.csdn.net/zhangweijiqn/article/details/53199553</a><br>7、<a href="http://jingyan.baidu.com/article/b7001fe1b59dd40e7282ddb7.html" target="_blank" rel="external">http://jingyan.baidu.com/article/b7001fe1b59dd40e7282ddb7.html</a><br>8、<a href="http://blog.csdn.net/jteng/article/details/52975247" target="_blank" rel="external">http://blog.csdn.net/jteng/article/details/52975247</a></p>
+<h2 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h2><p>1、<a href="http://www.linuxidc.com/Linux/2017-01/139319.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2017-01/139319.htm</a><br>2、<a href="https://baijiahao.baidu.com/s?id=1570349328882915&amp;wfr=spider&amp;for=pc" target="_blank" rel="external">https://baijiahao.baidu.com/s?id=1570349328882915&amp;wfr=spider&amp;for=pc</a><br>3、<a href="http://blog.csdn.net/zhaoyu106/article/details/52793183/" target="_blank" rel="external">http://blog.csdn.net/zhaoyu106/article/details/52793183/</a><br>4、<a href="https://zhuanlan.zhihu.com/p/22410507" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/22410507</a><br>5、<a href="http://www.linuxidc.com/Linux/2017-03/142291.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2017-03/142291.htm</a><br>6、<a href="http://blog.csdn.net/zhangweijiqn/article/details/53199553" target="_blank" rel="external">http://blog.csdn.net/zhangweijiqn/article/details/53199553</a><br>7、<a href="http://jingyan.baidu.com/article/b7001fe1b59dd40e7282ddb7.html" target="_blank" rel="external">http://jingyan.baidu.com/article/b7001fe1b59dd40e7282ddb7.html</a><br>8、<a href="http://blog.csdn.net/jteng/article/details/52975247" target="_blank" rel="external">http://blog.csdn.net/jteng/article/details/52975247</a></p>
 
       
     </div>
@@ -470,8 +471,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/fly.jpg"
@@ -583,6 +593,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先安装Anaconda"><span class="nav-number">1.</span> <span class="nav-text">首先安装Anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装cuda"><span class="nav-number">2.</span> <span class="nav-text">安装cuda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装cudnn"><span class="nav-number">3.</span> <span class="nav-text">安装cudnn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用anaconda安装tensorflow"><span class="nav-number">4.</span> <span class="nav-text">使用anaconda安装tensorflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章："><span class="nav-number">5.</span> <span class="nav-text">参考文章：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
