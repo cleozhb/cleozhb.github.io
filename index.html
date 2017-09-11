@@ -201,7 +201,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -211,7 +211,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -221,7 +221,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -264,6 +264,263 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/" itemprop="url">基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-10T21:18:16+08:00">
+                2017-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>这篇文章来自今年8月召开的国际城市计算研讨会(<a href="http://urbcomp.ist.psu.edu/2017/accept.html" target="_blank" rel="external">International Workshop on Urban Computing</a>).</p>
+<h2 id="论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction"><a href="#论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction" class="headerlink" title="论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction"></a>论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction</h2><p>作者：华盛顿大学学生</p>
+<h2 id="论文背景："><a href="#论文背景：" class="headerlink" title="论文背景："></a>论文背景：<br></h2><p>&ensp;深度学习方法的潜能尚未被完全挖掘出来，尤其是在预测区域的时空尺度的应用方面。这篇文章提出了一种双向深度堆叠的LSTM和单向LSTM相结合的方法来预测大规模交通网络中的交通流速。<br></p>
+<h2 id="主要内容："><a href="#主要内容：" class="headerlink" title="主要内容："></a>主要内容：</h2><p>&ensp;双向LSTM(bidirectional LSTM)<br>用双向LSTM学习历史时间序列数据和空间特征，最后一层只需要用到之前双向堆叠的LSTM的输出值，用单向LSTM来预测未来的值。<br><br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91+%E5%8D%95%E5%90%91LSTM%E7%BB%93%E6%9E%84.png" alt="网络结构图"><br>&ensp;通常情况下，喂给LSTM的数据都是按照时间顺序排列好的，LSTM只学到了前向依赖，在这个过程中可能有些有用的信息被过滤掉了，导致这部分信息没有有效的通过门结构。为了将时间序列信息完全利用起来，应该让LSTM同时学习时间序列反向依赖。交通数据具有周期性，甚至可以观察到短期周期性。学习时间序列的周期性，发现交通模式，增强模型表现。双向LSTM可以处理正向和反向依赖。<br>此外当预测整个交通网络中的流速时，上下游的车速也应该考虑进来。但是考虑到交通网结构复杂，可能存在环路，甚至有些地方互为上下游。<br>本文将bidirectional 和unidirectioanl的LSTM结合起来预测交通流速。用于测试的交通网包括西雅图的323个监测站。<br></p>
+<h2 id="创新点："><a href="#创新点：" class="headerlink" title="创新点："></a>创新点：</h2><p>(1)扩展了交通预测区域，从原先的单个道路或少数几个相连的道路到整个交通网络<br><br>(2)采用深度神经网络结构，并分析了隐藏层数量对预测结果的影响<br><br>(3)采用双向LSTM增强时间序列的特征学习<br></p>
+<ol>
+<li><p>RNN简介：<br>&ensp;RNN是一种强大的深度神经网络，它通过内部的循环记忆来处理序列数据。每个隐藏层节点有当前隐藏状态ht，这个隐藏状态通过上一节点的隐藏状态和当前节点的输入来更新。<br><img src="http://oqadn1oza.bkt.clouddn.com/RNNstruct.png" alt="RNN"><br>每一步隐藏层都会产生一个yt,最终的输出yT在下一步中用来预测速度。<br>RNN在非线性时间序列模型中表现很好，但是在反向传播的过程中，它会有梯度消失或梯度爆炸的问题，因此不能用来处理长时间依赖的时间序列。</p>
+</li>
+<li><p>LSTM简介：<br>&ensp;为了解决上述提到的RNN的问题，有很多复杂的RNN结构被提出，比较典型的有LSTM和GRU。LSTM在长时间序列依赖的问题上处理的很好。GRU是一个简化版的LSTM结构，近期被用来做机器翻译。近年来也有大量的LSTM变体被提出，但是这些变体与原始的LSTM相比性能并没有显著的提升。标准LSTM与标准RNN之间结构上唯一不同之处在于隐藏层。只是每个隐藏层单元都有更为复杂的结构。除了隐藏层状态ht和输入xt，当更新参数时，LSTM还将当前单元输入状态，当前单元输出状态、上一单元的输出状态纳入考虑。LSTM特殊的门结构让它可以将长时间依赖的信息沿着LSTM网络传递下去。LSTM隐藏单元包括三个门，输入门，遗忘门和输出门，尤其是遗忘门是LSTM成为一个有效的可扩展的模型。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91LSTM%E7%BB%93%E6%9E%84.png" alt="LSTM"></p>
+</li>
+</ol>
+<h2 id="实验："><a href="#实验：" class="headerlink" title="实验："></a>实验：</h2><p>&ensp;考虑全部的P个站点，预测T时刻的交通速度用n个历史数据。输入数据可以用下图的矩阵表示：P个站点，每个站点n个数据，总共P<em>n个输入数据<br><img src="http://oqadn1oza.bkt.clouddn.com/%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="输入数据"><br>&ensp;用n个历史时刻数据来预测T时刻的速度，输入矩阵中的每一项代表第P个位置的t-th时刻的速度。这里将全部的323个站点过去10个单位也就是50分钟的速度纳入考虑，所以该二维矩阵[n,P]=[10,323]。由于数据包括2015年一年的，所以总共有N=60/5</em>24*365-10组sample。所以模型最终的输入为一个[N,n,P]的3D vector。<br><br>&ensp; 实验中对比了SBU-LSTM与传统的单个位置速度模型预测效果。讨论了应该用过去多久的数据来预测T时刻，实验证明过去10个单位的数据用来预测是比较合适的。实验还测试了隐藏层的个数，证明1-layer BDLSTM+1-layer LSTM的预测效果是最好的。<br>compared with the classical Models for single location<br>number of lags<br>number of layers</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/05/用win10远程桌面Ubuntu16-04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/05/用win10远程桌面Ubuntu16-04/" itemprop="url">用win10远程桌面Ubuntu16.04</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-05T18:51:04+08:00">
+                2017-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>参考：<br><a href="http://www.cnblogs.com/jinmao/archive/2016/12/20/6203018.html" target="_blank" rel="external">http://www.cnblogs.com/jinmao/archive/2016/12/20/6203018.html</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/28/云栖大会——如何进入阿里/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -293,7 +550,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-28T23:42:22+08:00">
                 2017-07-28
@@ -314,7 +571,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -365,7 +622,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/28/云栖大会——如何进入阿里/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -439,7 +696,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-15T23:54:40+08:00">
                 2017-07-15
@@ -460,7 +717,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -503,7 +760,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/15/Centos系统基于Anaconda安装TensorFlow/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -577,7 +834,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-13T16:22:57+08:00">
                 2017-07-13
@@ -616,7 +873,7 @@
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>linux系统中用ssh访问：<br>ssh远程登录集群 ssh zhb@192.168.122.1<br>文件传输使用scp /home/下载/aaa zhb@192.168.122.1:/export/zhb</p>
+            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>linux系统中用ssh访问：<br>ssh远程登录集群 ssh zhb@192.168.122.1<br>文件传输使用scp /home/下载/aaa zhb@192.168.122.1:/export/zhb</p>
 <p>Windows系统中可以利用现有的工具，十分方便。<br>下载安装Xshell和xftp，用来完成连接服务器和文件传输</p>
 
           
@@ -690,7 +947,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-10T00:36:22+08:00">
                 2017-07-10
@@ -711,7 +968,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -754,7 +1011,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/10/怎样在Linux系统中快速传输大文件/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -828,7 +1085,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-22T15:44:55+08:00">
                 2017-05-22
@@ -849,7 +1106,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -889,7 +1146,7 @@
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>今天开始看台湾大学林轩田老师的机器学习，由于林老师的课程是用中文讲的，对于我这种英文渣渣更容易接受。</p>
+            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>今天开始看台湾大学林轩田老师的机器学习，由于林老师的课程是用中文讲的，对于我这种英文渣渣更容易接受。</p>
 <p>@(示例笔记本)[马克飞象|帮助|Markdown]</p>
 
           
@@ -963,7 +1220,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-20T21:21:16+08:00">
                 2017-05-20
@@ -984,7 +1241,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1024,7 +1281,7 @@
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h2 id="From-zero-to-hero-————-一个人做一件属于自己的事情"><a href="#From-zero-to-hero-————-一个人做一件属于自己的事情" class="headerlink" title="From zero to hero ———— 一个人做一件属于自己的事情"></a>From zero to hero ———— 一个人做一件属于自己的事情</h2><p><img src="http://oqadn1oza.bkt.clouddn.com/daxiong.jpg" alt="logo"></p>
+            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="From-zero-to-hero-————-一个人做一件属于自己的事情"><a href="#From-zero-to-hero-————-一个人做一件属于自己的事情" class="headerlink" title="From zero to hero ———— 一个人做一件属于自己的事情"></a>From zero to hero ———— 一个人做一件属于自己的事情</h2><p><img src="http://oqadn1oza.bkt.clouddn.com/daxiong.jpg" alt="logo"></p>
 <ul>
 <li>把学到的东西定期做总结，当我们不能把一个问题说清楚的时候，往往没有理解这个问题。写东西更在于整一个把事情说清楚的能力，理清整篇文章的逻辑框架。</li>
 <li>向一些技术大牛学习，博客是展示一个人所学所思所想所做的方方面面，性格爱好价值观都可以通过他产出的文字来表达。</li>
@@ -1103,7 +1360,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-20T16:20:07+08:00">
                 2017-05-20
@@ -1145,7 +1402,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/20/hello-world/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1226,8 +1483,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -1237,8 +1494,8 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -1249,7 +1506,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">10</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1349,7 +1606,7 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
