@@ -90,14 +90,17 @@
 
 
 
+<meta name="description" content="异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备">
 <meta name="keywords" content="高性能计算,CUDA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="伊利诺香宾大学高性能并行计算1.2笔记">
 <meta property="og:url" content="http://yoursite.com/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
-<meta property="og:updated_time" content="2018-01-14T15:33:49.616Z">
+<meta property="og:description" content="异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备">
+<meta property="og:updated_time" content="2018-01-14T16:42:59.214Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="伊利诺香宾大学高性能并行计算1.2笔记">
+<meta name="twitter:description" content="异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备">
 
 
 
@@ -198,7 +201,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -208,7 +211,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -218,7 +221,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -288,7 +291,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-14T23:32:49+08:00">
                 2018-01-14
@@ -309,7 +312,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -347,7 +350,57 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="异构并行计算Heterogeneous-Parallel-Computing简介"><a href="#异构并行计算Heterogeneous-Parallel-Computing简介" class="headerlink" title="异构并行计算Heterogeneous_Parallel_Computing简介"></a>异构并行计算Heterogeneous_Parallel_Computing简介</h2><blockquote>
+<p>主要内容</p>
+</blockquote>
+<ul>
+<li>学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别</li>
+<li>为什么越来越多的应用同时使用这两种设备</li>
+</ul>
+<a id="more"></a>
+<blockquote>
+<p> CPU与GPU的区别</p>
+</blockquote>
+<ol>
+<li>CPU有更大的局部cache，GPU有相对小的cache和局部内存。</li>
+<li>GPU有更多的寄存器，支持大量的线程。而CPU只有能够支持少量线程的寄存器。</li>
+<li>GPU有更多的SIMD执行单元；</li>
+</ol>
+<blockquote>
+<p> word</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>word</th>
+<th style="text-align:center">chinese</th>
+<th style="text-align:right">synonym</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>heterogeneous</td>
+<td style="text-align:center">异构的</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>versatile</td>
+<td style="text-align:center">adj.多才多艺的 多面手</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>definitely</td>
+<td style="text-align:center">adv.无疑，明确地</td>
+<td style="text-align:right">undoubtedly，explicitly</td>
+</tr>
+<tr>
+<td>sophisticated</td>
+<td style="text-align:center">adj.复杂的</td>
+<td style="text-align:right">intricate</td>
+</tr>
+</tbody>
+</table>
+
       
     </div>
 
@@ -446,8 +499,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/fly.jpg"
@@ -463,7 +525,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -474,7 +536,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -485,7 +547,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">13</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -560,6 +622,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#异构并行计算Heterogeneous-Parallel-Computing简介"><span class="nav-number">1.</span> <span class="nav-text">异构并行计算Heterogeneous_Parallel_Computing简介</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -585,7 +663,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
