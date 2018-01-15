@@ -97,12 +97,12 @@
 <meta property="og:url" content="http://yoursite.com/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="第四章：CUDA执行模型 主要内容   CUDA如何在保持扩展性的前提下表达并行计算 Warp与Half-warp的含义与重要性 调度、warp分歧以及GPU是SIMT架构的原因">
-<meta property="og:image" content="http://yoursite.com/高性能CUDA应用设计与开发——读书笔记（第四章）/warp%20divergency.PNG">
-<meta property="og:updated_time" content="2018-01-15T13:44:49.344Z">
+<meta property="og:image" content="http://yoursite.com/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/warp%20divergency.PNG">
+<meta property="og:updated_time" content="2018-01-15T14:05:11.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高性能CUDA应用设计与开发——读书笔记（第四章）">
 <meta name="twitter:description" content="第四章：CUDA执行模型 主要内容   CUDA如何在保持扩展性的前提下表达并行计算 Warp与Half-warp的含义与重要性 调度、warp分歧以及GPU是SIMT架构的原因">
-<meta name="twitter:image" content="http://yoursite.com/高性能CUDA应用设计与开发——读书笔记（第四章）/warp%20divergency.PNG">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/warp%20divergency.PNG">
 
 
 
@@ -203,7 +203,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Accueil
+            Home
           </a>
         </li>
       
@@ -293,7 +293,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posté le</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-15T20:07:45+08:00">
                 2018-01-15
@@ -382,7 +382,7 @@
 </ul>
 <p><strong>warp的执行</strong>：每周期将一个warp的1条指令或者可以双发射的两条指令（scheduler）发射到流处理器sp(stream prossor)和其他的执行单元上，其中，并不一定将32个sp一组安排，同时，一个warp也并不是从开始到结束总在相同的32个sp上执行。</p>
 <p>Warp内各个条件子句分支之间是串行执行的，所以条件子句导致执行速度降低2倍，N层嵌套分支会使得执行速度降低2的N次方。任何流控制指令（if\switch\do\for\while）都会导致线程分歧，线程分歧时会顺序执行每个分子路径，而禁用不在此路径上的线程，直到所有路径完成，线程再重新汇合到同一执行路径。</p>
-<p><img src="/高性能CUDA应用设计与开发——读书笔记（第四章）/warp divergency.PNG" alt="warp divergence"></p>
+<p><img src="/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/warp divergency.PNG" alt="warp divergence"></p>
 <p>主要有以下3种情况：</p>
 <ul>
 <li>如果一个warp的32个线程都只满足同一个分支，这是所谓的“分支按warp对齐”的形式，此时分支基本不影响执行效率。</li>
@@ -513,10 +513,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table Des Matières
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Ensemble
+            Overview
           </li>
         </ul>
       
@@ -537,7 +537,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">13</span>
-                <span class="site-state-item-name">articles</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -679,7 +679,7 @@
 </div>
 
 <div class="theme-info">
-  Thème -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
