@@ -90,17 +90,19 @@
 
 
 
-<meta name="description" content="第一章：CUDA入门与编程思想 主要内容   CUDA的一些基本概念 选用合适的CUDA API的准则 高性能GPU计算的三条准则 大O记号，以及数据传输的影响">
+<meta name="description" content="第四章：CUDA执行模型 主要内容   CUDA如何在保持扩展性的前提下表达并行计算 Warp与Half-warp的含义与重要性 调度、warp分歧以及GPU是SIMT架构的原因">
 <meta name="keywords" content="高性能计算,CUDA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="高性能CUDA应用设计与开发——读书笔记（第一章）">
-<meta property="og:url" content="http://yoursite.com/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第一章）/index.html">
+<meta property="og:title" content="高性能CUDA应用设计与开发——读书笔记（第四章）">
+<meta property="og:url" content="http://yoursite.com/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
-<meta property="og:description" content="第一章：CUDA入门与编程思想 主要内容   CUDA的一些基本概念 选用合适的CUDA API的准则 高性能GPU计算的三条准则 大O记号，以及数据传输的影响">
-<meta property="og:updated_time" content="2018-01-13T10:34:44.059Z">
+<meta property="og:description" content="第四章：CUDA执行模型 主要内容   CUDA如何在保持扩展性的前提下表达并行计算 Warp与Half-warp的含义与重要性 调度、warp分歧以及GPU是SIMT架构的原因">
+<meta property="og:image" content="http://yoursite.com/高性能CUDA应用设计与开发——读书笔记（第四章）/warp%20divergency.PNG">
+<meta property="og:updated_time" content="2018-01-15T13:44:49.344Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高性能CUDA应用设计与开发——读书笔记（第一章）">
-<meta name="twitter:description" content="第一章：CUDA入门与编程思想 主要内容   CUDA的一些基本概念 选用合适的CUDA API的准则 高性能GPU计算的三条准则 大O记号，以及数据传输的影响">
+<meta name="twitter:title" content="高性能CUDA应用设计与开发——读书笔记（第四章）">
+<meta name="twitter:description" content="第四章：CUDA执行模型 主要内容   CUDA如何在保持扩展性的前提下表达并行计算 Warp与Half-warp的含义与重要性 调度、warp分歧以及GPU是SIMT架构的原因">
+<meta name="twitter:image" content="http://yoursite.com/高性能CUDA应用设计与开发——读书笔记（第四章）/warp%20divergency.PNG">
 
 
 
@@ -128,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第一章）/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/"/>
 
 
 
 
 
-  <title>高性能CUDA应用设计与开发——读书笔记（第一章） | 学思考的小孩儿</title>
+  <title>高性能CUDA应用设计与开发——读书笔记（第四章） | 学思考的小孩儿</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
@@ -264,7 +266,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第一章）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -281,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">高性能CUDA应用设计与开发——读书笔记（第一章）</h1>
+          <h1 class="post-title" itemprop="name headline">高性能CUDA应用设计与开发——读书笔记（第四章）</h1>
         
 
         <div class="post-meta">
@@ -293,8 +295,8 @@
               
                 <span class="post-meta-item-text">Posté le</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-13T15:36:10+08:00">
-                2018-01-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-15T20:07:45+08:00">
+                2018-01-15
               </time>
             
 
@@ -350,62 +352,66 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="第一章：CUDA入门与编程思想"><a href="#第一章：CUDA入门与编程思想" class="headerlink" title="第一章：CUDA入门与编程思想"></a>第一章：CUDA入门与编程思想</h2><blockquote>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="第四章：CUDA执行模型"><a href="#第四章：CUDA执行模型" class="headerlink" title="第四章：CUDA执行模型"></a>第四章：CUDA执行模型</h2><blockquote>
 <p>主要内容</p>
 </blockquote>
 <ul>
-<li>CUDA的一些基本概念</li>
-<li>选用合适的CUDA API的准则</li>
-<li>高性能GPU计算的三条准则</li>
-<li>大O记号，以及数据传输的影响<a id="more"></a>
-</li>
+<li>CUDA如何在保持扩展性的前提下表达并行计算</li>
+<li>Warp与Half-warp的含义与重要性</li>
+<li>调度、warp分歧以及GPU是SIMT架构的原因</li>
 </ul>
-<h3 id="CUDA的一些基本概念"><a href="#CUDA的一些基本概念" class="headerlink" title="CUDA的一些基本概念"></a>CUDA的一些基本概念</h3><ul>
-<li><strong>用于CUDA的GPU是安装于主机系统Host中的独立设备</strong><br>  GPGPU通过一个高速接口和主机系统相连，如PCIe(外设组件互连高速接口)总线。大多数工作站或者集群的节点可以装2-4个GPGPU。一个主机系统中能安装多少个GPGPU数量取决于该系统的物理能力，PCIe接口数量以及机箱的内部空间、电源负载、冷却系统等。每个GPU都是独立设备与主处理器独立运行，PCIe总线用来在设备间传输数据和命令。CUDA提供以下两种传输数据的方式：<ul>
-<li>通过cudaMemcpu()进行显式数据传输；</li>
-<li>通过页锁定内存的映射进行隐式数据传输；这个接口维护了一段host区域和一段device区域，相互之间可以自动同步。一般都是数据载入host内存，然后映射入GPU，就可以在GPU上使用了，就像数据已经拷贝到GPU了一样。低端的GPU可以共享主机内存以节省成本和能源。使用映射锁定内存实现零拷贝。</li>
-</ul>
-</li>
-</ul>
+<a id="more"></a>
+<blockquote>
+<p> 线程角度的GPU编程</p>
+</blockquote>
+<p>CUDA性能与扩展性的本质来自于其可以将计算分割成固定大小的线程块的执行结构。这些线程块实现了GPU上大规模并行硬件之间的映射.GPU硬件的大规模并行是通过重复设置多个相同的通用构件块(流多处理器)来实现的。流多处理器的数量一定程度上决定了GPU的价格和性能。线程块的软件抽象将Kernel函数的一个自然映射转换到GPU上任意数量的流多处理器上。一个流多处理器可以调度执行一个或多个线程块。能调度线程块的数量仅仅由设备的性能所决定。也就是说每个流多处理器分配线程块的数量取决于一个流多处理器中最多能常驻的线程与线程块数量。</p>
 <ul>
-<li><p><strong>GPGPU运行在一个和主处理器相隔离的存储空间中</strong><br>GPU都有自己的物理内存(例如RAM随机存取存储器，也叫主存，是与GPU直接交换数据的存储器，速度很快，但是比主机内存有更大的带宽)。GPU的带宽通常是CPU带宽的10-20倍。<br>cuda提供了统一虚拟地址(UVA),将主机和GPU的内存编入一个统一的地址空间，访问其他设备内存任然需要通过总线进行数据传输。UVA使得运行各个设备上的代码都可以通过同一个指针访问到其他设备中的数据。</p>
-</li>
-<li><p><strong>CUDAKernel是可以在主机代码中调用，在CUDA设备上执行的子程序</strong><br>Kernel没有返回值，不算是个函数。通过<strong>global</strong>来定义，表示这个kernel可以由主处理器调用。</p>
-</li>
-<li><p><strong>Kernel的调用是异步的，即主机仅仅把要执行的Kernel顺序提交给GPGPU,并不等待其执行完成，而是直接处理后面的其他任务</strong><br>在主机提交kernel一段时间后，kernel才开始在GPU上实际投入运行。这种异步调用使得kernel无法返回函数值。为了提高效率，可以创建一个由若干kernel组成的 <strong>流水线</strong>，使得GPU尽可能长时间的保持忙碌状态。所以还需要一些同步方式使得host确定kernel中多个kernel组成的刘淑娴合适处理完毕。CUDA提供了两种常用的同步方式：</p>
+<li>这种映射可以透明的扩展到任意数量的流多处理器上；</li>
+<li>对流多处理器的位置没有限制(可以在多个设备上进行扩展)；</li>
+<li>能够将执行中的Kernel与用户参数广播给硬件；并行广播是扩展性最强、速度最快的通信机制，能将数据移动到大量的处理单元上；</li>
+</ul>
+<p>一个Block内的所有线程都会在一个流多处理器上执行，GPU设计者在流多处理器内部用共享内存在实现数据共享。这种方式避免了多核处理器中常出现的缓存不一致问题。确保缓存中的所有变量处于最新状态。</p>
+<p>只要处于不同的流中，多个Kernel函数就可以在同一个GPU上同时执行。Kernel函数按照其发射顺序执行，只要前一个待执行的Kernel函数的所有线程都得到调度，且还有剩余的资源，就可以调度下一个Kernel函数。每个流多处理器独立调用内部资源、处理核心及其他执行单元，来执行为其分配的线程块内的线程。每个流多处理器执行相同的指令，处理不同的数据。</p>
+<blockquote>
+<p> <a href="http://blog.163.com/wujiaxing009@126/blog/static/71988399201701224540201/" target="_blank" rel="external">性能角度的GPU编程</a></p>
+</blockquote>
+<p>以一个Warp或者半个Warp内部SIMD线程的数量为单位进行考虑。大多数GPU上一个Warp含有32个SIMD线程。Warp是流多处理器内部的基本调度单元。<br>使用基于线程块的无耦合全局与局部调度机制有很多优势：</p>
+<ul>
+<li>全局调度器必须监控的只有活动状态的流多处理器；</li>
+<li>每个流多处理器调度一个线程块降低了线程资源分配的复杂度以及流多处理器内线程间的通信，以可扩展的方式对Kernel进行分割，流多处理器升值全局调度器无需知道其他流多处理器中在进行什么工作。</li>
+</ul>
+<p><strong>warp的执行</strong>：每周期将一个warp的1条指令或者可以双发射的两条指令（scheduler）发射到流处理器sp(stream prossor)和其他的执行单元上，其中，并不一定将32个sp一组安排，同时，一个warp也并不是从开始到结束总在相同的32个sp上执行。</p>
+<p>Warp内各个条件子句分支之间是串行执行的，所以条件子句导致执行速度降低2倍，N层嵌套分支会使得执行速度降低2的N次方。任何流控制指令（if\switch\do\for\while）都会导致线程分歧，线程分歧时会顺序执行每个分子路径，而禁用不在此路径上的线程，直到所有路径完成，线程再重新汇合到同一执行路径。</p>
+<p><img src="/高性能CUDA应用设计与开发——读书笔记（第四章）/warp divergency.PNG" alt="warp divergence"></p>
+<p>主要有以下3种情况：</p>
+<ul>
+<li>如果一个warp的32个线程都只满足同一个分支，这是所谓的“分支按warp对齐”的形式，此时分支基本不影响执行效率。</li>
+<li>如果一个warp的32个线程分别满足多个分支，那么不满足当前分支的线程可能会采用插入等待或者假执行（跟着一起算，但是不保留结果）的方式，束内的每个线程都会对每个分支进行判定，如果判定满足，就会执行分支内的代码，如果不满足，线程会暂停等到其他线程执行完成，然后再一起执行下一步。总的运行时间是多个运行分支的时间之和，以及显然每次都有些线程不干活或者干无用功。</li>
+<li>因为最小的执行单位就是warp，所以如果warp内不同线程的循环次数不同，那么这也是一种分支情况，并且时间是循环次数最多的那个线程所花费的时间。</li>
+</ul>
+<p>CPU有复杂的硬件设计可以很好的做分支预测，即预测应用程序会走哪个path分支。如果预测正确，那么CPU只会有很小的消耗。和CPU对比来说，GPU就没那么复杂的分支预测了。因为所有同一个warp中的thread必须执行相同的指令，那么如果这些线程在遇到控制流语句时，如果进入不同的分支，那么同一时刻除了正在执行的分支外，其余分支都被阻塞了，十分影响性能。这类问题就是warp divergence。注意，warp divergence问题只会发生在同一个warp中。</p>
+<blockquote>
+<p> <a href="http://blog.csdn.net/rrrfff/article/details/44993467" target="_blank" rel="external">分支预测</a></p>
+</blockquote>
+<p>分支预测（Branch Prediction）是现代处理器用来提高CPU执行速度的一种手段, 其对程序的分支流程进行预测, 然后预先读取其中一个分支的指令并解码来减少等待译码器的时间.维基百科上对此的解释是”a strategy in computer architecture design for mitigating the costs usually associated with conditional branches, particularly branches to short sections of code.”</p>
+<p>分支预测的错误并不会导致结果的错误，而只是导致流水线的停顿，如果能够保持较高的预测准确率，分支预测就能提高流水线的性能, 换言之, 如果在软件开发过程中, 能够考虑这一特性, 减少甚至移除条件分支(值得一提的是, 条件转移不需要预测, 因此条件转移也远没有产生错误分支的性能代价大), 能一定程度上提供程序的整体效率.</p>
+<p>下面是几种常见的优化策略:</p>
 <ol>
-<li>显式调用cudaThreadSynchronize(),该函数使得主机进入阻塞状态，停止运行并等待所有已经提交的kernel执行完毕。</li>
-<li>利用cudaMemory()实现阻塞式数据传输————在cudaMemory()内部调用了cudaThreadSynchronize().</li>
+<li>避免在循环中嵌套条件分支. 如果可能,将分支移到外部, 使用多个子循环.</li>
 </ol>
-</li>
-</ul>
-<p>流水线技术：可以理解为将一个重复的过程分解为若干个子过程，让每个子过程由专门的功能部件来实现。将多个处理过程在时间上错开，一次通过各功能段，这样内个子过程可以与其他子过程并行执行。</p>
-<ul>
-<li><p><strong>GPU上的基本运行单位是线程</strong><br>从软件角度讲，各个线程之间是相互隔离的，内个线程运行时都好像独占一个处理器，这个处理器有自己的寄存器和编号，同时运行于共享内存的环境中。然而，硬件决定了实际可以并发执行的线程的数量。位于GPU上的 <em>线程调度器</em>决定了某组线程何时运行，并且从软件角度快速在线程间切换，这些线程切换和调度对于开发者是透明的。一个kernel利用多个线程完成kernel中所规定的任务，这种方式称为线程级并行(TLP),有别于指令级并行(ILP).</p>
-</li>
-<li><p><strong>GPU上最大可共享的内存区域称为全局内存</strong><br>全局内存是GB级别的RAM，多数的程序数据都存放在其中。全局内存是遵循 <strong>整合访问</strong>的硬件，即将多个内存传输整合为一个大的读取或者写入操作，达到数据进入内存最快传输速率。访问全局内存造成的延时是很高的，高达访问寄存器变量延时的600倍。别看全局内存的带宽很高(160-200G)但是相对于GPU每秒万亿次计算，还是不够的。 <strong>所以GPU的数据重用才是达到高性能的关键。</strong></p>
-</li>
-</ul>
-<h3 id="选用合适的CUDA-API的准则"><a href="#选用合适的CUDA-API的准则" class="headerlink" title="选用合适的CUDA API的准则"></a>选用合适的CUDA API的准则</h3><p>CUDA提供了多种API，编程时根据需要进行选择，在程序中可以自由混合使用这三种API。这些API从高层到低层包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">do </div><div class="line">&#123;</div><div class="line">    if (condition_1)&#123;</div><div class="line">        //branch_1</div><div class="line">    &#125; else if (condition_2)&#123;</div><div class="line">        //branch_2</div><div class="line">    &#125; else &#123;</div><div class="line">        //branch_3</div><div class="line">    &#125; //if</div><div class="line">&#125; while (true);</div><div class="line"></div><div class="line">//改进版本</div><div class="line">if (condition_1) &#123;</div><div class="line">    do &#123;</div><div class="line">        //branch_1</div><div class="line">    &#125; while (true);</div><div class="line">&#125; else if (condition_2) &#123;</div><div class="line">    do &#123;</div><div class="line">        //branch_2</div><div class="line">    &#125; while (true);</div><div class="line">&#125; else &#123;</div><div class="line">    do &#123;</div><div class="line">        //branch_3</div><div class="line">    &#125; while (true);</div><div class="line">&#125; //if</div></pre></td></tr></table></figure>
 <ol>
-<li>数据并行C++ Thrust API;</li>
-<li>可用于C或C++的Runtime API;</li>
-<li>可用于C或C++的Driver API;</li>
+<li>合并分支条件.在某种情况下可以大大降低产生错误分支预测的概率.</li>
 </ol>
-<p>Thrust 是一个类似于STL的针对CUDA的C++模板库。Trust提供与CUDA C完全兼容的接口，可以使我们高效地编写高性能并行程序。Thrust提供了丰富的数据并行算法，例如scan、sort、reduce等，可以简单快捷地构成复杂算法，并使得代码获得更高的可读性。使用这些高度抽象的方法来表达计算，可以隐藏细节，并且Trust会自动选择最有效率的算法实现。因此，程序员得以快速构建CUDA程序，并能够获得极高的稳定性和性能与精度。thrust依赖于Runtime API，正确使用C++模板将生成仿函数(或称仿函数对象)。仿函数(functor)，就是使一个类的使用看上去象一个函数。其实现就是类中实现一个operator()，这个类就有了类似函数的行为，就是一个仿函数类了。</p>
-<p>CUDA程序可以在多种高级语言中使用(python,Java,FORTRAN).Thrust API属于高层API，在一定成功度上存在限制，就是它们将软件开发和硬件相隔离，无法发挥出硬件全部的性能。但是提供了许多现有的功能，对于开发者很方便，具有较高的可维护性。当编程者需要通过代码改进获得较好的性能时，或者想使用一些底层功能来更好的支持所开发的程序时，需要选用一些低级的接口。CUDA Runtime API在特定情况下更加简洁易读，且相当高效，最底层的是Driver API，它提供了更加细致的控制。底层的API需要调用更多的函数，指定更多的参数，且需要检查运行时错误和代码兼容性的问题。</p>
-<h3 id="高性能GPU计算的三条准则"><a href="#高性能GPU计算的三条准则" class="headerlink" title="高性能GPU计算的三条准则"></a>高性能GPU计算的三条准则</h3><ol>
-<li>将数据放入并始终存储于GPU</li>
-<li>给GPU足够多的任务</li>
-<li>注重GPU上数据的重用，避免带宽的限制</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">if (condition_1 == 0 || condition_2 == 0 || </div><div class="line">    condition_3 == 0) &#123;</div><div class="line">    //branch</div><div class="line">&#125; //if</div><div class="line"></div><div class="line">//改进版本:</div><div class="line">if ((condition_1 | condition_2 | condition_3) == 0) &#123;</div><div class="line">    //branch</div><div class="line">&#125; //if</div></pre></td></tr></table></figure>
+<ol>
+<li>移除明显的条件分支, 将执行概率大的条件分支移前.这一条不仅仅有助于规避错误分支带来的性能惩罚, 还减少了不必要的检测分支条件消耗的CPU时钟周期.</li>
 </ol>
-<h3 id="大O记号，以及数据传输的影响"><a href="#大O记号，以及数据传输的影响" class="headerlink" title="大O记号，以及数据传输的影响"></a>大O记号，以及数据传输的影响</h3><p>大O记号是一种表达问题尺寸增长对算法资源消耗的影响的一种常用方法，它可以方便的表示出不同输入参数下函数对处理器或者内存的资源消耗。在数据结构中我们的大O表示法用来描述一个函数的最差执行时间。</p>
-<ul>
-<li>O(1)消耗的资源固定，具有固定的执行时间或者空间。</li>
-<li>O(n)消耗资源随输入数据的尺寸线性增长。</li>
-<li>O(n2)性能和输入数据尺寸的平方成比例。</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>牢记amdahl定律，最小化串行瓶颈，挖掘任务并行性与数据并行性。理解大O记号在算法设计中的意义，并努力寻找具有更小复杂度的代替算法。尝试组合多种GPU操作以获取最高的计算密度，并将PCIe总线数据传输的影响最小化。</p>
+<p>编译器只有在条件分支控制的指令数小于或等于一个确定的阈值时，才会使用呢预测指令替换分支指令。如果编译器腿短条件会产生许多有分歧的warp，阈值为7，否则阈值为4.如果分支中的代码过长，nvcc编译器会插入代码执行warp表决。来查询warp所有线程是否都执行相同的分支。如果warp中所有线程都表决相同的执行分支，说明性能没有下降。</p>
+<blockquote>
+<p>避免warp分歧(Warp Divergence)的准则</p>
+</blockquote>
+<p>warp分歧有时候不可避免，尤其是树、图等不规则的数据结构。<br>下面是几种常见的避免准则：</p>
 
       
     </div>
@@ -450,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/12/基于深度学习的人流量预测/" rel="next" title="基于深度学习的人流量预测">
-                <i class="fa fa-chevron-left"></i> 基于深度学习的人流量预测
+              <a href="/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/" rel="next" title="伊利诺香宾大学高性能并行计算1.2笔记">
+                <i class="fa fa-chevron-left"></i> 伊利诺香宾大学高性能并行计算1.2笔记
               </a>
             
           </div>
@@ -459,10 +465,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第二章）/" rel="prev" title="高性能CUDA应用设计与开发——读书笔记（第二章）">
-                高性能CUDA应用设计与开发——读书笔记（第二章） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -641,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章：CUDA入门与编程思想"><span class="nav-number">1.</span> <span class="nav-text">第一章：CUDA入门与编程思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CUDA的一些基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">CUDA的一些基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选用合适的CUDA-API的准则"><span class="nav-number">1.2.</span> <span class="nav-text">选用合适的CUDA API的准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高性能GPU计算的三条准则"><span class="nav-number">1.3.</span> <span class="nav-text">高性能GPU计算的三条准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大O记号，以及数据传输的影响"><span class="nav-number">1.4.</span> <span class="nav-text">大O记号，以及数据传输的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章：CUDA执行模型"><span class="nav-number">1.</span> <span class="nav-text">第四章：CUDA执行模型</span></a></li></ol></div>
             
 
           </div>
