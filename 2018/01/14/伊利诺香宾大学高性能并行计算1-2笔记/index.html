@@ -98,9 +98,9 @@
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备">
 <meta property="og:image" content="http://yoursite.com/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/GPU与CPU的架构.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/CPU的架构.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/GPU的架构.png">
-<meta property="og:updated_time" content="2018-01-18T06:09:26.437Z">
+<meta property="og:image" content="http://yoursite.com/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/CPU架构.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/GPU架构.png">
+<meta property="og:updated_time" content="2018-01-18T06:37:06.662Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="伊利诺香宾大学高性能并行计算1.2笔记">
 <meta name="twitter:description" content="异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备">
@@ -205,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -215,7 +215,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -225,7 +225,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -295,7 +295,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-14T23:32:49+08:00">
                 2018-01-14
@@ -316,7 +316,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -375,7 +375,7 @@
 <blockquote>
 <p> CPU特性：CPU延迟敏感，以减少延迟为目标</p>
 </blockquote>
-<p><img src="/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/CPU的架构.png" alt="CUP架构"></p>
+<p><img src="/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/CPU架构.png" alt="CUP架构"></p>
 <p>上图中的三个特性解释如下：</p>
 <ol>
 <li>强大的ALU，减少操作延迟：ALU(算术逻辑单元)被设计的很强大，可以在几个时钟周期中进行数值计算。现在的CPU核心中，64位双精度浮点运算，加法运算、乘法运算只需要花费1-3个时钟周期。 这些时钟频率非常高。</li>
@@ -390,7 +390,7 @@
 <blockquote>
 <p> GPU特性：以提升吞吐量为目标的结构设计</p>
 </blockquote>
-<p><img src="/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/GPU的架构.png" alt="GUP架构"><br>上图中GPU的四个特性解释如下：</p>
+<p><img src="/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/GPU架构.png" alt="GUP架构"><br>上图中GPU的四个特性解释如下：</p>
 <ol>
 <li>很小的缓存————提高内存吞吐量：这些缓存并不是用来保存未来可能访问到的数据，而是作为大量线程的阶段性单位，是为thread提高服务的；如果有很多线程需要用相同的数据同时执行，cache会将这些需求整合成一个，由这一个请求去访问DRAM(dynamic random access memory)（因为需要访问的数据保存在dram中而不是cache里面）数据取回来以后，cache转发数据给所有需要这些数据的执行单元或者线程。但是由于需要访问DRAM，访问DRAM的延迟依然存在，然而这个逻辑可以将多次访问整合为一个，因此我们可以保证访问DRAM的traffic。</li>
 <li>简单控制<ul>
@@ -550,10 +550,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -574,7 +574,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">13</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -585,7 +585,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -596,7 +596,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">13</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -712,7 +712,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
