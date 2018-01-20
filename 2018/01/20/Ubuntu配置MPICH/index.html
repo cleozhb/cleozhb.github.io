@@ -90,21 +90,21 @@
 
 
 
-<meta name="description" content="参考http://blog.csdn.net/qq_30239975/article/details/77703321进行安装但是在安装完成之后报错了 gethostbyname failed, PC-Name.经过检查解决方法如下：1sudo gedit /etc/hosts   首先通过/sbin/ifconfig查看网络信息.png)要用的是inet地址，也就是我们常说的IP地址添加如">
+<meta name="description" content="参考http://blog.csdn.net/qq_30239975/article/details/77703321进行安装但是在安装完成之后报错了 gethostbyname failed, PC-Name.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu配置MPICH">
 <meta property="og:url" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
-<meta property="og:description" content="参考http://blog.csdn.net/qq_30239975/article/details/77703321进行安装但是在安装完成之后报错了 gethostbyname failed, PC-Name.经过检查解决方法如下：1sudo gedit /etc/hosts   首先通过/sbin/ifconfig查看网络信息.png)要用的是inet地址，也就是我们常说的IP地址添加如">
+<meta property="og:description" content="参考http://blog.csdn.net/qq_30239975/article/details/77703321进行安装但是在安装完成之后报错了 gethostbyname failed, PC-Name.">
 <meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image%20(1">
-<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image%20(2">
-<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image%20(3">
-<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image%20(4">
-<meta property="og:updated_time" content="2018-01-20T08:58:49.183Z">
+<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image2.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image3.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image4.png">
+<meta property="og:updated_time" content="2018-01-20T10:21:45.551Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu配置MPICH">
-<meta name="twitter:description" content="参考http://blog.csdn.net/qq_30239975/article/details/77703321进行安装但是在安装完成之后报错了 gethostbyname failed, PC-Name.经过检查解决方法如下：1sudo gedit /etc/hosts   首先通过/sbin/ifconfig查看网络信息.png)要用的是inet地址，也就是我们常说的IP地址添加如">
+<meta name="twitter:description" content="参考http://blog.csdn.net/qq_30239975/article/details/77703321进行安装但是在安装完成之后报错了 gethostbyname failed, PC-Name.">
 <meta name="twitter:image" content="http://yoursite.com/2018/01/20/Ubuntu配置MPICH/image.png">
 
 
@@ -334,15 +334,16 @@
 
       
         <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><ol>
-<li>参考<a href="http://blog.csdn.net/qq_30239975/article/details/77703321" target="_blank" rel="external">http://blog.csdn.net/qq_30239975/article/details/77703321</a>进行安装<br>但是在安装完成之后报错了 <em>gethostbyname failed, PC-Name.</em><br><img src="/2018/01/20/Ubuntu配置MPICH/image.png" alt="报错 gethostbyname failed"><br>经过检查解决方法如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit /etc/hosts</div></pre></td></tr></table></figure>
-</li>
+<li>参考<a href="http://blog.csdn.net/qq_30239975/article/details/77703321" target="_blank" rel="external">http://blog.csdn.net/qq_30239975/article/details/77703321</a>进行安装<br>但是在安装完成之后报错了 <em>gethostbyname failed, PC-Name.</em></li>
 </ol>
-<p>首先通过/sbin/ifconfig查看网络信息<br><img src="/2018/01/20/Ubuntu配置MPICH/image (1" alt="报错 gethostbyname failed">.png)<br>要用的是inet地址，也就是我们常说的IP地址<br>添加如下信息ip PCname PCname到hosts文件的末尾<br>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">192.168.122.112 bokebi-HP-Z230-Tower-Workstation bokebi-HP-Z230-Tower-Workstation</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p><img src="/2018/01/20/Ubuntu配置MPICH/image.png" alt="报错 gethostbyname failed"><br>经过检查解决方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit /etc/hosts</div></pre></td></tr></table></figure></p>
+<p>首先通过/sbin/ifconfig查看网络信息<br><img src="/2018/01/20/Ubuntu配置MPICH/image1.png" alt="报错 gethostbyname failed"><br>要用的是inet地址，也就是我们常说的IP地址<br>添加如下信息ip PCname PCname到hosts文件的末尾<br>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">192.168.122.112 bokebi-HP-Z230-Tower-Workstation bokebi-HP-Z230-Tower-Workstation</div></pre></td></tr></table></figure></p>
 <p>然后就可以正常运行MPI了<br>cd 进入MPI安装目录下的example目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mpicc hellow.c -o hellow</div><div class="line">mpirun -np 4 ./hellow</div></pre></td></tr></table></figure></p>
-<p><img src="/2018/01/20/Ubuntu配置MPICH/image (2" alt="报错 gethostbyname failed">.png)</p>
-<p>将win10上在VS中写的MPI程序放在Linux上用mpixx编译时报错了<br><img src="/2018/01/20/Ubuntu配置MPICH/image (3" alt="报错 gethostbyname failed">.png)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;to_string“ is not a member of &apos;std&apos;</div></pre></td></tr></table></figure></p>
+<p><img src="/2018/01/20/Ubuntu配置MPICH/image2.png" alt="报错 gethostbyname failed"></p>
+<p>将win10上在VS中写的MPI程序放在Linux上用mpixx编译时报错了<br><img src="/2018/01/20/Ubuntu配置MPICH/image3.png" alt="报错 gethostbyname failed"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;to_string“ is not a member of &apos;std&apos;</div></pre></td></tr></table></figure></p>
 <p>参考文章<a href="http://blog.csdn.net/u012675539/article/details/49960043" target="_blank" rel="external">http://blog.csdn.net/u012675539/article/details/49960043</a><br>具体原因我还没搞懂，但是添加了一些命令约束后就可以运行了，但是任然有中文乱码，想必是文件编码的问题，回头再解决吧。<br>用以下命令运行了MPI版本的dijkstra算法，结果截图如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mpicxx -std=c++11 -D_GLIBCXX_USE_C99 MPItest1.cpp -o MPItest1</div><div class="line">mpirun -np 4 ./MPItest1 input2.txt</div></pre></td></tr></table></figure></p>
-<p><img src="/2018/01/20/Ubuntu配置MPICH/image (4" alt="报错 gethostbyname failed">.png)<br>MPI的加速真的不是盖的,5000个点的dijkstra串行的算法跑了好久，但用MPI一下下就跑完了，4个进程比8个进程快很多，因为工作站是4核的，如果设为8个进程，那么进程间的切换开销就非常大了。</p>
+<p><img src="/2018/01/20/Ubuntu配置MPICH/image4.png" alt="报错 gethostbyname failed"><br>MPI的加速真的不是盖的,5000个点的dijkstra串行的算法跑了好久，但用MPI一下下就跑完了，4个进程比8个进程快很多，因为工作站是4核的，如果设为8个进程，那么进程间的切换开销就非常大了。</p>
 
       
     </div>

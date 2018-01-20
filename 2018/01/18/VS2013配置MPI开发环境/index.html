@@ -90,23 +90,23 @@
 
 
 
-<meta name="description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安">
+<meta name="description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这">
 <meta name="keywords" content="高性能计算,MPI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VS2013配置MPI开发环境">
 <meta property="og:url" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
-<meta property="og:description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安">
+<meta property="og:description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这">
 <meta property="og:image" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/MPI安装配置包含目录库目录.png">
 <meta property="og:image" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/预处理器.png">
 <meta property="og:image" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/运行库MTD.png">
 <meta property="og:image" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/附加依赖项.png">
 <meta property="og:image" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/helloworld结果图.png">
 <meta property="og:image" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/helloworld结果图_anysource.png">
-<meta property="og:updated_time" content="2018-01-18T12:24:11.871Z">
+<meta property="og:updated_time" content="2018-01-20T10:21:35.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VS2013配置MPI开发环境">
-<meta name="twitter:description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安">
+<meta name="twitter:description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这">
 <meta name="twitter:image" content="http://yoursite.com/2018/01/18/VS2013配置MPI开发环境/MPI安装配置包含目录库目录.png">
 
 
@@ -359,6 +359,7 @@
       
         <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="下载并安装MPICH-For-Windows"><a href="#下载并安装MPICH-For-Windows" class="headerlink" title="下载并安装MPICH For Windows"></a>下载并安装MPICH For Windows</h2><p>MPI是一个接口规范，我们使用的是它的实现MPICH。</p>
 <p>首先，进入 <a href="http://www.mpich.org/downloads/" target="_blank" rel="external">http://www.mpich.org/downloads/</a> 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这两个程序，都点下一步下一步即可。</p>
+<a id="more"></a>
 <h2 id="配置VS并写个HelloWord测试"><a href="#配置VS并写个HelloWord测试" class="headerlink" title="配置VS并写个HelloWord测试"></a>配置VS并写个HelloWord测试</h2><p>首先新建一个win32应用程序，在项目属性中进行如下配置。</p>
 <p><img src="/2018/01/18/VS2013配置MPI开发环境/MPI安装配置包含目录库目录.png" alt="MPI安装配置"></p>
 <p>包含目录里面添加：C:\Program Files (x86)\Microsoft SDKs\MPI\Include;<br>库目录的里面添加：C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x86;<br>我这里因为虽然是64位的系统单安装VS时装的32位的，所以要写x86，小伙伴们大多数都应该是64位的改为C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64;就好了。</p>

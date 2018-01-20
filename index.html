@@ -331,19 +331,16 @@
 
       
         
-          
-            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><ol>
-<li>参考<a href="http://blog.csdn.net/qq_30239975/article/details/77703321" target="_blank" rel="external">http://blog.csdn.net/qq_30239975/article/details/77703321</a>进行安装<br>但是在安装完成之后报错了 <em>gethostbyname failed, PC-Name.</em><br><img src="/2018/01/20/Ubuntu配置MPICH/image.png" alt="报错 gethostbyname failed"><br>经过检查解决方法如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit /etc/hosts</div></pre></td></tr></table></figure>
-</li>
+          <ol>
+<li>参考<a href="http://blog.csdn.net/qq_30239975/article/details/77703321" target="_blank" rel="external">http://blog.csdn.net/qq_30239975/article/details/77703321</a>进行安装<br>但是在安装完成之后报错了 <em>gethostbyname failed, PC-Name.</em></li>
 </ol>
-<p>首先通过/sbin/ifconfig查看网络信息<br><img src="/2018/01/20/Ubuntu配置MPICH/image (1" alt="报错 gethostbyname failed">.png)<br>要用的是inet地址，也就是我们常说的IP地址<br>添加如下信息ip PCname PCname到hosts文件的末尾<br>例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">192.168.122.112 bokebi-HP-Z230-Tower-Workstation bokebi-HP-Z230-Tower-Workstation</div></pre></td></tr></table></figure></p>
-<p>然后就可以正常运行MPI了<br>cd 进入MPI安装目录下的example目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mpicc hellow.c -o hellow</div><div class="line">mpirun -np 4 ./hellow</div></pre></td></tr></table></figure></p>
-<p><img src="/2018/01/20/Ubuntu配置MPICH/image (2" alt="报错 gethostbyname failed">.png)</p>
-<p>将win10上在VS中写的MPI程序放在Linux上用mpixx编译时报错了<br><img src="/2018/01/20/Ubuntu配置MPICH/image (3" alt="报错 gethostbyname failed">.png)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;to_string“ is not a member of &apos;std&apos;</div></pre></td></tr></table></figure></p>
-<p>参考文章<a href="http://blog.csdn.net/u012675539/article/details/49960043" target="_blank" rel="external">http://blog.csdn.net/u012675539/article/details/49960043</a><br>具体原因我还没搞懂，但是添加了一些命令约束后就可以运行了，但是任然有中文乱码，想必是文件编码的问题，回头再解决吧。<br>用以下命令运行了MPI版本的dijkstra算法，结果截图如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mpicxx -std=c++11 -D_GLIBCXX_USE_C99 MPItest1.cpp -o MPItest1</div><div class="line">mpirun -np 4 ./MPItest1 input2.txt</div></pre></td></tr></table></figure></p>
-<p><img src="/2018/01/20/Ubuntu配置MPICH/image (4" alt="报错 gethostbyname failed">.png)<br>MPI的加速真的不是盖的,5000个点的dijkstra串行的算法跑了好久，但用MPI一下下就跑完了，4个进程比8个进程快很多，因为工作站是4核的，如果设为8个进程，那么进程间的切换开销就非常大了。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/20/Ubuntu配置MPICH/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -474,39 +471,15 @@
 
       
         
-          
-            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="下载并安装MPICH-For-Windows"><a href="#下载并安装MPICH-For-Windows" class="headerlink" title="下载并安装MPICH For Windows"></a>下载并安装MPICH For Windows</h2><p>MPI是一个接口规范，我们使用的是它的实现MPICH。</p>
+          <h2 id="下载并安装MPICH-For-Windows"><a href="#下载并安装MPICH-For-Windows" class="headerlink" title="下载并安装MPICH For Windows"></a>下载并安装MPICH For Windows</h2><p>MPI是一个接口规范，我们使用的是它的实现MPICH。</p>
 <p>首先，进入 <a href="http://www.mpich.org/downloads/" target="_blank" rel="external">http://www.mpich.org/downloads/</a> 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这两个程序，都点下一步下一步即可。</p>
-<h2 id="配置VS并写个HelloWord测试"><a href="#配置VS并写个HelloWord测试" class="headerlink" title="配置VS并写个HelloWord测试"></a>配置VS并写个HelloWord测试</h2><p>首先新建一个win32应用程序，在项目属性中进行如下配置。</p>
-<p><img src="/2018/01/18/VS2013配置MPI开发环境/MPI安装配置包含目录库目录.png" alt="MPI安装配置"></p>
-<p>包含目录里面添加：C:\Program Files (x86)\Microsoft SDKs\MPI\Include;<br>库目录的里面添加：C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x86;<br>我这里因为虽然是64位的系统单安装VS时装的32位的，所以要写x86，小伙伴们大多数都应该是64位的改为C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64;就好了。</p>
-<blockquote>
-<p> 其他必要配置：</p>
-</blockquote>
-<p><em>配置管理器，选择x86编译平台；</em> </p>
-<ul>
-<li>C/C++ -&gt; 预处理器，添加：MPICH_SKIP_MPICXX;</li>
-<li>C/C++ -&gt; 代码生成 -&gt; 运行库，选择：多线程调试（/MTd）;</li>
-<li>链接器 -&gt; 输入 -&gt; 附加依赖项，添加：msmpi.lib;</li>
-</ul>
-<p><img src="/2018/01/18/VS2013配置MPI开发环境/预处理器.png" alt="预处理器"><br><img src="/2018/01/18/VS2013配置MPI开发环境/运行库MTD.png" alt="运行库MTD"><br><img src="/2018/01/18/VS2013配置MPI开发环境/附加依赖项.png" alt="附加依赖项"></p>
-<h2 id="helloworld测试"><a href="#helloworld测试" class="headerlink" title="helloworld测试"></a>helloworld测试</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">#include &quot;stdafx.h&quot;</div><div class="line">#include &lt;stdio.h&gt; </div><div class="line">#include &lt;mpi.h&gt;</div><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;string.h&gt;</div><div class="line">using namespace std;</div><div class="line"></div><div class="line">const int MAX_STRING = 100;</div><div class="line">int main(int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">    char greeting[MAX_STRING];</div><div class="line">    int comm_sz;</div><div class="line">    int my_rank;</div><div class="line">    char processor_name[MPI_MAX_PROCESSOR_NAME];</div><div class="line">    int namelen;</div><div class="line"></div><div class="line">    MPI_Init(&amp;argc, &amp;argv);</div><div class="line">    MPI_Comm_size(MPI_COMM_WORLD , &amp;comm_sz);</div><div class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);</div><div class="line">    MPI_Get_processor_name(processor_name, &amp;namelen);</div><div class="line">    if (my_rank != 0)&#123;</div><div class="line">        sprintf_s(greeting, &quot;greetings from process %d of %d&quot;, my_rank, comm_sz);</div><div class="line">        MPI_Send(greeting, MAX_STRING, MPI_CHAR, 0, 0, MPI_COMM_WORLD);</div><div class="line">    &#125;</div><div class="line">    else&#123;</div><div class="line">        printf(&quot;greetings from process %d of %d\n&quot;, my_rank, comm_sz);</div><div class="line">        for (int q = 1; q &lt; comm_sz; q++)</div><div class="line">        &#123;</div><div class="line">            MPI_Recv(greeting, MAX_STRING + 1, MPI_CHAR, q, 0, MPI_COMM_WORLD, MPI_STATUSES_IGNORE);</div><div class="line">            printf(&quot;%s\n&quot;, greeting);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    MPI_Finalize();</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">MPI_Send(</div><div class="line">    void* msg_buf_p;        // in 指向包含消息内容的内存块指针</div><div class="line">    int msg_size;           // in 指定要发送的数据的数量</div><div class="line">    MPI_Datatype msg_type;  // in 发送的数据类型</div><div class="line">    int dest;               // in 接收消息的进程号</div><div class="line">    int tag;                // in 非负int，用来区分不同的消息</div><div class="line">    MPI_Comm communicator;  // in 指定通信范围</div><div class="line">)</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">MPI_Recv(</div><div class="line">    void* msg_buf_p;        // out 指向内存块</div><div class="line">    int msg_size;           // in 指定内存块要存储的对象数量</div><div class="line">    MPI_Datatype msg_type;  // in 接收的数据类型</div><div class="line">    int source;               // in 消息来源的进程号</div><div class="line">    int tag;                // in 非负int，用来区分不同的消息</div><div class="line">    MPI_Comm communicator;  // in 指定通信范围</div><div class="line">    MPI_Status* status_p    // out 大多数情况复位MPI_STATUS_IGNORE</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>如果进程q调用了MPI_Send(),进程r调用了MPI_Recv(),当满足以下条件时可以完成消息传递：</p>
-<ul>
-<li>recv_comm=send_comm</li>
-<li>recv_tag=send_tag</li>
-<li>dest=r</li>
-<li>src=q</li>
-<li>recv_type=send_type</li>
-<li>recv_buf_sz &gt;= send_buf_sz</li>
-</ul>
-<p>编译整个项目，将编译得到的exe文件（debug文件夹下）放在安装的MS-MPI的bin目录（默认为：C:\Program Files\Microsoft MPI\Bin）下，在这个Bin目录下按住shift键于空白处右键单击，打开命令行窗口，输入 mpiexec -n 10 MPI-demo.exe 得到运行结果，如下图</p>
-<p><img src="/2018/01/18/VS2013配置MPI开发环境/helloworld结果图.png" alt="helloworld结果图"></p>
-<p>当MPI_Recv中的source指定为MPI_ANY_SOURCE时，就可以按照各个线程完成工作的顺序来传递消息了。<br><img src="/2018/01/18/VS2013配置MPI开发环境/helloworld结果图_anysource.png" alt="helloworld结果图_anysource"></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/18/VS2013配置MPI开发环境/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
