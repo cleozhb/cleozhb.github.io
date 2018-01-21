@@ -104,7 +104,11 @@
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/5.PNG">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/6.PNG">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/7.PNG">
-<meta property="og:updated_time" content="2018-01-21T14:00:03.979Z">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/input1.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/MPI拷贝位置.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/input1运行过程.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/input1运行结果.png">
+<meta property="og:updated_time" content="2018-01-21T14:07:37.686Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dijkstras最短路径算法的MPI和CUDA实现">
 <meta name="twitter:description" content="Dijkstras最短路径算法的MPI和CUDA实现 主要内容   dijkstra串行算法 算法并行性分析 MPI的dijkstra实现 CUDA的dijkstra实现 并行效率分析">
@@ -210,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -220,7 +224,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -230,7 +234,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -300,7 +304,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T21:17:01+08:00">
                 2018-01-21
@@ -321,7 +325,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -389,6 +393,7 @@
 <ul>
 <li>并行效率分析<br>在自己的笔记本上跑不出来什么好的效果，昨天在工作站上用4核CPU跑的MPI，5000个点很快。不知道CUDA会不会更快。数据量还是不够大。</li>
 </ul>
+<p>下面是在笔记本上的运行结果。并行算法用到的MPI函数主要为点对点通信函数MPI_Send和MPI_Recv，全局通信函数MPI_Bcast，MPI_Allreduce。MPI名字起的真好，消息传递编程，我觉得MPI算法的核心就是任务的划分和任务间的通信。<br>实验数据input1.txt和input2.txt。input1包含16个节点，input2包含5000个节点。input1.txt如下图所示<br><img src="/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/input1.png" alt=""><br>运行程序生成可执行文件，将其拷贝到对应文件夹下（如下图所示）<br><img src="/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/MPI拷贝位置.png" alt=""><br>打开shell窗口，将位置导航到cpp文件夹所在的文件夹下，执行以下命令：<br>mpiexec -n <num_prossessor> 程序名称 <inputfile><br>例如：mpiexec -n 4 MPItest1 input2.txt<br>输出结果（下图第一个的为输入input1.txt,第二个的输入为input2.txt）中所用时间为开启的4个线程分别用的时间，可以看到无论输入数据只有16个点还是有5000个点，进程1所用时间几乎是进程2、3、4的两倍，节点几乎是平均分配的，按照程序中的分配原则，只有最后一个进程分配到的节点数量可能比前面的要少一些。0号进程运行时间长应该是因为我计时的程序并不仅仅是dijkstra算法这一部分，还包括了其他比如I/O的时间。而这一部分是由0号进程去做的。下图第一个是在两个测试集上运行的结果，第二个为程序的输出。<br><img src="/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/input1运行过程.png" alt=""><br><img src="/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/input1运行结果.png" alt=""></inputfile></num_prossessor></p>
 
       
     </div>
@@ -492,10 +497,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -516,7 +521,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">16</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -527,7 +532,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -538,7 +543,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">14</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -654,7 +659,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
