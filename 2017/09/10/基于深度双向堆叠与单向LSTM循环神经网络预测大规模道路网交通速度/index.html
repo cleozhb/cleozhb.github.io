@@ -94,7 +94,7 @@
 <meta name="keywords" content="LSTM,速度预测">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度">
-<meta property="og:url" content="http://yoursite.com/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/index.html">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="这篇文章来自今年8月召开的国际城市计算研讨会(International Workshop on Urban Computing). 论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction作者：华盛顿大学学生">
 <meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91+%E5%8D%95%E5%90%91LSTM%E7%BB%93%E6%9E%84.png">
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/"/>
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/"/>
 
 
 
@@ -270,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -356,7 +356,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>这篇文章来自今年8月召开的国际城市计算研讨会(<a href="http://urbcomp.ist.psu.edu/2017/accept.html" target="_blank" rel="external">International Workshop on Urban Computing</a>).</p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>这篇文章来自今年8月召开的国际城市计算研讨会(<a href="http://urbcomp.ist.psu.edu/2017/accept.html" target="_blank" rel="external">International Workshop on Urban Computing</a>).</p>
 <h2 id="论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction"><a href="#论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction" class="headerlink" title="论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction"></a>论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction</h2><p>作者：华盛顿大学学生</p>
 <h2 id="论文背景："><a href="#论文背景：" class="headerlink" title="论文背景："></a>论文背景：<br></h2><p>&emsp;深度学习方法的潜能尚未被完全挖掘出来，尤其是在预测区域的时空尺度的应用方面。这篇文章提出了一种双向深度堆叠的LSTM和单向LSTM相结合的方法来预测大规模交通网络中的交通流速。<br><br><a id="more"></a></p>
 <h2 id="主要内容："><a href="#主要内容：" class="headerlink" title="主要内容："></a>主要内容：</h2><p>&emsp;双向LSTM(bidirectional LSTM)<br>用双向LSTM学习历史时间序列数据和空间特征，最后一层只需要用到之前双向堆叠的LSTM的输出值，用单向LSTM来预测未来的值。<br><br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91+%E5%8D%95%E5%90%91LSTM%E7%BB%93%E6%9E%84.png" alt="网络结构图"><br>&emsp;通常情况下，喂给LSTM的数据都是按照时间顺序排列好的，LSTM只学到了前向依赖，在这个过程中可能有些有用的信息被过滤掉了，导致这部分信息没有有效的通过门结构。为了将时间序列信息完全利用起来，应该让LSTM同时学习时间序列反向依赖。交通数据具有周期性，甚至可以观察到短期周期性。学习时间序列的周期性，发现交通模式，增强模型表现。双向LSTM可以处理正向和反向依赖。<br>此外当预测整个交通网络中的流速时，上下游的车速也应该考虑进来。但是考虑到交通网结构复杂，可能存在环路，甚至有些地方互为上下游。<br>本文将bidirectional 和unidirectioanl的LSTM结合起来预测交通流速。用于测试的交通网包括西雅图的323个监测站。<br></p>
