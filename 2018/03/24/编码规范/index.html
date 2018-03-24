@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="高性能计算,MPI," />
+  <meta name="keywords" content="编码规范," />
 
 
 
@@ -90,24 +90,22 @@
 
 
 
-<meta name="description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这">
-<meta name="keywords" content="高性能计算,MPI">
+<meta name="description" content="C/C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
+<meta name="keywords" content="编码规范">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VS2013配置MPI开发环境">
-<meta property="og:url" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/index.html">
+<meta property="og:title" content="编码规范">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
-<meta property="og:description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/MPI安装配置包含目录库目录.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/预处理器.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/运行库MTD.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/附加依赖项.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/helloworld结果图.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/helloworld结果图_anysource.png">
-<meta property="og:updated_time" content="2018-01-20T10:21:35.071Z">
+<meta property="og:description" content="C/C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/头文件定义.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/h文件中只声明不包含头文件.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/指针操作.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/动态创建和删除二维指针.png">
+<meta property="og:updated_time" content="2018-03-24T07:02:57.891Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="VS2013配置MPI开发环境">
-<meta name="twitter:description" content="下载并安装MPICH For WindowsMPI是一个接口规范，我们使用的是它的实现MPICH。 首先，进入 http://www.mpich.org/downloads/ 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这">
-<meta name="twitter:image" content="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/MPI安装配置包含目录库目录.png">
+<meta name="twitter:title" content="编码规范">
+<meta name="twitter:description" content="C/C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/头文件定义.png">
 
 
 
@@ -135,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/"/>
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/03/24/编码规范/"/>
 
 
 
 
 
-  <title>VS2013配置MPI开发环境 | 学思考的小孩儿</title>
+  <title>编码规范 | 学思考的小孩儿</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
@@ -272,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/03/24/编码规范/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -289,7 +287,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">VS2013配置MPI开发环境</h1>
+          <h1 class="post-title" itemprop="name headline">编码规范</h1>
         
 
         <div class="post-meta">
@@ -301,8 +299,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-18T16:26:39+08:00">
-                2018-01-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-24T13:53:55+08:00">
+                2018-03-24
               </time>
             
 
@@ -324,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">环境配置</span>
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
                   </a>
                 </span>
 
@@ -358,37 +356,122 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="下载并安装MPICH-For-Windows"><a href="#下载并安装MPICH-For-Windows" class="headerlink" title="下载并安装MPICH For Windows"></a>下载并安装MPICH For Windows</h2><p>MPI是一个接口规范，我们使用的是它的实现MPICH。</p>
-<p>首先，进入 <a href="http://www.mpich.org/downloads/" target="_blank" rel="external">http://www.mpich.org/downloads/</a> 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这两个程序，都点下一步下一步即可。</p>
-<a id="more"></a>
-<h2 id="配置VS并写个HelloWord测试"><a href="#配置VS并写个HelloWord测试" class="headerlink" title="配置VS并写个HelloWord测试"></a>配置VS并写个HelloWord测试</h2><p>首先新建一个win32应用程序，在项目属性中进行如下配置。</p>
-<p><img src="/2018/01/18/VS2013配置MPI开发环境/MPI安装配置包含目录库目录.png" alt="MPI安装配置"></p>
-<p>包含目录里面添加：C:\Program Files (x86)\Microsoft SDKs\MPI\Include;<br>库目录的里面添加：C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x86;<br>我这里因为虽然是64位的系统单安装VS时装的32位的，所以要写x86，小伙伴们大多数都应该是64位的改为C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64;就好了。</p>
-<blockquote>
-<p> 其他必要配置：</p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="C-C-程序变量和函数命名规范及注意事项"><a href="#C-C-程序变量和函数命名规范及注意事项" class="headerlink" title="C/C++程序变量和函数命名规范及注意事项"></a>C/C++程序变量和函数命名规范及注意事项</h2><blockquote>
+<p>主要内容</p>
 </blockquote>
-<p><em>配置管理器，选择x86编译平台；</em> </p>
 <ul>
-<li>C/C++ -&gt; 预处理器，添加：MPICH_SKIP_MPICXX;</li>
-<li>C/C++ -&gt; 代码生成 -&gt; 运行库，选择：多线程调试（/MTd）;</li>
-<li>链接器 -&gt; 输入 -&gt; 附加依赖项，添加：msmpi.lib;</li>
+<li>函数命名规则（驼峰命名法）</li>
+<li>变量命名规则（匈牙利命名法）</li>
+<li>其他非常重要的注意事项<a id="more"></a>
+</li>
 </ul>
-<p><img src="/2018/01/18/VS2013配置MPI开发环境/预处理器.png" alt="预处理器"><br><img src="/2018/01/18/VS2013配置MPI开发环境/运行库MTD.png" alt="运行库MTD"><br><img src="/2018/01/18/VS2013配置MPI开发环境/附加依赖项.png" alt="附加依赖项"></p>
-<h2 id="helloworld测试"><a href="#helloworld测试" class="headerlink" title="helloworld测试"></a>helloworld测试</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">#include &quot;stdafx.h&quot;</div><div class="line">#include &lt;stdio.h&gt; </div><div class="line">#include &lt;mpi.h&gt;</div><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;string.h&gt;</div><div class="line">using namespace std;</div><div class="line"></div><div class="line">const int MAX_STRING = 100;</div><div class="line">int main(int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">    char greeting[MAX_STRING];</div><div class="line">    int comm_sz;</div><div class="line">    int my_rank;</div><div class="line">    char processor_name[MPI_MAX_PROCESSOR_NAME];</div><div class="line">    int namelen;</div><div class="line"></div><div class="line">    MPI_Init(&amp;argc, &amp;argv);</div><div class="line">    MPI_Comm_size(MPI_COMM_WORLD , &amp;comm_sz);</div><div class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);</div><div class="line">    MPI_Get_processor_name(processor_name, &amp;namelen);</div><div class="line">    if (my_rank != 0)&#123;</div><div class="line">        sprintf_s(greeting, &quot;greetings from process %d of %d&quot;, my_rank, comm_sz);</div><div class="line">        MPI_Send(greeting, MAX_STRING, MPI_CHAR, 0, 0, MPI_COMM_WORLD);</div><div class="line">    &#125;</div><div class="line">    else&#123;</div><div class="line">        printf(&quot;greetings from process %d of %d\n&quot;, my_rank, comm_sz);</div><div class="line">        for (int q = 1; q &lt; comm_sz; q++)</div><div class="line">        &#123;</div><div class="line">            MPI_Recv(greeting, MAX_STRING + 1, MPI_CHAR, q, 0, MPI_COMM_WORLD, MPI_STATUSES_IGNORE);</div><div class="line">            printf(&quot;%s\n&quot;, greeting);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    MPI_Finalize();</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">MPI_Send(</div><div class="line">    void* msg_buf_p;        // in 指向包含消息内容的内存块指针</div><div class="line">    int msg_size;           // in 指定要发送的数据的数量</div><div class="line">    MPI_Datatype msg_type;  // in 发送的数据类型</div><div class="line">    int dest;               // in 接收消息的进程号</div><div class="line">    int tag;                // in 非负int，用来区分不同的消息</div><div class="line">    MPI_Comm communicator;  // in 指定通信范围</div><div class="line">)</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">MPI_Recv(</div><div class="line">    void* msg_buf_p;        // out 指向内存块</div><div class="line">    int msg_size;           // in 指定内存块要存储的对象数量</div><div class="line">    MPI_Datatype msg_type;  // in 接收的数据类型</div><div class="line">    int source;               // in 消息来源的进程号</div><div class="line">    int tag;                // in 非负int，用来区分不同的消息</div><div class="line">    MPI_Comm communicator;  // in 指定通信范围</div><div class="line">    MPI_Status* status_p    // out 大多数情况复位MPI_STATUS_IGNORE</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>如果进程q调用了MPI_Send(),进程r调用了MPI_Recv(),当满足以下条件时可以完成消息传递：</p>
-<ul>
-<li>recv_comm=send_comm</li>
-<li>recv_tag=send_tag</li>
-<li>dest=r</li>
-<li>src=q</li>
-<li>recv_type=send_type</li>
-<li>recv_buf_sz &gt;= send_buf_sz</li>
+<h3 id="函数命名规则（驼峰命名法）"><a href="#函数命名规则（驼峰命名法）" class="headerlink" title="函数命名规则（驼峰命名法）"></a>函数命名规则（驼峰命名法）</h3><p>普通函数：函数名由若干个单词组成，第一个单词全部小写，第二个单词开始首字母大写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">bool getMeanValue(...);</div><div class="line">int csvToShp(...);</div><div class="line">double ** computeUrbanConversionMatrix(...);</div></pre></td></tr></table></figure></p>
+<p><strong>tips</strong></p>
+<ol>
+<li><p>inline类型的函数，在函数名前面加下划线_：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inline int _getCuberInterpolationValue(...);</div></pre></td></tr></table></figure>
+</li>
+<li><p>若为static类型的函数，函数名第一个单词首字母大写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static int OpenFiles(...);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="变量命名规则（匈牙利命名法）"><a href="#变量命名规则（匈牙利命名法）" class="headerlink" title="变量命名规则（匈牙利命名法）"></a>变量命名规则（匈牙利命名法）</h3><ul>
+<li>原则1：禁止使用简单英文单词命名变量，如min,max,left,right,会造成和某些库保留变量名冲突</li>
+<li>原则2：<strong>变量作用域(w/m/_/无)+指针/数组(p/pp/ppp/无)+变量类型(c/u/n/f/d/s/v 等)+变量名称</strong></li>
+<li>原则3：迭代变量允许但不推荐使用i,j,k,n,m,尽量使用有意义的迭代变量名称，如<code>_nFilesIdx</code></li>
 </ul>
-<p>编译整个项目，将编译得到的exe文件（debug文件夹下）放在安装的MS-MPI的bin目录（默认为：C:\Program Files\Microsoft MPI\Bin）下，在这个Bin目录下按住shift键于空白处右键单击，打开命令行窗口，输入 mpiexec -n 10 MPI-demo.exe 得到运行结果，如下图</p>
-<p><img src="/2018/01/18/VS2013配置MPI开发环境/helloworld结果图.png" alt="helloworld结果图"></p>
-<p>当MPI_Recv中的source指定为MPI_ANY_SOURCE时，就可以按照各个线程完成工作的顺序来传递消息了。<br><img src="/2018/01/18/VS2013配置MPI开发环境/helloworld结果图_anysource.png" alt="helloworld结果图_anysource"></p>
+<p><em>表1：变量作用域命名规则</em></p>
+<table>
+<thead>
+<tr>
+<th>变量作用域</th>
+<th style="text-align:center">前缀</th>
+<th>例子</th>
+<th style="text-align:right">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全局变量</td>
+<td style="text-align:center">w</td>
+<td>wnValue</td>
+<td style="text-align:right">全局int型变量</td>
+</tr>
+<tr>
+<td>静态变量</td>
+<td style="text-align:center">S(大写)</td>
+<td>SnValue</td>
+<td style="text-align:right">静态int型变量</td>
+</tr>
+<tr>
+<td>类变量</td>
+<td style="text-align:center">m</td>
+<td>mnValue</td>
+<td style="text-align:right">类int型变量</td>
+</tr>
+<tr>
+<td>普通变量</td>
+<td style="text-align:center">不需要</td>
+<td>nValue</td>
+<td style="text-align:right">int型变量</td>
+</tr>
+<tr>
+<td>临时变量</td>
+<td style="text-align:center">_</td>
+<td>_nValue</td>
+<td style="text-align:right">临时int型变量</td>
+</tr>
+</tbody>
+</table>
+<p><em>表2：指针/数组命名规则</em></p>
+<table>
+<thead>
+<tr>
+<th>指针/数组</th>
+<th style="text-align:center">前缀</th>
+<th>例子</th>
+<th style="text-align:right">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一维</td>
+<td style="text-align:center">p</td>
+<td>pdValues</td>
+<td style="text-align:right">普通一维double型数组</td>
+</tr>
+<tr>
+<td>二维</td>
+<td style="text-align:center">pp</td>
+<td>ppdValues</td>
+<td style="text-align:right">普通2维double型数组</td>
+</tr>
+<tr>
+<td>三维</td>
+<td style="text-align:center">ppp</td>
+<td>pppdValues</td>
+<td style="text-align:right">普通3维double型数组</td>
+</tr>
+<tr>
+<td>非指针</td>
+<td style="text-align:center">无</td>
+<td>dValues</td>
+<td style="text-align:right">普通double型数组</td>
+</tr>
+</tbody>
+</table>
+<p><em>表3：变量类型命名规则</em><br>| 指针/数组 | 前缀 | 例子   | 意义|<br>| ———  |:—–:|: —–:|—–:|<br>| char  | c  | cValue  |  |<br>| unsigned char,byte  | u  | uValue  |  |<br>| short,unsigned short,int,unsigned int  | n  | nValue  |  |<br>| long,long long  | l  | lValue  |  |<br>| float  | f  | fVafue  |  |<br>| double  | d  | dVadue  |  |<br>| bool  | b  | bVabue  |  |<br>| char*,string  | s/str/sz  | strValue  |  |<br>| list,vector  | v  | vValues  | 链表/容器 |<br>| file  | in/out/fi  | inFile/outFile/fiOutput  | 输入输出文件 |<br>| map,hash  | map  | mapKeyValues  | 映射表/哈希表 |<br>| HANDLE  | h  | hDesktop  | 桌面句柄 |<br>| GDAL相关指针  | po  | poDataset  |  |<br>| 控件  | ctrl  | ctrlTextView  | TextView控件 |<br>| 源对象  | src  | srcString  | 源字符串 |<br>| 目的对象  | dst  | dstString  | 目的字符串 |</p>
+<p><strong>例：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">double ** mppdDistanceMatrix;   //类内二维双精度型指针变量</div><div class="line">QList&lt;int&gt;* wpvnValuesList;     //全局int型链表的指针</div><div class="line">QList&lt;int*&gt; mvpnValueList;      //类内链表对象，存储int型指针</div><div class="line">QProgressBar*mpctrlProgBar;     //类内ProgressBar控件指针对象</div><div class="line">GDALDataset*mpoDataset;         //GDAL栅格数据集指针对象</div></pre></td></tr></table></figure>
+<h3 id="其他非常重要的注意事项"><a href="#其他非常重要的注意事项" class="headerlink" title="其他非常重要的注意事项"></a>其他非常重要的注意事项</h3><ol>
+<li>为了防止同一个文件被编译器多次编译，每个头文件(*.h)实现结构必须为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#ifndef 随机唯一表示字符串，千万不要与其他头文件重复</div><div class="line">#define 随机唯一表示字符串，千万不要与其他头文件重复</div><div class="line">(类的实现)</div><div class="line">...</div><div class="line">...</div><div class="line">#endif</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>e.g.<br><img src="/2018/03/24/编码规范/头文件定义.png" alt=""></p>
+<ol>
+<li>为了防止头文件互相包含造成编译错误，每个头文件(.h)中的include的其他头文件数量越少越好。或者只进行声明，在对应的实现文件(.cpp)中将所需头文件包含进来；<br>e.g.<br><img src="/2018/03/24/编码规范/h文件中只声明不包含头文件.png" alt=""></li>
+<li>为防止内存泄露造成程序不稳定，在类和函数中声明的指针一定要先置NULL,或nullptr;每次使用前先判断是否为NULL,若需要更行，先delete再new;并在类的析构函数中或函数尾部对该指针delete并置NULL或nullptr处理.<br><img src="/2018/03/24/编码规范/指针操作.png" alt=""><br><img src="/2018/03/24/编码规范/动态创建和删除二维指针.png" alt=""></li>
+</ol>
 
       
     </div>
@@ -418,9 +501,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/高性能计算/" rel="tag"># 高性能计算</a>
-          
-            <a href="/tags/MPI/" rel="tag"># MPI</a>
+            <a href="/tags/编码规范/" rel="tag"># 编码规范</a>
           
         </div>
       
@@ -433,8 +514,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/" rel="next" title="高性能CUDA应用设计与开发——读书笔记（第四章）">
-                <i class="fa fa-chevron-left"></i> 高性能CUDA应用设计与开发——读书笔记（第四章）
+              <a href="/2018/03/19/什么是科研/" rel="next" title="什么是科研">
+                <i class="fa fa-chevron-left"></i> 什么是科研
               </a>
             
           </div>
@@ -442,10 +523,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/20/Ubuntu配置MPICH/" rel="prev" title="Ubuntu配置MPICH">
-                Ubuntu配置MPICH <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -624,7 +701,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载并安装MPICH-For-Windows"><span class="nav-number">1.</span> <span class="nav-text">下载并安装MPICH For Windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置VS并写个HelloWord测试"><span class="nav-number">2.</span> <span class="nav-text">配置VS并写个HelloWord测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#helloworld测试"><span class="nav-number">3.</span> <span class="nav-text">helloworld测试</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-C-程序变量和函数命名规范及注意事项"><span class="nav-number">1.</span> <span class="nav-text">C/C++程序变量和函数命名规范及注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数命名规则（驼峰命名法）"><span class="nav-number">1.1.</span> <span class="nav-text">函数命名规则（驼峰命名法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量命名规则（匈牙利命名法）"><span class="nav-number">1.2.</span> <span class="nav-text">变量命名规则（匈牙利命名法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他非常重要的注意事项"><span class="nav-number">1.3.</span> <span class="nav-text">其他非常重要的注意事项</span></a></li></ol></li></ol></div>
             
 
           </div>
