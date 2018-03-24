@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/h文件中只声明不包含头文件.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/指针操作.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/03/24/编码规范/动态创建和删除二维指针.png">
-<meta property="og:updated_time" content="2018-03-24T07:02:57.891Z">
+<meta property="og:updated_time" content="2018-03-24T07:15:17.652Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编码规范">
 <meta name="twitter:description" content="C/C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
@@ -460,7 +460,115 @@
 </tr>
 </tbody>
 </table>
-<p><em>表3：变量类型命名规则</em><br>| 指针/数组 | 前缀 | 例子   | 意义|<br>| ———  |:—–:|: —–:|—–:|<br>| char  | c  | cValue  |  |<br>| unsigned char,byte  | u  | uValue  |  |<br>| short,unsigned short,int,unsigned int  | n  | nValue  |  |<br>| long,long long  | l  | lValue  |  |<br>| float  | f  | fVafue  |  |<br>| double  | d  | dVadue  |  |<br>| bool  | b  | bVabue  |  |<br>| char*,string  | s/str/sz  | strValue  |  |<br>| list,vector  | v  | vValues  | 链表/容器 |<br>| file  | in/out/fi  | inFile/outFile/fiOutput  | 输入输出文件 |<br>| map,hash  | map  | mapKeyValues  | 映射表/哈希表 |<br>| HANDLE  | h  | hDesktop  | 桌面句柄 |<br>| GDAL相关指针  | po  | poDataset  |  |<br>| 控件  | ctrl  | ctrlTextView  | TextView控件 |<br>| 源对象  | src  | srcString  | 源字符串 |<br>| 目的对象  | dst  | dstString  | 目的字符串 |</p>
+<p><em>表3：变量类型命名规则</em></p>
+<table>
+<thead>
+<tr>
+<th>指针/数组</th>
+<th style="text-align:center">前缀</th>
+<th>例子</th>
+<th style="text-align:right">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char</td>
+<td style="text-align:center">c</td>
+<td>cValue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>unsigned char,byte</td>
+<td style="text-align:center">u</td>
+<td>uValue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>short,unsigned short,int,unsigned int</td>
+<td style="text-align:center">n</td>
+<td>nValue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>long,long long</td>
+<td style="text-align:center">l</td>
+<td>lValue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>float</td>
+<td style="text-align:center">f</td>
+<td>fVafue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>double</td>
+<td style="text-align:center">d</td>
+<td>dVadue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>bool</td>
+<td style="text-align:center">b</td>
+<td>bVabue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>char*,string</td>
+<td style="text-align:center">s/str/sz</td>
+<td>strValue</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>list,vector</td>
+<td style="text-align:center">v</td>
+<td>vValues</td>
+<td style="text-align:right">链表/容器</td>
+</tr>
+<tr>
+<td>file</td>
+<td style="text-align:center">in/out/fi</td>
+<td>inFile/outFile/fiOutput</td>
+<td style="text-align:right">输入输出文件</td>
+</tr>
+<tr>
+<td>map,hash</td>
+<td style="text-align:center">map</td>
+<td>mapKeyValues</td>
+<td style="text-align:right">映射表/哈希表</td>
+</tr>
+<tr>
+<td>HANDLE</td>
+<td style="text-align:center">h</td>
+<td>hDesktop</td>
+<td style="text-align:right">桌面句柄</td>
+</tr>
+<tr>
+<td>GDAL相关指针</td>
+<td style="text-align:center">po</td>
+<td>poDataset</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>控件</td>
+<td style="text-align:center">ctrl</td>
+<td>ctrlTextView</td>
+<td style="text-align:right">TextView控件</td>
+</tr>
+<tr>
+<td>源对象</td>
+<td style="text-align:center">src</td>
+<td>srcString</td>
+<td style="text-align:right">源字符串</td>
+</tr>
+<tr>
+<td>目的对象</td>
+<td style="text-align:center">dst</td>
+<td>dstString</td>
+<td style="text-align:right">目的字符串</td>
+</tr>
+</tbody>
+</table>
 <p><strong>例：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">double ** mppdDistanceMatrix;   //类内二维双精度型指针变量</div><div class="line">QList&lt;int&gt;* wpvnValuesList;     //全局int型链表的指针</div><div class="line">QList&lt;int*&gt; mvpnValueList;      //类内链表对象，存储int型指针</div><div class="line">QProgressBar*mpctrlProgBar;     //类内ProgressBar控件指针对象</div><div class="line">GDALDataset*mpoDataset;         //GDAL栅格数据集指针对象</div></pre></td></tr></table></figure>
 <h3 id="其他非常重要的注意事项"><a href="#其他非常重要的注意事项" class="headerlink" title="其他非常重要的注意事项"></a>其他非常重要的注意事项</h3><ol>
