@@ -1,0 +1,832 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="GDAL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="GDAL在不同操作系统下的安装 主要内容   GDAL简介 Ubuntu配置GDAL win10+VS2013配置GDAL">
+<meta name="keywords" content="GDAL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win10+VS2013与Ubuntu16.04配置GDAL">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="GDAL在不同操作系统下的安装 主要内容   GDAL简介 Ubuntu配置GDAL win10+VS2013配置GDAL">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/GDAL安装路径.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/去掉ODBC支持.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/编译平台及附加依赖项.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/包含目录及库目录.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/GDAL小例子.png">
+<meta property="og:updated_time" content="2018-04-10T07:16:49.391Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="win10+VS2013与Ubuntu16.04配置GDAL">
+<meta name="twitter:description" content="GDAL在不同操作系统下的安装 主要内容   GDAL简介 Ubuntu配置GDAL win10+VS2013配置GDAL">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/GDAL安装路径.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/"/>
+
+
+
+
+
+  <title>win10+VS2013与Ubuntu16.04配置GDAL | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">win10+VS2013与Ubuntu16.04配置GDAL</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-10T14:05:16+08:00">
+                2018-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/经验/" itemprop="url" rel="index">
+                    <span itemprop="name">经验</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="GDAL在不同操作系统下的安装"><a href="#GDAL在不同操作系统下的安装" class="headerlink" title="GDAL在不同操作系统下的安装"></a>GDAL在不同操作系统下的安装</h2><blockquote>
+<p>主要内容</p>
+</blockquote>
+<ul>
+<li>GDAL简介</li>
+<li>Ubuntu配置GDAL</li>
+<li><a href="https://blog.csdn.net/u011574296/article/details/76565703" target="_blank" rel="external">win10+VS2013配置GDAL</a><a id="more"></a>
+</li>
+</ul>
+<h3 id="GDAL简介"><a href="#GDAL简介" class="headerlink" title="GDAL简介"></a>GDAL简介</h3><p>GDAL(Geospatial Data Abstraction Library)是开源栅格空间数据转换库，它用抽象的数据模型来表达所支持的各种文件格式，有一系列的命令行工具来进行数据转换和处理。OGR是GDAL项目的一个分支，提供对矢量数据的支持。</p>
+<h4 id="支持格式"><a href="#支持格式" class="headerlink" title="支持格式"></a>支持格式</h4><p>GDAL提供对多种栅格数据的支持，包括Arc/Info ASCII Grid(asc)，GeoTiff (tiff)，Erdas Imagine Images(img)，ASCII DEM(dem) 等格式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">GDAL使用抽象数据模型(abstract data model)来解析它所支持的数据格式</div><div class="line">抽象数据模型包括数据集(dataset)</div><div class="line">坐标系统</div><div class="line">仿射地理坐标转换(Affine Geo Transform)</div><div class="line">大地控制点(GCPs)</div><div class="line">元数据(Metadata)</div><div class="line">栅格波段(Raster Band)</div><div class="line">颜色表(Color Table)</div><div class="line">子数据集域(Subdatasets Domain)</div><div class="line">图像结构域(Image_Structure Domain)</div><div class="line">XML域(XML:Domains)</div><div class="line">GDALMajorObject类：带有元数据的对象。</div><div class="line">GDALDdataset类：通常是从一个栅格文件中提取的相关联的栅格波段集合和这些波段的元数据;</div><div class="line">GDALDdataset也负责所有栅格波段的地理坐标转换(georeferencing transform)和坐标系定义。</div><div class="line">GDALDriver类：文件格式驱动类，GDAL会为每一个所支持的文件格式创建一个该类的实体，来管理该文件格式。</div><div class="line">GDALDriverManager类：文件格式驱动管理类，用来管理GDALDriver类。</div></pre></td></tr></table></figure></p>
+<p>###Ubuntu配置GDAL<br>在Ubuntu中配置GDAL时，原本只需要按照博客中说的步骤：</p>
+<ol>
+<li>下载<a href="URL: http://download.osgeo.org/gdal/" target="_blank" rel="external">URL: http://download.osgeo.org/gdal/</a></li>
+<li>安装GDAL</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">% cd gdal</div><div class="line">% ./configure</div><div class="line">% make</div><div class="line">% su</div><div class="line">Password: ********</div><div class="line">% make install</div><div class="line">% exit</div><div class="line"></div><div class="line">安装成功后，会在/usr/local/include文件夹中产生一系列.h文件(cpl_config.h、gdal.h……)，在/usr/local/lib文件夹中产生5个库文件，其中libgdal.a和libgdal.la为静态链接库，libgdal.so, libgdal.so.1, libgdal.so.1.13.2为动态链接库。</div></pre></td></tr></table></figure>
+<ol>
+<li><p>将/usr/local/lib添加到环境变量中，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">cd /etc/ld.so.conf.d</div><div class="line">touch local.conf</div><div class="line">vi local.conf</div><div class="line">i</div><div class="line">/usr/local/lib</div><div class="line">Esc</div><div class="line">Wq</div><div class="line">ldconfig -v</div></pre></td></tr></table></figure>
+</li>
+<li><p>将/usr/local/include文件夹copy到当前工程（test）目录下。test.cpp里面加载必要的头文件就可以使用GDAL和PROJ里面的函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#include &quot;./include/gdal.h&quot;</div><div class="line">#include &quot;./include/gdal_alg.h&quot;</div><div class="line">#include &quot;./include/cpl_conv.h&quot;</div><div class="line">#include &quot;./include/cpl_port.h&quot;</div><div class="line">#include &quot;./include/cpl_multiproc.h&quot;</div><div class="line">#include &quot;./include/ogr_srs_api.h&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>编译g++ test.cpp –lgdal –o TEST</p>
+</li>
+<li>运行./TEST</li>
+</ol>
+<p>但是由于Ubuntu中对包的依赖，之前安装anaconda2时安装了一些包，包的等级比较低，不满足GDAL的需求，但Ubuntu对已安装的包进行保护，故不能重新安装高版本，所以无奈之下卸载了anaconda2。以后要用再重装吧。。。</p>
+<h3 id="win10-VS2013配置GDAL"><a href="#win10-VS2013配置GDAL" class="headerlink" title="win10+VS2013配置GDAL"></a>win10+VS2013配置GDAL</h3><ol>
+<li>下载源码，从参考文献3的链接中可以找到各种历史版本，我这里下载的是最新的gdal2.2.4</li>
+<li>GDAL_HOME = “C:\warmerda\bld”，编译后的生成的头文件、静态库、动态库将会存储到这个路径。我在D盘新建了文件夹gdal2.2.4，然后修成了D:\gdal2.2.4。</li>
+<li>并将ODBC_SUPPORTED=1注释掉(因为后面会报错。。。)</li>
+<li>还有’#WIN64=YES’，在编译64位GDAL时，要删除前面的#。<br><img src="/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/GDAL安装路径.png" alt=""><br><img src="/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/去掉ODBC支持.png" alt=""></li>
+<li>进入VS2013 X64 本机工具命令提示符，在菜单栏的Visual Studio 2013文件夹下</li>
+<li>使用命令行，进入到源代码目录,依次输入以下命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">e:</div><div class="line">cd gdal-2.2.4</div><div class="line">nmake -f makefile.vc </div><div class="line">nmake /f makefile.vc install </div><div class="line">nmake /f makefile.vc devinstal</div><div class="line"></div><div class="line">第一个命令是编译GDAL </div><div class="line">第二个、第三个命令是将生成的头文件、静态库、动态库复制到GDAL_HOME目录。 </div><div class="line">如果需要编译debug模式，就将第一个命令改成nmake -f makefile.vc DEBUG=1</div></pre></td></tr></table></figure>
+<ol>
+<li><p>配置环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">计算机-&gt;属性-&gt;高级系统设置-&gt;环境变量-&gt;编辑 path </div><div class="line">添加：D:\gdal2.2.4\bin</div></pre></td></tr></table></figure>
+</li>
+<li><p>在VS2013中配置GDAL时，按照上面连接中的博客配置完成(亲测有效，为博主点赞)。<br>生成时出现连接错误，错误原因是我编译的是x64的GDAL，而我的VS默认建工程是x86的，所以需要更改编译平台为x64并重新设置附加依赖项、包含目录、库目录。一定要注意你编译的GDAL是多少位的，你建立的工程是多少位的。需要将GDAL的lib link到你的工程中，而且它的编译版本要跟你的开发环境的VS一致。<br><img src="/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/编译平台及附加依赖项.png" alt=""><br><img src="/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/包含目录及库目录.png" alt=""></p>
+</li>
+<li>小例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#include &quot;stdafx.h&quot;</div><div class="line">#include &quot;gdal_priv.h&quot;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">using namespace std;</div><div class="line">int main(int argc, char* argv[])</div><div class="line">&#123;</div><div class="line">    if (argc != 2)</div><div class="line">    &#123;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">    GDALDataset *poDataset;</div><div class="line">    GDALAllRegister();</div><div class="line">    poDataset = (GDALDataset *)GDALOpen(argv[1], GA_ReadOnly);</div><div class="line">    if (poDataset != NULL)</div><div class="line">    &#123;</div><div class="line">        cout &lt;&lt; &quot;RasterXSize:&quot; &lt;&lt; poDataset-&gt;GetRasterXSize() &lt;&lt; endl;</div><div class="line">        cout &lt;&lt; &quot;RasterYSize:&quot; &lt;&lt; poDataset-&gt;GetRasterYSize() &lt;&lt; endl;</div><div class="line">        cout &lt;&lt; &quot;RasterCount:&quot; &lt;&lt; poDataset-&gt;GetRasterCount() &lt;&lt; endl;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>点击生成，在debug文件夹下进入命令行模式，假设在e:有个名叫nd_dem.tif的图片，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.\gdal_installtest.exe e:\nd_dem.tif</div></pre></td></tr></table></figure></p>
+<p><img src="/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/GDAL小例子.png" alt=""></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://www.cnblogs.com/bigbigtree/archive/2011/11/19/2255495.html" target="_blank" rel="external">GDAL 的安装介绍及使用</a></li>
+<li><a href="https://blog.csdn.net/u011574296/article/details/76565703" target="_blank" rel="external">win10+VS2015 编译64位的gdal，并配置环境</a></li>
+<li><a href="http://trac.osgeo.org/gdal/wiki/DownloadSource" target="_blank" rel="external">Downloading GDAL/OGR Source</a></li>
+<li><a href="https://blog.csdn.net/u012505618/article/details/52724060" target="_blank" rel="external">新手使用GDAL详细教程</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GDAL/" rel="tag"># GDAL</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/29/如何读论文/" rel="next" title="如何读论文">
+                <i class="fa fa-chevron-left"></i> 如何读论文
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GDAL在不同操作系统下的安装"><span class="nav-number">1.</span> <span class="nav-text">GDAL在不同操作系统下的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GDAL简介"><span class="nav-number">1.1.</span> <span class="nav-text">GDAL简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#支持格式"><span class="nav-number">1.1.1.</span> <span class="nav-text">支持格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#win10-VS2013配置GDAL"><span class="nav-number">1.2.</span> <span class="nav-text">win10+VS2013配置GDAL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">2.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
