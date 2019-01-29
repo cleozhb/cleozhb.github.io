@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -265,6 +265,129 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/29/有序向量的查找/" itemprop="url">有序向量的查找</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-29T12:10:35+08:00">
+                2019-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。<br>查找接口的要求：</p>
+<ul>
+<li>当有多个元素命中时，保证返回秩最大的</li>
+<li>当查找失败时，能够返回失败的位置</li>
+</ul>
+<p>只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) </div><div class="line">&#123;</div><div class="line">  /*DSA*/printf ( &quot;BIN search (A)\n&quot; );</div><div class="line">   while ( lo &lt; hi ) </div><div class="line">   &#123;        </div><div class="line">      //每步迭代可能要做两次比较判断，有三个分支</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      if      ( e &lt; A[mi] ) hi = mi; //深入前半段[lo, mi)继续查找</div><div class="line">      else if ( A[mi] &lt; e ) lo = mi + 1; //深入后半段(mi, hi)继续查找</div><div class="line">      else    return mi; //在mi处命中</div><div class="line">   &#125; //成功查找可以提前终止</div><div class="line">   return -1; //查找失败</div></pre></td></tr></table></figure></p>
+<p>} //有多个命中元素时，不能保证返回秩最大者；查找失败时，简单地返回-1，而不能指示失败的位置</p>
+<p><img src="https://uploader.shimo.im/f/RVkjJPTXNgo66sLa.png!thumbnail" alt="图片"><img src="https://uploader.shimo.im/f/I79zwdvHpwQk8gzO.png!thumbnail" alt="图片"><img src="https://uploader.shimo.im/f/CA0DskxogqUHk6Vf.png!thumbnail" alt="图片"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本B）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) &#123;</div><div class="line">   /*DSA*/printf ( &quot;BIN search (B)\n&quot; );</div><div class="line">   while ( 1 &lt; hi - lo ) </div><div class="line">   &#123; </div><div class="line">      //每步迭代仅需做一次比较判断，有两个分支；成功查找不能提前终止</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      ( e &lt; A[mi] ) ? hi = mi : lo = mi; //经比较后确定深入[lo, mi)或[mi, hi)</div><div class="line">   &#125; //出口时hi = lo + 1，查找区间仅含一个元素A[lo]</div><div class="line">   return ( e == A[lo] ) ? lo : -1 ; //查找成功时返回对应的秩；否则统一返回-1</div></pre></td></tr></table></figure></p>
+<p>} //有多个命中元素时，不能保证返回秩最大者；查找失败时，简单地返回-1，而不能指示失败的位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本C）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) &#123;</div><div class="line">   /*DSA*/printf ( &quot;BIN search (C)\n&quot; );</div><div class="line">   while ( lo &lt; hi ) </div><div class="line">   &#123;</div><div class="line">      //每步迭代仅需做一次比较判断，有两个分支</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      ( e &lt; A[mi] ) ? hi = mi : lo = mi + 1; //经比较后确定深入[lo, mi)或(mi, hi)</div><div class="line">   &#125; //成功查找不能提前终止</div><div class="line">   return --lo; //循环结束时，lo为大于e的元素的最小秩，故lo - 1即不大于e的元素的最大秩</div><div class="line">&#125; //有多个命中元素时，总能保证返回秩最大者；查找失败时，能够返回失败的位置</div></pre></td></tr></table></figure>
+<p><img src="https://uploader.shimo.im/f/FkYBfGMADPAMkQjT.png!thumbnail" alt="图片"></p>
+<p>二分查找的时间复杂度为log(n), Fibonacci查找是二分查找中的一种特殊情况，它与一般的二分查找的区别就在于中间点mid的选择，二分查找是取整个向量长度的中间值，而Fibonacci是取向量的黄金分割点。这对于查找时向左边走和向右边走比较次数不一样的一般的二分查找来说，可以尽可能的避免向右边走（查找两次）的情况。<br>插值查找适用于在一定范围内均匀随机分布的数组，它的时间复杂度可以降低至log(log(n)).对于我们一般处理的向量来说log(n)已经足够了，哪怕是一个2^32个元素的向量也仅仅需要进行32次查找，再取对数也就是5，所以用插值查找优势并不是很明显，而且二分查找和Fibonacci查找都只会用到加法和减法，而插值查找由于要计算比例会用到乘法和除法，指令级别的计算时间就提上去了。所以，插值查找更擅长在比较大的宏观的范围内将问题的关注点尽可能快的缩小到一定的范围，换句话说，比较擅长处理极大的情况。一旦到了比较小的情况，因为它要用到乘法除法，以及容易受到局部小的扰动，这些都是overhead额外计算，额外计算占比就不可忽视，此时二分查找的优势就体现出来了。<br><img src="https://uploader.shimo.im/f/nojw7MJOvQ0389VG.png!thumbnail" alt="图片"><img src="https://uploader.shimo.im/f/lnWy4NZVnK4W129y.png!thumbnail" alt="图片"><br>综上所述：将各种查找算法的有点相结合。<br>首先通过插值查找，将查找范围缩小到一定的范围，然后再进行二分查找或者顺序查找。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/20/Linux网络基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -294,7 +417,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-20T23:33:00+08:00">
                 2018-11-20
@@ -336,7 +459,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/20/Linux网络基础/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -410,7 +533,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-28T10:07:59+08:00">
                 2018-08-28
@@ -454,7 +577,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/28/王阳明的圣人之路/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -528,7 +651,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-10T14:05:16+08:00">
                 2018-04-10
@@ -549,7 +672,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -598,7 +721,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -672,7 +795,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-29T20:28:08+08:00">
                 2018-03-29
@@ -693,7 +816,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -741,7 +864,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/29/如何读论文/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -815,7 +938,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-28T16:31:00+08:00">
                 2018-03-28
@@ -836,7 +959,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -886,7 +1009,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/28/并查集/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -960,7 +1083,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-24T13:53:55+08:00">
                 2018-03-24
@@ -981,7 +1104,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1030,7 +1153,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/24/编码规范/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1104,7 +1227,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-19T16:17:28+08:00">
                 2018-03-19
@@ -1125,7 +1248,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1174,7 +1297,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/19/什么是科研/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1248,7 +1371,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T21:17:01+08:00">
                 2018-01-21
@@ -1269,7 +1392,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1321,7 +1444,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1395,7 +1518,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T16:45:19+08:00">
                 2018-01-20
@@ -1439,146 +1562,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/20/Ubuntu配置MPICH/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/18/VS2013配置MPI开发环境/" itemprop="url">VS2013配置MPI开发环境</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-18T16:26:39+08:00">
-                2018-01-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">环境配置</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="下载并安装MPICH-For-Windows"><a href="#下载并安装MPICH-For-Windows" class="headerlink" title="下载并安装MPICH For Windows"></a>下载并安装MPICH For Windows</h2><p>MPI是一个接口规范，我们使用的是它的实现MPICH。</p>
-<p>首先，进入 <a href="http://www.mpich.org/downloads/" target="_blank" rel="external">http://www.mpich.org/downloads/</a> 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这两个程序，都点下一步下一步即可。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/18/VS2013配置MPI开发环境/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1663,8 +1647,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">23</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -1675,7 +1659,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -1685,8 +1669,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">21</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1777,7 +1761,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1786,7 +1770,7 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
