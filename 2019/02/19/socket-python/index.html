@@ -1,0 +1,785 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="socket," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="keywords" content="socket">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket-python">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/1.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/2.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/3.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/4.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/5.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/6.png">
+<meta property="og:updated_time" content="2019-02-19T08:46:58.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="socket-python">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/02/19/socket-python/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/02/19/socket-python/"/>
+
+
+
+
+
+  <title>socket-python | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/socket-python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">socket-python</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:31:25+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p><img src="/2019/02/19/socket-python/1.png" alt="图片"></p>
+<a id="more"></a>
+<p><img src="/2019/02/19/socket-python/2.png" alt="图片"><br>客户端发送SYN的报文给服务器端同时设置随机数序号X</p>
+<p>服务器端接收到客户端的报文之后，经过处理，给客户端返回SYN+ACK的报文，同时设置随机数序号Y，此时返回的报文确认为ACK=X+1</p>
+<p>接收到报文的客户端会在处理之后再发送一个报文给服务器端此时确认为ACK = Y+1</p>
+<p>服务器接收到客户端发送的报文之后在服务器端与客户端之间形成一个通路。</p>
+<p><img src="/2019/02/19/socket-python/3.png" alt="图片"><br>服务器端通过socket过程去绑定监听的IP以及监听的端口<br>客户端通过socket程序发出连接请求给服务器端<br>服务器端接收客户端发出的连接请求会返回回应报文给客户端<br>客户端受到服务器端发来的回应报文经过处理发送一个ACK报文给服务器端<br>服务器端接收到客户端发来的报文在服务器端与客户端之间建立通路<br>数据在通路中进行传输</p>
+<p><img src="/2019/02/19/socket-python/4.png" alt="图片"><br><img src="/2019/02/19/socket-python/5.png" alt="图片"></p>
+<p>socket_server.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import socket</div><div class="line"># 服务器端socket</div><div class="line"># 创建实例</div><div class="line">sk = socket.socket()</div><div class="line"></div><div class="line"># 定义绑定的IP和端口port</div><div class="line">ip_port = (&quot;127.0.0.1&quot;,8888)</div><div class="line"></div><div class="line"># 绑定监听</div><div class="line">sk.bind(ip_port)</div><div class="line"></div><div class="line"># 最大连接数,socket进行监听后的传入连接，</div><div class="line"># socket是阻塞的，也就是说同一时刻只有1个程序在进行处理</div><div class="line"># 这里的5是说socket可以挂起的最大连接数是5，同时有5个请求来可以同时进行回应</div><div class="line"># 正在处理的程序只有一个，其他的4个程序只能等着</div><div class="line"># 如果多于5个，服务器会直接拒绝第六个请求，</div><div class="line"># 最大连接数最小设置为1,大多数应用程序设置为5</div><div class="line">sk.listen(5)</div><div class="line"></div><div class="line">#不断循环，不断接收数据</div><div class="line">while True:</div><div class="line">    # 接收数据 ，传回两个参数，一个是连接对象，一个是传输地址</div><div class="line">    # 接收数据是阻塞状态</div><div class="line">    print &quot;waiting.....&quot;</div><div class="line">    conn,address = sk.accept()</div><div class="line"></div><div class="line">    # 定义信息</div><div class="line">    msg = &quot;success!&quot;</div><div class="line"></div><div class="line">    # 返回信息</div><div class="line">    # python3.x以上，网络数据的发送和接收都是byte类型</div><div class="line">    # 如果发送的数据是str型的则需要进行编码</div><div class="line">    conn.send(msg)</div><div class="line">    # 此时数据已经被发送给了客户端</div><div class="line"></div><div class="line">    # 主动关闭连接</div><div class="line">    conn.close()</div></pre></td></tr></table></figure></p>
+<p>socket_client.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import socket</div><div class="line"></div><div class="line"># 实例初始化</div><div class="line">client = socket.socket()</div><div class="line"></div><div class="line"># 访问的服务器端的IP和端口</div><div class="line">ip_port = (&quot;127.0.0.1&quot;,8888)</div><div class="line"></div><div class="line"># 连接主机</div><div class="line">client.connect(ip_port)</div><div class="line"></div><div class="line"># 接收主机信息,每次接收1024个字节</div><div class="line">data = client.recv(1024)</div><div class="line"></div><div class="line">print data</div></pre></td></tr></table></figure>
+<p>上面为服务器端和客户端的代码，只是做到了客户端发送请求，服务器端返回数据，要如何做到客户端和服务器端真正的实时交互呢</p>
+<p>下面的代码加上了while true循环，来实现客户端与服务器端的实时通信。但是这里的连接是TCP连接，所以不能同时开启两个client端，服务器会直接拒绝连接，说明这个通信过程是阻塞的，当将第一个客户端连接关闭之后，刚刚阻塞的第二个客户端连接会直接连接上服务器。如果使用的是UDP连接，则没有三次握手建立通道的过程，所以可以同时开启多个客户端</p>
+<p><strong>socket_server.py TCP协议实时通信</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import random</div><div class="line"># from random import randint</div><div class="line">import socket</div><div class="line"># 服务器端socket</div><div class="line"># 创建实例</div><div class="line">sk = socket.socket()</div><div class="line"></div><div class="line"># 定义绑定的IP和端口port</div><div class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</div><div class="line"></div><div class="line"># 绑定监听</div><div class="line">sk.bind(ip_port)</div><div class="line"></div><div class="line"># 最大连接数,socket进行监听后的传入连接，</div><div class="line"># socket是阻塞的，也就是说同一时刻只有1个程序在进行处理</div><div class="line"># 这里的5是说socket可以挂起的最大连接数是5，同时有5个请求来可以同时进行回应</div><div class="line"># 正在处理的程序只有一个，其他的4个程序只能等着</div><div class="line"># 如果多于5个，服务器会直接拒绝第六个请求，</div><div class="line"># 最大连接数最小设置为1,大多数应用程序设置为5</div><div class="line">sk.listen(5)</div><div class="line"></div><div class="line">#不断循环，不断接收数据</div><div class="line">while True:</div><div class="line">    # 接收数据 ，传回两个参数，一个是连接对象，一个是传输地址</div><div class="line">    # 接收数据是阻塞状态</div><div class="line">    print &quot;waiting.....&quot;</div><div class="line">    conn,address = sk.accept()</div><div class="line"></div><div class="line">    # 定义信息</div><div class="line">    msg = &quot;success!&quot;</div><div class="line"></div><div class="line">    # 返回信息</div><div class="line">    # python3.x以上，网络数据的发送和接收都是byte类型</div><div class="line">    # 如果发送的数据是str型的则需要进行编码</div><div class="line">    conn.send(msg)</div><div class="line">    # 此时数据已经被发送给了客户端</div><div class="line"></div><div class="line">    # 进入一个while true循环，不断的接收客户端发来的消息</div><div class="line">    while True:</div><div class="line">        # 接收客户端消息</div><div class="line">        data = conn.recv(1024)</div><div class="line">        print data</div><div class="line">        # 接收到退出的指令</div><div class="line">        if data == &apos;exit&apos;:</div><div class="line">            break</div><div class="line">        # 处理客户端的数据</div><div class="line">        conn.send(data)</div><div class="line">        # 发送一个随机数</div><div class="line">        conn.send(str(random.randint(1,1000)))</div><div class="line">    # 主动关闭连接</div><div class="line">    conn.close()</div></pre></td></tr></table></figure>
+<p><strong>socket_client.py TCP协议实时通信</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import socket</div><div class="line"></div><div class="line"># 实例初始化</div><div class="line">client = socket.socket()</div><div class="line"></div><div class="line"># 访问的服务器端的IP和端口</div><div class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</div><div class="line"></div><div class="line"># 连接主机</div><div class="line">client.connect(ip_port)</div><div class="line"></div><div class="line"># 定义一个循环，不断发送消息</div><div class="line">while True:</div><div class="line">    # 接收主机信息,每次接收1024个字节</div><div class="line">    data = client.recv(1024) </div><div class="line">    print data</div><div class="line"></div><div class="line">    # 定义发送的信息</div><div class="line">    msg_input = raw_input(&quot;input:&quot;)</div><div class="line">    # 消息发送</div><div class="line">    client.send(msg_input)</div><div class="line">    if msg_input == &quot;exit&quot;:</div><div class="line">        break</div><div class="line">    data = client.recv(1024)</div><div class="line">    print data</div></pre></td></tr></table></figure>
+<p><strong>socket_serverUDP.py UDP协议实时通信</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import random</div><div class="line"># from random import randint</div><div class="line">import socket</div><div class="line"># 服务器端socket</div><div class="line"># 创建实例</div><div class="line">sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</div><div class="line"></div><div class="line"># 定义绑定的IP和端口port</div><div class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</div><div class="line">sk.bind(ip_port)</div><div class="line">while True:</div><div class="line">    data = sk.recv(1024)</div><div class="line">    print data</div></pre></td></tr></table></figure>
+<p><strong>socket_clientUDP.py UDP协议实时通信</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import random</div><div class="line"># from random import randint</div><div class="line">import socket</div><div class="line"># 服务器端socket</div><div class="line"></div><div class="line">sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</div><div class="line"></div><div class="line"># 定义绑定的IP和端口port</div><div class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</div><div class="line"></div><div class="line">while True:</div><div class="line">    msg_input = raw_input(&quot;input:&quot;)</div><div class="line">    if msg_input == &quot;exit&quot;:</div><div class="line">        break</div><div class="line">    sk.sendto(msg_input,ip_port)</div><div class="line"></div><div class="line">sk.close()</div></pre></td></tr></table></figure></p>
+<h2 id="socket的非阻塞"><a href="#socket的非阻塞" class="headerlink" title="socket的非阻塞"></a>socket的非阻塞</h2><p>在TCP模式下只能有有限个连接，但是我们平时从来没有看到有阻塞的情况。<br><img src="/2019/02/19/socket-python/6.png" alt="图片"></p>
+<p>在编写服务器端程序的时候，使用SocketServer包，打开SocketServer的源码可以看到它是通过多线程的方式来进行多个客户端通过TCP连接服务器端的 。</p>
+<p>socket_serverTCP.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import SocketServer</div><div class="line">import random</div><div class="line">from random import randint</div><div class="line"># 定义一个类</div><div class="line"></div><div class="line">class MyServer(SocketServer.BaseRequestHandler):</div><div class="line">    # 如果handle出现报错，会跳过</div><div class="line">    # setup 和finish无论如何都会执行</div><div class="line">    # 首先执行setup</div><div class="line">    # 然后执行handle</div><div class="line">    # 最后执行finish</div><div class="line">    def setup(self):</div><div class="line">        pass</div><div class="line"></div><div class="line">    def handle(self):</div><div class="line">        conn = self.request</div><div class="line">        msg = &quot;hello&quot;</div><div class="line">        conn.send(msg)</div><div class="line">        while True:</div><div class="line">            data = conn.recv(1024)</div><div class="line">            print data</div><div class="line">            if data == &quot;exit&quot;:</div><div class="line">                break</div><div class="line">            conn.send(data)</div><div class="line">            conn.send(str(random.randint(1,1000)))</div><div class="line">        conn.close()</div><div class="line">    def finish(self):</div><div class="line">        pass</div><div class="line"></div><div class="line">if __name__ == &quot;__main__&quot;:</div><div class="line">    # 创建多线程实例</div><div class="line">    server = SocketServer.ThreadingTCPServer((&quot;127.0.0.1&quot;,8888),MyServer)</div><div class="line">    # 开启socketserver的异步多线程，等待客户端的连接</div><div class="line">    server.serve_forever()</div></pre></td></tr></table></figure>
+<h2 id="用socket实现文件的上传和接收："><a href="#用socket实现文件的上传和接收：" class="headerlink" title="用socket实现文件的上传和接收："></a><strong>用socket实现文件的上传和接收：</strong></h2><p>客户端上传文件socketSendFile.py，服务器端接收文件socketRecvFile.py<br>socketSendFile.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import socket</div><div class="line">sk = socket.socket()</div><div class="line">ip_port = (&apos;127.0.0.1&apos;,9999)</div><div class="line">sk.connect(ip_port)</div><div class="line"></div><div class="line">with open(&apos;socket_serverUDP.py&apos;,&apos;rb&apos;) as f:</div><div class="line">    for i in f:</div><div class="line">        sk.send(i)</div><div class="line">        data = sk.recv(1024)</div><div class="line">        if data != &apos;success&apos;:</div><div class="line">            break</div><div class="line"># 给服务器端发送结束信号</div><div class="line">sk.send(&apos;quit&apos;)</div></pre></td></tr></table></figure>
+<p>socketRecvFile.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"># coding:utf-8</div><div class="line">import socket</div><div class="line">sk = socket.socket()</div><div class="line">ip_port = (&apos;127.0.0.1&apos;,9999)</div><div class="line"></div><div class="line">sk.bind(ip_port)</div><div class="line">sk.listen(5)</div><div class="line"># 进入循环接收数据</div><div class="line">while True:</div><div class="line">    # 等待客户端连接</div><div class="line">    conn,address = sk.accept()</div><div class="line">    # 一直使用当前连接进行数据接收，知道结束标志出现</div><div class="line">    while True:</div><div class="line">        # 打开文件，等待数据写入</div><div class="line">        with open(&quot;file&quot;,&quot;ab&quot;) as f:</div><div class="line">            data = conn.recv(1024)</div><div class="line">            if data == &apos;quit&apos;:</div><div class="line">                break</div><div class="line">            f.write(data)</div><div class="line">        conn.send(&apos;success&apos;)</div><div class="line">    print &quot;receive finish!&quot;</div><div class="line">sk.close()</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/socket/" rel="tag"># socket</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/Linux查看CPU信息/" rel="next" title="Linux查看CPU信息">
+                <i class="fa fa-chevron-left"></i> Linux查看CPU信息
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/19/static关键字的使用/" rel="prev" title="static关键字的使用">
+                static关键字的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#socket的非阻塞"><span class="nav-number">1.</span> <span class="nav-text">socket的非阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用socket实现文件的上传和接收："><span class="nav-number">2.</span> <span class="nav-text">用socket实现文件的上传和接收：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

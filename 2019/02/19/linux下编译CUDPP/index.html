@@ -1,0 +1,802 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CUDA,CUDPP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具记录以下编译的过程参考cudpp库的编译和使用 https://www.cnblogs.com/liangliangdetianxia/p/4162634.html这篇文章是在windows中编译的，有些地方有点变化">
+<meta name="keywords" content="CUDA,CUDPP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下编译CUDPP">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具记录以下编译的过程参考cudpp库的编译和使用 https://www.cnblogs.com/liangliangdetianxia/p/4162634.html这篇文章是在windows中编译的，有些地方有点变化">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/1.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/2.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/3.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/4.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/5.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/6.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/7.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/8.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/9.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/10.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/11.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/12.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/13.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/14.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/15.png">
+<meta property="og:updated_time" content="2019-02-19T12:35:15.824Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux下编译CUDPP">
+<meta name="twitter:description" content="今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具记录以下编译的过程参考cudpp库的编译和使用 https://www.cnblogs.com/liangliangdetianxia/p/4162634.html这篇文章是在windows中编译的，有些地方有点变化">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/"/>
+
+
+
+
+
+  <title>linux下编译CUDPP | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux下编译CUDPP</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:59:03+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具<br>记录以下编译的过程<br>参考cudpp库的编译和使用 <a href="https://www.cnblogs.com/liangliangdetianxia/p/4162634.html" target="_blank" rel="external">https://www.cnblogs.com/liangliangdetianxia/p/4162634.html</a>这篇文章是在windows中编译的，有些地方有点变化</p>
+<a id="more"></a>
+<h3 id="编译动态库和静态库"><a href="#编译动态库和静态库" class="headerlink" title="编译动态库和静态库"></a>编译动态库和静态库</h3><p>我的环境<br>ubuntu 16.04 64位<br>项目主页<br><a href="http://cudpp.github.io/" target="_blank" rel="external">http://cudpp.github.io/</a><br>源码地址<br><a href="https://github.com/cudpp/cudpp" target="_blank" rel="external">https://github.com/cudpp/cudpp</a><br>根据这个网址的提示进行<br><a href="https://github.com/cudpp/cudpp/wiki/BuildingCUDPPwithCMake" target="_blank" rel="external">https://github.com/cudpp/cudpp/wiki/BuildingCUDPPwithCMake</a></p>
+<ol>
+<li>从github上下载源码，下载后的源码目录中有个ext文件夹，是空的</li>
+<li>所以在github网页中点开进入这个文件夹。</li>
+</ol>
+<p><img src="/2019/02/19/linux下编译CUDPP/1.png" alt="图片"><img src="/2019/02/19/linux下编译CUDPP/2.png" alt="图片"><br>点开这两个连接之后，都打包下载下来一定要点击download，而不是用clone的方式下载源码，clone方式下载的源码编译不通过。我也不知道为啥！<br>到此，所需文件全了！！！<br>放在对应的文件夹下。<br><img src="/2019/02/19/linux下编译CUDPP/3.png" alt="图片"><img src="/2019/02/19/linux下编译CUDPP/4.png" alt="图片"></p>
+<p>下载CMake用cmake-gui来编译，配置源码目录和要build的目录，点击configure,再点generate<br><img src="/2019/02/19/linux下编译CUDPP/5.png" alt="图片"><br>Useful options to set:</p>
+<ul>
+<li>CMAKE_BUILD_TYPE: set to Debug for debug builds, Release (or blank) for release builds. Not needed on Windows.</li>
+<li>BUILD_APPLICATIONS: set to on to build the CUDPP example applications and testrig in addition to CUDPP libraries.（这个选项是同时编译cudpp这个库里面的例子，选上比较好）</li>
+<li>BUILD_SHARED_LIBS: set to on to build dynamic/shared CUDPP libraries, off to build static libraries</li>
+<li>CUDA_VERBOSE_BUILD: Print out commands run while compiling CUDA source files</li>
+<li>CUDA_VERBOSE_PTXAS: Print out the output of –ptxas-options=-verbose, which displays details of shared memory, registers, and constants used by CUDA device kernels.</li>
+</ul>
+<p>这样在cudpp-build目录中就生成了Makefile文件<br>然后控制台进入cudpp-build目录，键入make，然后等一会儿，就编译完了<br><img src="/2019/02/19/linux下编译CUDPP/6.png" alt="图片">之后在cudpp-build/bin目录下可以看到三个可执行文件，控制台进入目录，执行。可以看到all test passed的提示。<br><img src="/2019/02/19/linux下编译CUDPP/7.png" alt="图片"><br><img src="/2019/02/19/linux下编译CUDPP/8.png" alt="图片"></p>
+<h3 id="在项目中配置动态库"><a href="#在项目中配置动态库" class="headerlink" title="在项目中配置动态库"></a>在项目中配置动态库</h3><p>在cudpp-build/lib目录下可以找到生成的.so动态连接库。如果不勾选动态连接选项的话生成的是静态连接库，就是.a文件。然后配合include目录下的头文件就可以用于其他项目了。<br><img src="/2019/02/19/linux下编译CUDPP/9.png" alt="图片"><img src="/2019/02/19/linux下编译CUDPP/10.png" alt="图片"><br><img src="/2019/02/19/linux下编译CUDPP/11.png" alt="图片"><br>一开始我将动态库和源码放在同一个目录下，然后用nvcc -o main scan_gold.cpp simpleCUDPP.cu -L ./ -lcudpp命令，可以正常编译，但是运行时报错。报错的原因是共享路径配置不正确;<br><img src="/2019/02/19/linux下编译CUDPP/12.png" alt="图片"><br>一个简单易行的办法是将动态库拷贝到/usr/local/lib目录下即可<br><img src="/2019/02/19/linux下编译CUDPP/13.png" alt="图片"><br>还有一个办法就是使用静态库，将静态库拷贝到源码目录下nvcc -o main scan_gold.cpp simpleCUDPP.cu -L ./ -lcudpp编译成功。然后./main运行成功。但是静态库生成的可执行文件main非常大，因为它包括了库中所有的数据。比如在这个实验中用静态库生成的可执行文件有40多M，而用动态库生成的可执行文件只有500多K。<br>动态链接库和静态函数库不同，它里面的函数并不是执行程序本身的一部分，而是根据执行程序需要按需装入，同时其执行代码可在多个执行程序间共享，节省了空间，提高了效率。由于函数库没有被整合进你的程序，而是程序运行时动态的申请并调用，所以程序的运行环境中必须提供相应的库。动态函数库的改变并不影响你的程序，所以动态函数库的升级比较方便。linux系统有几个重要的目录存放相应的函数库，如/lib /usr/lib。<br>当要使用静态的程序库时，连接器会找出程序所需的函数，然后将它们拷贝到执行文件，由于这种拷贝是完整的，所以一旦连接成功，静态程序库也就不再需要了。然而，对动态库而言，就不是这样。动态库会在执行程序内留下一个标记指明当程序执行时，首先必须载入这个库。由于动态库节省空间，linux下进行连接的缺省操作是首先连接动态库，也就是说，如果同时存在静态和动态库，不特别指定的话，将与动态库相连接。</p>
+<h3 id="一个cudpp-hash的例子"><a href="#一个cudpp-hash的例子" class="headerlink" title="一个cudpp_hash的例子"></a>一个cudpp_hash的例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;cuda_runtime_api.h&gt;</div><div class="line">#include &quot;cudpp.h&quot;</div><div class="line">#include &quot;cudpp_hash.h&quot;</div><div class="line"></div><div class="line">int main() &#123;</div><div class="line">  const int N = 10;</div><div class="line"></div><div class="line">  int keys[N] = &#123;1, 6, 4, 9, 0, 3, 7, 2, 5, 8&#125;;</div><div class="line">  int vals[N] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</div><div class="line"></div><div class="line">  int *d_keys, *d_vals;</div><div class="line">  cudaMalloc((void**)&amp;d_keys, sizeof(int) * N);</div><div class="line">  cudaMemcpy(d_keys, keys, sizeof(int) * N, cudaMemcpyHostToDevice);</div><div class="line">  cudaMalloc((void**)&amp;d_vals, sizeof(int) * N);</div><div class="line">  cudaMemcpy(d_vals, vals, sizeof(int) * N, cudaMemcpyHostToDevice);</div><div class="line"></div><div class="line">  int input[N] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</div><div class="line">  int output[N];</div><div class="line"></div><div class="line">  int *d_input, *d_output;</div><div class="line">  cudaMalloc((void**)&amp;d_input, sizeof(int) * N);</div><div class="line">  cudaMemcpy(d_input, input, sizeof(int) * N, cudaMemcpyHostToDevice);</div><div class="line">  cudaMalloc((void**)&amp;d_output, sizeof(int) * N);</div><div class="line">  cudaMemset(d_output, 0, sizeof(int) * N);</div><div class="line"></div><div class="line">  CUDPPHandle cudpp;</div><div class="line">  cudppCreate(&amp;cudpp);</div><div class="line"></div><div class="line">  CUDPPHashTableConfig config;</div><div class="line">  config.type = CUDPP_BASIC_HASH_TABLE;</div><div class="line">  config.kInputSize = N;</div><div class="line">  config.space_usage = 2.0;</div><div class="line"></div><div class="line">  CUDPPHandle hash_table_handle;</div><div class="line">  cudppHashTable(cudpp, &amp;hash_table_handle, &amp;config);</div><div class="line"></div><div class="line">  cudppHashInsert(hash_table_handle, d_keys, d_vals, N);</div><div class="line"></div><div class="line">  cudppHashRetrieve(hash_table_handle, d_input, d_output, N);</div><div class="line"></div><div class="line">  cudaMemcpy(output, d_output, sizeof(int) * N, cudaMemcpyDeviceToHost);</div><div class="line">  for (int i = 0; i &lt; N; ++i) &#123;</div><div class="line">    printf(&quot;%d\n&quot;, output[i]);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  cudppDestroyHashTable(cudpp, hash_table_handle);</div><div class="line">  </div><div class="line">  cudppDestroy(cudpp);</div><div class="line"></div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>编译命令： nvcc cudpphashtesting.cu -o hashtesting -lcudpp -lcudpp_hash<br>运行结果<br><img src="/2019/02/19/linux下编译CUDPP/14.png" alt="图片"></p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h3><p>1、linux库文件分为静态库和动态库两种。静态库习惯以.a 结尾，而动态库习惯以.so(shared object)结尾。而且必须以lib开头。<br>2、静态库的原则是“以空间换时间”，增加程序体积，减少运行时间;因为整个函数库的所有数据都会被整合进目标代码中，他的优点就显而易见了，即编译后的执行程序不需要外部的函数库支持，因为所有使用的函数都已经被编译进去了。当然这也会成为他的缺点，因为如果静态函数库改变了，那么你的程序必须重新编译。<br>生成：在编译时候，先生成目标文件.o，然后用ar文件对目标文件归档，生成静态库文件。<br>例如：ar -rc libtest.a myalib.o （注意：ar -rc 目标 .o文件名），目标一定要以lib开头。<br>3、使用时候，在链接时候，加上选项 -l 后接库文件名，注意：必须是文件名去掉后缀和lib，<br> 如：gcc -o main main.o -ltest 。而且-ltest必须放在main.o的后面，（规则是，越底层的库越要放在后面）。<br>4、gcc的其他常用的选项，<br>-c 编译成目标文件 如：gcc -c main.c 就是编译main.c成目标文件main.o<br>-I 头文件的查找路径，如：gcc -c main.c -I./inc 意思是：头文件的查找路径除了默认的之外，再加上./inc目录下的。<br>-L 库文件的查找路径，如：gcc -o main main.o -L./lib -ltest 说明：libtest.a 或者 libtest.so 库文件的查找路径除了默认之外，再加上./lib目录。<br>-MM 导出文件的依赖关系（用#include 中的内容）如：gcc -MM main.c找出main.c的所依赖的头文件<br>-o 生成最终目标<br>-D宏定义 相当于在C中些语句#define … 如：-DPI=3.14 就相当于在文件里面写语句#define PI 3.14<br>5、动态库<br>（1）、生成：在链接时，用如下选项：-shared -fpic 如： gcc -fpic -shared -o libtest.so myalib.c<br>（2）、使用：有隐式使用和显示使用，隐式使用就是共享方式，程序一开始运行就调进去。在链接时候用如下：<br> gcc -o main main.o -L./lib -ltest(像静态库的一样)<br>显示使用就是在程序中用语句把动态库调进来，用系统调用：dlopen、dlsym、dlerror、dlclose函数，那样在编译链接时候，不用加上：-L./lib -ltest了。不过要使用dl*系列函数在编译链接时要加上 -ldl<br>6、如果同一目录下，既有静态库也有动态库，比如libtest.a libtest.so都存在，那么dl程序（等一下介绍）就把动态库调进去，没有动态的，就找静态的。再没有，就报错。<br>7、动态库的搜索路径<br>dl对动态库的搜索路径如下（按顺序如下）</p>
+<p>a.编译目标代码时指定的动态库搜索路径；（如果要指定程序行时在./lib目录下找库文件libtest.so，命令如下：gcc -o main main.c -L./lib -ltest -Wl,-rpath ./lib) ，其中，-Wl的意思是，后面的选项直接交给ld程序处理,-rpath选项是说更改搜索路径为后面的参数./lib</p>
+<p>b.环境变量LD_LIBRARY_PATH指定的动态库搜索路径；</p>
+<p>c.配置文件/etc/ld.so.conf中指定的动态库搜索路径；（修改完文件后，用ldconfig更新）</p>
+<p>d.默认的动态库搜索路径/lib和/usr/lib；</p>
+<p>8、一些常用的命令（与库有关的）</p>
+<p>（1）、ld 是gcc的链接程序。</p>
+<p>（2）、ldd是查看可执行文件中所依赖的库的程序，比如想查main程序用到了那些动态库，可以直接<br> ldd main</p>
+<p>（3）、ldconfig用来更新文件/etc/ld.so.conf的修改生效。</p>
+<p>（4）、nm用来查看.so库中的函数名字，标记是T的就是动态库里面生成的名字。如：nm /lib/libc<em>.so<br> 有时候当我们的应用程序无法运行时，它会提示我们说它找不到什么样的库，或者哪个库的版本又不合它胃口了等等之类的话。那么应用程序它是怎么知道需要哪些库的呢？我们前面已几个学了个很棒的命令ldd，用就是用来查看一个文件到底依赖了那些so库文件。<br><img src="/2019/02/19/linux下编译CUDPP/15.png" alt="图片"><br>Linux系统中动态链接库的配置文件一般在/etc/ld.so.conf文件内，它里面存放的内容是可以被Linux共享的动态联库所在的目录的名字。<br>9.库的依赖问题<br>比如我们有一个基础库libbase.a,还有一个依赖libbase.a编译的库，叫做libchild.a；在我们编译程序时，一定要先-lchild再-lbase。 如果使用 -lbase -lchild，在编译时将出现一些函数undefined，而这些函数实际上已经在base中已经定义；<br>   为什么会有库的依赖问题？    一、静态库解析符号引用：       链接器ld是如何使用静态库来解析引用的。在符号解析阶段，链接器从左至右，依次扫描可重定位目标文件（</em>.o）和静态库（<em>.a）。    在这个过程中，链接器将维持三个集合：    集合E：可重定位目标文件(</em>.o文件)的集合。    集合U：未解析(未定义)的符号集，即符号表中UNDEF的符号。    集合D： 已定义的符号集。    初始情况下，E、U、D均为空。    1、对于每个输入文件f，如果是目标文件(.o)，则将f加入E，并用f中的符号表修改U、D(在文件f中定义实现的符号是D，在f中引用的符号是U)，然后继续下个文件。    2、如果f是一个静态库(.a)，那么链接器将尝试匹配U中未解析符号与静态库成员(静态库的成员就是.o文件)定义的符号。如果静态库中某个成员m(某个.o文件)定义了一个符号来解析U中引用，那么将m加入E中，    同时使用m的符号表，来更新U、D。对静态库中所有成员目标文件反复进行该过程，直至U和D不再发生变化。此时，静态库f中任何不包含在E中的成员目标文件都将丢弃，链接器将继续下一个文件。    3、当所有输入文件完成后，如果U非空，链接器则会报错，否则合并和重定位E中目标文件，构建出可执行文件。  到这里，为什么会有库的依赖问题已经得到解答：  因为libchild.a依赖于libbase.a，但是libbase.a在libchild.a的左边，导致libbase.a中的目标文件(*.o)根本就没有被加载到E中，所以解决方法就是交换两者的顺序。当然也可以使用-lbase -lchild -lbase的方法。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>linux下添加动态链接库路径的方法 <a href="https://blog.csdn.net/zxh2075/article/details/54629318" target="_blank" rel="external">https://blog.csdn.net/zxh2075/article/details/54629318</a><br>Linux中的静态库和动态库那点事儿 <a href="https://www.cnblogs.com/sky-heaven/p/5918139.html" target="_blank" rel="external">https://www.cnblogs.com/sky-heaven/p/5918139.html</a><br><a href="https://www.cnblogs.com/wainiwann/p/4204248.html" target="_blank" rel="external">linux下静态库和动态库一些东西</a> <a href="https://www.cnblogs.com/wainiwann/p/4204248.html" target="_blank" rel="external">https://www.cnblogs.com/wainiwann/p/4204248.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CUDA/" rel="tag"># CUDA</a>
+          
+            <a href="/tags/CUDPP/" rel="tag"># CUDPP</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/linux集群相关笔记/" rel="next" title="linux集群相关笔记">
+                <i class="fa fa-chevron-left"></i> linux集群相关笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/19/linux性能测试工具/" rel="prev" title="linux性能测试工具">
+                linux性能测试工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译动态库和静态库"><span class="nav-number">1.</span> <span class="nav-text">编译动态库和静态库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在项目中配置动态库"><span class="nav-number">2.</span> <span class="nav-text">在项目中配置动态库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个cudpp-hash的例子"><span class="nav-number">3.</span> <span class="nav-text">一个cudpp_hash的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tips"><span class="nav-number">4.</span> <span class="nav-text">tips:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

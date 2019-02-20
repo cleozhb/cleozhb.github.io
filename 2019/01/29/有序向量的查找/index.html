@@ -90,24 +90,24 @@
 
 
 
-<meta name="description" content="常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置  只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。12345678910111213// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &amp;lt;= lo &amp;lt;= hi &amp;lt;= _size">
+<meta name="description" content="常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置">
 <meta name="keywords" content="数据结构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="有序向量的查找">
 <meta property="og:url" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
-<meta property="og:description" content="常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置  只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。12345678910111213// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &amp;lt;= lo &amp;lt;= hi &amp;lt;= _size">
-<meta property="og:image" content="https://uploader.shimo.im/f/RVkjJPTXNgo66sLa.png!thumbnail">
-<meta property="og:image" content="https://uploader.shimo.im/f/I79zwdvHpwQk8gzO.png!thumbnail">
-<meta property="og:image" content="https://uploader.shimo.im/f/CA0DskxogqUHk6Vf.png!thumbnail">
-<meta property="og:image" content="https://uploader.shimo.im/f/FkYBfGMADPAMkQjT.png!thumbnail">
-<meta property="og:image" content="https://uploader.shimo.im/f/nojw7MJOvQ0389VG.png!thumbnail">
-<meta property="og:image" content="https://uploader.shimo.im/f/lnWy4NZVnK4W129y.png!thumbnail">
-<meta property="og:updated_time" content="2019-01-29T04:11:33.193Z">
+<meta property="og:description" content="常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/1.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/2.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/3.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/4.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/5.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/6.png">
+<meta property="og:updated_time" content="2019-02-16T04:07:43.327Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="有序向量的查找">
-<meta name="twitter:description" content="常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置  只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。12345678910111213// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &amp;lt;= lo &amp;lt;= hi &amp;lt;= _size">
-<meta name="twitter:image" content="https://uploader.shimo.im/f/RVkjJPTXNgo66sLa.png!thumbnail">
+<meta name="twitter:description" content="常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/01/29/有序向量的查找/1.png">
 
 
 
@@ -339,15 +339,16 @@
         <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。<br>查找接口的要求：</p>
 <ul>
 <li>当有多个元素命中时，保证返回秩最大的</li>
-<li>当查找失败时，能够返回失败的位置</li>
+<li>当查找失败时，能够返回失败的位置<a id="more"></a>
+只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) </div><div class="line">&#123;</div><div class="line">  /*DSA*/printf ( &quot;BIN search (A)\n&quot; );</div><div class="line">   while ( lo &lt; hi ) </div><div class="line">   &#123;        </div><div class="line">      //每步迭代可能要做两次比较判断，有三个分支</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      if      ( e &lt; A[mi] ) hi = mi; //深入前半段[lo, mi)继续查找</div><div class="line">      else if ( A[mi] &lt; e ) lo = mi + 1; //深入后半段(mi, hi)继续查找</div><div class="line">      else    return mi; //在mi处命中</div><div class="line">   &#125; //成功查找可以提前终止</div><div class="line">   return -1; //查找失败</div></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) </div><div class="line">&#123;</div><div class="line">  /*DSA*/printf ( &quot;BIN search (A)\n&quot; );</div><div class="line">   while ( lo &lt; hi ) </div><div class="line">   &#123;        </div><div class="line">      //每步迭代可能要做两次比较判断，有三个分支</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      if      ( e &lt; A[mi] ) hi = mi; //深入前半段[lo, mi)继续查找</div><div class="line">      else if ( A[mi] &lt; e ) lo = mi + 1; //深入后半段(mi, hi)继续查找</div><div class="line">      else    return mi; //在mi处命中</div><div class="line">   &#125; //成功查找可以提前终止</div><div class="line">   return -1; //查找失败</div></pre></td></tr></table></figure></p>
 <p>} //有多个命中元素时，不能保证返回秩最大者；查找失败时，简单地返回-1，而不能指示失败的位置</p>
-<p><img src="https://uploader.shimo.im/f/RVkjJPTXNgo66sLa.png!thumbnail" alt="图片"><img src="https://uploader.shimo.im/f/I79zwdvHpwQk8gzO.png!thumbnail" alt="图片"><img src="https://uploader.shimo.im/f/CA0DskxogqUHk6Vf.png!thumbnail" alt="图片"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本B）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) &#123;</div><div class="line">   /*DSA*/printf ( &quot;BIN search (B)\n&quot; );</div><div class="line">   while ( 1 &lt; hi - lo ) </div><div class="line">   &#123; </div><div class="line">      //每步迭代仅需做一次比较判断，有两个分支；成功查找不能提前终止</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      ( e &lt; A[mi] ) ? hi = mi : lo = mi; //经比较后确定深入[lo, mi)或[mi, hi)</div><div class="line">   &#125; //出口时hi = lo + 1，查找区间仅含一个元素A[lo]</div><div class="line">   return ( e == A[lo] ) ? lo : -1 ; //查找成功时返回对应的秩；否则统一返回-1</div></pre></td></tr></table></figure></p>
+<p><img src="/2019/01/29/有序向量的查找/1.png" alt="图片"><img src="/2019/01/29/有序向量的查找/2.png" alt="图片"><img src="/2019/01/29/有序向量的查找/3.png" alt="图片"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本B）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) &#123;</div><div class="line">   /*DSA*/printf ( &quot;BIN search (B)\n&quot; );</div><div class="line">   while ( 1 &lt; hi - lo ) </div><div class="line">   &#123; </div><div class="line">      //每步迭代仅需做一次比较判断，有两个分支；成功查找不能提前终止</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      ( e &lt; A[mi] ) ? hi = mi : lo = mi; //经比较后确定深入[lo, mi)或[mi, hi)</div><div class="line">   &#125; //出口时hi = lo + 1，查找区间仅含一个元素A[lo]</div><div class="line">   return ( e == A[lo] ) ? lo : -1 ; //查找成功时返回对应的秩；否则统一返回-1</div></pre></td></tr></table></figure></p>
 <p>} //有多个命中元素时，不能保证返回秩最大者；查找失败时，简单地返回-1，而不能指示失败的位置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 二分查找算法（版本C）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _size</div><div class="line">template &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) &#123;</div><div class="line">   /*DSA*/printf ( &quot;BIN search (C)\n&quot; );</div><div class="line">   while ( lo &lt; hi ) </div><div class="line">   &#123;</div><div class="line">      //每步迭代仅需做一次比较判断，有两个分支</div><div class="line">      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点</div><div class="line">      ( e &lt; A[mi] ) ? hi = mi : lo = mi + 1; //经比较后确定深入[lo, mi)或(mi, hi)</div><div class="line">   &#125; //成功查找不能提前终止</div><div class="line">   return --lo; //循环结束时，lo为大于e的元素的最小秩，故lo - 1即不大于e的元素的最大秩</div><div class="line">&#125; //有多个命中元素时，总能保证返回秩最大者；查找失败时，能够返回失败的位置</div></pre></td></tr></table></figure>
-<p><img src="https://uploader.shimo.im/f/FkYBfGMADPAMkQjT.png!thumbnail" alt="图片"></p>
-<p>二分查找的时间复杂度为log(n), Fibonacci查找是二分查找中的一种特殊情况，它与一般的二分查找的区别就在于中间点mid的选择，二分查找是取整个向量长度的中间值，而Fibonacci是取向量的黄金分割点。这对于查找时向左边走和向右边走比较次数不一样的一般的二分查找来说，可以尽可能的避免向右边走（查找两次）的情况。<br>插值查找适用于在一定范围内均匀随机分布的数组，它的时间复杂度可以降低至log(log(n)).对于我们一般处理的向量来说log(n)已经足够了，哪怕是一个2^32个元素的向量也仅仅需要进行32次查找，再取对数也就是5，所以用插值查找优势并不是很明显，而且二分查找和Fibonacci查找都只会用到加法和减法，而插值查找由于要计算比例会用到乘法和除法，指令级别的计算时间就提上去了。所以，插值查找更擅长在比较大的宏观的范围内将问题的关注点尽可能快的缩小到一定的范围，换句话说，比较擅长处理极大的情况。一旦到了比较小的情况，因为它要用到乘法除法，以及容易受到局部小的扰动，这些都是overhead额外计算，额外计算占比就不可忽视，此时二分查找的优势就体现出来了。<br><img src="https://uploader.shimo.im/f/nojw7MJOvQ0389VG.png!thumbnail" alt="图片"><img src="https://uploader.shimo.im/f/lnWy4NZVnK4W129y.png!thumbnail" alt="图片"><br>综上所述：将各种查找算法的有点相结合。<br>首先通过插值查找，将查找范围缩小到一定的范围，然后再进行二分查找或者顺序查找。</p>
+<p><img src="/2019/01/29/有序向量的查找/4.png" alt="图片"></p>
+<p>二分查找的时间复杂度为log(n), Fibonacci查找是二分查找中的一种特殊情况，它与一般的二分查找的区别就在于中间点mid的选择，二分查找是取整个向量长度的中间值，而Fibonacci是取向量的黄金分割点。这对于查找时向左边走和向右边走比较次数不一样的一般的二分查找来说，可以尽可能的避免向右边走（查找两次）的情况。<br>插值查找适用于在一定范围内均匀随机分布的数组，它的时间复杂度可以降低至log(log(n)).对于我们一般处理的向量来说log(n)已经足够了，哪怕是一个2^32个元素的向量也仅仅需要进行32次查找，再取对数也就是5，所以用插值查找优势并不是很明显，而且二分查找和Fibonacci查找都只会用到加法和减法，而插值查找由于要计算比例会用到乘法和除法，指令级别的计算时间就提上去了。所以，插值查找更擅长在比较大的宏观的范围内将问题的关注点尽可能快的缩小到一定的范围，换句话说，比较擅长处理极大的情况。一旦到了比较小的情况，因为它要用到乘法除法，以及容易受到局部小的扰动，这些都是overhead额外计算，额外计算占比就不可忽视，此时二分查找的优势就体现出来了。<br><img src="/2019/01/29/有序向量的查找/5.png" alt="图片"><img src="/2019/01/29/有序向量的查找/6.png" alt="图片"><br>综上所述：将各种查找算法的有点相结合。<br>首先通过插值查找，将查找范围缩小到一定的范围，然后再进行二分查找或者顺序查找。</p>
 
       
     </div>
@@ -399,6 +400,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/16/Array-2D-CUDA使用CUDA扩展C-模板库/" rel="prev" title="Array_2D_CUDA使用CUDA扩展C++模板库">
+                Array_2D_CUDA使用CUDA扩展C++模板库 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -461,7 +466,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -483,7 +488,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

@@ -265,7 +265,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/01/18/VS2013配置MPI开发环境/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -284,7 +284,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/18/VS2013配置MPI开发环境/" itemprop="url">VS2013配置MPI开发环境</a></h1>
+                <a class="post-title-link" href="/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/" itemprop="url">MPI+CUDA混合编程 Makefile文件写法</a></h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-18T16:26:39+08:00">
-                2018-01-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:06:07+08:00">
+                2019-02-19
               </time>
             
 
@@ -306,28 +306,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">环境配置</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -354,11 +332,10 @@
 
       
         
-          <h2 id="下载并安装MPICH-For-Windows"><a href="#下载并安装MPICH-For-Windows" class="headerlink" title="下载并安装MPICH For Windows"></a>下载并安装MPICH For Windows</h2><p>MPI是一个接口规范，我们使用的是它的实现MPICH。</p>
-<p>首先，进入 <a href="http://www.mpich.org/downloads/" target="_blank" rel="external">http://www.mpich.org/downloads/</a> 站点根据操作系统下载。由于我们使用的是Windows，拉到下载网页最底部，最新的MPICH实现已经由微软官网托管，我们直接进去下载.包含两个文件：msmpisdk.msi和MSMpiSetup.exe。下载完毕直接分别安装这两个程序，都点下一步下一步即可。</p>
+          <h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># nvcc -c test_cuda.cu</div><div class="line"># mpic++ -c test.cpp</div><div class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/18/VS2013配置MPI开发环境/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -404,7 +381,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -423,7 +400,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/" itemprop="url">高性能CUDA应用设计与开发——读书笔记（第四章）</a></h1>
+                <a class="post-title-link" href="/2019/02/19/linux性能测试工具/" itemprop="url">linux性能测试工具</a></h1>
         
 
         <div class="post-meta">
@@ -435,8 +412,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-15T20:07:45+08:00">
-                2018-01-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:03:19+08:00">
+                2019-02-19
               </time>
             
 
@@ -445,28 +422,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -493,17 +448,10 @@
 
       
         
-          <h2 id="第四章：CUDA执行模型"><a href="#第四章：CUDA执行模型" class="headerlink" title="第四章：CUDA执行模型"></a>第四章：CUDA执行模型</h2><blockquote>
-<p>主要内容</p>
-</blockquote>
-<ul>
-<li>CUDA如何在保持扩展性的前提下表达并行计算</li>
-<li>Warp与Half-warp的含义与重要性</li>
-<li>调度、warp分歧以及GPU是SIMT架构的原因</li>
-</ul>
+          <h2 id="安装perf"><a href="#安装perf" class="headerlink" title="安装perf"></a>安装perf</h2><p>sudo apt install linux-tools-common<br>然后键入perf<br><img src="/2019/02/19/linux性能测试工具/1.png" alt="图片"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/15/高性能CUDA应用设计与开发——读书笔记（第四章）/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/linux性能测试工具/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -549,7 +497,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -568,7 +516,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/" itemprop="url">伊利诺香宾大学高性能并行计算week1笔记</a></h1>
+                <a class="post-title-link" href="/2019/02/19/linux下编译CUDPP/" itemprop="url">linux下编译CUDPP</a></h1>
         
 
         <div class="post-meta">
@@ -580,8 +528,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-14T23:32:49+08:00">
-                2018-01-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:59:03+08:00">
+                2019-02-19
               </time>
             
 
@@ -590,28 +538,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/课程笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">课程笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -638,16 +564,10 @@
 
       
         
-          <h2 id="异构并行计算Heterogeneous-Parallel-Computing简介"><a href="#异构并行计算Heterogeneous-Parallel-Computing简介" class="headerlink" title="异构并行计算Heterogeneous_Parallel_Computing简介"></a>异构并行计算Heterogeneous_Parallel_Computing简介</h2><blockquote>
-<p>主要内容</p>
-</blockquote>
-<ul>
-<li>学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别</li>
-<li>为什么越来越多的应用同时使用这两种设备</li>
-</ul>
+          <p>今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具<br>记录以下编译的过程<br>参考cudpp库的编译和使用 <a href="https://www.cnblogs.com/liangliangdetianxia/p/4162634.html" target="_blank" rel="external">https://www.cnblogs.com/liangliangdetianxia/p/4162634.html</a>这篇文章是在windows中编译的，有些地方有点变化</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/14/伊利诺香宾大学高性能并行计算1-2笔记/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/linux下编译CUDPP/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -693,7 +613,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第二章）/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux集群相关笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -712,7 +632,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第二章）/" itemprop="url">高性能CUDA应用设计与开发——读书笔记（第二章）</a></h1>
+                <a class="post-title-link" href="/2019/02/19/linux集群相关笔记/" itemprop="url">linux集群相关笔记</a></h1>
         
 
         <div class="post-meta">
@@ -724,8 +644,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-13T18:55:09+08:00">
-                2018-01-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:51:06+08:00">
+                2019-02-19
               </time>
             
 
@@ -734,28 +654,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -782,17 +680,10 @@
 
       
         
-          <h2 id="第二章：CUDA在机器学习与优化中的应用"><a href="#第二章：CUDA在机器学习与优化中的应用" class="headerlink" title="第二章：CUDA在机器学习与优化中的应用"></a>第二章：CUDA在机器学习与优化中的应用</h2><blockquote>
-<p>主要内容</p>
-</blockquote>
-<ul>
-<li>精通CUDA的编程者应该如何为建模与数据挖掘做出巨大贡献</li>
-<li>机器学习技术，以及XOR问题对于计算通用设备的重要性</li>
-<li>C++仿函数</li>
-</ul>
+          <p>HPSCIL集群介绍<br>    实验室的集群装的是rocks的集群，centos7的系统。需要学习一些集群管理的知识，sge, slurm等。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第二章）/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/linux集群相关笔记/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -838,7 +729,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第一章）/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/Linux达人养成计划/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -857,7 +748,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第一章）/" itemprop="url">高性能CUDA应用设计与开发——读书笔记（第一章）</a></h1>
+                <a class="post-title-link" href="/2019/02/19/Linux达人养成计划/" itemprop="url">Linux达人养成计划</a></h1>
         
 
         <div class="post-meta">
@@ -869,8 +760,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-13T15:36:10+08:00">
-                2018-01-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:41:22+08:00">
+                2019-02-19
               </time>
             
 
@@ -879,28 +770,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -927,17 +796,10 @@
 
       
         
-          <h2 id="第一章：CUDA入门与编程思想"><a href="#第一章：CUDA入门与编程思想" class="headerlink" title="第一章：CUDA入门与编程思想"></a>第一章：CUDA入门与编程思想</h2><blockquote>
-<p>主要内容</p>
-</blockquote>
-<ul>
-<li>CUDA的一些基本概念</li>
-<li>选用合适的CUDA API的准则</li>
-<li>高性能GPU计算的三条准则</li>
-<li>大O记号，以及数据传输的影响</li></ul>
+          <p><img src="/2019/02/19/Linux达人养成计划/1.png" alt="图片"><br>将正确输出结果和错误输出结果保存在同一个文件中</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/高性能CUDA应用设计与开发——读书笔记（第一章）/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/Linux达人养成计划/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -983,7 +845,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2017/09/12/基于深度学习的人流量预测/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/Linux-C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1002,7 +864,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/12/基于深度学习的人流量预测/" itemprop="url">基于深度学习的人流量预测</a></h1>
+                <a class="post-title-link" href="/2019/02/19/Linux-C/" itemprop="url">Linux C</a></h1>
         
 
         <div class="post-meta">
@@ -1014,8 +876,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-12T08:13:26+08:00">
-                2017-09-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:30:16+08:00">
+                2019-02-19
               </time>
             
 
@@ -1024,28 +886,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">论文笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -1072,11 +912,10 @@
 
       
         
-          <p>该研究论文《Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction》已经发表在 AAAI 2017。是深度学习用在城市计算领域中首次在高等级会议上发表。<br></p>
-<h3 id="深度时空残差网络ST-ResNet-Deep-Spatio-temporal-residual-network"><a href="#深度时空残差网络ST-ResNet-Deep-Spatio-temporal-residual-network" class="headerlink" title="深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)"></a>深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)</h3><p><img src="http://oqadn1oza.bkt.clouddn.com/%E6%80%BB%E4%BD%93%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.png" alt="时空模型结构"><br></p>
+          <h1 id="宏和typedef"><a href="#宏和typedef" class="headerlink" title="宏和typedef"></a>宏和typedef</h1><p><img src="/2019/02/19/Linux-C/1.png" alt="图片"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/09/12/基于深度学习的人流量预测/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/Linux-C/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1122,7 +961,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/17/CUDA性能指标/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1141,7 +980,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/" itemprop="url">基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度</a></h1>
+                <a class="post-title-link" href="/2019/02/17/CUDA性能指标/" itemprop="url">CUDA性能指标</a></h1>
         
 
         <div class="post-meta">
@@ -1153,8 +992,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-10T21:18:16+08:00">
-                2017-09-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-17T10:13:38+08:00">
+                2019-02-17
               </time>
             
 
@@ -1163,28 +1002,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">论文笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -1211,12 +1028,10 @@
 
       
         
-          <p>这篇文章来自今年8月召开的国际城市计算研讨会(<a href="http://urbcomp.ist.psu.edu/2017/accept.html" target="_blank" rel="external">International Workshop on Urban Computing</a>).</p>
-<h2 id="论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction"><a href="#论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction" class="headerlink" title="论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction"></a>论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction</h2><p>作者：华盛顿大学学生</p>
-<h2 id="论文背景："><a href="#论文背景：" class="headerlink" title="论文背景："></a>论文背景：<br></h2><p>&emsp;深度学习方法的潜能尚未被完全挖掘出来，尤其是在预测区域的时空尺度的应用方面。这篇文章提出了一种双向深度堆叠的LSTM和单向LSTM相结合的方法来预测大规模交通网络中的交通流速。<br><br></p>
+          <p>共享内存被分配在SM上的常驻线程块中，寄存器在线程中被分配。寄存器和共享内存是SM中的稀缺资源。CUDA将这些资源分配到SM中的所有常驻线程里。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/09/10/基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度/#more" rel="contents">
+            <a class="btn" href="/2019/02/17/CUDA性能指标/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1262,7 +1077,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2017/09/05/用win10远程桌面Ubuntu16-04/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/17/findMerge的CUDA实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1281,7 +1096,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/05/用win10远程桌面Ubuntu16-04/" itemprop="url">用win10远程桌面Ubuntu16.04</a></h1>
+                <a class="post-title-link" href="/2019/02/17/findMerge的CUDA实现/" itemprop="url">findMerge的CUDA实现</a></h1>
         
 
         <div class="post-meta">
@@ -1293,8 +1108,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-05T18:51:04+08:00">
-                2017-09-05
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-17T10:07:37+08:00">
+                2019-02-17
               </time>
             
 
@@ -1329,152 +1144,10 @@
 
       
         
-          
-            <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>参考：<br><a href="http://www.cnblogs.com/jinmao/archive/2016/12/20/6203018.html" target="_blank" rel="external">http://www.cnblogs.com/jinmao/archive/2016/12/20/6203018.html</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2017/07/28/云栖大会——如何进入阿里/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/28/云栖大会——如何进入阿里/" itemprop="url">云栖大会——如何进入阿里</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-28T23:42:22+08:00">
-                2017-07-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/经验/" itemprop="url" rel="index">
-                    <span itemprop="name">经验</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>今天看了阿里牛人的直播。<a href="https://yq.aliyun.com/webinar/play/268?spm=5176.8067841.wnold.3.l3GUPl" target="_blank" rel="external">入职阿里实战分享————在校生如何进阿里</a><br>想在这个时代做出点成绩，研究生阶段真的是任重而道远。下面做一点总结：</p>
-<blockquote>
-<p>主要内容</p>
-</blockquote>
-<ul>
-<li>如何才能拿到阿里offer–勤远(中科院计算所)</li>
-<li>我所在意的成长空间–道晨(清华大学)</li>
-<li>入职阿里新人必备–零幺(北邮)</li>
-</ul>
+          <h3 id="算法目标"><a href="#算法目标" class="headerlink" title="算法目标"></a>算法目标</h3><p>根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/28/云栖大会——如何进入阿里/#more" rel="contents">
+            <a class="btn" href="/2019/02/17/findMerge的CUDA实现/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1520,7 +1193,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2017/07/15/Centos系统基于Anaconda安装TensorFlow/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/17/CUDPP简单例子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1539,7 +1212,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/15/Centos系统基于Anaconda安装TensorFlow/" itemprop="url">Centos系统基于Anaconda安装TensorFlow</a></h1>
+                <a class="post-title-link" href="/2019/02/17/CUDPP简单例子/" itemprop="url">CUDPP简单例子</a></h1>
         
 
         <div class="post-meta">
@@ -1551,8 +1224,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-15T23:54:40+08:00">
-                2017-07-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-17T09:59:11+08:00">
+                2019-02-17
               </time>
             
 
@@ -1561,28 +1234,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">环境配置</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -1609,10 +1260,126 @@
 
       
         
-          <p>Ubuntu下远程访问linux集群服务器（系统版本：centos6）<br>这几天一直在折腾安装tensorflow，先在Ubuntu系统上装了一次，本以为在Centos系统上也是一样，没有想到遇到了更多的问题，安装过程记录如下。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssh zhb@192.168.122.1</div><div class="line">su root</div></pre></td></tr></table></figure></p>
+          <h3 id="scan"><a href="#scan" class="headerlink" title="scan"></a>scan</h3><p>在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// Initialize the CUDPP Library</div><div class="line">   CUDPPHandle theCudpp;</div><div class="line">   cudppCreate(&amp;theCudpp);</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/15/Centos系统基于Anaconda安装TensorFlow/#more" rel="contents">
+            <a class="btn" href="/2019/02/17/CUDPP简单例子/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/16/CUDA概念理解以及犯过的错/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/16/CUDA概念理解以及犯过的错/" itemprop="url">CUDA概念理解以及犯过的错</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-16T12:35:59+08:00">
+                2019-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>首先要记录的就是这次改bug的过程，Program received signal CUDA_EXCEPTION_14, Warp Illegal Address.错误的原因是CUDA访问越界。要记住一个点__syncthreads()函数仅仅能够用于线程块内的线程同步，不能用于全局所有线程块的同步。我这次犯的错就是在一个核函数内部试图构造一个全局数组，然后接下来的操作用到此全局数组的值。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/16/CUDA概念理解以及犯过的错/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1653,7 +1420,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1698,7 +1465,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1720,7 +1487,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

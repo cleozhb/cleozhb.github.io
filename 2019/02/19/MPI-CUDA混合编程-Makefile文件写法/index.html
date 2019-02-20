@@ -1,0 +1,772 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Makefile," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="CUDA代码与c++代码分开时Makefile文件的写法用网上找的一个例子作为参考，主要记录Makefile文件的写法总的来说就是要用nvcc编译.cu文件，生成.o文件;然后用mpic++编译.cpp文件，生成.o文件;最后用mpic++将这两个.o文件连接起来，生成可执行文件。在控制台中依次键入下面的命令，可以生成可执行文件main。123# nvcc -c test_cuda.cu# mpi">
+<meta name="keywords" content="Makefile">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MPI+CUDA混合编程 Makefile文件写法">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="CUDA代码与c++代码分开时Makefile文件的写法用网上找的一个例子作为参考，主要记录Makefile文件的写法总的来说就是要用nvcc编译.cu文件，生成.o文件;然后用mpic++编译.cpp文件，生成.o文件;最后用mpic++将这两个.o文件连接起来，生成可执行文件。在控制台中依次键入下面的命令，可以生成可执行文件main。123# nvcc -c test_cuda.cu# mpi">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/1.png">
+<meta property="og:updated_time" content="2019-02-19T08:07:52.238Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MPI+CUDA混合编程 Makefile文件写法">
+<meta name="twitter:description" content="CUDA代码与c++代码分开时Makefile文件的写法用网上找的一个例子作为参考，主要记录Makefile文件的写法总的来说就是要用nvcc编译.cu文件，生成.o文件;然后用mpic++编译.cpp文件，生成.o文件;最后用mpic++将这两个.o文件连接起来，生成可执行文件。在控制台中依次键入下面的命令，可以生成可执行文件main。123# nvcc -c test_cuda.cu# mpi">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/"/>
+
+
+
+
+
+  <title>MPI+CUDA混合编程 Makefile文件写法 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MPI+CUDA混合编程 Makefile文件写法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:06:07+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># nvcc -c test_cuda.cu</div><div class="line"># mpic++ -c test.cpp</div><div class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>完整的Makefile文件写法如下：<br>几个要注意的点：</p>
+<ol>
+<li>弄清楚CUDA和MPI的环境变量。如果不知道，可以用which 命令查看。</li>
+<li>最后一行，生成可执行文件的那一行，依赖的库放在最后，将目标文件写在中间，否则在有些机器上会报错。</li>
+<li>学到了一个函数，fseek， 可以将数组写入到文件指定的位置;</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">CUDA_INSTALL_PATH = /usr/local/cuda-8.0</div><div class="line">MPI_INSTALL_PATH = /home/mpi/mpich-3.2.1</div><div class="line"></div><div class="line">NVCC = $(CUDA_INSTALL_PATH)/bin/nvcc</div><div class="line">MPICC = $(MPI_INSTALL_PATH)/bin/mpic++</div><div class="line"></div><div class="line">LDFLAGS = -L $(CUDA_INSTALL_PATH)/lib64</div><div class="line">LIB = -lcudart</div><div class="line"></div><div class="line">CFILES = test.cpp</div><div class="line">CUFILES = test_cuda.cu</div><div class="line">OBJECTS = test_cuda.o test.o </div><div class="line">EXECNAME = test</div><div class="line"></div><div class="line">all:</div><div class="line">    $(NVCC) -c $(CUFILES)</div><div class="line">    $(MPICC) -c $(CFILES)</div><div class="line">    $(MPICC) -o $(EXECNAME) $(OBJECTS) $(LDFLAGS) $(LIB) </div><div class="line"></div><div class="line">clean:</div><div class="line">    rm -f *.o $(EXECNAME)</div></pre></td></tr></table></figure>
+<p>完整代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">//test.cpp</div><div class="line">#include&lt;stdio.h&gt;</div><div class="line">#include&lt;malloc.h&gt;</div><div class="line">#include&lt;math.h&gt;</div><div class="line">#include&lt;stdlib.h&gt;</div><div class="line">#include &quot;mpi.h&quot;</div><div class="line"></div><div class="line"></div><div class="line">extern &quot;C&quot; void cudaFun (int is , FILE  *fp ,  int  nx , int nz );</div><div class="line">int main( int argc, char  *argv[ ] )</div><div class="line">&#123;</div><div class="line">        int myid , numprocs , count , is , nx , nz ;</div><div class="line">        float * vp;</div><div class="line"></div><div class="line"></div><div class="line">        nx = 1000 ; nz = 1000 ;</div><div class="line"></div><div class="line"></div><div class="line">        MPI_Init(&amp;argc,&amp;argv);</div><div class="line">        MPI_Comm_rank(MPI_COMM_WORLD,&amp;myid);</div><div class="line">        MPI_Comm_size(MPI_COMM_WORLD,&amp;numprocs);</div><div class="line">        MPI_Barrier(MPI_COMM_WORLD);</div><div class="line"></div><div class="line"></div><div class="line">        FILE *fp;</div><div class="line">        fp=fopen( &quot;test.dat&quot; , &quot;wb&quot; );</div><div class="line">        for ( is = myid ; is &lt; 10 ; is = is    +    numprocs )</div><div class="line">        &#123;</div><div class="line">                printf( &quot; is== %d  \n &quot;  , is ) ;</div><div class="line">                cudaFun( is , fp , nx , nz );</div><div class="line">        &#125;</div><div class="line">        MPI_Finalize( );</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">//test_cuda.cu</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line">#include &lt;cuda.h&gt;</div><div class="line">#include &lt;cuda_runtime.h&gt;</div><div class="line">#include &quot;device_launch_parameters.h&quot;</div><div class="line">#include &lt;device_functions.h&gt;</div><div class="line">#include &lt;cuda_runtime_api.h&gt;</div><div class="line"></div><div class="line">__device__  volatile  int  vint = 0;</div><div class="line">//a#########################</div><div class="line">__global__ void fun ( float  * vp_device , int n, int nz, int  is )</div><div class="line">&#123;</div><div class="line">        int it = threadIdx.x + blockDim.x * blockIdx.x;</div><div class="line">        if  ( it &lt; n ) &#123;</div><div class="line">                vp_device[it]=2000;</div><div class="line">                if ( ( it &gt; nz * 40 &amp;&amp; it &lt; 40 &amp;&amp; it % nz &lt; 60 ) ) </div><div class="line">                        vp_device [ it ] = 2500 * is * 100 ;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">//a########################</div><div class="line">extern &quot;C&quot; void cudaFun ( int is , FILE  *fp ,  int  nx , int nz )</div><div class="line">&#123;</div><div class="line">        int i ;</div><div class="line">        float  * vp_device , * vp_host;</div><div class="line"></div><div class="line"></div><div class="line">        cudaMalloc(&amp;vp_device, nx*nz*sizeof(float));  </div><div class="line">        cudaMemset(vp_device, 0, nx*nz*sizeof(float));</div><div class="line"></div><div class="line"></div><div class="line">        vp_host=(float*)malloc(nx*nz*sizeof(float));</div><div class="line"></div><div class="line"></div><div class="line">        float mstimer;</div><div class="line"></div><div class="line"></div><div class="line">        cudaEvent_t start, stop;</div><div class="line">        cudaEventCreate(&amp;start);</div><div class="line">        cudaEventCreate(&amp;stop);</div><div class="line"></div><div class="line"></div><div class="line">        fun &lt;&lt;&lt;(  nx * nz   +   511 ) / 512, 512&gt;&gt;&gt; ( vp_device ,  nx*nz , nz , is ) ;</div><div class="line"></div><div class="line"></div><div class="line">        cudaMemcpy(vp_host, vp_device, nx*nz*sizeof(float),cudaMemcpyDeviceToHost); </div><div class="line"></div><div class="line"></div><div class="line">        fseek(fp,is*nx*nz*sizeof(float),0);</div><div class="line">        for (  i  =  0  ;  i  &lt;  nx  *  nz   ;  i   ++   )</div><div class="line">                fwrite( &amp;vp_host[i] , sizeof(float) , 1 , fp);</div><div class="line"></div><div class="line"></div><div class="line">        cudaEventRecord(stop);</div><div class="line">        cudaEventSynchronize(stop);</div><div class="line">        cudaEventElapsedTime(&amp;mstimer, start, stop);</div><div class="line">        printf( &quot;CUDA : is = %d, time = %g (s)\\n &quot; ,is, mstimer/1000);</div><div class="line">        cudaEventDestroy(start);</div><div class="line">        cudaEventDestroy(stop);</div><div class="line"></div><div class="line"></div><div class="line">        cudaFree(vp_device);</div><div class="line">        free(vp_host);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="CUDA和MPI混合编译方法"><a href="#CUDA和MPI混合编译方法" class="headerlink" title="CUDA和MPI混合编译方法"></a>CUDA和MPI混合编译方法</h3><p>在上面的例子中，所有与CUDA有关的代码都在test_cuda.cu中，而有时候我们需要从外部传入线程块的配置参数，就是说要在.cpp文件中调用cuda函数，此时就需要配置连接库的位置，和包含CUDA头文件的位置。在Makefile文件中分别用 -L 和 -I 指定库的位置，和.h文件的位置。<br>比如下面这个例子，将CUDA实现写在了kernel.cu中，将其中的函数在cuda.cuh中申明。然后在test.cpp中包含cuda.cuh头文件。在控制台中分别键入下面的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">nvcc -c kernel.cu</div><div class="line"></div><div class="line">mpic++ -c test.cpp -L /usr/local/cuda-8.0/lib64 -lcudart -I /usr/local/cuda-8.0/include</div><div class="line"></div><div class="line">mpic++ -o main test.o kernel.o -L /usr/local/cuda-8.0/lib64 -lcudart -I /usr/local/cuda-8.0/include</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">#上面的命令对应的Makefile写法</div><div class="line">CUDA_INSTALL_PATH = /usr/local/cuda-8.0</div><div class="line">MPI_INSTALL_PATH = /home/mpi/mpich-3.2.1</div><div class="line"></div><div class="line">NVCC = $(CUDA_INSTALL_PATH)/bin/nvcc</div><div class="line">MPICC = $(MPI_INSTALL_PATH)/bin/mpic++</div><div class="line">LDFLAGS = -L $(CUDA_INSTALL_PATH)/lib64</div><div class="line">LIB = -lcudart</div><div class="line">CUDA_INCLUDE = -I /usr/local/cuda-8.0/include</div><div class="line"></div><div class="line">CFILES = test.cpp</div><div class="line">CUFILES = kernel.cu</div><div class="line">OBJECTS = kernel.o test.o </div><div class="line">EXECNAME = test</div><div class="line"></div><div class="line">all:</div><div class="line">    $(NVCC) -c $(CUFILES)</div><div class="line">    $(MPICC) -c $(CFILES) $(LDFLAGS) $(LIB) $(CUDA_INCLUDE)</div><div class="line">    $(MPICC) -o $(EXECNAME) $(OBJECTS) $(LDFLAGS) $(LIB) $(CUDA_INCLUDE)</div><div class="line"></div><div class="line">clean:</div><div class="line">    rm -f *.o $(EXECNAME)</div></pre></td></tr></table></figure>
+<p>最后键入<br>mpirun -n 2 ./main运行代码，注意这里，机器上有几个GPU就用几个进程，否则会报错。<br><img src="/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/1.png" alt="图片"></p>
+<p>源代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//cuda.cuh</div><div class="line">#pragma once</div><div class="line">#include &lt;math.h&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &quot;cuda_runtime.h&quot;</div><div class="line">#include &quot;device_launch_parameters.h&quot;</div><div class="line"></div><div class="line">void GPU_add(float *d_loc_matA,float * d_loc_matB,float * d_loc_matC,int nx,int ny,int loc_nz,dim3 dimBlock,dim3 dimGrid);</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//kernel.cu</div><div class="line">#include &quot;cuda.cuh&quot;</div><div class="line">__global__ void matadd_kernel(float *matA, float *matB, float *matC, int nx, int ny, int nz)</div><div class="line">&#123;</div><div class="line">   int ix = blockDim.x * blockIdx.x + threadIdx.x;</div><div class="line">   int iy = blockDim.y * blockIdx.y + threadIdx.y;</div><div class="line"></div><div class="line"></div><div class="line">   for (int iz = 0; iz &lt; nz; iz ++)</div><div class="line">   &#123;</div><div class="line">     if (ix &lt; nx &amp;&amp; iy &lt; ny)</div><div class="line">        matC[iz * ny * nx + iy * nx + ix] = matA[iz * ny * nx + iy * nx + ix] + matB[iz * ny * nx + iy * nx + ix];</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"> void GPU_add(float *d_loc_matA,float * d_loc_matB,float * d_loc_matC,int nx,int ny,int loc_nz,dim3 dimBlock,dim3 dimGrid)</div><div class="line"> &#123;</div><div class="line">       matadd_kernel&lt;&lt;&lt;dimGrid, dimBlock&gt;&gt;&gt;(d_loc_matA, d_loc_matB, d_loc_matC, nx, ny, loc_nz);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div></pre></td><td class="code"><pre><div class="line">//test.cpp</div><div class="line">#include &quot;cuda.cuh&quot;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;time.h&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &quot;mpi.h&quot;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">#define BLOCK_DIMX 16</div><div class="line">#define BLOCK_DIMZ 16</div><div class="line">void CPUtest(int settimes, int row, int col, float **GA, float **GB)</div><div class="line">&#123;</div><div class="line"> for (int i = 0; i &lt; settimes; i++)</div><div class="line"> &#123;</div><div class="line">  for(int i=0;i&lt;row+1;i++)&#123;</div><div class="line">   for(int j=0;j&lt;col+1;j++)&#123;</div><div class="line">    GA[i][j]=GB[i][j];</div><div class="line">   &#125;</div><div class="line">  &#125;</div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int InitCUDA(int myid)</div><div class="line">&#123;</div><div class="line">  int devCount = 0;</div><div class="line">  int dev = 0;</div><div class="line"></div><div class="line">  cudaGetDeviceCount(&amp;devCount);</div><div class="line">  if (devCount == 0) </div><div class="line">  &#123;</div><div class="line">    fprintf(stderr, &quot;There is no device supporting CUDA.\n&quot;);</div><div class="line">    return false;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  for (dev = 0; dev &lt; devCount; ++dev)</div><div class="line">  &#123;</div><div class="line">    cudaDeviceProp prop;</div><div class="line"></div><div class="line">    if (cudaGetDeviceProperties(&amp;prop, dev) == cudaSuccess)</div><div class="line">    &#123;</div><div class="line">       if (prop.major &gt;= 1) break;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  if (dev == devCount)</div><div class="line">  &#123;</div><div class="line">     fprintf(stderr, &quot;There is no device supporting CUDA.\n&quot;);</div><div class="line">     return false;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  cudaSetDevice(myid);</div><div class="line">  cudaDeviceProp prop1;</div><div class="line">  cudaGetDeviceProperties(&amp;prop1,myid);</div><div class="line">  fprintf(stdout, &quot;multiProcessorCount %d : %d\n&quot;, myid, prop1.multiProcessorCount);</div><div class="line">  return true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void matadd(float *matA, float *matB, float *matC, int nx, int ny, int nz, int myid, int size)</div><div class="line">&#123;</div><div class="line">  int ista, iend;</div><div class="line">  //给主进程分配最后一个分块</div><div class="line">  if (myid != 0) </div><div class="line">  &#123;</div><div class="line">    ista = (myid - 1) * ( nz / size); </div><div class="line">    iend = ista + nz / size - 1;</div><div class="line">  &#125; </div><div class="line">  else </div><div class="line">  &#123;</div><div class="line">    ista = (size - 1) * (nz / size);</div><div class="line">    iend = nz - 1;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  int loc_nz = iend - ista + 1;</div><div class="line">  float *loc_matA = (float *) malloc( loc_nz * ny * nx * sizeof(float));</div><div class="line">  float *loc_matB = (float *) malloc( loc_nz * ny * nx * sizeof(float));</div><div class="line">  float *loc_matC = (float *) malloc( loc_nz * ny * nx * sizeof(float));</div><div class="line"></div><div class="line"></div><div class="line">  MPI_Status status;</div><div class="line">  int *count=new int[size];//记录每个进程处理的个数多少</div><div class="line"></div><div class="line"></div><div class="line">  if (myid != 0)</div><div class="line">  &#123;</div><div class="line">    MPI_Send(&amp;loc_nz, 1, MPI_INT, 0, myid, MPI_COMM_WORLD);</div><div class="line">  &#125; </div><div class="line">  else </div><div class="line">  &#123;</div><div class="line">    count[0] = loc_nz;</div><div class="line">    for (int i = 1; i &lt; size; i ++) </div><div class="line">    &#123;</div><div class="line">      MPI_Recv(&amp;count[i], 1, MPI_INT, i, i, MPI_COMM_WORLD, &amp;status);</div><div class="line">    &#125; </div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  if (myid == 0)</div><div class="line">  &#123;</div><div class="line">    for (int ix = 0; ix &lt; count[0] * ny * nx; ix ++)</div><div class="line">    &#123;</div><div class="line">     loc_matA[count[0] * ny * nx - 1 - ix] = matA[nz * ny * nx - 1 - ix];</div><div class="line">     loc_matB[count[0] * ny * nx - 1 - ix] = matB[nz * ny * nx - 1 - ix];</div><div class="line">    &#125;</div><div class="line">    for (int isz = 1; isz &lt; size; isz ++) </div><div class="line">    &#123;</div><div class="line">      int idx = 0;</div><div class="line">      if (isz == 1) </div><div class="line">      &#123;</div><div class="line">        idx = 0;</div><div class="line">      &#125;</div><div class="line">      else </div><div class="line">      &#123;</div><div class="line">        idx += count[isz - 1];</div><div class="line">      &#125;</div><div class="line">      MPI_Send(matA + idx * ny * nz, count[isz] * ny * nx, MPI_FLOAT, isz, isz, MPI_COMM_WORLD);</div><div class="line">      MPI_Send(matB + idx * ny * nz, count[isz] * ny * nx, MPI_FLOAT, isz, isz, MPI_COMM_WORLD);</div><div class="line">    &#125;</div><div class="line">  &#125; </div><div class="line">  else </div><div class="line">  &#123;</div><div class="line">    MPI_Recv(loc_matA, loc_nz * ny * nx, MPI_FLOAT, 0, myid, MPI_COMM_WORLD, &amp;status);</div><div class="line">    MPI_Recv(loc_matB, loc_nz * ny * nx, MPI_FLOAT, 0, myid, MPI_COMM_WORLD, &amp;status);</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  float *d_loc_matA;</div><div class="line">  cudaMalloc((void **) &amp;d_loc_matA, loc_nz * ny * nx * sizeof(float));</div><div class="line">  cudaMemcpy(d_loc_matA, loc_matA, loc_nz * ny * nx * sizeof(float), cudaMemcpyHostToDevice);</div><div class="line"></div><div class="line"></div><div class="line">  float *d_loc_matB;</div><div class="line">  cudaMalloc((void **) &amp;d_loc_matB, loc_nz * ny * nx * sizeof(float));</div><div class="line">  cudaMemcpy(d_loc_matB, loc_matB, loc_nz * ny * nx * sizeof(float), cudaMemcpyHostToDevice);</div><div class="line"></div><div class="line"></div><div class="line">  float *d_loc_matC;</div><div class="line">  cudaMalloc((void **) &amp;d_loc_matC, loc_nz * ny * nx * sizeof(float));</div><div class="line"></div><div class="line"></div><div class="line">  dim3 dimBlock(BLOCK_DIMX, BLOCK_DIMZ);</div><div class="line">  dim3 dimGrid(nx / BLOCK_DIMX, ny / BLOCK_DIMZ);</div><div class="line"></div><div class="line"></div><div class="line">  GPU_add(d_loc_matA, d_loc_matB, d_loc_matC, nx, ny, loc_nz,dimBlock,dimGrid);</div><div class="line"></div><div class="line"></div><div class="line">  cudaMemcpy(loc_matC, d_loc_matC, loc_nz * ny * nx * sizeof(float), cudaMemcpyDeviceToHost);</div><div class="line"></div><div class="line"></div><div class="line">  if (myid !=0 )</div><div class="line">  &#123;</div><div class="line">    MPI_Send(loc_matC, loc_nz * ny * nx, MPI_FLOAT, 0, myid, MPI_COMM_WORLD);</div><div class="line">  &#125; </div><div class="line">  else </div><div class="line">  &#123;</div><div class="line">    for (int ix = 0; ix &lt; count[0] * ny * nx; ix ++)</div><div class="line">      matC[nz * ny * nx - 1 - ix] = loc_matC[loc_nz * ny * nx - 1 - ix];</div><div class="line">    for (int isz = 1; isz &lt; size; isz ++)</div><div class="line">    &#123;</div><div class="line">      int idx = 0;</div><div class="line">      if (isz == 1) </div><div class="line">        idx = 0;</div><div class="line">      else </div><div class="line">        idx += count[isz - 1];</div><div class="line">      MPI_Recv(matC + idx * ny * nz, count[isz] * ny * nx, MPI_FLOAT, isz, isz, MPI_COMM_WORLD, &amp;status);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  cudaFree(d_loc_matA);</div><div class="line">  cudaFree(d_loc_matB);</div><div class="line">  cudaFree(d_loc_matC);</div><div class="line"></div><div class="line">  free(loc_matA);</div><div class="line">  free(loc_matB);</div><div class="line">  free(loc_matC);</div><div class="line">  return;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">// Main program</div><div class="line">////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;time.h&gt;</div><div class="line">#include &lt;mpi.h&gt;</div><div class="line"></div><div class="line"></div><div class="line">int InitCUDA(int myid);</div><div class="line">void matadd(float *matA, float *matB, float *matC, int nx, int ny, int nz, int myid, int size);</div><div class="line">int main(int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">  int myid, numprocs;</div><div class="line">  int namelen;</div><div class="line">  MPI_Status status;</div><div class="line"></div><div class="line"></div><div class="line">  MPI_Init(&amp;argc, &amp;argv);</div><div class="line">  MPI_Comm_size(MPI_COMM_WORLD, &amp;numprocs);</div><div class="line">  MPI_Comm_rank(MPI_COMM_WORLD, &amp;myid);</div><div class="line"></div><div class="line"></div><div class="line">  InitCUDA(myid);</div><div class="line"></div><div class="line"></div><div class="line">  int nx = 96, ny = 96, nz = 500;</div><div class="line">  float *a = (float *)malloc(nx * ny * nz * sizeof(float));</div><div class="line">  float *b = (float *)malloc(nx * ny * nz * sizeof(float));</div><div class="line">  float *c = (float *)malloc(nx * ny * nz * sizeof(float));</div><div class="line"></div><div class="line"></div><div class="line">  for (int iz = 0; iz &lt; nz; iz ++)</div><div class="line">    for (int iy = 0; iy &lt; ny; iy ++)</div><div class="line">      for (int ix = 0; ix &lt; nx; ix++)</div><div class="line">      &#123;</div><div class="line">        a[iz * ny * nx + iy * nx + ix] = 1.0f;</div><div class="line">        b[iz * ny * nx + iy * nx + ix] = 2.0f;</div><div class="line">        c[iz * ny * nx + iy * nx + ix] = 0.0f;</div><div class="line">      &#125;</div><div class="line"></div><div class="line"></div><div class="line">  clock_t tstart = clock();</div><div class="line">  matadd(a, b, c, nx, ny, nz, myid, numprocs);</div><div class="line">  clock_t tend = clock();</div><div class="line"></div><div class="line"></div><div class="line">  if (myid == 0)</div><div class="line">    printf(&quot;time for matrix addition is %.5f\n&quot;, (double)(tend - tstart)/CLOCKS_PER_SEC);</div><div class="line"></div><div class="line"></div><div class="line">  if (myid == 0)</div><div class="line">  &#123;</div><div class="line">    printf(&quot;c = %f\n&quot;, c[nx * ny * nz - 1]);</div><div class="line"></div><div class="line"></div><div class="line">    for (int iz = 0; iz &lt; nz; iz ++)</div><div class="line">     for (int iy = 0; iy &lt; ny; iy ++)</div><div class="line">       for (int ix = 0; ix &lt; nx; ix++)</div><div class="line">         if ((c[iz * ny * nx + iy * nx + ix] - 3.0) &gt;1.0e-2)</div><div class="line">         &#123;</div><div class="line">              fprintf(stderr, &quot;Error occurs\n&quot;);</div><div class="line">              return EXIT_FAILURE;</div><div class="line">         &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  free(a);</div><div class="line">  free(b);</div><div class="line">  free(c);</div><div class="line"></div><div class="line"></div><div class="line">  MPI_Finalize();</div><div class="line">  return EXIT_SUCCESS;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Makefile/" rel="tag"># Makefile</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/linux性能测试工具/" rel="next" title="linux性能测试工具">
+                <i class="fa fa-chevron-left"></i> linux性能测试工具
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/19/MPI实现manager-worker模式/" rel="prev" title="MPI实现manager-worker模式">
+                MPI实现manager-worker模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CUDA代码与c-代码分开时Makefile文件的写法"><span class="nav-number">1.</span> <span class="nav-text">CUDA代码与c++代码分开时Makefile文件的写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CUDA和MPI混合编译方法"><span class="nav-number">2.</span> <span class="nav-text">CUDA和MPI混合编译方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

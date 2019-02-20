@@ -1,0 +1,794 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="性能测试," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="安装perfsudo apt install linux-tools-common然后键入perf">
+<meta name="keywords" content="性能测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux性能测试工具">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="安装perfsudo apt install linux-tools-common然后键入perf">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/1.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/2.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/3.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/4.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/5.png">
+<meta property="og:updated_time" content="2019-02-19T08:04:33.965Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux性能测试工具">
+<meta name="twitter:description" content="安装perfsudo apt install linux-tools-common然后键入perf">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/"/>
+
+
+
+
+
+  <title>linux性能测试工具 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux性能测试工具</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:03:19+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="安装perf"><a href="#安装perf" class="headerlink" title="安装perf"></a>安装perf</h2><p>sudo apt install linux-tools-common<br>然后键入perf<br><img src="/2019/02/19/linux性能测试工具/1.png" alt="图片"></p>
+<a id="more"></a>
+<p>按照提示键入<br>sudo apt-get install linux-tools-4.4.0-139-generic linux-cloud-tools-4.4.0-139-generic linux-tools-generic linux-cloud-tools-generic<br>安装完成<br><img src="/2019/02/19/linux性能测试工具/2.png" alt="图片"></p>
+<h2 id="gprof"><a href="#gprof" class="headerlink" title="gprof"></a>gprof</h2><p>gprof可以显示程序运行的“flat profile”，包括每个函数的调用次数，每个函数消耗的处理器时间。也可以显示“调用图”，包括函数的调用关系，每个函数调用花费了多少时间。还可以显示“注释的源代码”，是程序源代码的一个复本，标记有程序中每行代码的执行次数。常用于Linux中，默认是自带的。</p>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><ol>
+<li>使用-pg选项编译和链接你的应用程序。</li>
+<li>像往常一样运行你的应用程序，使之运行完成后生成供gprof分析的数据文件（默认是gmon.out）。运行会比平时慢一些（大约2倍）</li>
+<li>使用gprof程序分析你的应用程序生成的数据。</li>
+<li>（可选， 见章节4）可用python可视化。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"> gcc -pg -o test test.c               //程序文件名称 test.c 编译时使用 -pg</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>现在我们可以再次运行生成的结果文件test ，并使用我们前面使用的测试数据。这次我们运行的时候，test运行的分析数据会被搜集并保存在’gmon.out’文件中，我们可以通过运行 ‘gprof  test gmon.out&gt;result’到一个result文件来查看结果。</p>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>profiling中插入了工具代码，确定程序的各个部分需要多少时间，GPROF产生两种形式的信息。首先它能确定程序中每个函数花费了多少CPU时间。其次，它能统计每个函数被调用的次数，包括顶层调用次数和递归调用次数。例如函数是一个递归过程，它扫描一个hash bucket的链表，查找一个特殊的字符串。对于这个函数，递归调用次数 / 顶层调用 大致等于程序每次平均扫描大约多少个元素，这提供了关于遍历这些链表的长度的统计信息。这些信息帮助我们确定这些函数在整个程序运行中的重要性。使得我们能理解程序的动态行为。</p>
+<p>在所有的函数内部加入了三个函数：<br><strong>.cfi_startproc负责初始化profile环境，分配内存空间</strong><br><strong>_mcount记录每个函数代码的caller和callee的位置</strong><br><strong>.cfi_endproc清除profile环境，保存结果数据为gmon.out，供gprof分析结果</strong></p>
+<p>在编译和链接程序的时候（使用 -pg 编译和链接选项），gcc 在你应用程序的每个函数中都加入了一个名为mcount（or“_mcount”, or“__mcount”）的函数，也就是说-pg编译的应用程序里的每一个函数都会调用mcount, 而mcount会在内存中保存一张函数调用图，并通过函数调用堆栈的形式查找子函数和父函数的地址。这张调用图也保存了所有与函数相关的调用时间，调用次数等等的所有信息。程序运行结束后，会在程序退出的路径下生成一个 gmon.out文件。这个文件就是记录并保存下来的监控数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">g++ -pg -o main main.cpp</div><div class="line">./main ../data/input.txt  //生成gmon.out</div><div class="line"></div><div class="line">gprof ./main gmon.out &gt; result.txt</div><div class="line">gprof2dot -n0 -e0 -w ./result.txt &gt; result.dot</div><div class="line"></div><div class="line">以上2步可以用管道连接写成一步</div><div class="line">gprof ./main | gprof2dot -n0 -e0 -w | dot -o result.dot</div><div class="line"></div><div class="line">//如果需要生成png图片，继续执行下面的指令</div><div class="line">dot -Tpng -o result.png result.dot</div></pre></td></tr></table></figure></p>
+<h2 id="安装可视化工具"><a href="#安装可视化工具" class="headerlink" title="安装可视化工具"></a>安装可视化工具</h2><p>gprof2dot可以将众多代码效率检测工具生成的结果可视化出来，gprof,valgrind等。<br>sudo apt-get install python graphviz<br>sudo apt-get install python3 xdot<br>sudo pip install gprof2dot</p>
+<p>xdot是用来查看dot文件的python脚本工具<br>然后输入gprof2dot -h<br><img src="/2019/02/19/linux性能测试工具/3.png" alt="图片"><br>在编译时-pg参数产生供gprof剖析用的可执行文件(会在每个function call 插入一个_mcount的routine 功能)  -g参数产生供gdb调试用的可执行文件<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">编译时加入-pg</div><div class="line">$ gcc -pg -g -o test test.c</div><div class="line"></div><div class="line">接着执行  ./test ，会在当前目录下默认生成 gmon.out，有输入参数的跟在后面就可以</div><div class="line">$./test ../data/srcdata.tif</div><div class="line"></div><div class="line">执行以下命令，生成图片output.png</div><div class="line">$ gprof ./test | gprof2dot -n0 -e0 | dot -Tpng -o output.png</div><div class="line">执行下面命令生成dot文件，可以用xdot查看</div><div class="line">$ gprof ./main | gprof2dot -n0 -e0 -s | dot -o output.dot</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">也可以用valgrind工具检查运行过程中的时间。它生成的结果非常详细，甚至连函数入口，及库函数调用都标识出来了</div><div class="line">valgrind --tool=callgrind ./main ../../data/sanDiego.tif</div><div class="line">执行完之后会生成&quot;callgrind.out.XXX&quot;的文件这是分析文件，可以直接利用：callgrind_annotate callgrind.out.XXX 打印结果，也可以使用：</div><div class="line">gprof2dot -f callgrind callgrind.out.XXX | dot -o output.dot 来生成dot结果</div></pre></td></tr></table></figure>
+<p>gprof2dot默认是部分函数调用图，对性能影响不大的函数调用都不显示，如果想要显示全部的函数调用，可以 gprof2dot -n0 -e0 ，默认是n0.5即影响小于5%的函数就不显示了。具体可以通过gprof2dot -h查看。<br><strong>-s</strong> 表示不显示诸如模板，函数入口参数等等，使得函数名称显示更加精简。</p>
+<p>查看图片，可以看到函数调用的百分比和次数，以及热点线路。建议生成.dot文件，用xdot查看，这是矢量文件，当函数比较多，调用情况复杂时放大看不会失真。程序调用过程清晰明了，<br><img src="/2019/02/19/linux性能测试工具/4.png" alt="图片"><br>+———————————–+<br>|          function name           |<br>| total time % ( self time % ) |<br>|            total calls                 |<br>+———————————–+<br>每个节点，方框内部依次显示</p>
+<ul>
+<li>函数名称</li>
+<li>函数整体包括内部子函数占用时间%比</li>
+<li>函数自身，不包括内部子函数占用时间%比</li>
+<li>函数执行次数</li>
+</ul>
+<p>每一条边表示父函数调用子函数所占用的时间百分比，默认低于1%就不显示了，这里将设置-e0。<br>           total time %<br>              calls<br>parent ——————–&gt; children<br>节点和边的颜色跟据总时间的百分比来变化</p>
+<p><img src="/2019/02/19/linux性能测试工具/5.png" alt="图片"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>gprof2dot:<a href="https://github.com/jrfonseca/gprof2dot" target="_blank" rel="external">https://github.com/jrfonseca/gprof2dot</a></li>
+<li>xdot:<a href="https://github.com/jrfonseca/xdot.py" target="_blank" rel="external">https://github.com/jrfonseca/xdot.py</a></li>
+<li>深入理解计算机系统 第5章 P388</li>
+<li>C++优化工具gprof <a href="https://blog.csdn.net/jacke121/article/details/56044754" target="_blank" rel="external">https://blog.csdn.net/jacke121/article/details/56044754</a></li>
+<li>linux下性能分析及内存泄漏检测<a href="https://blog.csdn.net/u014717036/article/details/50762252" target="_blank" rel="external">https://blog.csdn.net/u014717036/article/details/50762252</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/性能测试/" rel="tag"># 性能测试</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/linux下编译CUDPP/" rel="next" title="linux下编译CUDPP">
+                <i class="fa fa-chevron-left"></i> linux下编译CUDPP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/" rel="prev" title="MPI+CUDA混合编程 Makefile文件写法">
+                MPI+CUDA混合编程 Makefile文件写法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装perf"><span class="nav-number">1.</span> <span class="nav-text">安装perf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gprof"><span class="nav-number">2.</span> <span class="nav-text">gprof</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理分析"><span class="nav-number">2.2.</span> <span class="nav-text">原理分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装可视化工具"><span class="nav-number">3.</span> <span class="nav-text">安装可视化工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
