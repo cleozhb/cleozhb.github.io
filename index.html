@@ -383,7 +383,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/23/由面向对象产生的联想/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -402,7 +402,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/23/由面向对象产生的联想/" itemprop="url">由面向对象产生的联想</a></h1>
+                <a class="post-title-link" href="/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/" itemprop="url">Array_2D_CUDA使用CUDA扩展C++模板库</a></h1>
         
 
         <div class="post-meta">
@@ -414,7 +414,7 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T12:32:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T11:17:40+08:00">
                 2019-01-23
               </time>
             
@@ -450,11 +450,10 @@
 
       
         
-          <p>随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。</p>
-<h3 id="计算机科学和生物学"><a href="#计算机科学和生物学" class="headerlink" title="计算机科学和生物学"></a>计算机科学和生物学</h3><p>在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行不同的代码，同样子进程也可以继续fork出自己的子进程，为人们提供各种各样的功能，或者利用计算机的多核用并行的技术更快的完成某一个任务。<br>细胞是可以独立运作的，它们之间可以通过能透过细胞膜的化学信号进行通信。同样，在计算机中，每个进程是可以独立运行的，它们之间可以通过特定的方式（信号量、管道、消息队列、共享内存、socket）进行通信。</p>
+          <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？<br>一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和GPU实现的函数提供编译时选项。这样用户在使用时需要选择一个版本的实现并一直使用，或者要重新编译才能改变执行文件。此外，对于一些小数据来说，CPU运行的比GPU快，但当数据量大的时候GPU会有很好的加速效果。所以最佳方案是让用户能在在CPU模式和GPU模式下任意切换。<br>还有一个问题涉及到开发CUDA库，CUDA是一个非常低级的语言，如果我们的库中有复杂的数据结构，就有可能很难管理数据分配、内存传输。在CPU端，C++类可以通过抽象的方式使得开发变得容易。理想情况下，我希望在GPU上能够做同样的事情。通过专业的模板元编程，能够为现有的类创建CUDA-interface，通过抽象的处理cudaMalloc,cudaMemcpy等低级的GPU内存管理操作，从而大大简化GPU的开发。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/23/由面向对象产生的联想/#more" rel="contents">
+            <a class="btn" href="/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>
@@ -616,7 +615,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/18/由面向对象产生的联想/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -635,7 +634,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/" itemprop="url">Array_2D_CUDA使用CUDA扩展C++模板库</a></h1>
+                <a class="post-title-link" href="/2019/01/18/由面向对象产生的联想/" itemprop="url">由面向对象产生的联想</a></h1>
         
 
         <div class="post-meta">
@@ -647,7 +646,7 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-18T11:17:40+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-18T12:32:59+08:00">
                 2019-01-18
               </time>
             
@@ -683,10 +682,11 @@
 
       
         
-          <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？<br>一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和GPU实现的函数提供编译时选项。这样用户在使用时需要选择一个版本的实现并一直使用，或者要重新编译才能改变执行文件。此外，对于一些小数据来说，CPU运行的比GPU快，但当数据量大的时候GPU会有很好的加速效果。所以最佳方案是让用户能在在CPU模式和GPU模式下任意切换。<br>还有一个问题涉及到开发CUDA库，CUDA是一个非常低级的语言，如果我们的库中有复杂的数据结构，就有可能很难管理数据分配、内存传输。在CPU端，C++类可以通过抽象的方式使得开发变得容易。理想情况下，我希望在GPU上能够做同样的事情。通过专业的模板元编程，能够为现有的类创建CUDA-interface，通过抽象的处理cudaMalloc,cudaMemcpy等低级的GPU内存管理操作，从而大大简化GPU的开发。<br></p>
+          <p>随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。</p>
+<h3 id="计算机科学和生物学"><a href="#计算机科学和生物学" class="headerlink" title="计算机科学和生物学"></a>计算机科学和生物学</h3><p>在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行不同的代码，同样子进程也可以继续fork出自己的子进程，为人们提供各种各样的功能，或者利用计算机的多核用并行的技术更快的完成某一个任务。<br>细胞是可以独立运作的，它们之间可以通过能透过细胞膜的化学信号进行通信。同样，在计算机中，每个进程是可以独立运行的，它们之间可以通过特定的方式（信号量、管道、消息队列、共享内存、socket）进行通信。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/#more" rel="contents">
+            <a class="btn" href="/2019/01/18/由面向对象产生的联想/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>

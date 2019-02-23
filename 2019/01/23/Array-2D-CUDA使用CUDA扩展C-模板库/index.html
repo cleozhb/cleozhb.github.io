@@ -94,16 +94,16 @@
 <meta name="keywords" content="CUDA,模板">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Array_2D_CUDA使用CUDA扩展C++模板库">
-<meta property="og:url" content="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/index.html">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="场景考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/CPUtest.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/GPUtest.png">
-<meta property="og:updated_time" content="2019-02-23T05:13:19.170Z">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/CPUtest.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/GPUtest.png">
+<meta property="og:updated_time" content="2019-02-23T06:02:05.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Array_2D_CUDA使用CUDA扩展C++模板库">
 <meta name="twitter:description" content="场景考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和">
-<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/CPUtest.png">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/CPUtest.png">
 
 
 
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/"/>
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/"/>
 
 
 
@@ -268,7 +268,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -297,8 +297,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-18T11:17:40+08:00">
-                2019-01-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T11:17:40+08:00">
+                2019-01-23
               </time>
             
 
@@ -354,7 +354,7 @@
 <li>编译是使用GPU，make gpu,现在默认就是用GPU运行</li>
 <li>用make gpu编译，在运行时的命令行上通过添加gpu 0，这样就不会使用GPU运算了</li>
 </ol>
-<p><img src="/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/CPUtest.png" alt="CPUtest"><img src="/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/GPUtest.png" alt="GPUtest"></p>
+<p><img src="/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/CPUtest.png" alt="CPUtest"><img src="/2019/01/23/Array-2D-CUDA使用CUDA扩展C-模板库/GPUtest.png" alt="GPUtest"></p>
 <p>通过这种编程模式，不想使用GPU的用户不会受到任何影响。对于想要使用GPU的用户来说，用函数指针来代替加速函数是代价最小的一种方式。一个项目中可能会调用很多次ArrayPow2，只要这个指针指向GPU实现的函数，整个项目立即就会使用GPU版本，无需进一步更改。考虑以下几种场景</p>
 <ul>
 <li>根据数组的大小和优化的效果选择使用GPU版本还是CPU版本</li>
@@ -406,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/05/起泡排序/" rel="next" title="起泡排序">
-                <i class="fa fa-chevron-left"></i> 起泡排序
+              <a href="/2019/01/19/linux性能测试工具/" rel="next" title="linux性能测试工具">
+                <i class="fa fa-chevron-left"></i> linux性能测试工具
               </a>
             
           </div>
@@ -416,8 +416,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/19/linux性能测试工具/" rel="prev" title="linux性能测试工具">
-                linux性能测试工具 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/24/浅谈多节点CPU-GPU协同计算负载均衡性设计/" rel="prev" title="多节点CPU+GPU协同计算负载均衡">
+                多节点CPU+GPU协同计算负载均衡 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
