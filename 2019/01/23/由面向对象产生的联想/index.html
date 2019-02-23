@@ -1,0 +1,765 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="面向对象," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。 计算机科学和生物学在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行">
+<meta name="keywords" content="面向对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="由面向对象产生的联想">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2019/01/23/由面向对象产生的联想/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。 计算机科学和生物学在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行">
+<meta property="og:updated_time" content="2019-02-23T05:15:52.570Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="由面向对象产生的联想">
+<meta name="twitter:description" content="随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。 计算机科学和生物学在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/01/23/由面向对象产生的联想/"/>
+
+
+
+
+
+  <title>由面向对象产生的联想 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/23/由面向对象产生的联想/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">由面向对象产生的联想</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T12:32:59+08:00">
+                2019-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。</p>
+<h3 id="计算机科学和生物学"><a href="#计算机科学和生物学" class="headerlink" title="计算机科学和生物学"></a>计算机科学和生物学</h3><p>在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行不同的代码，同样子进程也可以继续fork出自己的子进程，为人们提供各种各样的功能，或者利用计算机的多核用并行的技术更快的完成某一个任务。<br>细胞是可以独立运作的，它们之间可以通过能透过细胞膜的化学信号进行通信。同样，在计算机中，每个进程是可以独立运行的，它们之间可以通过特定的方式（信号量、管道、消息队列、共享内存、socket）进行通信。</p>
+<a id="more"></a>
+<p>这个思想同样可以运用到面向对象的思想中，面向对象的根本是消息传递。把对象看成是生物学中的细胞。每个细胞遵从一些基本行为（基类），可以独立运作，细胞会跟据不同的环境进行分化（派生类）。相互独立的个体（细胞）之间能够通过特定的方式进行通信，具体的说是通过发送讯息彼此交流，每一条信息都包含数据、发送者地址、接受者地址、接收者如何对数据进行操作的指令。将这种简单的讯息机制贯彻到编程语言中去，就变成了面向对象程序设计的雏形，将数据与处理数据的行为封装起来，对象要对自己负责。对象与对象之间通过消息来进行相互合作。</p>
+<ul>
+<li>将对象想象成细胞生物或者网络中的单个计算机，它们之间只能通过消息进行通讯。</li>
+<li>每个对象可以有多个代数与之关联，这些代数关系可以构成家族</li>
+<li>关注消息机制和模块间的松耦合和交互，而不是模块内部的对象组成</li>
+<li>作出好的可扩展的系统的重中之重是设计模块间如何进行通信，而不是模块应该具备什么内部的属性和方法。</li>
+</ul>
+<p>在计算机中，最最根本的计算，所有的数字、字符、操作……全部都会被转换为二进制，由二进制的机器代码表示。在计算机系统中CPU做的事情就是不断的取址执行取址执行。从信息论的角度所有的信息最终都是由二进制来表示的。在生物学中，我们知道人类和黑猩猩的基因相似度高达95%以上，却有如此大的差异。即便是人类，也没有两个完全相同的人，而决定这些的说到底只是DNA中的4个碱基对的编码顺序。</p>
+<h3 id="计算机科学与音乐"><a href="#计算机科学与音乐" class="headerlink" title="计算机科学与音乐"></a>计算机科学与音乐</h3><p>科学是确定的，限定在一个范围内才成立的公理、定理<br>艺术是非确定的，可以随着人们的思想天马行空<br>计算机与音乐是两个看上去毫无关联的领域，但其实计算机科学家也可以从音乐中获得灵感。还是有很多相似的概念。比如在一支乐曲中，会反复播放其中一段，这是不是可以对应于我们计算机中的循环呢。在一个乐团的演奏中往往还有高声部和低声部的交叉、合奏。就像在计算机中高速的CPU和低速的硬盘IO也可以同时进行，或者互相等待，交替执行。交响乐就像一个并行+并发的系统，（相同类型或不同类型的乐器同时演奏）。和弦也是多进程并行的很好的类比。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面向对象/" rel="tag"># 面向对象</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/19/linux性能测试工具/" rel="next" title="linux性能测试工具">
+                <i class="fa fa-chevron-left"></i> linux性能测试工具
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/30/浅谈多节点CPU-GPU协同计算负载均衡性设计/" rel="prev" title="浅谈多节点CPU+GPU协同计算负载均衡性设计">
+                浅谈多节点CPU+GPU协同计算负载均衡性设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机科学和生物学"><span class="nav-number">1.</span> <span class="nav-text">计算机科学和生物学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机科学与音乐"><span class="nav-number">2.</span> <span class="nav-text">计算机科学与音乐</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

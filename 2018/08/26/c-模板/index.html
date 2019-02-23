@@ -1,0 +1,779 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="模板,c++," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="概念 模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。 模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才">
+<meta name="keywords" content="模板,c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++模板">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2018/08/26/c-模板/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="概念 模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。 模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才">
+<meta property="og:updated_time" content="2019-02-23T05:14:00.446Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++模板">
+<meta name="twitter:description" content="概念 模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。 模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/08/26/c-模板/"/>
+
+
+
+
+
+  <title>c++模板 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/08/26/c-模板/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">c++模板</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-26T12:25:24+08:00">
+                2018-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li>模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。</li>
+<li>模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才能检查其语法正确性，如果写了一个模板但没有用到，那么编译器是不会报告这个模板中的语法错误的。</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>模板特化（也叫具体化specialization）：针对某些特定的具体类型，对模板进行修改，使其对于该类型的实例对象的行为不同。比如定义一个swap函数，用于交换两个对象。现在对于某个类型的对象交换时只交换其中的一个属性，就不能直接使用原先的模板函数。原先的模板函数会交换整个对象，这时候就需要对模板进行特化，实现对该类型实例对象不同的行为。模板具体化的结果是从类模板产生一个具体的类（类似于声明）。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">template &lt;typename T1, typename T2&gt;</div><div class="line">class Pair</div><div class="line">&#123;</div><div class="line">  ...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Pair &lt;string, string &gt; strPair; //隐式实例化对象 implicit instantiation</div><div class="line"></div><div class="line">template class Pair&lt;int,double&gt;;  //显式实例化模板 explicit instantiation</div><div class="line"></div><div class="line">//显式具体化模板 explicit specialization</div><div class="line">template &lt;&gt; class Pair&lt;const char* , int&gt; </div><div class="line">&#123;</div><div class="line">  ...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//部分具体化模板 partial specialization</div><div class="line">template  &lt;typename T1&gt; class Pair&lt;typename T1, int&gt;</div><div class="line">&#123;</div><div class="line">  ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">template&lt;typename T&gt;</div><div class="line">void func()&#123;</div><div class="line">    vector&lt;int&gt;::iterator it_int;</div><div class="line">    vector&lt;T&gt;::iterator it;</div><div class="line">&#125;</div><div class="line"></div><div class="line">编译后提示:[Error] need ‘typename’ before ‘std::vector::iterator’ because ‘std::vector’ is a dependent scope</div></pre></td></tr></table></figure>
+<p>func函数的第一行，vector<int>::iterator it_int;是可以编译通过的，而第二行，用模板参数T申明的却不能通过。它们的区别在于vector<int>是实例化之后的一个类型，而vector<t>还是一个模板类型，如何实例化还取决于外部实际传进来的参数类型T。<br>正如编译器编译的提示dependent scope，指出了这个类型还需要别的依赖条件。但是为什么编译器不能直接跟据模板类型的定义来实现这个声明呢？原因是编译器无法识别std::vector<t>::iterator这个名称是一个成员变量还是一个类型。加入这个类被特化了，例如vector的特化类定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">template &lt;&gt;</div><div class="line">class vector&lt;char&gt;&#123;</div><div class="line">    int iterator;</div><div class="line">    // ..detail omitted</div><div class="line">&#125;</div></pre></td></tr></table></figure></t></t></int></int></p>
+<h3 id="那么在std-vector-iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std-vector-iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。"><a href="#那么在std-vector-iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std-vector-iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。" class="headerlink" title="那么在std::vector::iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std::vector::iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。"></a>那么在std::vector<char>::iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std::vector<t>::iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。</t></char></h3><p>模板类中可以使用虚函数吗？<br>在模板类中使用虚函数与在非模板类中使用虚函数完全一样。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">template class&lt;T&gt;</div><div class="line">class A</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">  virtual void f1()&#123;cout&lt;&lt;&quot;A is called&quot;&lt;&lt;endl;&#125;  //虚函数</div><div class="line">  virtual void f2()=0&#123;cout&lt;&lt;&quot;A=0&quot;&lt;&lt;endl;&#125;  //纯虚函数</div><div class="line">&#125;;</div><div class="line"></div><div class="line">template class&lt;T&gt;</div><div class="line">class B: public A&lt;T&gt;</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">  void f1()&#123;cout&lt;&lt;&quot;B is called&quot;&lt;&lt;endl;&#125;</div><div class="line">  void f2()&#123;cout&lt;&lt;&quot;B!=0&quot;&lt;&lt;endl;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void main()</div><div class="line">&#123;</div><div class="line">  A&lt;int&gt;* p=new B&lt;int&gt;;</div><div class="line">  p-&gt;f1();                   //输出B is called,虚函数成功</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>需要注意的是A<int>和A<char>是两个完全不同的类。不能写A<int>* p = new B<char>;因为A<int>不是B<char>的基类。所以得出结论：模板不影响类的多态。</char></int></char></int></char></int></p>
+<h3 id="模板成员函数可以是虚函数吗？"><a href="#模板成员函数可以是虚函数吗？" class="headerlink" title="模板成员函数可以是虚函数吗？"></a>模板成员函数可以是虚函数吗？</h3><p>模板成员函数不可以是虚函数！<br>原因：<br>编译器期望在处理类的定义的时候就能确定这个类的虚函数表的大小，如果允许有类的虚成员模板函数，那么就必须要求编译器提前知道程序中所有对该类的虚成员模板函数的调用。在实例化模板类时，需要创建虚函数表 virtual table， 在模板类实例化完成之前不能确定函数模板会被实例化多少个（包括虚函数模板）。普通成员函数模板无所谓，什么时候需要什么时候编译器就实例化。编译器不用知道到底需要实例化多少个，虚函数的个数必须知道，否则这个类无法被实例化（因为要创建 virtual table）。因此目前不支持虚函数模板继承。</p>
+<h3 id="模板嵌套"><a href="#模板嵌套" class="headerlink" title="模板嵌套"></a>模板嵌套</h3><p>一个模板可以采用本身就是模板名称的参数<br>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">template &lt;typename T, template &lt;typename&gt; class Cont&gt;</div><div class="line">class Stack;</div></pre></td></tr></table></figure></p>
+<p>这个栈模板的第二个参数Cont是模板的模板参数，Cont是一个具有单个类型参数的类模板的名字。这里没有给Cont的类型名称参数命名。也可以像下面这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">template &lt;typename T, template &lt;typename ElementType&gt; class Cont&gt;</div><div class="line">class Stack;</div><div class="line">ElementType这样的名称可以被省略，但是为了提高程序的可读性，应该写上。Stack模板使用类型名参数来实例化其模板参数的模板。生成的容器类型用于实现堆栈。就像下面这样：</div><div class="line">template &lt;typename T, template &lt;typename&gt; class Cont&gt;</div><div class="line">class Stack &#123;</div><div class="line">    //...</div><div class="line">  private:</div><div class="line">    Cont&lt;T&gt; s_;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这种方法允许通过Stack本身的实现来协调元素与容器。保证了元素类型与保存元素的容器之间的一致性。用这种方法来处理一组模板参数与要用这一组参数实例化的模板的好方法。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li>模板的编译错误need ‘typename’ before <strong><em> because </em></strong> is a dependent scope <a href="https://blog.csdn.net/pb1995/article/details/49532285" target="_blank" rel="external">https://blog.csdn.net/pb1995/article/details/49532285</a></li>
+<li>详谈模板实例化和具体化 <a href="https://blog.csdn.net/gettogetto/article/details/79439577" target="_blank" rel="external">https://blog.csdn.net/gettogetto/article/details/79439577</a></li>
+<li>模板类中可以使用虚函数吗？模板成员函数可以是虚函数吗？<a href="https://blog.csdn.net/zzuchengming/article/details/51763563" target="_blank" rel="external">https://blog.csdn.net/zzuchengming/article/details/51763563</a></li>
+<li>C++虚函数表分析<a href="https://www.cnblogs.com/hushpa/p/5707475.html" target="_blank" rel="external">https://www.cnblogs.com/hushpa/p/5707475.html</a></li>
+<li>C++：模板参数的模板 <a href="http://www.informit.com/articles/article.aspx?p=376878" target="_blank" rel="external">http://www.informit.com/articles/article.aspx?p=376878</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/模板/" rel="tag"># 模板</a>
+          
+            <a href="/tags/c/" rel="tag"># c++</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/23/右值引用/" rel="next" title="右值引用">
+                <i class="fa fa-chevron-left"></i> 右值引用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/28/王阳明的圣人之路/" rel="prev" title="王阳明的圣人之路">
+                王阳明的圣人之路 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">2.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那么在std-vector-iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std-vector-iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。"><span class="nav-number">3.</span> <span class="nav-text">那么在std::vector::iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std::vector::iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板成员函数可以是虚函数吗？"><span class="nav-number">4.</span> <span class="nav-text">模板成员函数可以是虚函数吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板嵌套"><span class="nav-number">5.</span> <span class="nav-text">模板嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

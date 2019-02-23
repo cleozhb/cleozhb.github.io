@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -265,7 +265,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/23/记实验室code-review/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/30/浅谈多节点CPU-GPU协同计算负载均衡性设计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -284,7 +284,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/23/记实验室code-review/" itemprop="url">记实验室code review</a></h1>
+                <a class="post-title-link" href="/2019/01/30/浅谈多节点CPU-GPU协同计算负载均衡性设计/" itemprop="url">浅谈多节点CPU+GPU协同计算负载均衡性设计</a></h1>
         
 
         <div class="post-meta">
@@ -294,481 +294,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T12:22:20+08:00">
-                2019-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>2018年9月11号晚上，实验室在姚老师的领导下进行了第一次code review。姚老师结合同学的代码讲了很多与编码规范相关的东西。现在记录如下。</p>
-<p>核心思想是代码逻辑清晰可读，只读主函数就可以看懂程序的逻辑，整个程序的执行步骤先做什么后做什么，有必要的注释，所有变量命名和函数名具有自注释性。</p>
-<ul>
-<li>整个程序只有在主函数中可以容忍出现megic number并要求用宏定义</li>
-<li>在所有的文件中不可以出现绝对路径（除了主函数）</li>
-<li>在VS下编码的时候，将库拷贝到当前目录，用相对路径引入库，以便于代码移植，如果用绝对路径会导致这个工程在别的机器上跑的时候全部要重新配置一遍所有的库</li>
-<li>控制代码的粒度和可复用性</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/23/记实验室code-review/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/23/怎样在类中包含CUDA核函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/23/怎样在类中包含CUDA核函数/" itemprop="url">怎样在类中包含CUDA核函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T12:18:13+08:00">
-                2019-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>因为CUDA中<strong>global</strong>函数不能作为类的成员函数，所以该如何将CUDA和C++类更好的结合起来使用呢？<br>方法：在类的外边定义核函数，在类的成员函数中调用核函数，将类的成员变量作为参数传入。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/23/怎样在类中包含CUDA核函数/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/为什么拷贝构造函数必须为引用传递，不能为值传递/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/19/为什么拷贝构造函数必须为引用传递，不能为值传递/" itemprop="url">为什么拷贝构造函数必须为引用传递，不能为值传递</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T20:49:25+08:00">
-                2019-02-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>参数为引用，不为值传递是为了防止拷贝构造函数的无线递归，最终导致栈溢出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">using namespace std;</div><div class="line">class test</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">    test()</div><div class="line">    &#123;</div><div class="line">      cout&lt;&lt;&quot;constructor with argument&quot;&lt;&lt;endl;</div><div class="line">    &#125;</div><div class="line">    test(test&amp;t)    </div><div class="line">    &#123;</div><div class="line">      cout&lt;&lt;&quot;copy constructor\n&quot;;</div><div class="line">    &#125;</div><div class="line">    test&amp;operator=(const test&amp;e)</div><div class="line">    &#123;</div><div class="line">      cout&lt;&lt;&quot;assignment operator\n&quot;;</div><div class="line">      return *this;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">int main(int argc,char* argv[])</div><div class="line">&#123;</div><div class="line">  test ort;</div><div class="line">  test a(ort);</div><div class="line">  test b = ort;</div><div class="line">  a = b;</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/为什么拷贝构造函数必须为引用传递，不能为值传递/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/仿函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/19/仿函数/" itemprop="url">仿函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T20:26:40+08:00">
-                2019-02-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>函数(functor)又称之为函数对象（function object），其实就是重载了operator（）操作符的struct或class，没有什么特别的地方。仿函数(functor)使一个类的使用看上去象一个函数，这个类就有了类似函数的行为，就是一个仿函数类了。<br>如下面的代码定义了一个二元的仿函数（有两个参数）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct IntLess</div><div class="line">&#123;</div><div class="line">    bool operator()(int _left, int _right) const</div><div class="line">    &#123;</div><div class="line">        return _left&lt;_right;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/仿函数/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/浅谈多节点CPU-GPU协同计算负载均衡性设计/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/19/浅谈多节点CPU-GPU协同计算负载均衡性设计/" itemprop="url">浅谈多节点CPU+GPU协同计算负载均衡性设计</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T20:15:10+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-30T20:15:10+08:00">
+                2019-01-30
               </time>
             
 
@@ -808,8 +337,8 @@
 <p>现在的并行一般分为三个层面：<br>多机——使用网络将多个计算机连接起来，典型的有MPI，要求大粒度<br>多核——处理器中现在4核已经非常普遍，基于线程的OpenMP和pthread是首选开发环境。<br>图形处理单元——CUDA、OpenCL</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/浅谈多节点CPU-GPU协同计算负载均衡性设计/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2019/01/30/浅谈多节点CPU-GPU协同计算负载均衡性设计/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -854,7 +383,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/搬进github/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/23/由面向对象产生的联想/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -873,7 +402,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/搬进github/" itemprop="url">搬进github</a></h1>
+                <a class="post-title-link" href="/2019/01/23/由面向对象产生的联想/" itemprop="url">由面向对象产生的联想</a></h1>
         
 
         <div class="post-meta">
@@ -883,10 +412,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T20:09:25+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-23T12:32:59+08:00">
+                2019-01-23
               </time>
             
 
@@ -921,12 +450,12 @@
 
       
         
-          <p><img src="/2019/02/19/搬进github/1.png" alt="图片"></p>
-<p>集中式：需要一个中心服务器，如果不联网就没有办法提交，没有办法记录，很多操作都没有办法做，而分布式就不同，每个拥有版本库的人都可以在不联网的情况下快速的完成文件的提交，查看记录，删除等操作，比集中式高效很多。</p>
+          <p>随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。</p>
+<h3 id="计算机科学和生物学"><a href="#计算机科学和生物学" class="headerlink" title="计算机科学和生物学"></a>计算机科学和生物学</h3><p>在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行不同的代码，同样子进程也可以继续fork出自己的子进程，为人们提供各种各样的功能，或者利用计算机的多核用并行的技术更快的完成某一个任务。<br>细胞是可以独立运作的，它们之间可以通过能透过细胞膜的化学信号进行通信。同样，在计算机中，每个进程是可以独立运行的，它们之间可以通过特定的方式（信号量、管道、消息队列、共享内存、socket）进行通信。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/搬进github/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2019/01/23/由面向对象产生的联想/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -971,7 +500,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/static关键字的使用/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/19/linux性能测试工具/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -990,7 +519,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/static关键字的使用/" itemprop="url">static关键字的使用</a></h1>
+                <a class="post-title-link" href="/2019/01/19/linux性能测试工具/" itemprop="url">linux性能测试工具</a></h1>
         
 
         <div class="post-meta">
@@ -1000,10 +529,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:48:12+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-19T16:03:19+08:00">
+                2019-01-19
               </time>
             
 
@@ -1038,11 +567,11 @@
 
       
         
-          <h3 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line"> </div><div class="line">int fun()&#123;</div><div class="line">    static int count = 10; //在第一次进入这个函数的时候，变量a被初始化为10！并接着自减1，以后每次进入该函数，a</div><div class="line">    return count--; //就不会被再次初始化了，仅进行自减1的操作；在static发明前，要达到同样的功能，则只能使用全局变量：    </div><div class="line"> </div><div class="line">&#125;</div><div class="line"> </div><div class="line">int count = 1;</div><div class="line"> </div><div class="line">int main(void)</div><div class="line">&#123;</div><div class="line">     printf(&quot;global\t\tlocal static\n&quot;);</div><div class="line">     for(; count &lt;= 10; ++count)</div><div class="line">               printf(&quot;%d\t\t%d\n&quot;, count, fun());</div><div class="line">     return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <h2 id="安装perf"><a href="#安装perf" class="headerlink" title="安装perf"></a>安装perf</h2><p>sudo apt install linux-tools-common<br>然后键入perf<br><img src="/2019/01/19/linux性能测试工具/1.png" alt="图片"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/static关键字的使用/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2019/01/19/linux性能测试工具/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1087,7 +616,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/socket-python/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1106,7 +635,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/socket-python/" itemprop="url">socket-python</a></h1>
+                <a class="post-title-link" href="/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/" itemprop="url">Array_2D_CUDA使用CUDA扩展C++模板库</a></h1>
         
 
         <div class="post-meta">
@@ -1116,10 +645,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:31:25+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-18T11:17:40+08:00">
+                2019-01-18
               </time>
             
 
@@ -1154,11 +683,11 @@
 
       
         
-          <p><img src="/2019/02/19/socket-python/1.png" alt="图片"></p>
+          <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？<br>一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和GPU实现的函数提供编译时选项。这样用户在使用时需要选择一个版本的实现并一直使用，或者要重新编译才能改变执行文件。此外，对于一些小数据来说，CPU运行的比GPU快，但当数据量大的时候GPU会有很好的加速效果。所以最佳方案是让用户能在在CPU模式和GPU模式下任意切换。<br>还有一个问题涉及到开发CUDA库，CUDA是一个非常低级的语言，如果我们的库中有复杂的数据结构，就有可能很难管理数据分配、内存传输。在CPU端，C++类可以通过抽象的方式使得开发变得容易。理想情况下，我希望在GPU上能够做同样的事情。通过专业的模板元编程，能够为现有的类创建CUDA-interface，通过抽象的处理cudaMalloc,cudaMemcpy等低级的GPU内存管理操作，从而大大简化GPU的开发。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/socket-python/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2019/01/18/Array-2D-CUDA使用CUDA扩展C-模板库/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1203,7 +732,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/Linux查看CPU信息/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/05/起泡排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1222,7 +751,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/Linux查看CPU信息/" itemprop="url">Linux查看CPU信息</a></h1>
+                <a class="post-title-link" href="/2019/01/05/起泡排序/" itemprop="url">起泡排序</a></h1>
         
 
         <div class="post-meta">
@@ -1232,10 +761,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:27:12+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-05T12:32:28+08:00">
+                2019-01-05
               </time>
             
 
@@ -1270,23 +799,11 @@
 
       
         
-          <h2 id="Linux下区分物理CPU、逻辑CPU和CPU核数"><a href="#Linux下区分物理CPU、逻辑CPU和CPU核数" class="headerlink" title="Linux下区分物理CPU、逻辑CPU和CPU核数"></a>Linux下区分物理CPU、逻辑CPU和CPU核数</h2><h3 id="㈠-概念"><a href="#㈠-概念" class="headerlink" title="㈠ 概念"></a>㈠ 概念</h3><pre><code>① 物理CPU               
-   实际Server中插槽上的CPU个数
-   物理cpu数量，可以数不重复的 physical id 有几个           
-② 逻辑CPU               
-   Linux用户对 /proc/cpuinfo 这个文件肯定不陌生. 它是用来存储cpu硬件信息的
-   信息内容分别列出了processor 0 – n 的规格。这里需要注意，如果你认为n就是真实的cpu数的话, 就大错特错了
-   一般情况，我们认为一颗cpu可以有多核，加上intel的超线程技术(HT), 可以在逻辑上再分一倍数量的cpu core出来
-   逻辑CPU数量=物理cpu数量 x cpu cores 这个规格值 x 2(如果支持并开启ht)
-   备注一下：Linux下top查看的CPU也是逻辑CPU个数              
-③ CPU核数           
-   一块CPU上面能处理数据的芯片组的数量、比如现在的i5 760,是双核心四线程的CPU、而 i5 2250 是四核心四线程的CPU              
-   一般来说，物理CPU个数×每颗核数就应该等于逻辑CPU的个数，如果不相等的话，则表示服务器的CPU支持超线程技术    
-</code></pre>
+          <p>首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)<br>一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。<br><img src="/2019/01/05/起泡排序/1.png" alt="图片"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/Linux查看CPU信息/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2019/01/05/起泡排序/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1331,7 +848,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/NVIDIA-parallel-computing-5/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/12/29/链接/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1350,7 +867,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/NVIDIA-parallel-computing-5/" itemprop="url">NVIDIA parallel computing-5</a></h1>
+                <a class="post-title-link" href="/2018/12/29/链接/" itemprop="url">链接</a></h1>
         
 
         <div class="post-meta">
@@ -1360,10 +877,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:17:06+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-29T12:29:37+08:00">
+                2018-12-29
               </time>
             
 
@@ -1398,17 +915,486 @@
 
       
         
-          <h1 id="Lesson5-optimizing-GPU-programs"><a href="#Lesson5-optimizing-GPU-programs" class="headerlink" title="Lesson5 optimizing GPU programs"></a>Lesson5 optimizing GPU programs</h1><ol>
-<li>picking good algorithms 选择时间复杂度低的算法</li>
-<li>basic principles for efficiency 提高效率的基本原则</li>
-<li>arch-specific detailed optimization 优化架构上的细节</li>
-<li>Optimization at instruction level 指令级别的优化</li>
+          <p>能否正确解析与命令行给出的顺序有关，好的做法是将.o文件按照调用顺序写，将.a文件放在命令行的最后。在命令行中-lxxx=libxxx.a。.a文件又叫做归档（archive）文件，是一些.o文件的集合。<br>连接器对外部引用的解析过程是：</p>
+<ul>
+<li>按照命令行给出的顺序扫描.o和.a文件</li>
+<li>扫描期间将当前未解析的引用记录到一个列表U中</li>
+<li>每次遇到一个新的.o或者.a中的模块，都试图用其来解析U中的符号</li>
+<li>如果扫描到最后U中还有未解析的符号，则发生错误</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/29/链接/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/12/19/Linux-C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/19/Linux-C/" itemprop="url">Linux C</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-19T15:30:16+08:00">
+                2018-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="宏和typedef"><a href="#宏和typedef" class="headerlink" title="宏和typedef"></a>宏和typedef</h1><p><img src="/2018/12/19/Linux-C/1.png" alt="图片"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/19/Linux-C/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/12/01/Linux达人养成计划/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/01/Linux达人养成计划/" itemprop="url">Linux达人养成计划</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-01T15:41:22+08:00">
+                2018-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="/2018/12/01/Linux达人养成计划/1.png" alt="图片"><br>将正确输出结果和错误输出结果保存在同一个文件中</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/01/Linux达人养成计划/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/27/怎样在类中包含CUDA核函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/27/怎样在类中包含CUDA核函数/" itemprop="url">怎样在类中包含CUDA核函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-27T12:18:13+08:00">
+                2018-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>因为CUDA中<strong>global</strong>函数不能作为类的成员函数，所以该如何将CUDA和C++类更好的结合起来使用呢？<br>方法：在类的外边定义核函数，在类的成员函数中调用核函数，将类的成员变量作为参数传入。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/27/怎样在类中包含CUDA核函数/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/21/MPI中如何发送C-对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/21/MPI中如何发送C-对象/" itemprop="url">MPI中如何发送C++对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-21T16:11:59+08:00">
+                2018-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。<br>在做这个问题的过程中产生了以下几点疑问：        </p>
+<ol>
+<li>怎样发送带有指针的类，并在从进程中修改后再传回</li>
+<li>发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。</li>
+<li>发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因为有指针成员变量在从进程中被改变</li>
 </ol>
-<p>前两个原则是优化最应该考虑的问题，能提高的加速比也是最高的;比如选择快排而不是插入排序，比如在遍历二维数组的时候按行遍历，这样可以访问内存中连续部分，减少内存访问的次数。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/NVIDIA-parallel-computing-5/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/11/21/MPI中如何发送C-对象/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1493,8 +1479,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">51</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1505,7 +1491,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1515,8 +1501,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1616,7 +1602,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

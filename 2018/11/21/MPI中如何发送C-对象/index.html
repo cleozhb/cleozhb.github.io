@@ -1,0 +1,773 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MPI," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。在做这个问题的过程中产生了以下几点疑问：          怎样发送带有指针的类，并在从进程中修改后再传回 发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。 发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因">
+<meta name="keywords" content="MPI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MPI中如何发送C++对象">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2018/11/21/MPI中如何发送C-对象/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。在做这个问题的过程中产生了以下几点疑问：          怎样发送带有指针的类，并在从进程中修改后再传回 发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。 发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因">
+<meta property="og:updated_time" content="2019-02-23T05:11:19.012Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MPI中如何发送C++对象">
+<meta name="twitter:description" content="现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。在做这个问题的过程中产生了以下几点疑问：          怎样发送带有指针的类，并在从进程中修改后再传回 发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。 发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/11/21/MPI中如何发送C-对象/"/>
+
+
+
+
+
+  <title>MPI中如何发送C++对象 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/21/MPI中如何发送C-对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MPI中如何发送C++对象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-21T16:11:59+08:00">
+                2018-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。<br>在做这个问题的过程中产生了以下几点疑问：        </p>
+<ol>
+<li>怎样发送带有指针的类，并在从进程中修改后再传回</li>
+<li>发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。</li>
+<li>发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因为有指针成员变量在从进程中被改变</li>
+</ol>
+<a id="more"></a>
+<p>通过查看一些资料，知道上述疑问的提法是完全错误的，每个进程都有自己的地址空间，在一个进程上的有效地址很可能指向另一个进程上的无效内存。所以发送指针是没有意义的，必须发送数据本身。<br>MPI是消息传递接口，这里面的消息基本上是指原始的字节流。而C++对象是一个挺复杂的东西，不光代表了一块字节，还和一些函数（也就是代码）绑定在一起。所以，一般没有发送C++对象这种说法。你要先把对象转化成字节消息，然后发给另一个进程，然后另一个进程在这个消息的基础上重建这个对象。总之就是要先用protobuf或者Boost库将其序列化成字节数组。</p>
+<ul>
+<li>可以用MPI_Type_struct()定义一个数据类型，就可以直接用MPI收发。</li>
+<li>另一种方法就是将对象中的元素存到一个数组中，将数组作为整体发送，接收端根据数组中数据的顺序重新建立一个对象。</li>
+<li>用Boost.MPI+BoostSerialization.不用考虑发送对象的大小，数据类型等。要先对类进行serialize，使用Boost的话，list和vector都可以直接发。</li>
+</ul>
+<p>所以我现在的想法是将原先的dataBlock类拆开，控制每个分块大小的那一部分在主进程中定义，并且发送给从进程。从进程根据主进程传来的分块信息构建一个标记结构体。作为结果传回主进程。主进程根据传回来的信息重建类对象。<br>现在要做的是分别构造两个存储数据的结构，如果不方便的话就一个一个的进行传输。这个过程是比较麻烦的，要将原先的大类拆成小类，还要保证小类之间的对应关系。原先的大类将计算之前和计算之后的数据都放在一个类中了，如果用静态负载均衡的方法，可以让每个进程分别求计算前、后的数据，但是如果想采用动态负载均衡方法，就必须在主进程将任务进行分块，然后动态的派发，这样就必须将一个分块处理前的信息和处理后的结果分开保存。所以可以将原先的大类拆成如下两个小类。<br>还有一种方法是原先的大类不变，另外定义两个结构体，专用于传输数据，或者不定义结构体，采用一个一个传的方式，然后在接收方重建对象。也就是说，传的时候只是传对象的数据。在主从进程中都用接受到的数据重建对象。<br>为了尽量少的改动数据结构，减少代码的调整，我在程序中采用了最笨的一个一个传的方法，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//dataBlock</div><div class="line">    int mnDataStart;</div><div class="line">        int mnDataEnd;</div><div class="line">        int mnTaskStart;</div><div class="line">        int mnTaskEnd;</div><div class="line">        int mnSubDataHeight;</div><div class="line">        int mnSubTaskHeight;</div><div class="line">        int mnStartTag;</div><div class="line">        int mnWidth;</div><div class="line">        int mnNodata;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">//dataBlockResult</div><div class="line">        int* mh_holoUp = NULL;                  //当前分块的上一行，若为第一行则一直保持NULL</div><div class="line">        int* mh_holoDown = NULL;                //当前分块的下一行，若为最后一行则一直保持NULL</div><div class="line">        int* mh_SubData = NULL;                 //保存当前分块的src信息</div><div class="line">        </div><div class="line">        int* mh_LabelVal = NULL;                //保存当前分块的标记值，从GPU传回的标记值</div><div class="line">        int* mh_RelabelVal = NULL;              //保存当前分块的标记值,经过处理后的连续标记值</div><div class="line">        int  mh_curPatchNum;                    //当前分块中斑块的数量</div><div class="line">        </div><div class="line">        int* mh_compactSrc = NULL;              //记录原始类型</div><div class="line">        int* mh_compactLabel = NULL;            //标记值集合</div><div class="line">        int* mh_compactRelabel = NULL;          //重标记值的集合</div><div class="line">        int* mh_compactAreaByPixel = NULL;      //当前分块中每个斑块的面积（用像元数量表示）</div><div class="line">        int* mh_compactPerimeterByPixel = NULL; //当前分块中每个斑块的周长（用像元为单位长度表示）</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div></pre></td><td class="code"><pre><div class="line">#include &quot;basestruct.h&quot;</div><div class="line"></div><div class="line">#include &lt;gdal_priv.h&gt;</div><div class="line">#include &lt;cpl_conv.h&gt;</div><div class="line">#include &quot;GDALRead.h&quot;</div><div class="line">#include &lt;cuda.h&gt;</div><div class="line">#include &quot;cuda_runtime.h&quot;</div><div class="line">#include &quot;device_launch_parameters.h&quot;</div><div class="line">#include &quot;cudaConfig.cuh&quot;</div><div class="line">#include &quot;mpi.h&quot;</div><div class="line">#include &lt;sys/stat.h&gt;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">#include &quot;basestruct.h&quot;</div><div class="line">#include &quot;utils.h&quot;</div><div class="line"></div><div class="line">void LineCCL(CuLSM::dataBlock&amp; curBlock,</div><div class="line">    dim3 blockSize, dim3 gridSize);</div><div class="line">size_t findMerge(int* h_rowOneValue, int* h_rowTwoValue, int* h_rowOneLabel, int* h_rowTwoLabel, int pairNum, int cols,</div><div class="line">    int** h_fatherValid, int** h_childValid);</div><div class="line">int findMerge(int width, int BGvalue, int* Meg, int* h_subDataFirst, int *h_subDataSecond, int* lastRowLabel, int* firstRowLabel);</div><div class="line"></div><div class="line">int findRoot(int* keys, int* father, int* child, int totalNum, int numberOfMerge, int** h_continueRoot);//相当于main函数</div><div class="line"></div><div class="line">void mergePatch(int width, int blockNum, int BGvalue, int* h_rowOneValue, int* h_rowTwoValue, int* h_rowOneLabel, int* h_rowTwoLabel, CuLSM::UnionFind *Quf);</div><div class="line"></div><div class="line">void initCUDA(int&amp; devIdx)</div><div class="line">&#123;</div><div class="line">    int deviceCount;</div><div class="line">    cudaGetDeviceCount(&amp;deviceCount);</div><div class="line">    if (deviceCount == 0) &#123;</div><div class="line">        fprintf(stderr, &quot;error: no devices supporting CUDA.\n&quot;);</div><div class="line">        exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    int dev = 0;</div><div class="line">    if (devIdx &lt; 0) dev = 0;</div><div class="line">    if (devIdx &gt; deviceCount - 1) dev = deviceCount - 1;</div><div class="line">    else dev = devIdx;</div><div class="line">    cudaSetDevice(dev);</div><div class="line"></div><div class="line">    cudaDeviceProp prop;</div><div class="line">    if (cudaGetDeviceProperties(&amp;prop, dev) == cudaSuccess)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Using device %d:\n&quot;, dev);</div><div class="line">        printf(&quot;%s; global mem: %dB; compute v%d.%d; clock: %d kHz\n&quot;,</div><div class="line">            prop.name, (int)prop.totalGlobalMem, (int)prop.major,</div><div class="line">            (int)prop.minor, (int)prop.clockRate);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int getDevideInfo(int gpuIdx, int width, int height, int nodata, CuLSM::dataBlock** dataBlockArray)</div><div class="line">&#123;</div><div class="line">    initCUDA(gpuIdx);</div><div class="line">    int maxnum;     //可以读入的像元的个数</div><div class="line">    size_t freeGPU, totalGPU;</div><div class="line">    cudaMemGetInfo(&amp;freeGPU, &amp;totalGPU);//size_t* free, size_t* total</div><div class="line">    cout &lt;&lt; &quot;(free,total)&quot; &lt;&lt; freeGPU &lt;&lt; &quot;,&quot; &lt;&lt; totalGPU &lt;&lt; endl;</div><div class="line"></div><div class="line">    maxnum = (freeGPU) / (sizeof(int)* 10);//每个pixel基本上要开辟6个中间变量，变量类型都是int</div><div class="line">    // maxnum = (freeGPU) / (sizeof(int)* 6 * 2);//每个pixel基本上要开辟6个中间变量，变量类型都是int</div><div class="line">    int sub_height = maxnum / width - 5;    //每个分块的高度sub_height</div><div class="line">    //sub_height = 2;</div><div class="line">    int blockNum = height / sub_height + 1; //总的分块个数</div><div class="line"></div><div class="line">    //*dataBlockArray = new CuLSM::dataBlock[blockNum];</div><div class="line">    *dataBlockArray = (CuLSM::dataBlock*)malloc(blockNum*sizeof(CuLSM::dataBlock));</div><div class="line"></div><div class="line">    int subIdx = 0;</div><div class="line">    for (int height_all = 0; height_all &lt; height; height_all += sub_height)</div><div class="line">    &#123;</div><div class="line">        int task_start = subIdx*sub_height;</div><div class="line">        int task_end;</div><div class="line">        if ((subIdx + 1)*sub_height - height &lt;= 0)</div><div class="line">            task_end = (subIdx + 1)*sub_height - 1;</div><div class="line">        else</div><div class="line">            task_end = height - 1;</div><div class="line">        int data_start, data_end;</div><div class="line">        if (task_start - 1 &lt;= 0)</div><div class="line">            data_start = 0;</div><div class="line">        else</div><div class="line">            data_start = task_start - 1;</div><div class="line">        if (task_end + 1 &gt;= height - 1)</div><div class="line">            data_end = height - 1;</div><div class="line">        else</div><div class="line">            data_end = task_end + 1;</div><div class="line">        int data_height = data_end - data_start + 1;</div><div class="line">        int task_height = task_end - task_start + 1;</div><div class="line"></div><div class="line">        (*dataBlockArray)[subIdx].mnDataStart = data_start;</div><div class="line">        (*dataBlockArray)[subIdx].mnDataEnd = data_end;</div><div class="line">        (*dataBlockArray)[subIdx].mnTaskStart = task_start;</div><div class="line">        (*dataBlockArray)[subIdx].mnTaskEnd = task_end;</div><div class="line">        (*dataBlockArray)[subIdx].mnSubTaskHeight = task_height;</div><div class="line">        (*dataBlockArray)[subIdx].mnSubDataHeight = data_height;</div><div class="line">        (*dataBlockArray)[subIdx].mnStartTag = task_start*width;//当前分块的起始标记值，也就是该分块的第一个栅格的一维索引值</div><div class="line">        (*dataBlockArray)[subIdx].mnWidth = width;</div><div class="line">        (*dataBlockArray)[subIdx].mnNodata = nodata;</div><div class="line"></div><div class="line">        subIdx++;</div><div class="line">    &#125;</div><div class="line">    return blockNum;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void recordBoundary(CuLSM::dataBlock &amp;curBlock, int iBlock, int width,</div><div class="line">    int** vecOriginValRow1, int** vecOriginValRow2, int** vecLabelValRow1, int** vecLabelValRow2);</div><div class="line"></div><div class="line"></div><div class="line">MPI_Datatype dataBlock_MPI;</div><div class="line"></div><div class="line"></div><div class="line">void getCCLmpi_manager(int commSize, MPI_Comm comm, CGDALRead* pread,</div><div class="line">    CuLSM::dataBlock** dataBlockArray,CuLSM::UnionFind* Quf, int *blockNum)</div><div class="line">&#123;</div><div class="line">    int width = pread-&gt;cols();</div><div class="line">    int height = pread-&gt;rows();</div><div class="line">    int nodata = (int)pread-&gt;invalidValue();</div><div class="line">    CuLSM::dataBlock *dataBlockArray = NULL;</div><div class="line">    //用一个GPU得到总的分块个数 blockNums</div><div class="line">    int blockNums = getDevideInfo(1, width, height, nodata, dataBlockArray);</div><div class="line">    /*</div><div class="line">    *blockNums是总共的分块个数</div><div class="line">    *每个分块的起始信息都被保存在了dataBlockArray中，需要发送给子进程进行处理</div><div class="line">    *同时发送blockId作为是否处理完的标识</div><div class="line">    *子进程处理完了之后将dataBlock对象传回    </div><div class="line">    */</div><div class="line">    int blockId = 0;</div><div class="line">    int *power;</div><div class="line">    </div><div class="line">    //先接收从子进程传回来的有效元素的数量，在主进程分配内存空间，然后才能接收从子进程传回来的数组</div><div class="line">    int getValidNum = -1;</div><div class="line"></div><div class="line">    MPI_Status status;</div><div class="line">    int terminate = 0;//终止主进程的标识</div><div class="line"></div><div class="line">    power = (int*)malloc(sizeof(int)* 2);</div><div class="line">    memset(power, 0, sizeof(int)* 2);</div><div class="line">    vector&lt;CuLSM::Patch&gt; vecAllLabel;//用于记录不重复的label</div><div class="line">    //记录边界holo区域的原始数据和标记值，用于合并斑块用的</div><div class="line">    //blockNum个分块，总共有blockNum-1个交界</div><div class="line">    int* vecOriginValRow1 = (int*)malloc(sizeof(int)* width * (*blockNum - 1));</div><div class="line">    int* vecOriginValRow2 = (int*)malloc(sizeof(int)* width * (*blockNum - 1));</div><div class="line">    int* vecLabelValRow1 = (int*)malloc(sizeof(int)* width * (*blockNum - 1));</div><div class="line">    int* vecLabelValRow2 = (int*)malloc(sizeof(int)* width * (*blockNum - 1));</div><div class="line">    checkMemAlloc(vecOriginValRow1);</div><div class="line">    checkMemAlloc(vecOriginValRow2);</div><div class="line">    checkMemAlloc(vecLabelValRow1);</div><div class="line">    checkMemAlloc(vecLabelValRow2);</div><div class="line"></div><div class="line">    do</div><div class="line">    &#123;</div><div class="line">        printf(&quot;------------------------ I am manager ------------------------\n&quot;);</div><div class="line">        MPI_Recv(power, 2, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &amp;status);   // Manager 接收到Worker的请求信息</div><div class="line">        printf(&quot;I received the request from process :%d\n&quot;, power[1]);</div><div class="line"></div><div class="line">        if ((power[0] == 0) &amp;&amp; (blockId &lt; blockNums))</div><div class="line">        &#123;</div><div class="line">            //怎样发送带有指针的类，并在从进程中修改后再传回</div><div class="line">            //问题1：发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。</div><div class="line">            //发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因为有指针成员变量在从进程中被改变</div><div class="line">            /*</div><div class="line">            这种想法是完全错误的，每个进程都有自己的地址空间，在一个进程上的有效地址很可能指向另一个进程上的无效内存</div><div class="line">            所以发送指针是没有意义的，必须发送数据本身，参考</div><div class="line">            https://stackoverflow.com/questions/10419990/creating-an-mpi-datatype-for-a-structure-containing-pointers/10421892#10421892</div><div class="line">            */</div><div class="line">            </div><div class="line">            MPI_Send(&amp;blockId, 1, MPI_INT, power[1], 0, comm);//发送当前处理的block的序号，tag 0</div><div class="line">            </div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            //发送分块信息，tag 80-88, 这个分块结构体是从dataBlock中拆出来的</div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            CuLSM::dataBlock curBlock = (*dataBlockArray)[blockId];</div><div class="line">            int curDataStart = curBlock.mnDataStart;</div><div class="line">            int curDataEnd = curBlock.mnDataEnd;</div><div class="line">            int curTaskStart = curBlock.mnTaskStart;</div><div class="line">            int curTaskEnd = curBlock.mnTaskEnd;</div><div class="line">            int curSubDataHeight = curBlock.mnSubDataHeight;</div><div class="line">            int curSubTaskHeight = curBlock.mnSubTaskHeight;</div><div class="line">            int curStartTag = curBlock.mnStartTag;</div><div class="line">            int curWidth = curBlock.mnWidth;</div><div class="line">            int curNodata = curBlock.mnNodata;</div><div class="line">            MPI_Send(&amp;curDataStart, 1, MPI_INT, power[1], 80, comm);</div><div class="line">            MPI_Send(&amp;curDataEnd, 1, MPI_INT, power[1], 81, comm);</div><div class="line">            MPI_Send(&amp;curTaskStart, 1, MPI_INT, power[1], 82, comm);</div><div class="line">            MPI_Send(&amp;curTaskEnd, 1, MPI_INT, power[1], 83, comm);</div><div class="line">            MPI_Send(&amp;curSubDataHeight, 1, MPI_INT, power[1], 84, comm);</div><div class="line">            MPI_Send(&amp;curSubTaskHeight, 1, MPI_INT, power[1], 85, comm);</div><div class="line">            MPI_Send(&amp;curStartTag, 1, MPI_INT, power[1], 86, comm);</div><div class="line">            MPI_Send(&amp;curWidth, 1, MPI_INT, power[1], 87, comm);</div><div class="line">            MPI_Send(&amp;curNodata, 1, MPI_INT, power[1], 88, comm);</div><div class="line"></div><div class="line">            printf(&quot;I sent the block%d to the process :%d\n&quot;, blockId, power[1]);</div><div class="line">            blockId++;</div><div class="line"></div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            //接受从进程返回的结果数组tag 100.</div><div class="line">            //先接收有效元素的个数，并在主进程上分配合适大小的空间</div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            MPI_Recv(&amp;curBlock.mh_curPatchNum, 1, MPI_INT, power[1], 94, comm, &amp;status);</div><div class="line">            if (curBlock.mh_curPatchNum &gt; 0)</div><div class="line">            &#123;</div><div class="line">                //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">                //分配空间</div><div class="line">                //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">                curBlock.mh_holoUp = (int*)malloc(sizeof(int)* width);</div><div class="line">                curBlock.mh_holoDown = (int*)malloc(sizeof(int)* width);</div><div class="line">                curBlock.mh_SubData = (int*)malloc(sizeof(int)* width * curSubTaskHeight);</div><div class="line">                curBlock.mh_LabelVal = (int*)malloc(sizeof(int)* width * curSubTaskHeight);</div><div class="line"></div><div class="line">                curBlock.mh_compactSrc = (int*)malloc(sizeof(int)* curBlock.mh_curPatchNum);</div><div class="line">                curBlock.mh_compactLabel = (int*)malloc(sizeof(int)* curBlock.mh_curPatchNum);</div><div class="line">                curBlock.mh_compactAreaByPixel = (int*)malloc(sizeof(int)* curBlock.mh_curPatchNum);</div><div class="line">                curBlock.mh_compactPerimeterByPixel = (int*)malloc(sizeof(int)* curBlock.mh_curPatchNum);</div><div class="line"></div><div class="line">                getValidNum = 1;//可以发送有效数组给我了！</div><div class="line">                MPI_Send(&amp;getValidNum, 1, MPI_INT, power[1], 100, comm);</div><div class="line">                </div><div class="line">                //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">                //接收结果</div><div class="line">                //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">                MPI_Recv(curBlock.mh_holoUp, width, MPI_INT, power[1], 90, comm, &amp;status);</div><div class="line">                MPI_Recv(curBlock.mh_holoDown, width, MPI_INT, power[1], 91, comm, &amp;status);</div><div class="line">                MPI_Recv(curBlock.mh_SubData, width * curSubTaskHeight, MPI_INT, power[1], 92, comm, &amp;status);</div><div class="line">                MPI_Recv(curBlock.mh_LabelVal, width * curSubTaskHeight, MPI_INT, power[1], 93, comm, &amp;status);</div><div class="line"></div><div class="line">                MPI_Recv(curBlock.mh_compactSrc, curBlock.mh_curPatchNum, MPI_INT, power[1], 95, comm, &amp;status);</div><div class="line">                MPI_Recv(curBlock.mh_compactLabel, curBlock.mh_curPatchNum, MPI_INT, power[1], 96, comm, &amp;status);</div><div class="line">                MPI_Recv(curBlock.mh_compactAreaByPixel, curBlock.mh_curPatchNum, MPI_INT, power[1], 97, comm, &amp;status);</div><div class="line">                MPI_Recv(curBlock.mh_compactPerimeterByPixel, curBlock.mh_curPatchNum, MPI_INT, power[1], 98, comm, &amp;status);</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">            for (int i = 0; i &lt; curBlock.mh_curPatchNum; i++)</div><div class="line">            &#123;</div><div class="line">                CuLSM::Patch temp;</div><div class="line">                temp.nLabel = curBlock.mh_compactLabel[i];</div><div class="line">                temp.nType = curBlock.mh_compactSrc[i];</div><div class="line">                temp.nAreaByPixel = curBlock.mh_compactAreaByPixel[i];</div><div class="line">                temp.nPerimeterByPixel = curBlock.mh_compactPerimeterByPixel[i];</div><div class="line">                temp.isUseful = false;</div><div class="line">                vecAllLabel.push_back(temp);</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">            //记录分块的边界信息</div><div class="line">            recordBoundary(curBlock, blockId, width, &amp;vecOriginValRow1, &amp;vecOriginValRow2, &amp;vecLabelValRow1, &amp;vecLabelValRow2);</div><div class="line"></div><div class="line">            curBlock.freeSubData();</div><div class="line">            curBlock.freeHoloUp();</div><div class="line">            curBlock.freeHoloDown();</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        if (blockId &gt; blockNums - 1)</div><div class="line">        &#123;</div><div class="line">            printf(&quot;Now no block need process , send terminate sign to process:%d\n&quot;, power[1]);</div><div class="line">            blockId = -1;</div><div class="line">            MPI_Send(&amp;blockId, 1, MPI_INT, power[1], 0, comm);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        /******************** worker处理完发送处理完的信号**********************/</div><div class="line">        if (power[0] == 1)</div><div class="line">        &#123;</div><div class="line">            terminate++;</div><div class="line">        &#125;</div><div class="line">        printf(&quot;------------------------------------------------\n\n\n&quot;);</div><div class="line">    &#125; while (terminate &lt; (commSize - 1));</div><div class="line">    </div><div class="line">    //合并斑块的操作只能在主进程上执行</div><div class="line">    Quf-&gt;initUF(vecAllLabel);</div><div class="line">    mergePatch(width, *blockNum, (int)pread-&gt;invalidValue(), vecOriginValRow1, vecOriginValRow2, vecLabelValRow1, vecLabelValRow2, Quf);</div><div class="line">    free(vecOriginValRow1);</div><div class="line">    free(vecOriginValRow2);</div><div class="line">    free(vecLabelValRow1);</div><div class="line">    free(vecLabelValRow2);</div><div class="line">    printf(&quot;------------------------ The all work have done ---------------------------\n&quot;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void getCCLmpi_worker(int commRank, MPI_Comm comm, CGDALRead* pread)</div><div class="line">&#123;</div><div class="line">    //将一个进程与一块GPU绑定</div><div class="line">    int gpuIdx = commRank - 1;</div><div class="line">    initCUDA(gpuIdx);</div><div class="line"></div><div class="line"></div><div class="line">    int *power;</div><div class="line">    MPI_Status status;</div><div class="line">    power = (int*)malloc(sizeof(int)* 2);</div><div class="line">    memset(power, 0, sizeof(int)* 2);</div><div class="line">    </div><div class="line">    int blockId; //用于表示当前处理的block的序号，当接收的blockId = -1时，表示没有分开要处理了，发送结束标志给主进程</div><div class="line">    power[0] = 0;</div><div class="line">    power[1] = commRank;</div><div class="line">    int getValidNum = -1;</div><div class="line">    //记录当前分块的信息</div><div class="line">    CuLSM::dataBlock curBlock;</div><div class="line">    </div><div class="line">    int curDataStart;</div><div class="line">    int curDataEnd;</div><div class="line">    int curTaskStart;</div><div class="line">    int curTaskEnd;</div><div class="line">    int curSubDataHeight;</div><div class="line">    int curSubTaskHeight;</div><div class="line">    int curStartTag;</div><div class="line">    int curWidth;</div><div class="line">    int curNodata;</div><div class="line"></div><div class="line">    for (;;)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;-----------------------I am worker : %d -------------------------\n&quot;, power[1]);</div><div class="line">        MPI_Send(power, 2, MPI_INT, 0, commRank, MPI_COMM_WORLD);     // 给Manager发送请求信息 --- tag commRank</div><div class="line">        MPI_Recv(&amp;blockId, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &amp;status);// 接受当前处理的Block的序号，blockId --- tag 0</div><div class="line">        if (blockId == -1)</div><div class="line">        &#123;</div><div class="line">            printf(&quot;I have not received from Manager , shoud be terminated .\n&quot;);</div><div class="line">            power[0] = 1;</div><div class="line">            MPI_Send(power, 2, MPI_INT, 0, commRank, MPI_COMM_WORLD);</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">        &#123;</div><div class="line">            printf(&quot;I received the block%d from Manager.\n&quot;, blockId);</div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            //接收分块信息，tag 80-88，然后做相应的处理，并生成结果结构体 dataBlockAfterCCL，并传回主机端</div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            MPI_Recv(&amp;curDataStart, 1, MPI_INT, 0, 80, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curDataEnd, 1, MPI_INT, 0, 81, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curTaskStart, 1, MPI_INT, 0, 82, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curTaskEnd, 1, MPI_INT, 0, 83, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curSubDataHeight, 1, MPI_INT, 0, 84, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curSubTaskHeight, 1, MPI_INT, 0, 85, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curStartTag, 1, MPI_INT, 0, 86, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curWidth, 1, MPI_INT, 0, 87, comm, &amp;status);</div><div class="line">            MPI_Recv(&amp;curNodata, 1, MPI_INT, 0, 88, comm, &amp;status);</div><div class="line">            //重构对象</div><div class="line">            curBlock.mnDataStart = curDataStart;</div><div class="line">            curBlock.mnDataEnd = curDataEnd;</div><div class="line">            curBlock.mnTaskStart = curTaskStart;</div><div class="line">            curBlock.mnTaskEnd = curTaskEnd;</div><div class="line">            curBlock.mnSubDataHeight = curSubDataHeight;</div><div class="line">            curBlock.mnSubTaskHeight = curSubTaskHeight;</div><div class="line">            curBlock.mnStartTag = curStartTag;</div><div class="line">            curBlock.mnWidth = curWidth;</div><div class="line">            curBlock.mnNodata = curNodata;</div><div class="line"></div><div class="line">            int width = curWidth;</div><div class="line"></div><div class="line">            //all node should have this two variable</div><div class="line">            dim3 blockDim1 = cudaConfig::getBlock2D();</div><div class="line">            dim3 gridDim1 = cudaConfig::getGrid(curWidth, curSubTaskHeight);</div><div class="line"></div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            //processing...</div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            curBlock.loadBlockData(pread);</div><div class="line">            checkMemAlloc(curBlock.mh_SubData);</div><div class="line">            LineCCL(curBlock, blockDim1, gridDim1);</div><div class="line"></div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            //传回结果</div><div class="line">            //发送dataBlockAfterCCL（当前分块的结果），并传回主机端，tag 90-98.</div><div class="line">            //////////////////////////////////////////////////////////////////////////////////////////////</div><div class="line">            MPI_Send(&amp;curBlock.mh_curPatchNum, 1, MPI_INT, 0, 94, comm);</div><div class="line">            MPI_Recv(&amp;getValidNum, 1, MPI_INT, 0, 100, comm, &amp;status);</div><div class="line">            if (getValidNum)</div><div class="line">            &#123;</div><div class="line">                MPI_Send(curBlock.mh_holoUp, width, MPI_INT, 0, 90, comm);</div><div class="line">                MPI_Send(curBlock.mh_holoDown, width, MPI_INT, 0, 91, comm);</div><div class="line">                MPI_Send(curBlock.mh_SubData, width * curSubTaskHeight, MPI_INT, 0, 92, comm);</div><div class="line"></div><div class="line">                MPI_Send(curBlock.mh_LabelVal, width * curSubTaskHeight, MPI_INT, 0, 93, comm);</div><div class="line"></div><div class="line">                MPI_Send(curBlock.mh_compactSrc, curBlock.mh_curPatchNum, MPI_INT, 0, 95, comm);</div><div class="line">                MPI_Send(curBlock.mh_compactLabel, curBlock.mh_curPatchNum, MPI_INT, 0, 96, comm);</div><div class="line">                MPI_Send(curBlock.mh_compactAreaByPixel, curBlock.mh_curPatchNum, MPI_INT, 0, 97, comm);</div><div class="line">                MPI_Send(curBlock.mh_compactPerimeterByPixel, curBlock.mh_curPatchNum, MPI_INT, 0, 98, comm);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        printf(&quot;-----------------------------------------------------------------\n\n\n&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void getCCLmpi(int argc, char *argv[], const char *filename,</div><div class="line">    CuLSM::dataBlock** dataBlockArray, CuLSM::UnionFind* Quf, int *blockNum)</div><div class="line">&#123;</div><div class="line">    // Initialize GDAL</div><div class="line">    GDALAllRegister();</div><div class="line">    CPLSetConfigOption(&quot;GDAL_FILENAME_IS_UTF8&quot;, &quot;NO&quot;);</div><div class="line">    CGDALRead* pread = new CGDALRead;</div><div class="line">    if (!pread-&gt;loadMetaData(filename))</div><div class="line">    &#123;</div><div class="line">        cout &lt;&lt; &quot;load error!&quot; &lt;&lt; endl;</div><div class="line">    &#125;</div><div class="line">    cout &lt;&lt; &quot;rows:&quot; &lt;&lt; pread-&gt;rows() &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;cols:&quot; &lt;&lt; pread-&gt;cols() &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;bandnum:&quot; &lt;&lt; pread-&gt;bandnum() &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;datalength:&quot; &lt;&lt; pread-&gt;datalength() &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;invalidValue:&quot; &lt;&lt; pread-&gt;invalidValue() &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;datatype:&quot; &lt;&lt; GDALGetDataTypeName(pread-&gt;datatype()) &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;projectionRef:&quot; &lt;&lt; pread-&gt;projectionRef() &lt;&lt; endl;</div><div class="line">    cout &lt;&lt; &quot;perPixelSize:&quot; &lt;&lt; pread-&gt;perPixelSize() &lt;&lt; endl;</div><div class="line"></div><div class="line">    // Initialize MPI state</div><div class="line">    MPI_Init(&amp;argc, &amp;argv);</div><div class="line"></div><div class="line">    // Get our MPI node number and node count</div><div class="line">    MPI_Comm comm;</div><div class="line">    comm = MPI_COMM_WORLD;</div><div class="line"></div><div class="line">    int commSize, commRank;</div><div class="line">    MPI_Comm_size(comm, &amp;commSize);</div><div class="line">    MPI_Comm_rank(comm, &amp;commRank);</div><div class="line">    if (commRank == 0)</div><div class="line">    &#123;</div><div class="line">        getCCLmpi_manager(commSize,comm, pread, dataBlockArray, Quf, blockNum);</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        getCCLmpi_worker(commRank, comm, pread);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://stackoverflow.com/questions/10419990/creating-an-mpi-datatype-for-a-structure-containing-pointers/10421892#10421892" target="_blank" rel="external">https://stackoverflow.com/questions/10419990/creating-an-mpi-datatype-for-a-structure-containing-pointers/10421892#10421892</a></li>
+<li>MPI中如何发送C++对象？<a href="https://www.zhihu.com/question/25088675" target="_blank" rel="external">https://www.zhihu.com/question/25088675</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MPI/" rel="tag"># MPI</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/20/Linux网络基础/" rel="next" title="Linux网络基础">
+                <i class="fa fa-chevron-left"></i> Linux网络基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/27/怎样在类中包含CUDA核函数/" rel="prev" title="怎样在类中包含CUDA核函数">
+                怎样在类中包含CUDA核函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

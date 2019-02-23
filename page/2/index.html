@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -265,7 +265,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/MPI中如何发送C-对象/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/20/Linux网络基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -284,7 +284,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/MPI中如何发送C-对象/" itemprop="url">MPI中如何发送C++对象</a></h1>
+                <a class="post-title-link" href="/2018/11/20/Linux网络基础/" itemprop="url">Linux网络基础</a></h1>
         
 
         <div class="post-meta">
@@ -294,10 +294,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:11:59+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-20T23:33:00+08:00">
+                2018-11-20
               </time>
             
 
@@ -332,16 +332,11 @@
 
       
         
-          <p>现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。<br>在做这个问题的过程中产生了以下几点疑问：        </p>
-<ol>
-<li>怎样发送带有指针的类，并在从进程中修改后再传回</li>
-<li>发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。</li>
-<li>发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因为有指针成员变量在从进程中被改变</li>
-</ol>
+          <h1 id="ISO-OSI七层模型简介"><a href="#ISO-OSI七层模型简介" class="headerlink" title="ISO/OSI七层模型简介"></a>ISO/OSI七层模型简介</h1><p><img src="/2018/11/20/Linux网络基础/1.png" alt="图片"><br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/MPI中如何发送C-对象/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/11/20/Linux网络基础/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -386,7 +381,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/MPI实现manager-worker模式/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/16/c-内存错误及valgrind使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -405,7 +400,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/MPI实现manager-worker模式/" itemprop="url">MPI实现manager-worker模式</a></h1>
+                <a class="post-title-link" href="/2018/11/16/c-内存错误及valgrind使用/" itemprop="url">c++内存错误及valgrind使用</a></h1>
         
 
         <div class="post-meta">
@@ -415,10 +410,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:10:11+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-16T12:28:28+08:00">
+                2018-11-16
               </time>
             
 
@@ -453,11 +448,11 @@
 
       
         
-          <h3 id="并行计算中的任务分发"><a href="#并行计算中的任务分发" class="headerlink" title="并行计算中的任务分发"></a>并行计算中的任务分发</h3><p>在并行计算中，任务划分与求解问题的规模和处理机的结构密切相关，任务划分的方式极大的影响并行计算机能否有效发挥其性能，减少求解的时间。任务分配的几种常用方法有：按块分配、卷帘分配等;<br>传统的块分配中，如果有m个处理器，就将任务分为m块，然后每个处理器或者进程组负责完成其中的一块任务，这种方法属于静态负载平衡。但是有的时候任务计算时间的多少是不固定的，比如当算法中出现迭代的情况时，静态负载平衡的方法可能效果较差。<br>还有一种情况就是当任务之间存在相互依赖时。一种解决方案就是将这些任务在处理器中利用求解连通分量的方法划分为s个任务组，再将这些任务组分配给各个从处理器。<br>当任务之间不存在依赖关系时，可以在主进程上将任务进行分组，形成任务列表，各个从进程向主进程发出任务请求，如果任务列表中还有没有完成的任务，那么将任务发送给从进程，否则发送一个终止信号给从进程，说明没有任务可以执行了，然后从进程发送一个本进程要终止的消息，主进程那边终止进程的计数+1,当所有从进程都终止之后程序完成，退出。</p>
+          <p>这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/MPI实现manager-worker模式/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/11/16/c-内存错误及valgrind使用/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -502,7 +497,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/10/22/MPI-CUDA混合编程-Makefile文件写法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -521,7 +516,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/" itemprop="url">MPI+CUDA混合编程 Makefile文件写法</a></h1>
+                <a class="post-title-link" href="/2018/10/22/MPI-CUDA混合编程-Makefile文件写法/" itemprop="url">MPI+CUDA混合编程 Makefile文件写法</a></h1>
         
 
         <div class="post-meta">
@@ -531,10 +526,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:06:07+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-22T16:06:07+08:00">
+                2018-10-22
               </time>
             
 
@@ -572,8 +567,8 @@
           <h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># nvcc -c test_cuda.cu</div><div class="line"># mpic++ -c test.cpp</div><div class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/MPI-CUDA混合编程-Makefile文件写法/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/10/22/MPI-CUDA混合编程-Makefile文件写法/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -618,7 +613,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux性能测试工具/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/10/11/MPI实现manager-worker模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -637,7 +632,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/linux性能测试工具/" itemprop="url">linux性能测试工具</a></h1>
+                <a class="post-title-link" href="/2018/10/11/MPI实现manager-worker模式/" itemprop="url">MPI实现manager-worker模式</a></h1>
         
 
         <div class="post-meta">
@@ -647,10 +642,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T16:03:19+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-11T16:10:11+08:00">
+                2018-10-11
               </time>
             
 
@@ -685,11 +680,11 @@
 
       
         
-          <h2 id="安装perf"><a href="#安装perf" class="headerlink" title="安装perf"></a>安装perf</h2><p>sudo apt install linux-tools-common<br>然后键入perf<br><img src="/2019/02/19/linux性能测试工具/1.png" alt="图片"></p>
+          <h3 id="并行计算中的任务分发"><a href="#并行计算中的任务分发" class="headerlink" title="并行计算中的任务分发"></a>并行计算中的任务分发</h3><p>在并行计算中，任务划分与求解问题的规模和处理机的结构密切相关，任务划分的方式极大的影响并行计算机能否有效发挥其性能，减少求解的时间。任务分配的几种常用方法有：按块分配、卷帘分配等;<br>传统的块分配中，如果有m个处理器，就将任务分为m块，然后每个处理器或者进程组负责完成其中的一块任务，这种方法属于静态负载平衡。但是有的时候任务计算时间的多少是不固定的，比如当算法中出现迭代的情况时，静态负载平衡的方法可能效果较差。<br>还有一种情况就是当任务之间存在相互依赖时。一种解决方案就是将这些任务在处理器中利用求解连通分量的方法划分为s个任务组，再将这些任务组分配给各个从处理器。<br>当任务之间不存在依赖关系时，可以在主进程上将任务进行分组，形成任务列表，各个从进程向主进程发出任务请求，如果任务列表中还有没有完成的任务，那么将任务发送给从进程，否则发送一个终止信号给从进程，说明没有任务可以执行了，然后从进程发送一个本进程要终止的消息，主进程那边终止进程的计数+1,当所有从进程都终止之后程序完成，退出。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/linux性能测试工具/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/10/11/MPI实现manager-worker模式/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -734,7 +729,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux下编译CUDPP/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/09/16/CUDA概念理解以及犯过的错/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -753,7 +748,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/linux下编译CUDPP/" itemprop="url">linux下编译CUDPP</a></h1>
+                <a class="post-title-link" href="/2018/09/16/CUDA概念理解以及犯过的错/" itemprop="url">CUDA概念理解以及犯过的错</a></h1>
         
 
         <div class="post-meta">
@@ -763,10 +758,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:59:03+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-16T12:35:59+08:00">
+                2018-09-16
               </time>
             
 
@@ -801,11 +796,11 @@
 
       
         
-          <p>今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具<br>记录以下编译的过程<br>参考cudpp库的编译和使用 <a href="https://www.cnblogs.com/liangliangdetianxia/p/4162634.html" target="_blank" rel="external">https://www.cnblogs.com/liangliangdetianxia/p/4162634.html</a>这篇文章是在windows中编译的，有些地方有点变化</p>
+          <p>首先要记录的就是这次改bug的过程，Program received signal CUDA_EXCEPTION_14, Warp Illegal Address.错误的原因是CUDA访问越界。要记住一个点__syncthreads()函数仅仅能够用于线程块内的线程同步，不能用于全局所有线程块的同步。我这次犯的错就是在一个核函数内部试图构造一个全局数组，然后接下来的操作用到此全局数组的值。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/linux下编译CUDPP/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/09/16/CUDA概念理解以及犯过的错/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -850,7 +845,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/linux集群相关笔记/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/09/12/记实验室code-review/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -869,7 +864,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/linux集群相关笔记/" itemprop="url">linux集群相关笔记</a></h1>
+                <a class="post-title-link" href="/2018/09/12/记实验室code-review/" itemprop="url">记实验室code review</a></h1>
         
 
         <div class="post-meta">
@@ -879,10 +874,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:51:06+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-12T12:22:20+08:00">
+                2018-09-12
               </time>
             
 
@@ -917,11 +912,18 @@
 
       
         
-          <p>HPSCIL集群介绍<br>    实验室的集群装的是rocks的集群，centos7的系统。需要学习一些集群管理的知识，sge, slurm等。</p>
+          <p>2018年9月11号晚上，实验室在姚老师的领导下进行了第一次code review。姚老师结合同学的代码讲了很多与编码规范相关的东西。现在记录如下。</p>
+<p>核心思想是代码逻辑清晰可读，只读主函数就可以看懂程序的逻辑，整个程序的执行步骤先做什么后做什么，有必要的注释，所有变量命名和函数名具有自注释性。</p>
+<ul>
+<li>整个程序只有在主函数中可以容忍出现megic number并要求用宏定义</li>
+<li>在所有的文件中不可以出现绝对路径（除了主函数）</li>
+<li>在VS下编码的时候，将库拷贝到当前目录，用相对路径引入库，以便于代码移植，如果用绝对路径会导致这个工程在别的机器上跑的时候全部要重新配置一遍所有的库</li>
+<li>控制代码的粒度和可复用性</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/linux集群相关笔记/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/09/12/记实验室code-review/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -966,7 +968,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/Linux达人养成计划/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/09/02/NVIDIA-parallel-computing-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -985,7 +987,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/Linux达人养成计划/" itemprop="url">Linux达人养成计划</a></h1>
+                <a class="post-title-link" href="/2018/09/02/NVIDIA-parallel-computing-5/" itemprop="url">NVIDIA parallel computing-5</a></h1>
         
 
         <div class="post-meta">
@@ -995,10 +997,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:41:22+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-02T16:17:06+08:00">
+                2018-09-02
               </time>
             
 
@@ -1033,11 +1035,17 @@
 
       
         
-          <p><img src="/2019/02/19/Linux达人养成计划/1.png" alt="图片"><br>将正确输出结果和错误输出结果保存在同一个文件中</p>
+          <h1 id="Lesson5-optimizing-GPU-programs"><a href="#Lesson5-optimizing-GPU-programs" class="headerlink" title="Lesson5 optimizing GPU programs"></a>Lesson5 optimizing GPU programs</h1><ol>
+<li>picking good algorithms 选择时间复杂度低的算法</li>
+<li>basic principles for efficiency 提高效率的基本原则</li>
+<li>arch-specific detailed optimization 优化架构上的细节</li>
+<li>Optimization at instruction level 指令级别的优化</li>
+</ol>
+<p>前两个原则是优化最应该考虑的问题，能提高的加速比也是最高的;比如选择快排而不是插入排序，比如在遍历二维数组的时候按行遍历，这样可以访问内存中连续部分，减少内存访问的次数。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/Linux达人养成计划/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/09/02/NVIDIA-parallel-computing-5/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1082,7 +1090,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/19/Linux-C/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/08/28/王阳明的圣人之路/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1101,7 +1109,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/19/Linux-C/" itemprop="url">Linux C</a></h1>
+                <a class="post-title-link" href="/2018/08/28/王阳明的圣人之路/" itemprop="url">王阳明的圣人之路</a></h1>
         
 
         <div class="post-meta">
@@ -1111,10 +1119,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-19T15:30:16+08:00">
-                2019-02-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-28T10:07:59+08:00">
+                2018-08-28
               </time>
             
 
@@ -1149,11 +1157,13 @@
 
       
         
-          <h1 id="宏和typedef"><a href="#宏和typedef" class="headerlink" title="宏和typedef"></a>宏和typedef</h1><p><img src="/2019/02/19/Linux-C/1.png" alt="图片"></p>
+          <h1 id="读郦波《五百年来王阳明》有感"><a href="#读郦波《五百年来王阳明》有感" class="headerlink" title="读郦波《五百年来王阳明》有感"></a>读郦波《五百年来王阳明》有感</h1><p>近代有句流传甚广的话：“五百年来两大完人，前有王阳明，后有曾国藩。”平心而论，曾国藩还是逊于王阳明的。另有说法认为，儒家历史上曾经产生过两个半完人，一是万世师表的孔夫子，一是开创心学的王阳明。还有半个，即晚清实学代表人物曾国藩。你看，不同的完人“榜单”里都有王阳明。</p>
+<p>　　不仅在中国被奉为“完人”，王阳明在邻国日本的影响力也有过之而无不及。</p>
+<p>　　日本文化深受中国儒家文化的影响。近代日本的崛起，在现象上看是脱亚入欧，在思想上看则可以说主要是以阳明心学为奠基的。从倒幕运动到明治维新，不论是前三杰中的高杉晋作，还是后三杰中的西乡隆盛、大久保利通、木户孝允，都是阳明心学的忠实信徒。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/19/Linux-C/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/08/28/王阳明的圣人之路/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1198,7 +1208,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/17/CUDA性能指标/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/08/26/c-模板/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1217,7 +1227,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/17/CUDA性能指标/" itemprop="url">CUDA性能指标</a></h1>
+                <a class="post-title-link" href="/2018/08/26/c-模板/" itemprop="url">c++模板</a></h1>
         
 
         <div class="post-meta">
@@ -1227,10 +1237,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-17T10:13:38+08:00">
-                2019-02-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-26T12:25:24+08:00">
+                2018-08-26
               </time>
             
 
@@ -1265,11 +1275,14 @@
 
       
         
-          <p>共享内存被分配在SM上的常驻线程块中，寄存器在线程中被分配。寄存器和共享内存是SM中的稀缺资源。CUDA将这些资源分配到SM中的所有常驻线程里。</p>
+          <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li>模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。</li>
+<li>模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才能检查其语法正确性，如果写了一个模板但没有用到，那么编译器是不会报告这个模板中的语法错误的。</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/17/CUDA性能指标/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/08/26/c-模板/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1314,7 +1327,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/02/17/findMerge的CUDA实现/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/08/23/右值引用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1333,7 +1346,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/17/findMerge的CUDA实现/" itemprop="url">findMerge的CUDA实现</a></h1>
+                <a class="post-title-link" href="/2018/08/23/右值引用/" itemprop="url">右值引用</a></h1>
         
 
         <div class="post-meta">
@@ -1343,10 +1356,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-17T10:07:37+08:00">
-                2019-02-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-23T12:44:08+08:00">
+                2018-08-23
               </time>
             
 
@@ -1381,11 +1394,11 @@
 
       
         
-          <h3 id="算法目标"><a href="#算法目标" class="headerlink" title="算法目标"></a>算法目标</h3><p>根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。</p>
+          <p>在c++语言中按照能否放在赋值操作符“=”的左边或者右边，数值可以分为左值和右值。我们平时用的多的是放在等号左边的左值，能够被赋值，也能够对其他左值赋值。在C++中还有一类数值只能放在等号的右边，只能用于对左值赋值，这样的值为右值。右值通常是一些数值常量、临时变量、无名变量，例如一个函数的返回值就是右值。当使用右值对变量进行赋值时，通常是把右值复制到等号左边的变量，等赋值完成后，不但不保留右值，还要将资源释放掉。例如，从函数中返回一个临时变量，在函数返回后这个临时变量就要被释放掉，而右值引用的引入，可以将一个应用直接指向这个右值。例如从函数中返回一个临时对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">MemoryBlock createBlock(size_t nSize)</div><div class="line">&#123;</div><div class="line">  return MemoryBlock(nSize);</div><div class="line">&#125;</div><div class="line">MemoryBlock block = createBlock(703);</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/17/findMerge的CUDA实现/#more" rel="contents">
-              Read more &raquo;
+            <a class="btn" href="/2018/08/23/右值引用/#more" rel="contents">
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1470,8 +1483,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">51</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1482,7 +1495,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1492,8 +1505,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1593,7 +1606,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

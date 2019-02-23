@@ -1,0 +1,767 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="c++,单例模式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在之前的code review中因为使用了大量的全局变量被老师批的一无是处，于是痛定思痛，从网上查了全局变量的缺点以及如何减少甚至不用全局变量。单例模式就是全局变量的一种很好的代替方法。简而言之就是创建一个单例类，保证这个类只有一个对象实例（将构造函数私有化），并提供一个访问的方法，然后用它的静态成员函数得到类的唯一对象实例。考虑多线程，单例模式还要做很多调整，具体的在第二篇参考blog 中写的非">
+<meta name="keywords" content="c++,单例模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++的单例模式与全局变量">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="在之前的code review中因为使用了大量的全局变量被老师批的一无是处，于是痛定思痛，从网上查了全局变量的缺点以及如何减少甚至不用全局变量。单例模式就是全局变量的一种很好的代替方法。简而言之就是创建一个单例类，保证这个类只有一个对象实例（将构造函数私有化），并提供一个访问的方法，然后用它的静态成员函数得到类的唯一对象实例。考虑多线程，单例模式还要做很多调整，具体的在第二篇参考blog 中写的非">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/1.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/2.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/3.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/4.png">
+<meta property="og:updated_time" content="2019-02-23T05:12:38.583Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++的单例模式与全局变量">
+<meta name="twitter:description" content="在之前的code review中因为使用了大量的全局变量被老师批的一无是处，于是痛定思痛，从网上查了全局变量的缺点以及如何减少甚至不用全局变量。单例模式就是全局变量的一种很好的代替方法。简而言之就是创建一个单例类，保证这个类只有一个对象实例（将构造函数私有化），并提供一个访问的方法，然后用它的静态成员函数得到类的唯一对象实例。考虑多线程，单例模式还要做很多调整，具体的在第二篇参考blog 中写的非">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/"/>
+
+
+
+
+
+  <title>c++的单例模式与全局变量 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/07/07/c-的单例模式与全局变量/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">c++的单例模式与全局变量</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-07T12:12:42+08:00">
+                2018-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>在之前的code review中因为使用了大量的全局变量被老师批的一无是处，于是痛定思痛，从网上查了全局变量的缺点以及如何减少甚至不用全局变量。单例模式就是全局变量的一种很好的代替方法。<br>简而言之就是创建一个单例类，保证这个类只有一个对象实例（将构造函数私有化），并提供一个访问的方法，然后用它的静态成员函数得到类的唯一对象实例。<br>考虑多线程，单例模式还要做很多调整，具体的在第二篇参考blog 中写的非常好;虽然是用java描述，但是转为c++也是相同的原理。<br><a id="more"></a></p>
+<h3 id="哪里会用到单例模式"><a href="#哪里会用到单例模式" class="headerlink" title="哪里会用到单例模式"></a>哪里会用到单例模式</h3><p>在程序开发过程中基本都会用到数据库，要操作数据库就需要建立数据库连接，建立一个数据库连接对程序的运行时间影响很大，其实一个数据库连接建立完成之后如果只是提供给一个数据库操作使用，等下一个操作出现时又创建一个新的连接就会很耗时。因此，假如一个数据库连接建立完成之后可以提供给后面所有的数据库操作使用，而不需要建立新的连接就会节省很多时间，这里就需要用到单例模式，保证程序中只有一个数据库连接实例。<br>随着程序开发越来越复杂，业务数据越来越多，在系统运行时一个数据库连接的实例显然就不够用 ，此时，数据库连接池的就应运而生，系统运行时可以存在多个数据库连接实例，把这些实例放在一个池子里，使用时从池子里拿出来，用完了再放回去，池子在系统运行时只有一个，因此数据库连接池也要采用单例模式，保证在系统运行时只有一个实例存在。<br>在程序开发中还会用到日志、还有包括java中的runtime类（与当前运行时环境有关，在当前JVM中应该只有一个这样的实例在运行）……这些都是单例模式的典型应用。<br>总结：当程序运行时，需要保证一个对象只有一个实例存在时，就应该要用到单例模式<br><img src="/2018/07/07/c-的单例模式与全局变量/1.png" alt="图片"><br><img src="/2018/07/07/c-的单例模式与全局变量/2.png" alt="图片"></p>
+<h3 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">//singleton.h</div><div class="line"></div><div class="line">#ifndef __SINGLETON_HPP_</div><div class="line">#define __SINGLETON_HPP_</div><div class="line">#include &lt;stddef.h&gt;  // defines NULL</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cassert&gt;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">class Singleton</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">//static修饰的函数是属于类的，所以没有this指针，</div><div class="line">//所以static类成员函数不能访问非static的类成员，只能访问static修饰的类成员</div><div class="line">  static T&amp; Instance() &#123;</div><div class="line">      if(!m_pInstance)&#123;</div><div class="line">        m_pInstance = new T;</div><div class="line">        std::cout &lt;&lt; &quot;New Instance created&quot; &lt;&lt; std::endl;</div><div class="line">      &#125; </div><div class="line">      assert(m_pInstance != NULL);</div><div class="line">      return *m_pInstance;</div><div class="line">  &#125;</div><div class="line">protected:</div><div class="line">  Singleton();</div><div class="line">  ~Singleton();</div><div class="line">private:</div><div class="line">  //将复制构造函数和“=”操作符也设为私有，防止被复制</div><div class="line">  Singleton(Singleton const&amp;);</div><div class="line">  Singleton&amp; operator=(Singleton const&amp;);</div><div class="line">  static T* m_pInstance;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//类的静态成员，独立于一切类的对象存在，必须先在类外进行初始化。static修饰的变量先与类对象存在，所以必须要在类外先进行初始化。</div><div class="line">//static修饰的变量在静态存储区生成</div><div class="line">template &lt;class T&gt; T* Singleton&lt;T&gt;::m_pInstance=NULL;</div><div class="line"></div><div class="line">#endif</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">//myclass.h</div><div class="line">#include &quot;singleton.h&quot;</div><div class="line">class MyClass </div><div class="line">&#123;</div><div class="line">public:</div><div class="line">    MyClass() </div><div class="line">    &#123;</div><div class="line">        myArr = NULL;</div><div class="line">        std::cout &lt;&lt; &quot;MyClass::MyClass()&quot; &lt;&lt; std::endl;</div><div class="line">    &#125;</div><div class="line">    void setId(int Id)</div><div class="line">    &#123;</div><div class="line">        myId = Id;</div><div class="line">    &#125;</div><div class="line">    int getId()</div><div class="line">    &#123;</div><div class="line">        return myId;</div><div class="line">    &#125;</div><div class="line">    int* getArr()</div><div class="line">    &#123;</div><div class="line">        return myArr;</div><div class="line">    &#125;</div><div class="line">    void setArr(int* pp)</div><div class="line">    &#123;</div><div class="line">        myArr = pp;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ~MyClass() </div><div class="line">    &#123;</div><div class="line">        std::cout &lt;&lt; &quot;MyClass::~MyClass()&quot; &lt;&lt; std::endl;</div><div class="line">    &#125;</div><div class="line">private:</div><div class="line">    int myId;</div><div class="line">    int* myArr;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>###<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">//main.cpp</div><div class="line">#include &quot;myclass.h&quot;</div><div class="line">#include &lt;iostream&gt;</div><div class="line"></div><div class="line">typedef Singleton&lt;MyClass&gt; MyClassSingleton;   // Global declaration</div><div class="line"></div><div class="line">int main()&#123;</div><div class="line">    </div><div class="line">    MyClass &amp; obj = MyClassSingleton::Instance();</div><div class="line">    obj.setId(1);</div><div class="line">    int* p = obj.getArr();</div><div class="line"></div><div class="line">    MyClass &amp; obj1 = MyClassSingleton::Instance();</div><div class="line">    obj1.setId(2);</div><div class="line">    int* p1 = obj1.getArr();</div><div class="line"></div><div class="line">    int i = 0;</div><div class="line">    int*pp = new int[5];</div><div class="line">    for(i=0;i&lt;5;i++)</div><div class="line">        pp[i] = i;</div><div class="line">    obj1.setArr(pp);</div><div class="line">    </div><div class="line">    p = obj.getArr();</div><div class="line">    p1 = obj1.getArr();</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在代码中定义了两个MyClass类的实例，事实证明这两个实例其实是一个实例的不同名字的引用而已。所指向的地址一样，改变其中一个另一个会随之改变;<br><img src="/2018/07/07/c-的单例模式与全局变量/3.png" alt="图片"><img src="/2018/07/07/c-的单例模式与全局变量/4.png" alt="图片"></p>
+<h3 id="参考blog"><a href="#参考blog" class="headerlink" title="参考blog"></a>参考blog</h3><p>单例模式跟全局变量相比的好处<a href="https://blog.csdn.net/ozdazm/article/details/8538014" target="_blank" rel="external">https://blog.csdn.net/ozdazm/article/details/8538014</a><br>java深入浅出单实例Singleton设计模式<a href="https://blog.csdn.net/haoel/article/details/4028232" target="_blank" rel="external">https://blog.csdn.net/haoel/article/details/4028232</a><br>c++设计模式——单例模式<a href="https://www.cnblogs.com/tianzeng/p/9062008.html" target="_blank" rel="external">https://www.cnblogs.com/tianzeng/p/9062008.html</a><br>单例模式C++实现 <a href="https://www.cnblogs.com/cxjchen/p/3148582.html" target="_blank" rel="external">https://www.cnblogs.com/cxjchen/p/3148582.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/c/" rel="tag"># c++</a>
+          
+            <a href="/tags/单例模式/" rel="tag"># 单例模式</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/21/仿函数/" rel="next" title="仿函数">
+                <i class="fa fa-chevron-left"></i> 仿函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/09/socket-python/" rel="prev" title="socket-python">
+                socket-python <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#哪里会用到单例模式"><span class="nav-number">1.</span> <span class="nav-text">哪里会用到单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个简单的例子"><span class="nav-number">2.</span> <span class="nav-text">一个简单的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考blog"><span class="nav-number">3.</span> <span class="nav-text">参考blog</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

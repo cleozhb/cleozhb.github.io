@@ -1,0 +1,764 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CUDPP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="scan在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。123// Initialize the CUDPP Library   CUDPPHandle theCudpp;   cudppCreate(&amp;amp;theCudpp);">
+<meta name="keywords" content="CUDPP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUDPP简单例子">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2018/05/17/CUDPP简单例子/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="scan在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。123// Initialize the CUDPP Library   CUDPPHandle theCudpp;   cudppCreate(&amp;amp;theCudpp);">
+<meta property="og:updated_time" content="2019-02-23T05:09:25.369Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CUDPP简单例子">
+<meta name="twitter:description" content="scan在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。123// Initialize the CUDPP Library   CUDPPHandle theCudpp;   cudppCreate(&amp;amp;theCudpp);">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/05/17/CUDPP简单例子/"/>
+
+
+
+
+
+  <title>CUDPP简单例子 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/05/17/CUDPP简单例子/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CUDPP简单例子</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T09:59:11+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="scan"><a href="#scan" class="headerlink" title="scan"></a>scan</h3><p>在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// Initialize the CUDPP Library</div><div class="line">   CUDPPHandle theCudpp;</div><div class="line">   cudppCreate(&amp;theCudpp);</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>配置cudpp执行什么算法依赖于cudppPlan的概念。cudppPlan用于维护算法的中间存储的数据结构，以及CUDPP可用于优化当前硬件的执行的信息。当调用一个算法时，cudppPlan会将配置细节传递给当前要执行的算法，并且生成一个内部的plan对象。返回一个CUDPPHandle（一个指针对象，用于引用plan对象，必须传递给其他CUDPP函数才能执行算法）。<br>下面这个例子中对numElements个元素进行exclusive sum-scan。首先将配置信息存储在CUDPPConfiguration 结构对象中。然后将CUDPPConfiguration 传递给cudppPlan，同时传递的参数还有要扫描的元素个数numElements, 最后传递1,0，作为numRows and rowPitch参数，因为这个例子中只是扫描一维数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">CUDPPConfiguration config;</div><div class="line">config.op = CUDPP_ADD;</div><div class="line">config.datatype = CUDPP_FLOAT;</div><div class="line">config.algorithm = CUDPP_SCAN;</div><div class="line">config.options = CUDPP_OPTION_FORWARD | CUDPP_OPTION_EXCLUSIVE;</div><div class="line"></div><div class="line">CUDPPHandle scanplan = 0;</div><div class="line">CUDPPResult res = cudppPlan(theCudpp, &amp;scanplan, config, numElements, 1, 0);  </div><div class="line"></div><div class="line">if (CUDPP_SUCCESS != res)</div><div class="line">&#123;</div><div class="line">    printf(&quot;Error creating CUDPPPlan\n&quot;);</div><div class="line">    exit(-1);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现在有了一个scanplan对象句柄，接下来传递plan句柄、input和output设备数组、numElements，调用cudppScan()让CUDPP工作,确保cudppPlan不会运行错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// Run the scan</div><div class="line">res = cudppScan(scanplan, d_odata, d_idata, numElements);</div><div class="line">if (CUDPP_SUCCESS != res)</div><div class="line">&#123;</div><div class="line">    printf(&quot;Error in cudppScan()\n&quot;);</div><div class="line">    exit(-1);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来将结果从GPU端读出来，与串行算法做对比验证。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// allocate mem for the result on host side</div><div class="line">float* h_odata = (float*) malloc( memSize);</div><div class="line">// copy result from device to host</div><div class="line">result = cudaMemcpy( h_odata, d_odata, memSize, cudaMemcpyDeviceToHost);</div><div class="line">if (result != cudaSuccess) &#123;</div><div class="line">    printf(&quot;Error: %s\n&quot;, cudaGetErrorString(result));</div><div class="line">    exit(-1);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后让CUDPP用cudppDestroyPlan()来清理用于plan对象的内存。然后传递从cudppCreate获取的句柄给cudppDestroy()来关闭库。使用free和cudaFree来释放host端和device端的内存。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">    // compute reference solution</div><div class="line">    float* reference = (float*) malloc( memSize);</div><div class="line">    computeSumScanGold( reference, h_idata, numElements, config);</div><div class="line"></div><div class="line">    // check result</div><div class="line">    bool passed = true;</div><div class="line">    for (unsigned int i = 0; i &lt; numElements; i++)</div><div class="line">        if (reference[i] != h_odata[i]) passed = false;</div><div class="line">        </div><div class="line">    printf( &quot;Test %s\n&quot;, passed ? &quot;PASSED&quot; : &quot;FAILED&quot;);</div><div class="line"></div><div class="line">    res = cudppDestroyPlan(scanplan);</div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error destroying CUDPPPlan\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // shut down the CUDPP library</div><div class="line">    cudppDestroy(theCudpp);</div><div class="line">    </div><div class="line">    free( h_idata);</div><div class="line">    free( h_odata);</div><div class="line">    free( reference);</div><div class="line">    cudaFree(d_idata);</div><div class="line">    cudaFree(d_odata);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>完整代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * This is a basic example of how to use the CUDPP library.</div><div class="line"> */</div><div class="line"></div><div class="line">// includes, system</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line"></div><div class="line">// includes, project</div><div class="line">#include &quot;cudpp.h&quot;</div><div class="line"></div><div class="line">#include &lt;string&gt;</div><div class="line"></div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">// declaration, forward</div><div class="line">void runTest( int argc, char** argv);</div><div class="line"></div><div class="line">extern &quot;C&quot; </div><div class="line">void computeSumScanGold( float *reference, const float *idata, </div><div class="line">                        const unsigned int len,</div><div class="line">                        const CUDPPConfiguration &amp;config);</div><div class="line"></div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">// Program main</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">int</div><div class="line">main( int argc, char** argv) </div><div class="line">&#123;</div><div class="line">    runTest( argc, argv);</div><div class="line">&#125;</div><div class="line"></div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">//! Run a simple test for CUDA</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">void</div><div class="line">runTest( int argc, char** argv) </div><div class="line">&#123;</div><div class="line">    int deviceCount;</div><div class="line">    cudaGetDeviceCount(&amp;deviceCount);</div><div class="line">    if (deviceCount == 0) &#123;</div><div class="line">        fprintf(stderr, &quot;error: no devices supporting CUDA.\n&quot;);</div><div class="line">        exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    int dev = 0;</div><div class="line">    if (argc &gt; 1) &#123;</div><div class="line">        std::string arg = argv[1];</div><div class="line">        size_t pos = arg.find(&quot;=&quot;);</div><div class="line">        if (arg.find(&quot;device&quot;) &amp;&amp; pos != std::string::npos) &#123;</div><div class="line">            dev = atoi(arg.c_str() + (pos + 1));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (dev &lt; 0) dev = 0;</div><div class="line">    if (dev &gt; deviceCount-1) dev = deviceCount - 1;</div><div class="line">    cudaSetDevice(dev);</div><div class="line"></div><div class="line">    cudaDeviceProp prop;</div><div class="line">    if (cudaGetDeviceProperties(&amp;prop, dev) == cudaSuccess)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Using device %d:\n&quot;, dev);</div><div class="line">        printf(&quot;%s; global mem: %dB; compute v%d.%d; clock: %d kHz\n&quot;,</div><div class="line">               prop.name, (int)prop.totalGlobalMem, (int)prop.major, </div><div class="line">               (int)prop.minor, (int)prop.clockRate);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    unsigned int numElements = 32768;</div><div class="line">    unsigned int memSize = sizeof( float) * numElements;</div><div class="line"></div><div class="line">    // allocate host memory</div><div class="line">    float* h_idata = (float*) malloc( memSize);</div><div class="line">    // initalize the memory</div><div class="line">    for (unsigned int i = 0; i &lt; numElements; ++i) </div><div class="line">    &#123;</div><div class="line">        h_idata[i] = (float) (rand() &amp; 0xf);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // allocate device memory</div><div class="line">    float* d_idata;</div><div class="line">    cudaError_t result = cudaMalloc( (void**) &amp;d_idata, memSize);</div><div class="line">    if (result != cudaSuccess) &#123;</div><div class="line">        printf(&quot;Error: %s\n&quot;, cudaGetErrorString(result));</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    // copy host memory to device</div><div class="line">    result = cudaMemcpy( d_idata, h_idata, memSize, cudaMemcpyHostToDevice);</div><div class="line">    if (result != cudaSuccess) &#123;</div><div class="line">        printf(&quot;Error: %s\n&quot;, cudaGetErrorString(result));</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    // allocate device memory for result</div><div class="line">    float* d_odata;</div><div class="line">    result = cudaMalloc( (void**) &amp;d_odata, memSize);</div><div class="line">    if (result != cudaSuccess) &#123;</div><div class="line">        printf(&quot;Error: %s\n&quot;, cudaGetErrorString(result));</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Initialize the CUDPP Library</div><div class="line">    CUDPPHandle theCudpp;</div><div class="line">    cudppCreate(&amp;theCudpp);</div><div class="line"></div><div class="line">    CUDPPConfiguration config;</div><div class="line">    config.op = CUDPP_ADD;</div><div class="line">    config.datatype = CUDPP_FLOAT;</div><div class="line">    config.algorithm = CUDPP_SCAN;</div><div class="line">    config.options = CUDPP_OPTION_FORWARD | CUDPP_OPTION_EXCLUSIVE;</div><div class="line">    </div><div class="line">    CUDPPHandle scanplan = 0;</div><div class="line">    CUDPPResult res = cudppPlan(theCudpp, &amp;scanplan, config, numElements, 1, 0);  </div><div class="line"></div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error creating CUDPPPlan\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Run the scan</div><div class="line">    res = cudppScan(scanplan, d_odata, d_idata, numElements);</div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error in cudppScan()\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // allocate mem for the result on host side</div><div class="line">    float* h_odata = (float*) malloc( memSize);</div><div class="line">    // copy result from device to host</div><div class="line">    result = cudaMemcpy( h_odata, d_odata, memSize, cudaMemcpyDeviceToHost);</div><div class="line">    if (result != cudaSuccess) &#123;</div><div class="line">        printf(&quot;Error: %s\n&quot;, cudaGetErrorString(result));</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    // compute reference solution</div><div class="line">    float* reference = (float*) malloc( memSize);</div><div class="line">    computeSumScanGold( reference, h_idata, numElements, config);</div><div class="line"></div><div class="line">    // check result</div><div class="line">    bool passed = true;</div><div class="line">    for (unsigned int i = 0; i &lt; numElements; i++)</div><div class="line">        if (reference[i] != h_odata[i]) passed = false;</div><div class="line">        </div><div class="line">    printf( &quot;Test %s\n&quot;, passed ? &quot;PASSED&quot; : &quot;FAILED&quot;);</div><div class="line"></div><div class="line">    res = cudppDestroyPlan(scanplan);</div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error destroying CUDPPPlan\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // shut down the CUDPP library</div><div class="line">    cudppDestroy(theCudpp);</div><div class="line">    </div><div class="line">    free( h_idata);</div><div class="line">    free( h_odata);</div><div class="line">    free( reference);</div><div class="line">    cudaFree(d_idata);</div><div class="line">    cudaFree(d_odata);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="compact"><a href="#compact" class="headerlink" title="compact"></a>compact</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line">#include &quot;cuda_runtime.h&quot;</div><div class="line">#include &quot;device_launch_parameters.h&quot;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line">#include &quot;include\cudpp.h&quot;</div><div class="line">#include &lt;string&gt;</div><div class="line"></div><div class="line">void runTest(int argc, char** argv);</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">// Program main</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">int</div><div class="line">main(int argc, char** argv)</div><div class="line">&#123;</div><div class="line">    runTest(argc, argv);</div><div class="line">&#125;</div><div class="line"></div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">//! Run a simple test for CUDA</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">void</div><div class="line">runTest(int argc, char** argv)</div><div class="line">&#123;</div><div class="line">    int deviceCount;</div><div class="line">    cudaGetDeviceCount(&amp;deviceCount);</div><div class="line">    if (deviceCount == 0) &#123;</div><div class="line">        fprintf(stderr, &quot;error: no devices supporting CUDA.\n&quot;);</div><div class="line">        exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    int dev = 0;</div><div class="line">    if (argc &gt; 1) &#123;</div><div class="line">        std::string arg = argv[1];</div><div class="line">        size_t pos = arg.find(&quot;=&quot;);</div><div class="line">        if (arg.find(&quot;device&quot;) &amp;&amp; pos != std::string::npos) &#123;</div><div class="line">            dev = atoi(arg.c_str() + (pos + 1));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (dev &lt; 0) dev = 0;</div><div class="line">    if (dev &gt; deviceCount - 1) dev = deviceCount - 1;</div><div class="line">    cudaSetDevice(dev);</div><div class="line"></div><div class="line">    cudaDeviceProp prop;</div><div class="line">    if (cudaGetDeviceProperties(&amp;prop, dev) == cudaSuccess)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Using device %d:\n&quot;, dev);</div><div class="line">        printf(&quot;%s; global mem: %dB; compute v%d.%d; clock: %d kHz\n&quot;,</div><div class="line">            prop.name, (int)prop.totalGlobalMem, (int)prop.major,</div><div class="line">            (int)prop.minor, (int)prop.clockRate);</div><div class="line">    &#125;</div><div class="line">    const int numElements = 10;</div><div class="line">    unsigned int memSize = sizeof(int)*numElements;</div><div class="line">    </div><div class="line">    unsigned int h_isValid[numElements] = &#123; 0, 0, 1, 1, 0, 1, 0, 1, 1, 1 &#125;;</div><div class="line">    int             h_vals[numElements] = &#123; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 &#125;;</div><div class="line">    int* h_output = NULL;</div><div class="line">    size_t h_numValidElements = 0;</div><div class="line"></div><div class="line">    //allocate host memory t store the input data</div><div class="line">    unsigned int *d_isValid;</div><div class="line">    int *d_vals;</div><div class="line">    int *d_output = NULL;</div><div class="line">    size_t* d_numValid = NULL;</div><div class="line"></div><div class="line">    cudaMalloc((void**)&amp;d_isValid, sizeof(unsigned int)*numElements);</div><div class="line">    cudaMemcpy(d_isValid, h_isValid, memSize, cudaMemcpyHostToDevice);</div><div class="line"></div><div class="line">    cudaMalloc((void**)&amp;d_vals, memSize);</div><div class="line">    cudaMemcpy(d_vals, h_vals, memSize, cudaMemcpyHostToDevice);</div><div class="line">    </div><div class="line">    cudaMalloc((void**)&amp;d_numValid, sizeof(size_t));</div><div class="line">    cudaMalloc((void**)&amp;d_output, memSize);</div><div class="line">    cudaMemset(d_output, 0, memSize);</div><div class="line"></div><div class="line"></div><div class="line">    // Initialize the CUDPP Library</div><div class="line">    CUDPPResult result = CUDPP_SUCCESS;</div><div class="line">    CUDPPHandle theCudpp;</div><div class="line">    result = cudppCreate(&amp;theCudpp);</div><div class="line"></div><div class="line">    CUDPPConfiguration config;</div><div class="line">    config.datatype = CUDPP_INT;</div><div class="line">    config.algorithm = CUDPP_COMPACT;</div><div class="line">    config.options = CUDPP_OPTION_FORWARD | CUDPP_OPTION_EXCLUSIVE;</div><div class="line"></div><div class="line">    CUDPPHandle compactplan = 0;</div><div class="line">    CUDPPResult res = cudppPlan(theCudpp, &amp;compactplan, config, numElements, 1, 0);</div><div class="line"></div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error creating CUDPPPlan\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Run the compact</div><div class="line">    res = cudppCompact(compactplan, d_output, d_numValid, d_vals, d_isValid, numElements);</div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error in cudppScan()\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line">    cudaMemcpy(&amp;h_numValidElements, d_numValid, sizeof(size_t), cudaMemcpyDeviceToHost);</div><div class="line">    h_output = (int*)malloc(sizeof(int)*h_numValidElements);</div><div class="line">    cudaMemcpy(h_output, d_output, sizeof(int)*h_numValidElements, cudaMemcpyDeviceToHost);</div><div class="line">    printf(&quot;numValidElements: %ld\n&quot;, h_numValidElements);</div><div class="line">    int i = 0;</div><div class="line">    for (i = 0; i &lt; h_numValidElements; i++)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;ValidElements[%d]: %ld\n&quot;, i, h_output[i]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // cleanup memory</div><div class="line">    cudppDestroyPlan(compactplan);</div><div class="line">    cudppDestroy(theCudpp);</div><div class="line">    free(h_output);</div><div class="line">    cudaFree(d_isValid);</div><div class="line">    cudaFree(d_vals);</div><div class="line">    cudaFree(d_output);</div><div class="line">    cudaFree(d_numValid);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="cudpp-hash"><a href="#cudpp-hash" class="headerlink" title="cudpp_hash"></a>cudpp_hash</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">#include &quot;cuda_runtime.h&quot;</div><div class="line">#include &quot;device_launch_parameters.h&quot;</div><div class="line"></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &quot;cudpp.h&quot;</div><div class="line">#include &quot;cudpp_hash.h&quot;</div><div class="line"></div><div class="line">int main() &#123;</div><div class="line">    const int N = 10;</div><div class="line"></div><div class="line">    int keys[N] = &#123; 1, 6, 4, 9, 0, 3, 7, 2, 5, 8 &#125;;</div><div class="line">    int vals[N] = &#123; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 &#125;;</div><div class="line"></div><div class="line">    int *d_keys, *d_vals;</div><div class="line">    cudaMalloc((void**)&amp;d_keys, sizeof(int)* N);</div><div class="line">    cudaMemcpy(d_keys, keys, sizeof(int)* N, cudaMemcpyHostToDevice);</div><div class="line">    cudaMalloc((void**)&amp;d_vals, sizeof(int)* N);</div><div class="line">    cudaMemcpy(d_vals, vals, sizeof(int)* N, cudaMemcpyHostToDevice);</div><div class="line"></div><div class="line">    int input[N] = &#123; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 &#125;;</div><div class="line">    int output[N];</div><div class="line"></div><div class="line">    int *d_input, *d_output;</div><div class="line">    cudaMalloc((void**)&amp;d_input, sizeof(int)* N);</div><div class="line">    cudaMemcpy(d_input, input, sizeof(int)* N, cudaMemcpyHostToDevice);</div><div class="line">    cudaMalloc((void**)&amp;d_output, sizeof(int)* N);</div><div class="line">    cudaMemset(d_output, 0, sizeof(int)* N);</div><div class="line"></div><div class="line">    // CUDPP初始化</div><div class="line">    CUDPPHandle cudpp;</div><div class="line">    cudppCreate(&amp;cudpp);</div><div class="line"></div><div class="line">    // 設定hashtable</div><div class="line">    CUDPPHashTableConfig config;</div><div class="line">    config.type = CUDPP_BASIC_HASH_TABLE;</div><div class="line">    config.kInputSize = N;</div><div class="line">    config.space_usage = 2.0;</div><div class="line"></div><div class="line">    CUDPPHandle hash_table_handle;</div><div class="line">    cudppHashTable(cudpp, &amp;hash_table_handle, &amp;config);</div><div class="line"></div><div class="line">    cudppHashInsert(hash_table_handle, d_keys, d_vals, N);</div><div class="line"></div><div class="line">    cudppHashRetrieve(hash_table_handle, d_input, d_output, N);</div><div class="line"></div><div class="line">    cudaMemcpy(output, d_output, sizeof(int)* N, cudaMemcpyDeviceToHost);</div><div class="line">    for (int i = 0; i &lt; N; ++i) &#123;</div><div class="line">        printf(&quot;%d\n&quot;, output[i]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    cudppDestroyHashTable(cudpp, hash_table_handle);</div><div class="line"></div><div class="line">    cudppDestroy(cudpp);</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="混合reduce和compact的compact例子"><a href="#混合reduce和compact的compact例子" class="headerlink" title="混合reduce和compact的compact例子"></a>混合reduce和compact的compact例子</h3><p>通过reduce计算出总数，这样可以少占用GPU端显存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div></pre></td><td class="code"><pre><div class="line">#include &quot;cuda_runtime.h&quot;</div><div class="line">#include &quot;device_launch_parameters.h&quot;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line">#include &quot;include\cudpp.h&quot;</div><div class="line">#include &lt;string&gt;</div><div class="line"></div><div class="line">void runTest(int argc, char** argv);</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">// Program main</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">int main(int argc, char** argv)</div><div class="line">&#123;</div><div class="line">    runTest(argc, argv);</div><div class="line">&#125;</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">//! Run a simple test for CUDA</div><div class="line">////////////////////////////////////////////////////////////////////////////////</div><div class="line">void runTest(int argc, char** argv)</div><div class="line">&#123;</div><div class="line">    int deviceCount;</div><div class="line">    cudaGetDeviceCount(&amp;deviceCount);</div><div class="line">    if (deviceCount == 0) &#123;</div><div class="line">        fprintf(stderr, &quot;error: no devices supporting CUDA.\n&quot;);</div><div class="line">        exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    int dev = 0;</div><div class="line">    if (argc &gt; 1) &#123;</div><div class="line">        std::string arg = argv[1];</div><div class="line">        size_t pos = arg.find(&quot;=&quot;);</div><div class="line">        if (arg.find(&quot;device&quot;) &amp;&amp; pos != std::string::npos) &#123;</div><div class="line">            dev = atoi(arg.c_str() + (pos + 1));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (dev &lt; 0) dev = 0;</div><div class="line">    if (dev &gt; deviceCount - 1) dev = deviceCount - 1;</div><div class="line">    cudaSetDevice(dev);</div><div class="line"></div><div class="line">    cudaDeviceProp prop;</div><div class="line">    if (cudaGetDeviceProperties(&amp;prop, dev) == cudaSuccess)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Using device %d:\n&quot;, dev);</div><div class="line">        printf(&quot;%s; global mem: %dB; compute v%d.%d; clock: %d kHz\n&quot;,</div><div class="line">            prop.name, (int)prop.totalGlobalMem, (int)prop.major,</div><div class="line">            (int)prop.minor, (int)prop.clockRate);</div><div class="line">    &#125;</div><div class="line">    const int numElements = 10;</div><div class="line">    unsigned int memSize = sizeof(int)*numElements;</div><div class="line">    </div><div class="line">    unsigned int h_isValid[numElements] = &#123; 0, 0, 1, 1, 0, 1, 0, 1, 1, 1 &#125;;</div><div class="line">    int             h_vals[numElements] = &#123; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 &#125;;</div><div class="line">    int* h_output = NULL;</div><div class="line">    size_t h_numValidElements = 0;</div><div class="line"></div><div class="line">    //allocate host memory t store the input data</div><div class="line">    unsigned int *d_isValid;</div><div class="line">    int *d_vals;</div><div class="line">    int *d_output = NULL;</div><div class="line">    size_t* d_numValid = NULL;</div><div class="line"></div><div class="line">    cudaMalloc((void**)&amp;d_isValid, sizeof(unsigned int)*numElements);</div><div class="line">    cudaMemcpy(d_isValid, h_isValid, memSize, cudaMemcpyHostToDevice);</div><div class="line"></div><div class="line">    cudaMalloc((void**)&amp;d_vals, memSize);</div><div class="line">    cudaMemcpy(d_vals, h_vals, memSize, cudaMemcpyHostToDevice);</div><div class="line">    </div><div class="line">    cudaMalloc((void**)&amp;d_numValid, sizeof(size_t));</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">    // Initialize the CUDPP Library</div><div class="line">    CUDPPResult result = CUDPP_SUCCESS;</div><div class="line">    CUDPPHandle theCudpp;</div><div class="line">    result = cudppCreate(&amp;theCudpp);</div><div class="line"></div><div class="line"></div><div class="line">    //有效元素数量</div><div class="line">    int* d_reduceSum = NULL;</div><div class="line">    int h_reduceSum = 0;</div><div class="line">    cudaMalloc((void**)&amp;d_reduceSum, sizeof(int));</div><div class="line">    cudaMemset(d_reduceSum, 0, sizeof(int));</div><div class="line">    CUDPPConfiguration configReduce;</div><div class="line">    configReduce.op == CUDPP_ADD;</div><div class="line">    configReduce.datatype = CUDPP_INT;</div><div class="line">    configReduce.algorithm = CUDPP_REDUCE;</div><div class="line">    configReduce.options = 0;</div><div class="line">    CUDPPHandle reduceplan = 0;</div><div class="line">    cudppPlan(theCudpp, &amp;reduceplan, configReduce, numElements, 1, 0);</div><div class="line">    cudppReduce(reduceplan, d_reduceSum, d_isValid, numElements);</div><div class="line">    cudaMemcpy(&amp;h_reduceSum, d_reduceSum, sizeof(int), cudaMemcpyDeviceToHost);</div><div class="line">    printf(&quot;h_reduceSum %d &quot;, h_reduceSum);</div><div class="line"></div><div class="line">    cudaMalloc((void**)&amp;d_output, h_reduceSum*sizeof(int));</div><div class="line">    cudaMemset(d_output, 0, h_reduceSum*sizeof(int));</div><div class="line"></div><div class="line"></div><div class="line">    CUDPPConfiguration config;</div><div class="line">    //config.op == CUDPP_ADD;</div><div class="line">    config.datatype = CUDPP_INT;</div><div class="line">    config.algorithm = CUDPP_COMPACT;</div><div class="line">    config.options = CUDPP_OPTION_FORWARD | CUDPP_OPTION_EXCLUSIVE;</div><div class="line"></div><div class="line">    CUDPPHandle compactplan = 0;</div><div class="line">    CUDPPResult res = cudppPlan(theCudpp, &amp;compactplan, config, numElements, 1, 0);</div><div class="line"></div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error creating CUDPPPlan\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Run the compact</div><div class="line">    res = cudppCompact(compactplan, d_output, d_numValid, d_vals, d_isValid, numElements);</div><div class="line">    if (CUDPP_SUCCESS != res)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Error in cudppScan()\n&quot;);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line">    cudaMemcpy(&amp;h_numValidElements, d_numValid, sizeof(size_t), cudaMemcpyDeviceToHost);</div><div class="line">    </div><div class="line">    </div><div class="line">    h_output = (int*)malloc(sizeof(int)*h_numValidElements);</div><div class="line">    cudaMemcpy(h_output, d_output, sizeof(int)*h_numValidElements, cudaMemcpyDeviceToHost);</div><div class="line">    printf(&quot;numValidElements: %ld\n&quot;, h_numValidElements);</div><div class="line">    int i = 0;</div><div class="line">    for (i = 0; i &lt; h_numValidElements; i++)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;ValidElements[%d]: %ld\n&quot;, i, h_output[i]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // cleanup memory</div><div class="line">    cudppDestroyPlan(reduceplan);</div><div class="line">    cudppDestroyPlan(compactplan);</div><div class="line">    cudppDestroy(theCudpp);</div><div class="line">    free(h_output);</div><div class="line">    cudaFree(d_isValid);</div><div class="line">    cudaFree(d_vals);</div><div class="line">    cudaFree(d_output);</div><div class="line">    cudaFree(d_numValid);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CUDPP/" rel="tag"># CUDPP</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/23/用CUDPP实现类似并查集的find和union功能/" rel="next" title="用CUDPP实现类似并查集的find和union功能">
+                <i class="fa fa-chevron-left"></i> 用CUDPP实现类似并查集的find和union功能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/CUDA性能指标/" rel="prev" title="CUDA性能指标">
+                CUDA性能指标 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#scan"><span class="nav-number">1.</span> <span class="nav-text">scan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compact"><span class="nav-number">2.</span> <span class="nav-text">compact</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cudpp-hash"><span class="nav-number">3.</span> <span class="nav-text">cudpp_hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合reduce和compact的compact例子"><span class="nav-number">4.</span> <span class="nav-text">混合reduce和compact的compact例子</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
