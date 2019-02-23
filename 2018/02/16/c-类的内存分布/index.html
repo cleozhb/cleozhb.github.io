@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="c++," />
 
 
 
@@ -91,13 +91,14 @@
 
 
 <meta name="description" content="1.C++中，类函数是放在代码段的，用static修饰的类成员变量和函数是放在静态数据区的，这些都不放入类的内存中。2.要是有虚函数（无论多少个虚函数）的话，编译器会自动给类创建一个虚表指针，指向虚表，这个虚表指针占8个字节。3.类的内存计算，linux64位默认为8个字节对齐 例1">
+<meta name="keywords" content="c++">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c++类的内存分布">
 <meta property="og:url" content="https://silence-inner-peace.github.io/2018/02/16/c-类的内存分布/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="1.C++中，类函数是放在代码段的，用static修饰的类成员变量和函数是放在静态数据区的，这些都不放入类的内存中。2.要是有虚函数（无论多少个虚函数）的话，编译器会自动给类创建一个虚表指针，指向虚表，这个虚表指针占8个字节。3.类的内存计算，linux64位默认为8个字节对齐 例1">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/02/16/c-类的内存分布/1.png">
-<meta property="og:updated_time" content="2019-02-23T05:08:05.660Z">
+<meta property="og:updated_time" content="2019-02-23T05:40:30.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c++类的内存分布">
 <meta name="twitter:description" content="1.C++中，类函数是放在代码段的，用static修饰的类成员变量和函数是放在静态数据区的，这些都不放入类的内存中。2.要是有虚函数（无论多少个虚函数）的话，编译器会自动给类创建一个虚表指针，指向虚表，这个虚表指针占8个字节。3.类的内存计算，linux64位默认为8个字节对齐 例1">
@@ -203,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -213,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -223,7 +224,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -293,7 +294,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-16T12:19:05+08:00">
                 2018-02-16
@@ -330,7 +331,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>1.C++中，类函数是放在代码段的，用static修饰的类成员变量和函数是放在静态数据区的，这些都不放入类的内存中。<br>2.要是有虚函数（无论多少个虚函数）的话，编译器会自动给类创建一个虚表指针，指向虚表，这个虚表指针占8个字节。<br>3.类的内存计算，linux64位默认为8个字节对齐</p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>1.C++中，类函数是放在代码段的，用static修饰的类成员变量和函数是放在静态数据区的，这些都不放入类的内存中。<br>2.要是有虚函数（无论多少个虚函数）的话，编译器会自动给类创建一个虚表指针，指向虚表，这个虚表指针占8个字节。<br>3.类的内存计算，linux64位默认为8个字节对齐</p>
 <h3 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h3><a id="more"></a>                
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">#pragma pack(push)</div><div class="line">#pragma pack(4)  //要是这里的改成1字节对齐，则这个类是13个字节，而不是16个字&gt;节</div><div class="line">#include &lt;iostream&gt;</div><div class="line">using namespace std;</div><div class="line"></div><div class="line">class A               //总字节数：4+1+8=13，由于4字节对齐，所以为16</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">        int a;                                  //4个字节</div><div class="line">        char b;                                 //一个字节</div><div class="line">        virtual void fun1()&#123; //虚函数，代表有虚表，因此会创建一个8个字节的虚表指针</div><div class="line">        &#125;</div><div class="line">        virtual void fun2()&#123;</div><div class="line"></div><div class="line">        &#125;        </div><div class="line">        void f();                               //在代码段，不占字节。</div><div class="line">        static int s_data ;                     //在静态区，不占字节</div><div class="line">&#125;;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">        int a;</div><div class="line">        a = sizeof(A);</div><div class="line">        cout&lt;&lt;a&lt;&lt;endl;</div><div class="line"></div><div class="line">        A obj;</div><div class="line">        cout&lt;&lt;sizeof(obj)&lt;&lt;endl;</div><div class="line">        return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>存在虚函数的类都有一个一维的虚函数表叫虚表，虚表里存放的就是虚函数的地址了，因此，虚表是属于类的。这样的类对象的前8个字节是一个指向虚表的指针，类内部必须得保存这个虚表的起始指针。在32位的系统分配给虚表指针的大小为4个字节，我的电脑是64位，分配8个字节给指针，所以最后得到类A的大小为16．不管类里面有多少个虚函数，类内部只要保存虚表的起始地址即可，虚函数地址都可以通过偏移等算法获得。类的静态数据成员被编译器放在程序的一个global data members中，它是类的一个数据成员,但是它不影响类的大小,不管这个类实际产生了多少实例还是派生了多少新的类，静态成员数据在类中永远只有一个实体存在，而类的非静态数据成员只有被实例化的时候，他们才存在．但是类的静态数据成员一旦被声明，无论类是否被实例化，它都已存在．可以这么说，类的静态数据成员是一种特殊的全局变量.子类的大小是本身成员的大小再加上父类成员的大小.如果父类还有父类，也加上父类的父类，这样一直递归下去。</p>
@@ -365,6 +366,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/c/" rel="tag"># c++</a>
+          
+        </div>
       
 
       
@@ -436,10 +443,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -459,8 +466,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -471,7 +478,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -481,8 +488,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -598,7 +605,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

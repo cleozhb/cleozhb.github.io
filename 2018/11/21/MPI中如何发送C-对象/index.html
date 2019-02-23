@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MPI," />
+  <meta name="keywords" content="MPI,c," />
 
 
 
@@ -91,13 +91,13 @@
 
 
 <meta name="description" content="现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。在做这个问题的过程中产生了以下几点疑问：          怎样发送带有指针的类，并在从进程中修改后再传回 发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。 发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因">
-<meta name="keywords" content="MPI">
+<meta name="keywords" content="MPI,c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MPI中如何发送C++对象">
 <meta property="og:url" content="https://silence-inner-peace.github.io/2018/11/21/MPI中如何发送C-对象/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。在做这个问题的过程中产生了以下几点疑问：          怎样发送带有指针的类，并在从进程中修改后再传回 发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。 发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因">
-<meta property="og:updated_time" content="2019-02-23T05:11:19.012Z">
+<meta property="og:updated_time" content="2019-02-23T05:41:31.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MPI中如何发送C++对象">
 <meta name="twitter:description" content="现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。在做这个问题的过程中产生了以下几点疑问：          怎样发送带有指针的类，并在从进程中修改后再传回 发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。 发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因">
@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -292,7 +292,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-21T16:11:59+08:00">
                 2018-11-21
@@ -329,7 +329,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。<br>在做这个问题的过程中产生了以下几点疑问：        </p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。<br>在做这个问题的过程中产生了以下几点疑问：        </p>
 <ol>
 <li>怎样发送带有指针的类，并在从进程中修改后再传回</li>
 <li>发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。</li>
@@ -379,6 +379,8 @@
         <div class="post-tags">
           
             <a href="/tags/MPI/" rel="tag"># MPI</a>
+          
+            <a href="/tags/c/" rel="tag"># c</a>
           
         </div>
       
@@ -452,10 +454,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -475,8 +477,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -487,7 +489,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -497,8 +499,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -614,7 +616,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

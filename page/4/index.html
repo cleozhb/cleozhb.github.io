@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -265,6 +265,122 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/04/11/为什么拷贝构造函数必须为引用传递，不能为值传递/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/11/为什么拷贝构造函数必须为引用传递，不能为值传递/" itemprop="url">为什么拷贝构造函数必须为引用传递，不能为值传递</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-11T20:49:25+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>参数为引用，不为值传递是为了防止拷贝构造函数的无线递归，最终导致栈溢出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">using namespace std;</div><div class="line">class test</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">    test()</div><div class="line">    &#123;</div><div class="line">      cout&lt;&lt;&quot;constructor with argument&quot;&lt;&lt;endl;</div><div class="line">    &#125;</div><div class="line">    test(test&amp;t)    </div><div class="line">    &#123;</div><div class="line">      cout&lt;&lt;&quot;copy constructor\n&quot;;</div><div class="line">    &#125;</div><div class="line">    test&amp;operator=(const test&amp;e)</div><div class="line">    &#123;</div><div class="line">      cout&lt;&lt;&quot;assignment operator\n&quot;;</div><div class="line">      return *this;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">int main(int argc,char* argv[])</div><div class="line">&#123;</div><div class="line">  test ort;</div><div class="line">  test a(ort);</div><div class="line">  test b = ort;</div><div class="line">  a = b;</div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/11/为什么拷贝构造函数必须为引用传递，不能为值传递/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/04/10/linux下编译CUDPP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -294,7 +410,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-10T15:59:03+08:00">
                 2018-04-10
@@ -336,7 +452,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/10/linux下编译CUDPP/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -410,7 +526,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-10T14:05:16+08:00">
                 2018-04-10
@@ -431,7 +547,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -480,7 +596,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/10/win10-VS2013与Ubuntu16-04配置GDAL/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -554,7 +670,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-07T16:27:12+08:00">
                 2018-04-07
@@ -600,7 +716,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/07/Linux查看CPU信息/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -674,7 +790,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-29T20:28:08+08:00">
                 2018-03-29
@@ -695,7 +811,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -743,7 +859,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/29/如何读论文/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -817,7 +933,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-28T16:31:00+08:00">
                 2018-03-28
@@ -838,7 +954,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -888,151 +1004,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/28/并查集/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/03/24/编码规范/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/编码规范/" itemprop="url">编码规范</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-24T13:53:55+08:00">
-                2018-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/coding/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="C-C-程序变量和函数命名规范及注意事项"><a href="#C-C-程序变量和函数命名规范及注意事项" class="headerlink" title="C/C++程序变量和函数命名规范及注意事项"></a>C/C++程序变量和函数命名规范及注意事项</h2><blockquote>
-<p>主要内容</p>
-</blockquote>
-<ul>
-<li>函数命名规则（驼峰命名法）</li>
-<li>变量命名规则（匈牙利命名法）</li>
-<li>其他非常重要的注意事项</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/编码规范/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1106,7 +1078,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-19T16:17:28+08:00">
                 2018-03-19
@@ -1127,7 +1099,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1176,7 +1148,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/19/什么是科研/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1250,7 +1222,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-22T12:10:35+08:00">
                 2018-02-22
@@ -1295,7 +1267,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/02/22/有序向量的查找/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1369,7 +1341,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-16T12:19:05+08:00">
                 2018-02-16
@@ -1412,7 +1384,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/02/16/c-类的内存分布/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1486,7 +1458,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T21:17:01+08:00">
                 2018-01-21
@@ -1507,7 +1479,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1559,7 +1531,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/21/Dijkstras最短路径算法的MPI和CUDA实现/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1644,8 +1616,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1656,7 +1628,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1666,8 +1638,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1767,7 +1739,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

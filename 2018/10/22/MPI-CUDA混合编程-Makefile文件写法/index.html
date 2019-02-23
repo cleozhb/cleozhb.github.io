@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Makefile," />
+  <meta name="keywords" content="CUDA,MPI,Makefile," />
 
 
 
@@ -91,14 +91,14 @@
 
 
 <meta name="description" content="CUDA代码与c++代码分开时Makefile文件的写法用网上找的一个例子作为参考，主要记录Makefile文件的写法总的来说就是要用nvcc编译.cu文件，生成.o文件;然后用mpic++编译.cpp文件，生成.o文件;最后用mpic++将这两个.o文件连接起来，生成可执行文件。在控制台中依次键入下面的命令，可以生成可执行文件main。123# nvcc -c test_cuda.cu# mpi">
-<meta name="keywords" content="Makefile">
+<meta name="keywords" content="CUDA,MPI,Makefile">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MPI+CUDA混合编程 Makefile文件写法">
 <meta property="og:url" content="https://silence-inner-peace.github.io/2018/10/22/MPI-CUDA混合编程-Makefile文件写法/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="CUDA代码与c++代码分开时Makefile文件的写法用网上找的一个例子作为参考，主要记录Makefile文件的写法总的来说就是要用nvcc编译.cu文件，生成.o文件;然后用mpic++编译.cpp文件，生成.o文件;最后用mpic++将这两个.o文件连接起来，生成可执行文件。在控制台中依次键入下面的命令，可以生成可执行文件main。123# nvcc -c test_cuda.cu# mpi">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/10/22/MPI-CUDA混合编程-Makefile文件写法/1.png">
-<meta property="og:updated_time" content="2019-02-23T05:10:37.171Z">
+<meta property="og:updated_time" content="2019-02-23T05:41:53.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MPI+CUDA混合编程 Makefile文件写法">
 <meta name="twitter:description" content="CUDA代码与c++代码分开时Makefile文件的写法用网上找的一个例子作为参考，主要记录Makefile文件的写法总的来说就是要用nvcc编译.cu文件，生成.o文件;然后用mpic++编译.cpp文件，生成.o文件;最后用mpic++将这两个.o文件连接起来，生成可执行文件。在控制台中依次键入下面的命令，可以生成可执行文件main。123# nvcc -c test_cuda.cu# mpi">
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -214,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -224,7 +224,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -294,7 +294,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-22T16:06:07+08:00">
                 2018-10-22
@@ -331,7 +331,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># nvcc -c test_cuda.cu</div><div class="line"># mpic++ -c test.cpp</div><div class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</div></pre></td></tr></table></figure></p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># nvcc -c test_cuda.cu</div><div class="line"># mpic++ -c test.cpp</div><div class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</div></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>完整的Makefile文件写法如下：<br>几个要注意的点：</p>
 <ol>
@@ -376,6 +376,10 @@
     <footer class="post-footer">
       
         <div class="post-tags">
+          
+            <a href="/tags/CUDA/" rel="tag"># CUDA</a>
+          
+            <a href="/tags/MPI/" rel="tag"># MPI</a>
           
             <a href="/tags/Makefile/" rel="tag"># Makefile</a>
           
@@ -451,10 +455,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -474,8 +478,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -486,7 +490,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -496,8 +500,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -613,7 +617,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

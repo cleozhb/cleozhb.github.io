@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Linux C," />
+  <meta name="keywords" content="Linux,C," />
 
 
 
@@ -91,7 +91,7 @@
 
 
 <meta name="description" content="宏和typedef">
-<meta name="keywords" content="Linux C">
+<meta name="keywords" content="Linux,C">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux C">
 <meta property="og:url" content="https://silence-inner-peace.github.io/2018/12/19/Linux-C/index.html">
@@ -138,7 +138,7 @@
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/12/19/Linux-C/39.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/12/19/Linux-C/40.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/12/19/Linux-C/41.png">
-<meta property="og:updated_time" content="2019-02-23T05:09:58.709Z">
+<meta property="og:updated_time" content="2019-02-23T05:41:17.343Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux C">
 <meta name="twitter:description" content="宏和typedef">
@@ -244,7 +244,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -254,7 +254,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -264,7 +264,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -334,7 +334,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-19T15:30:16+08:00">
                 2018-12-19
@@ -371,7 +371,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h1 id="宏和typedef"><a href="#宏和typedef" class="headerlink" title="宏和typedef"></a>宏和typedef</h1><p><img src="/2018/12/19/Linux-C/1.png" alt="图片"></p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h1 id="宏和typedef"><a href="#宏和typedef" class="headerlink" title="宏和typedef"></a>宏和typedef</h1><p><img src="/2018/12/19/Linux-C/1.png" alt="图片"></p>
 <a id="more"></a>
 <p>这个过程其实经历了4步<br>第一步预处理gcc -o helloworld.i helloworld.c -E用这个命令使得编译器只进行第一步，得到一个.i文件。打开helloworld.i文件可以看到的是将头文件展开后的结果。</p>
 <p>在预处理阶段，代码中所有的宏会被替换成相应的值。在这个过程中，编译器将宏中定义的值视为字符串，而不是数字。在替换过程中只是单纯的将字符串替换到了代码中。宏的本质就是发生在预处理阶段的单纯的字符串替换。所以在使用宏定义函数的时候要加上括号，以防运算优先级在替换后被改变。比如，如果ADD不加括号，被替换之后就会变成注释掉的那行代码，这显然不是我们的本意。<br><img src="/2018/12/19/Linux-C/2.png" alt="图片"><br>宏的好处在于不考虑参数的类型，比如上面我们传入浮点型，那就可以计算浮点型出来，。都看作字符串来处理。</p>
@@ -441,7 +441,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Linux-C/" rel="tag"># Linux C</a>
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/C/" rel="tag"># C</a>
           
         </div>
       
@@ -515,10 +517,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -538,8 +540,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -550,7 +552,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -560,8 +562,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -677,7 +679,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

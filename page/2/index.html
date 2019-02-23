@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -265,6 +265,127 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/21/MPI中如何发送C-对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/21/MPI中如何发送C-对象/" itemprop="url">MPI中如何发送C++对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-21T16:11:59+08:00">
+                2018-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。<br>在做这个问题的过程中产生了以下几点疑问：        </p>
+<ol>
+<li>怎样发送带有指针的类，并在从进程中修改后再传回</li>
+<li>发送结构体（非连续数据类型，带有指针），发送过去以后类的函数是否可以正常调用。</li>
+<li>发送到从进程的结构体在从进程中修改后再传回主进程大小是否改变，因为有指针成员变量在从进程中被改变</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/21/MPI中如何发送C-对象/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/11/20/Linux网络基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -294,7 +415,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-20T23:33:00+08:00">
                 2018-11-20
@@ -336,7 +457,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/20/Linux网络基础/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -410,7 +531,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-16T12:28:28+08:00">
                 2018-11-16
@@ -452,7 +573,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/16/c-内存错误及valgrind使用/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -526,7 +647,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-22T16:06:07+08:00">
                 2018-10-22
@@ -568,7 +689,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/22/MPI-CUDA混合编程-Makefile文件写法/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -642,7 +763,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-11T16:10:11+08:00">
                 2018-10-11
@@ -684,7 +805,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/11/MPI实现manager-worker模式/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -758,7 +879,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-16T12:35:59+08:00">
                 2018-09-16
@@ -800,7 +921,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/09/16/CUDA概念理解以及犯过的错/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -874,7 +995,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-12T12:22:20+08:00">
                 2018-09-12
@@ -923,7 +1044,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/09/12/记实验室code-review/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -997,7 +1118,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-02T16:17:06+08:00">
                 2018-09-02
@@ -1045,7 +1166,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/09/02/NVIDIA-parallel-computing-5/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1119,7 +1240,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-28T10:07:59+08:00">
                 2018-08-28
@@ -1163,7 +1284,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/28/王阳明的圣人之路/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1237,7 +1358,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-26T12:25:24+08:00">
                 2018-08-26
@@ -1282,123 +1403,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/08/26/c-模板/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/08/23/右值引用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/23/右值引用/" itemprop="url">右值引用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-23T12:44:08+08:00">
-                2018-08-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在c++语言中按照能否放在赋值操作符“=”的左边或者右边，数值可以分为左值和右值。我们平时用的多的是放在等号左边的左值，能够被赋值，也能够对其他左值赋值。在C++中还有一类数值只能放在等号的右边，只能用于对左值赋值，这样的值为右值。右值通常是一些数值常量、临时变量、无名变量，例如一个函数的返回值就是右值。当使用右值对变量进行赋值时，通常是把右值复制到等号左边的变量，等赋值完成后，不但不保留右值，还要将资源释放掉。例如，从函数中返回一个临时变量，在函数返回后这个临时变量就要被释放掉，而右值引用的引入，可以将一个应用直接指向这个右值。例如从函数中返回一个临时对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">MemoryBlock createBlock(size_t nSize)</div><div class="line">&#123;</div><div class="line">  return MemoryBlock(nSize);</div><div class="line">&#125;</div><div class="line">MemoryBlock block = createBlock(703);</div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/23/右值引用/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1483,8 +1488,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1495,7 +1500,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1505,8 +1510,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1606,7 +1611,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

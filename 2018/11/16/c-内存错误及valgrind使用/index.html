@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="valgrind 内存调试," />
+  <meta name="keywords" content="c++,valgrind,内存调试," />
 
 
 
@@ -91,7 +91,7 @@
 
 
 <meta name="description" content="这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。">
-<meta name="keywords" content="valgrind 内存调试">
+<meta name="keywords" content="c++,valgrind,内存调试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c++内存错误及valgrind使用">
 <meta property="og:url" content="https://silence-inner-peace.github.io/2018/11/16/c-内存错误及valgrind使用/index.html">
@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/11/16/c-内存错误及valgrind使用/1.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/11/16/c-内存错误及valgrind使用/2.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2018/11/16/c-内存错误及valgrind使用/3.png">
-<meta property="og:updated_time" content="2019-02-16T04:33:05.041Z">
+<meta property="og:updated_time" content="2019-02-23T05:39:55.497Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c++内存错误及valgrind使用">
 <meta name="twitter:description" content="这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。">
@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -216,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -226,7 +226,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -296,7 +296,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-16T12:28:28+08:00">
                 2018-11-16
@@ -333,7 +333,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。</p>
 <a id="more"></a>
 <h2 id="valgrind简介"><a href="#valgrind简介" class="headerlink" title="valgrind简介"></a>valgrind简介</h2><p>首先要提到一个很好用的工具valgrind。用于linux程序的内存调试和代码剖析。它可以检测程序中内存的使用情况，C语言中的malloc和free,C++中的new和delete。使用valgrind可以快速发现bug。使用方式就是将程序编译好，然后通过valgrind来启动程序。不过valgrind对于protobuf,stl这样的3方库的兼容性不算太好，所以会造成输出一堆的still reachable字样。其实完全没有必要去纠结这些问题。<br>Valgrind工具包包含多个工具，如Memcheck,Cachegrind,Helgrind, Callgrind，Massif。我主要使用的是Memcheck工具。</p>
 <h3 id="Memcheck-工具"><a href="#Memcheck-工具" class="headerlink" title="Memcheck 工具"></a>Memcheck 工具</h3><ul>
@@ -415,7 +415,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/valgrind-内存调试/" rel="tag"># valgrind 内存调试</a>
+            <a href="/tags/c/" rel="tag"># c++</a>
+          
+            <a href="/tags/valgrind/" rel="tag"># valgrind</a>
+          
+            <a href="/tags/内存调试/" rel="tag"># 内存调试</a>
           
         </div>
       
@@ -489,10 +493,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -512,8 +516,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -524,7 +528,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -534,8 +538,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -651,7 +655,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
