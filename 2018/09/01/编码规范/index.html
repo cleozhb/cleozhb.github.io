@@ -94,18 +94,18 @@
 <meta name="keywords" content="编码规范">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编码规范">
-<meta property="og:url" content="https://silence-inner-peace.github.io/2019/09/01/编码规范/index.html">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2018/09/01/编码规范/index.html">
 <meta property="og:site_name" content="学思考的小孩儿">
 <meta property="og:description" content="C/C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2019/09/01/编码规范/头文件定义.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2019/09/01/编码规范/h文件中只声明不包含头文件.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2019/09/01/编码规范/指针操作.png">
-<meta property="og:image" content="https://silence-inner-peace.github.io/2019/09/01/编码规范/动态创建和删除二维指针.png">
-<meta property="og:updated_time" content="2019-02-23T05:39:27.469Z">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/09/01/编码规范/头文件定义.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/09/01/编码规范/h文件中只声明不包含头文件.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/09/01/编码规范/指针操作.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2018/09/01/编码规范/动态创建和删除二维指针.png">
+<meta property="og:updated_time" content="2019-02-23T05:50:02.408Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编码规范">
 <meta name="twitter:description" content="C/C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
-<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/09/01/编码规范/头文件定义.png">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2018/09/01/编码规范/头文件定义.png">
 
 
 
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/09/01/编码规范/"/>
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2018/09/01/编码规范/"/>
 
 
 
@@ -270,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/09/01/编码规范/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2018/09/01/编码规范/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -299,8 +299,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-01T13:53:55+08:00">
-                2019-09-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-01T13:53:55+08:00">
+                2018-09-01
               </time>
             
 
@@ -356,7 +356,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h2 id="C-C-程序变量和函数命名规范及注意事项"><a href="#C-C-程序变量和函数命名规范及注意事项" class="headerlink" title="C/C++程序变量和函数命名规范及注意事项"></a>C/C++程序变量和函数命名规范及注意事项</h2><blockquote>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="C-C-程序变量和函数命名规范及注意事项"><a href="#C-C-程序变量和函数命名规范及注意事项" class="headerlink" title="C/C++程序变量和函数命名规范及注意事项"></a>C/C++程序变量和函数命名规范及注意事项</h2><blockquote>
 <p>主要内容</p>
 </blockquote>
 <ul>
@@ -575,10 +575,10 @@
 <li>为了防止同一个文件被编译器多次编译，每个头文件(*.h)实现结构必须为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#ifndef 随机唯一表示字符串，千万不要与其他头文件重复</div><div class="line">#define 随机唯一表示字符串，千万不要与其他头文件重复</div><div class="line">(类的实现)</div><div class="line">...</div><div class="line">...</div><div class="line">#endif</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>e.g.<br><img src="/2019/09/01/编码规范/头文件定义.png" alt=""></p>
+<p>e.g.<br><img src="/2018/09/01/编码规范/头文件定义.png" alt=""></p>
 <ol>
-<li>为了防止头文件互相包含造成编译错误，每个头文件(.h)中的include的其他头文件数量越少越好。或者只进行声明，在对应的实现文件(.cpp)中将所需头文件包含进来；<br>e.g.<br><img src="/2019/09/01/编码规范/h文件中只声明不包含头文件.png" alt=""></li>
-<li>为防止内存泄露造成程序不稳定，在类和函数中声明的指针一定要先置NULL,或nullptr;每次使用前先判断是否为NULL,若需要更行，先delete再new;并在类的析构函数中或函数尾部对该指针delete并置NULL或nullptr处理.<br><img src="/2019/09/01/编码规范/指针操作.png" alt=""><br><img src="/2019/09/01/编码规范/动态创建和删除二维指针.png" alt=""></li>
+<li>为了防止头文件互相包含造成编译错误，每个头文件(.h)中的include的其他头文件数量越少越好。或者只进行声明，在对应的实现文件(.cpp)中将所需头文件包含进来；<br>e.g.<br><img src="/2018/09/01/编码规范/h文件中只声明不包含头文件.png" alt=""></li>
+<li>为防止内存泄露造成程序不稳定，在类和函数中声明的指针一定要先置NULL,或nullptr;每次使用前先判断是否为NULL,若需要更行，先delete再new;并在类的析构函数中或函数尾部对该指针delete并置NULL或nullptr处理.<br><img src="/2018/09/01/编码规范/指针操作.png" alt=""><br><img src="/2018/09/01/编码规范/动态创建和删除二维指针.png" alt=""></li>
 </ol>
 
       
@@ -622,8 +622,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/30/浅谈多节点CPU-GPU协同计算负载均衡性设计/" rel="next" title="浅谈多节点CPU+GPU协同计算负载均衡性设计">
-                <i class="fa fa-chevron-left"></i> 浅谈多节点CPU+GPU协同计算负载均衡性设计
+              <a href="/2018/08/28/王阳明的圣人之路/" rel="next" title="王阳明的圣人之路">
+                <i class="fa fa-chevron-left"></i> 王阳明的圣人之路
               </a>
             
           </div>
@@ -631,6 +631,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/02/NVIDIA-parallel-computing-5/" rel="prev" title="NVIDIA parallel computing-5">
+                NVIDIA parallel computing-5 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
