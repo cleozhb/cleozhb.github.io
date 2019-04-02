@@ -333,7 +333,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="Linux下区分物理CPU、逻辑CPU和CPU核数"><a href="#Linux下区分物理CPU、逻辑CPU和CPU核数" class="headerlink" title="Linux下区分物理CPU、逻辑CPU和CPU核数"></a>Linux下区分物理CPU、逻辑CPU和CPU核数</h2><h3 id="㈠-概念"><a href="#㈠-概念" class="headerlink" title="㈠ 概念"></a>㈠ 概念</h3><ol>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h2 id="Linux下区分物理CPU、逻辑CPU和CPU核数"><a href="#Linux下区分物理CPU、逻辑CPU和CPU核数" class="headerlink" title="Linux下区分物理CPU、逻辑CPU和CPU核数"></a>Linux下区分物理CPU、逻辑CPU和CPU核数</h2><h3 id="㈠-概念"><a href="#㈠-概念" class="headerlink" title="㈠ 概念"></a>㈠ 概念</h3><ol>
 <li>物理CPU<br> 实际Server中插槽上的CPU个数<br> 物理cpu数量，可以数不重复的 physical id 有几个           </li>
 <li>逻辑CPU<br> Linux用户对 /proc/cpuinfo 这个文件肯定不陌生. 它是用来存储cpu硬件信息的<br>信息内容分别列出了processor 0 – n 的规格。这里需要注意，如果你认为n就是真实的cpu数的话, 就大错特错了一般情况，我们认为一颗cpu可以有多核，加上intel的超线程技术(HT), 可以在逻辑上再分一倍数量的cpu core出来。逻辑CPU数量=物理cpu数量 x cpu cores 这个规格值 x 2(如果支持并开启ht)。备注一下：Linux下top查看的CPU也是逻辑CPU个数              </li>
 <li>CPU核数<br>一块CPU上面能处理数据的芯片组的数量、比如现在的i5 760,是双核心四线程的CPU、而 i5 2250 是四核心四线程的CPU。一般来说，物理CPU个数×每颗核数就应该等于逻辑CPU的个数，如果不相等的话，则表示服务器的CPU支持超线程技术    </li>
@@ -481,7 +481,7 @@ cpu cores     包含位于相同物理封装中的内核数量。
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -503,7 +503,7 @@ cpu cores     包含位于相同物理封装中的内核数量。
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>

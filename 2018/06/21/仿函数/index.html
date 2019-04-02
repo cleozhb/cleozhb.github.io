@@ -331,7 +331,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>函数(functor)又称之为函数对象（function object），其实就是重载了operator（）操作符的struct或class，没有什么特别的地方。仿函数(functor)使一个类的使用看上去象一个函数，这个类就有了类似函数的行为，就是一个仿函数类了。<br>如下面的代码定义了一个二元的仿函数（有两个参数）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct IntLess</div><div class="line">&#123;</div><div class="line">    bool operator()(int _left, int _right) const</div><div class="line">    &#123;</div><div class="line">        return _left&lt;_right;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>函数(functor)又称之为函数对象（function object），其实就是重载了operator（）操作符的struct或class，没有什么特别的地方。仿函数(functor)使一个类的使用看上去象一个函数，这个类就有了类似函数的行为，就是一个仿函数类了。<br>如下面的代码定义了一个二元的仿函数（有两个参数）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct IntLess</div><div class="line">&#123;</div><div class="line">    bool operator()(int _left, int _right) const</div><div class="line">    &#123;</div><div class="line">        return _left&lt;_right;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <h3 id="为什么要使用仿函数"><a href="#为什么要使用仿函数" class="headerlink" title="为什么要使用仿函数"></a>为什么要使用仿函数</h3><pre><code>1）仿函数比一般的函数灵活。        
 2）仿函数有类型识别，可以作为模板参数。
@@ -468,7 +468,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -490,7 +490,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>

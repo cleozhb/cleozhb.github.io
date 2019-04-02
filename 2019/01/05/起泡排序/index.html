@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="排序,算法," />
+  <meta name="keywords" content="算法,排序," />
 
 
 
@@ -91,7 +91,7 @@
 
 
 <meta name="description" content="首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。">
-<meta name="keywords" content="排序,算法">
+<meta name="keywords" content="算法,排序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="起泡排序">
 <meta property="og:url" content="https://silence-inner-peace.github.io/2019/01/05/起泡排序/index.html">
@@ -334,7 +334,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)<br>一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。<br><img src="/2019/01/05/起泡排序/1.png" alt="图片"></p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)<br>一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。<br><img src="/2019/01/05/起泡排序/1.png" alt="图片"></p>
 <a id="more"></a>
 <p>第一版改进，与原始版本的不同之处在于添加了一个标志，来记录if语句是否成立过。首先认为是有序的，一旦发现逆序元素，就将其标志为true，这反映了这一趟扫描中是否发现了逆序对。这个标志作为返回值，在主程序中作为while循环的控制条件。计算量就变为下面这个梯形，判定有序之后及时终止。<br><img src="/2019/01/05/起泡排序/2.png" alt="图片"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">template &lt;typename T&gt; //向量的起泡排序</div><div class="line">void Vector&lt;T&gt;::bubbleSort ( Rank lo, Rank hi ) //assert: 0 &lt;= lo &lt; hi &lt;= size</div><div class="line">&#123; while ( !bubble ( lo, hi-- ) ); &#125; //逐趟做扫描交换，直至全序</div><div class="line">template &lt;typename T&gt; bool Vector&lt;T&gt;::bubble ( Rank lo, Rank hi ) &#123; //一趟扫描交换</div><div class="line">   bool sorted = true; //整体有序标志</div><div class="line">   while ( ++lo &lt; hi ) //自左向右，逐一检查各对相邻元素</div><div class="line">      if ( _elem[lo - 1] &gt; _elem[lo] ) &#123; //若逆序，则</div><div class="line">         sorted = false; //意味着尚未整体有序，并需要</div><div class="line">         swap ( _elem[lo - 1], _elem[lo] ); //通过交换使局部有序</div><div class="line">      &#125;</div><div class="line">   return sorted; //返回有序标志</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>在新一版的改进中，记录的不再是一个逻辑变量，而是一个名为last的整形，表示最后发生交换的元素的秩。初始值为lo，在整个程序中lo这个变量是持续递增的，不会发生减少。<br>在程序运行的过程中，可能会发现一部分已经有序了。这种情况可能会多次出现，即使最初的向量是无序的，在进行若干次扫描之后，区间的某个后缀已经完全有序了，这时候就可以聪明的跳过有序的部分。<br><img src="/2019/01/05/起泡排序/3.png" alt="图片"><img src="/2019/01/05/起泡排序/4.png" alt="图片"><br>这样的若干个梯形，比之前的版本划分更加精细，节省的时间应该更多。</p>
@@ -368,9 +368,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/排序/" rel="tag"># 排序</a>
-          
             <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/排序/" rel="tag"># 排序</a>
           
         </div>
       
@@ -458,7 +458,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -480,7 +480,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>

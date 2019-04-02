@@ -333,7 +333,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="算法目标"><a href="#算法目标" class="headerlink" title="算法目标"></a>算法目标</h3><p>根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h3 id="算法目标"><a href="#算法目标" class="headerlink" title="算法目标"></a>算法目标</h3><p>根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。</p>
 <a id="more"></a>
 <p><img src="/2018/05/19/findMerge的CUDA实现/1.png" alt="图片"><br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">input：</div><div class="line">    const int width = 5;</div><div class="line">    int h_rowOneValue[width] = &#123; 1, 1, 2, 1, 3 &#125;;</div><div class="line">    int h_rowTwoValue[width] = &#123; 4, 1, 1, 1, 1 &#125;;</div><div class="line"></div><div class="line">    int h_rowOneLabel[width] = &#123; 1, 1, 4, 2, 5 &#125;;</div><div class="line">    int h_rowTwoLabel[width] = &#123; 6, 3, 3, 3, 3 &#125;;</div><div class="line"></div><div class="line">output</div><div class="line">  father &#123;1，2&#125;</div><div class="line">  child  &#123;3，3&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="CUDA并行算法思想"><a href="#CUDA并行算法思想" class="headerlink" title="CUDA并行算法思想"></a>CUDA并行算法思想</h3><p>将每个pixel映射到一个CUDA线程上，将可能要合并的pair先都存储，然后将重复项和无效项去除。以上面的例子作为输入来说明，首先会产生一个3倍于原输入大小的father和child，因为每个线程都要对应遍历模板产生3个输出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">father &#123;-1，-1，1，  -1，1，1，  -1，-1，-1，  2，2，2，  -1，-1，-1&#125;</div><div class="line">child  &#123;-1，-1，3，  -1，3，3，  -1，-1，-1，  3，3，3，  -1，-1，-1&#125;</div><div class="line">IsValid&#123; 0， 0，1，   0，0，0，   0， 0， 0，  1，0，0，   0， 0， 0&#125;</div></pre></td></tr></table></figure></p>
@@ -469,7 +469,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -491,7 +491,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>

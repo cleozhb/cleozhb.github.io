@@ -360,7 +360,7 @@
       
 
       
-        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>该研究论文《Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction》已经发表在 AAAI 2017。是深度学习用在城市计算领域中首次在高等级会议上发表。<br></p>
+        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>该研究论文《Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction》已经发表在 AAAI 2017。是深度学习用在城市计算领域中首次在高等级会议上发表。<br></p>
 <h3 id="深度时空残差网络ST-ResNet-Deep-Spatio-temporal-residual-network"><a href="#深度时空残差网络ST-ResNet-Deep-Spatio-temporal-residual-network" class="headerlink" title="深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)"></a>深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)</h3><p><img src="http://oqadn1oza.bkt.clouddn.com/%E6%80%BB%E4%BD%93%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.png" alt="时空模型结构"><br><a id="more"></a><br>&emsp;&emsp; 论文使用了北京市的出租车 GPS 轨迹上面做了验证，大概用了约 3 万多辆出租车长达 5 年的数据，同时也利用纽约公开的自行车租赁数据做了验证。将这些琐碎的数据转变成有规律的、能够对深度学习作为输入的格式，通过空间的划分和折射，变成一个二维矩阵，使它能够作为深度学习模型的输入。这个转换过程很重要，涉及到不同数据之间的多元化融合。具体而言，论文中将城市划分成均匀且不相交的网格，比如划分成一个个一平方公里的网格，然后输入人流数据（包括手机、出租车轨迹等）投射在网格里面，计算出每个格子里有多少人进和出。红色越亮的地方就表示人越多，一帧的图像比如说是二维图像，如果有很多时间点就可以持续生成图片，同时有对应的事件和天气信息，这就构成了数据的输入，把时空数据转换成这样一个模式。</p>
 <h2 id="模型总架构："><a href="#模型总架构：" class="headerlink" title="模型总架构："></a>模型总架构：</h2><p>&emsp;&emsp;模型包括4个主要部分来对时空数据的周期性、趋势性、平滑性和外部数据的影响分别建模。上图中可以看到，首先将每个格网中的流入人流量和流出人流量分别转化为一个有两个信道的图像矩阵。将时间轴提取3类信息，包括了近期、中长期、长期。将各个时间戳下包含输入输出2个信道的这三类数据分别喂给三个相同参数的convolutionalNN。紧接着是深度残差网络。这样的结构可以学习到从近处到远处大范围的时空依赖关系。外部数据包括一些人工提取的天气、事件等数据，将这些数据喂给fully-connection neural network。上面那三个输出先进行一次融合，融合时考虑到每个区域事件范围作用强度不同，对于不同区域给三种数据不同的权重。然后将融合结果与外部数据的结果进行进一步融合。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8D%B7%E7%A7%AF%E7%BB%93%E6%9E%84%E5%92%8C%E6%AE%8B%E5%B7%AE%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="CNN &amp; residual模型结构"></p>
 <h2 id="卷积层架构："><a href="#卷积层架构：" class="headerlink" title="卷积层架构："></a>卷积层架构：</h2><p>&emsp;&emsp;一个城市通常很大，在图上由很多pixel组成，直觉上，人流量会受到周免邻近区域的影响，所以CNN可以很好的抓取分层的空间结构特征。现在地铁的发展已将将这种影响扩展到更远的区域了。我们要设计一个深层的CNN，因为单层CNN受卷积核大小的限制，只考虑到相邻的单元。卷积层的输入数据中，每一层可以看做是一个2<em>time_interval×I×J的图像。有2×time_interval这么多个信道，大小为I</em>J个pixel。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8D%B7%E7%A7%AF%E5%85%AC%E5%BC%8F.png" alt="卷积公式"></p>
@@ -515,7 +515,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
@@ -537,7 +537,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>
