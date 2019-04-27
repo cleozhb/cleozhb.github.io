@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/27/Linux下用GDB调试MPI程序/2.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/27/Linux下用GDB调试MPI程序/3.png">
 <meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/27/Linux下用GDB调试MPI程序/4.png">
-<meta property="og:updated_time" content="2019-04-27T02:06:22.078Z">
+<meta property="og:updated_time" content="2019-04-27T02:25:41.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下用GDB调试MPI程序">
 <meta name="twitter:description" content="GDB常用命令GDB有三种启动方式  gdb ./a.out gdb ./a.out core        用gdb同时调试一个运行程序和core文件，core是程序非法执行后core dump后产生的文件。 gdb -p            如果你的程序是一个服务程序，那么你可以指定这个服务程序运行时的进程ID。gdb会自动attach上去，并调试他。可以通过 ps -ef | grep p">
@@ -119,7 +119,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Penulis'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -207,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Beranda
+            Startseite
           </a>
         </li>
       
@@ -217,7 +217,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Arsip
+            Archiv
           </a>
         </li>
       
@@ -227,7 +227,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategori
+            Kategorien
           </a>
         </li>
       
@@ -297,7 +297,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Diposting di</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-27T09:56:37+08:00">
                 2019-04-27
@@ -341,7 +341,97 @@
 <li>gdb -p <pid>           如果你的程序是一个服务程序，那么你可以指定这个服务程序运行时的进程ID。gdb会自动attach上去，并调试他。可以通过 ps -ef | grep procName 来查找pId。</pid></li>
 </ul>
 <a id="more"></a>
-<p>先介绍以下GDB的常用命令<br>| l   | l命令相当于list，从第一行开始例出原码   |<br>|:—-|:—-|<br>| 直接回车   | 直接回车表示，重复上一次命令   |<br>| break <16>   | 设置断点，在源程序第16行处   |<br>| break <func>   | 设置断点，在函数func()入口处   |<br>| info break   | 查看断点信息   |<br>| r   | 运行程序，run命令简写   |<br>| n   | 单条语句执行，next命令简写   |<br>| c   | 继续运行程序，continue命令简写   |<br>| bt   | backtrace 查看函数堆栈   |<br>| p <x>   | 打印变量   |<br>| finish   | 退出函数   |<br>| q   | 退出gdb   |<br>|   info f(frame)   | 打印出更为详细的当前栈层的信息，只不过，大多数都是运行时的内内地址。比如：函数地址，调用函数的地址，被调用函数的地址，目前的函数是由什么样的程序语言写成的、函数参数地址及值、局部变量的地址等等   |<br>| frame <n>   | frame后加栈中的层编号，表示切换到相应的函数栈。   |<br>| up <n>   | 表示向栈的上面移动n层，可以不打n，表示向上移动一层   |<br>| down <n>   | 表示向栈的下面移动n层，可以不打n，表示向上移动一层   |<br>| info args   | 打印出当前函数的参数名及其值   |<br>| info locals   | 打印出当前函数中所有局部变量及其值   |<br>| p *array@len   | 查看从array首地址开始的len个元素。@的左边是数组的首地址的值，也就是变量array所指向的内容，右边则是数据的长度，其保存在变量len中   |<br>| set var &lt; x=7 &gt;   | 设置变量x的值为7   |<br>| whatis <x>   | 查看变量x的类型   | </x></n></n></n></x></func></16></p>
+<p>先介绍以下GDB的常用命令</p>
+<table>
+<thead>
+<tr>
+<th>l</th>
+<th>l命令相当于list，从第一行开始例出原码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直接回车</td>
+<td>直接回车表示，重复上一次命令</td>
+</tr>
+<tr>
+<td>break <16></16></td>
+<td>设置断点，在源程序第16行处</td>
+</tr>
+<tr>
+<td>break <func></func></td>
+<td>设置断点，在函数func()入口处</td>
+</tr>
+<tr>
+<td>info break</td>
+<td>查看断点信息</td>
+</tr>
+<tr>
+<td>r</td>
+<td>运行程序，run命令简写</td>
+</tr>
+<tr>
+<td>n</td>
+<td>单条语句执行，next命令简写</td>
+</tr>
+<tr>
+<td>c</td>
+<td>继续运行程序，continue命令简写</td>
+</tr>
+<tr>
+<td>bt</td>
+<td>backtrace 查看函数堆栈</td>
+</tr>
+<tr>
+<td>p <x></x></td>
+<td>打印变量</td>
+</tr>
+<tr>
+<td>finish</td>
+<td>退出函数</td>
+</tr>
+<tr>
+<td>q</td>
+<td>退出gdb</td>
+</tr>
+<tr>
+<td>info f(frame)</td>
+<td>打印出更为详细的当前栈层的信息，只不过，大多数都是运行时的内内地址。比如：函数地址，调用函数的地址，被调用函数的地址，目前的函数是由什么样的程序语言写成的、函数参数地址及值、局部变量的地址等等</td>
+</tr>
+<tr>
+<td>frame <n></n></td>
+<td>frame后加栈中的层编号，表示切换到相应的函数栈。</td>
+</tr>
+<tr>
+<td>up <n></n></td>
+<td>表示向栈的上面移动n层，可以不打n，表示向上移动一层</td>
+</tr>
+<tr>
+<td>down <n></n></td>
+<td>表示向栈的下面移动n层，可以不打n，表示向上移动一层</td>
+</tr>
+<tr>
+<td>info args</td>
+<td>打印出当前函数的参数名及其值</td>
+</tr>
+<tr>
+<td>info locals</td>
+<td>打印出当前函数中所有局部变量及其值</td>
+</tr>
+<tr>
+<td>p *array@len</td>
+<td>查看从array首地址开始的len个元素。@的左边是数组的首地址的值，也就是变量array所指向的内容，右边则是数据的长度，其保存在变量len中</td>
+</tr>
+<tr>
+<td>set var &lt; x=7 &gt;</td>
+<td>设置变量x的值为7</td>
+</tr>
+<tr>
+<td>whatis <x></x></td>
+<td>查看变量x的类型</td>
+</tr>
+</tbody>
+</table>
 <h3 id="用gdb调试MPI程序"><a href="#用gdb调试MPI程序" class="headerlink" title="用gdb调试MPI程序"></a>用gdb调试MPI程序</h3><p>要用到两个GDB调试器的功能</p>
 <ol>
 <li>在终端输入：gdb -p [pId] 该命令用于将已经在运行的进程附加到GDB上</li>
@@ -458,10 +548,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Daftar Isi
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Ikhtisar
+            Übersicht
           </li>
         </ul>
       
@@ -482,7 +572,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">58</span>
-                <span class="site-state-item-name">posting</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -493,7 +583,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">kategori</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -504,7 +594,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
                 <span class="site-state-item-count">44</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -620,11 +710,11 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Tema -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
