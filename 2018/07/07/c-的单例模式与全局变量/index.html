@@ -119,7 +119,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -207,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Beranda
           </a>
         </li>
       
@@ -217,7 +217,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Arsip
           </a>
         </li>
       
@@ -227,7 +227,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Kategori
           </a>
         </li>
       
@@ -297,7 +297,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-07T12:12:42+08:00">
                 2018-07-07
@@ -334,7 +334,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>在之前的code review中因为使用了大量的全局变量被老师批的一无是处，于是痛定思痛，从网上查了全局变量的缺点以及如何减少甚至不用全局变量。单例模式就是全局变量的一种很好的代替方法。<br>简而言之就是创建一个单例类，保证这个类只有一个对象实例（将构造函数私有化），并提供一个访问的方法，然后用它的静态成员函数得到类的唯一对象实例。<br>考虑多线程，单例模式还要做很多调整，具体的在第二篇参考blog 中写的非常好;虽然是用java描述，但是转为c++也是相同的原理。<br><a id="more"></a></p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>在之前的code review中因为使用了大量的全局变量被老师批的一无是处，于是痛定思痛，从网上查了全局变量的缺点以及如何减少甚至不用全局变量。单例模式就是全局变量的一种很好的代替方法。<br>简而言之就是创建一个单例类，保证这个类只有一个对象实例（将构造函数私有化），并提供一个访问的方法，然后用它的静态成员函数得到类的唯一对象实例。<br>考虑多线程，单例模式还要做很多调整，具体的在第二篇参考blog 中写的非常好;虽然是用java描述，但是转为c++也是相同的原理。<br><a id="more"></a></p>
 <h3 id="哪里会用到单例模式"><a href="#哪里会用到单例模式" class="headerlink" title="哪里会用到单例模式"></a>哪里会用到单例模式</h3><p>在程序开发过程中基本都会用到数据库，要操作数据库就需要建立数据库连接，建立一个数据库连接对程序的运行时间影响很大，其实一个数据库连接建立完成之后如果只是提供给一个数据库操作使用，等下一个操作出现时又创建一个新的连接就会很耗时。因此，假如一个数据库连接建立完成之后可以提供给后面所有的数据库操作使用，而不需要建立新的连接就会节省很多时间，这里就需要用到单例模式，保证程序中只有一个数据库连接实例。<br>随着程序开发越来越复杂，业务数据越来越多，在系统运行时一个数据库连接的实例显然就不够用 ，此时，数据库连接池的就应运而生，系统运行时可以存在多个数据库连接实例，把这些实例放在一个池子里，使用时从池子里拿出来，用完了再放回去，池子在系统运行时只有一个，因此数据库连接池也要采用单例模式，保证在系统运行时只有一个实例存在。<br>在程序开发中还会用到日志、还有包括java中的runtime类（与当前运行时环境有关，在当前JVM中应该只有一个这样的实例在运行）……这些都是单例模式的典型应用。<br>总结：当程序运行时，需要保证一个对象只有一个实例存在时，就应该要用到单例模式<br><img src="/2018/07/07/c-的单例模式与全局变量/1.png" alt="图片"><br><img src="/2018/07/07/c-的单例模式与全局变量/2.png" alt="图片"></p>
 <h3 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">//singleton.h</div><div class="line"></div><div class="line">#ifndef __SINGLETON_HPP_</div><div class="line">#define __SINGLETON_HPP_</div><div class="line">#include &lt;stddef.h&gt;  // defines NULL</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cassert&gt;</div><div class="line"></div><div class="line">template &lt;class T&gt;</div><div class="line">class Singleton</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">//static修饰的函数是属于类的，所以没有this指针，</div><div class="line">//所以static类成员函数不能访问非static的类成员，只能访问static修饰的类成员</div><div class="line">  static T&amp; Instance() &#123;</div><div class="line">      if(!m_pInstance)&#123;</div><div class="line">        m_pInstance = new T;</div><div class="line">        std::cout &lt;&lt; &quot;New Instance created&quot; &lt;&lt; std::endl;</div><div class="line">      &#125; </div><div class="line">      assert(m_pInstance != NULL);</div><div class="line">      return *m_pInstance;</div><div class="line">  &#125;</div><div class="line">protected:</div><div class="line">  Singleton();</div><div class="line">  ~Singleton();</div><div class="line">private:</div><div class="line">  //将复制构造函数和“=”操作符也设为私有，防止被复制</div><div class="line">  Singleton(Singleton const&amp;);</div><div class="line">  Singleton&amp; operator=(Singleton const&amp;);</div><div class="line">  static T* m_pInstance;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//类的静态成员，独立于一切类的对象存在，必须先在类外进行初始化。static修饰的变量先与类对象存在，所以必须要在类外先进行初始化。</div><div class="line">//static修饰的变量在静态存储区生成</div><div class="line">template &lt;class T&gt; T* Singleton&lt;T&gt;::m_pInstance=NULL;</div><div class="line"></div><div class="line">#endif</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">//myclass.h</div><div class="line">#include &quot;singleton.h&quot;</div><div class="line">class MyClass </div><div class="line">&#123;</div><div class="line">public:</div><div class="line">    MyClass() </div><div class="line">    &#123;</div><div class="line">        myArr = NULL;</div><div class="line">        std::cout &lt;&lt; &quot;MyClass::MyClass()&quot; &lt;&lt; std::endl;</div><div class="line">    &#125;</div><div class="line">    void setId(int Id)</div><div class="line">    &#123;</div><div class="line">        myId = Id;</div><div class="line">    &#125;</div><div class="line">    int getId()</div><div class="line">    &#123;</div><div class="line">        return myId;</div><div class="line">    &#125;</div><div class="line">    int* getArr()</div><div class="line">    &#123;</div><div class="line">        return myArr;</div><div class="line">    &#125;</div><div class="line">    void setArr(int* pp)</div><div class="line">    &#123;</div><div class="line">        myArr = pp;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ~MyClass() </div><div class="line">    &#123;</div><div class="line">        std::cout &lt;&lt; &quot;MyClass::~MyClass()&quot; &lt;&lt; std::endl;</div><div class="line">    &#125;</div><div class="line">private:</div><div class="line">    int myId;</div><div class="line">    int* myArr;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
@@ -446,10 +446,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Daftar Isi
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Ikhtisar
           </li>
         </ul>
       
@@ -469,8 +469,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">posting</span>
               </a>
             </div>
           
@@ -481,7 +481,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">kategori</span>
               </a>
             </div>
           
@@ -491,8 +491,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -608,11 +608,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

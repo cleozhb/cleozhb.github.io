@@ -118,7 +118,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -206,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Beranda
           </a>
         </li>
       
@@ -216,7 +216,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Arsip
           </a>
         </li>
       
@@ -226,7 +226,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Kategori
           </a>
         </li>
       
@@ -296,7 +296,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-16T12:28:28+08:00">
                 2018-11-16
@@ -333,7 +333,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。</p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。</p>
 <a id="more"></a>
 <h2 id="valgrind简介"><a href="#valgrind简介" class="headerlink" title="valgrind简介"></a>valgrind简介</h2><p>首先要提到一个很好用的工具valgrind。用于linux程序的内存调试和代码剖析。它可以检测程序中内存的使用情况，C语言中的malloc和free,C++中的new和delete。使用valgrind可以快速发现bug。使用方式就是将程序编译好，然后通过valgrind来启动程序。不过valgrind对于protobuf,stl这样的3方库的兼容性不算太好，所以会造成输出一堆的still reachable字样。其实完全没有必要去纠结这些问题。<br>Valgrind工具包包含多个工具，如Memcheck,Cachegrind,Helgrind, Callgrind，Massif。我主要使用的是Memcheck工具。</p>
 <h3 id="Memcheck-工具"><a href="#Memcheck-工具" class="headerlink" title="Memcheck 工具"></a>Memcheck 工具</h3><ul>
@@ -493,10 +493,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Daftar Isi
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Ikhtisar
           </li>
         </ul>
       
@@ -516,8 +516,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">posting</span>
               </a>
             </div>
           
@@ -528,7 +528,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">kategori</span>
               </a>
             </div>
           
@@ -538,8 +538,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -655,11 +655,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

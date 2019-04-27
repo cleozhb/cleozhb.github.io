@@ -114,7 +114,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Beranda
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Arsip
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Kategori
           </a>
         </li>
       
@@ -292,7 +292,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-27T12:18:13+08:00">
                 2018-11-27
@@ -329,7 +329,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>因为CUDA中<strong>global</strong>函数不能作为类的成员函数，所以该如何将CUDA和C++类更好的结合起来使用呢？<br>方法：在类的外边定义核函数，在类的成员函数中调用核函数，将类的成员变量作为参数传入。</p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>因为CUDA中<strong>global</strong>函数不能作为类的成员函数，所以该如何将CUDA和C++类更好的结合起来使用呢？<br>方法：在类的外边定义核函数，在类的成员函数中调用核函数，将类的成员变量作为参数传入。</p>
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">// How to &quot;wrap&quot; a CUDA kernel with a C++ class; the kernel must be defined outside of</div><div class="line">// the class and launched from within a class instance&apos;s method.</div><div class="line">// 怎样将一个CUDA核函数包装在一个C++类中？</div><div class="line">// 核函数必须在类的外面定义，并且从类实例的方法中启用</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cuda.h&gt;</div><div class="line">#include &lt;cuda_runtime.h&gt;</div><div class="line"> </div><div class="line">class MyClass;</div><div class="line">__global__ void kernel(int *a, unsigned int N);</div><div class="line"></div><div class="line">class MyClass &#123;</div><div class="line">public:</div><div class="line">  MyClass(int len) &#123;</div><div class="line">    length = len;</div><div class="line">    cudaMalloc((void **)&amp;d_data, sizeof(int)*length);</div><div class="line">    cudaMemset((void *)d_data, 0, sizeof(int)*length);</div><div class="line">  &#125;;</div><div class="line">  </div><div class="line">  ~MyClass() &#123;</div><div class="line">    cudaFree((void *)d_data);</div><div class="line">    printf(&quot;%s\n&quot;,&quot;cudafree&quot; );</div><div class="line">  &#125;;</div><div class="line">  </div><div class="line">  void run(dim3 grid,dim3 block) &#123;</div><div class="line">    kernel&lt;&lt;&lt;grid, block&gt;&gt;&gt;(d_data, length);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line"></div><div class="line">  void set(int* h_data)</div><div class="line">  &#123;</div><div class="line">  cudaMemcpy(d_data,h_data,sizeof(int)*length,cudaMemcpyHostToDevice);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  int* getData(void) &#123;</div><div class="line">    return d_data;</div><div class="line">  &#125;;</div><div class="line">  int getLength(void)</div><div class="line">  &#123;</div><div class="line">    return length;</div><div class="line">  &#125;</div><div class="line">  void show(void)</div><div class="line">  &#123;</div><div class="line">    int h_data[length];</div><div class="line">    cudaMemcpy(h_data, getData(), sizeof(int)*length, cudaMemcpyDeviceToHost);</div><div class="line">    for (int i=0; i&lt;length; i++) &#123;</div><div class="line">      std::cout &lt;&lt; h_data[i] &lt;&lt; &quot; &quot;;</div><div class="line">    &#125;</div><div class="line">    std::cout &lt;&lt; std::endl;</div><div class="line">  &#125;</div><div class="line">private:</div><div class="line">  int *d_data;</div><div class="line">  int length;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">__global__ void kernel(int *a, unsigned int N) &#123;</div><div class="line">  const unsigned int i = blockIdx.x*blockDim.x+threadIdx.x;</div><div class="line">  if (i&lt;N) &#123;</div><div class="line">    a[i] += i;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">  </div><div class="line">int main(void) &#123;</div><div class="line">  int arraySize = 20;</div><div class="line"></div><div class="line">  int* testArr = new int[arraySize];</div><div class="line">  for (int i = 0; i &lt; arraySize; ++i)</div><div class="line">  &#123;</div><div class="line">      testArr[i] = i;</div><div class="line">  &#125;</div><div class="line">  // MyClass c(arraySize);  //直接声明的对象是定义在栈上的，会被自动释放  </div><div class="line">  // c.run();</div><div class="line">  // c.show();</div><div class="line"></div><div class="line">  dim3 grid(1);</div><div class="line">  dim3 block(arraySize);</div><div class="line">  MyClass *c = new MyClass(arraySize);</div><div class="line">  c-&gt;set(testArr);</div><div class="line">  c-&gt;run(grid,block);</div><div class="line">  c-&gt;show();</div><div class="line">  delete c; //用指针指向new出来的对象是存放在堆上的，必须要手动delete对象，否则对象不会被释放掉。</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>更近一步，可以将参数提取出来放在一个结构体中。比如上面的例子可以改为下面这样。本质上就是将上面那个版本的kernel函数的参数封装在一个结构体中，然后通过<strong>global</strong>函数的方式调用。在这里MyClassStruct就相当于上面的kernel函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cuda.h&gt;</div><div class="line">#include &lt;cuda_runtime.h&gt;</div><div class="line">class MyClassStruct</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">  int *d_data;</div><div class="line">  int length;</div><div class="line">  __device__ void kernel()</div><div class="line">  &#123;</div><div class="line">    const unsigned int i = blockIdx.x*blockDim.x+threadIdx.x;</div><div class="line">    if (i&lt;length) &#123;</div><div class="line">      d_data[i] += i;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">__global__ void g_run(MyClassStruct obj)</div><div class="line">&#123;</div><div class="line">  obj.kernel();</div><div class="line">&#125;</div><div class="line"></div><div class="line">class MyClass &#123;</div><div class="line">public:</div><div class="line">  MyClass(int len) &#123;</div><div class="line">    obj.length = len;</div><div class="line">    cudaMalloc((void **)&amp;obj.d_data, sizeof(int)*obj.length);</div><div class="line">    cudaMemset((void *)obj.d_data, 0, sizeof(int)*obj.length);</div><div class="line">  &#125;;</div><div class="line">  </div><div class="line">  ~MyClass() &#123;</div><div class="line">    cudaFree((void *)obj.d_data);</div><div class="line">    printf(&quot;%s\n&quot;,&quot;cudafree&quot; );</div><div class="line">  &#125;;</div><div class="line">  </div><div class="line">  void run(dim3 grid,dim3 block) &#123;</div><div class="line">    g_run&lt;&lt;&lt;grid,block&gt;&gt;&gt;(obj);</div><div class="line">  &#125;;</div><div class="line">  </div><div class="line">  void set(int* h_data)  &#123;</div><div class="line"> cudaMemcpy(obj.d_data,h_data,sizeof(int)*obj.length,cudaMemcpyHostToDevice);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  int* getData(void) &#123;</div><div class="line">    return obj.d_data;</div><div class="line">  &#125;;</div><div class="line">  int getLength(void)</div><div class="line">  &#123;</div><div class="line">    return obj.length;</div><div class="line">  &#125;;</div><div class="line">  void show(void)</div><div class="line">  &#123;</div><div class="line">    int h_data[obj.length];</div><div class="line">    cudaMemcpy(h_data, getData(), sizeof(int)*obj.length, cudaMemcpyDeviceToHost);</div><div class="line">    for (int i=0; i&lt;obj.length; i++) &#123;</div><div class="line">      std::cout &lt;&lt; h_data[i] &lt;&lt; &quot; &quot;;</div><div class="line">    &#125;</div><div class="line">    std::cout &lt;&lt; std::endl;</div><div class="line">  &#125;;</div><div class="line">private:</div><div class="line">  MyClassStruct obj;</div><div class="line">&#125;;</div><div class="line">int main(void) &#123;</div><div class="line">  int arraySize = 20;</div><div class="line">  int* testArr = new int[arraySize];</div><div class="line">  for (int i = 0; i &lt; arraySize; ++i)</div><div class="line">  &#123;</div><div class="line">      testArr[i] = i;</div><div class="line">  &#125;</div><div class="line">  dim3 grid(1);</div><div class="line">  dim3 block(arraySize);</div><div class="line">  MyClass *c = new MyClass(arraySize);</div><div class="line">  c-&gt;set(testArr);</div><div class="line">  c-&gt;run(grid,block);</div><div class="line">  c-&gt;show();</div><div class="line">  delete c; //用指针指向new出来的对象是存放在堆上的，必须要手动delete对象，否则对象不会被释放掉。</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -437,10 +437,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Daftar Isi
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Ikhtisar
           </li>
         </ul>
       
@@ -460,8 +460,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">posting</span>
               </a>
             </div>
           
@@ -472,7 +472,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">kategori</span>
               </a>
             </div>
           
@@ -482,8 +482,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -599,11 +599,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

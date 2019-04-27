@@ -116,7 +116,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Beranda
           </a>
         </li>
       
@@ -214,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Arsip
           </a>
         </li>
       
@@ -224,7 +224,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Kategori
           </a>
         </li>
       
@@ -294,7 +294,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-22T16:06:07+08:00">
                 2018-10-22
@@ -331,7 +331,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># nvcc -c test_cuda.cu</div><div class="line"># mpic++ -c test.cpp</div><div class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</div></pre></td></tr></table></figure></p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># nvcc -c test_cuda.cu</div><div class="line"># mpic++ -c test.cpp</div><div class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</div></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>完整的Makefile文件写法如下：<br>几个要注意的点：</p>
 <ol>
@@ -455,10 +455,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Daftar Isi
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Ikhtisar
           </li>
         </ul>
       
@@ -478,8 +478,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">posting</span>
               </a>
             </div>
           
@@ -490,7 +490,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">kategori</span>
               </a>
             </div>
           
@@ -500,8 +500,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -617,11 +617,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

@@ -124,7 +124,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Beranda
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Arsip
           </a>
         </li>
       
@@ -232,7 +232,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Kategori
           </a>
         </li>
       
@@ -302,7 +302,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-29T15:51:06+08:00">
                 2017-12-29
@@ -339,7 +339,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>HPSCIL集群介绍<br>    实验室的集群装的是rocks的集群，centos7的系统。需要学习一些集群管理的知识，sge, slurm等。</p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>HPSCIL集群介绍<br>    实验室的集群装的是rocks的集群，centos7的系统。需要学习一些集群管理的知识，sge, slurm等。</p>
 <a id="more"></a>
 <p>CPU信息<br>参考 <a href="https://blog.csdn.net/dongfang12n/article/details/79968217" target="_blank" rel="external">https://blog.csdn.net/dongfang12n/article/details/79968217</a><br>    非统一内存访问（NUMA）是一种用于多处理器的电脑记忆体设计，内存访问时间取决于处理器的内存位置。 在NUMA下，处理器访问它自己的本地存储器的速度比非本地存储器（存储器的地方到另一个处理器之间共享的处理器或存储器）快一些。<br><img src="/2017/12/29/linux集群相关笔记/1.png" alt="图片"></p>
 <p><img src="/2017/12/29/linux集群相关笔记/2.png" alt="图片"><br>    我们的集群中有两个NUMA结点。每个NUMA结点有一些CPU, 一个内部总线，和自己的内存，甚至可以有自己的IO。每个CPU有离自己最近的内存可以直接访问。所以，使用NUMA架构，系统的性能会更快。在NUMA结构下，我们可以比较方便的增加CPU的数目。而在非NUMA架构下，增加CPU会导致系统总线负载很重，性能提升不明显。<br>    每个CPU也可以访问另外NUMA结点上的内存，但是这样的访问，速度会比较慢。我们要尽量避免。应用软件如果没有意识到这种结构，在NUMA机器上，有时候性能会更差，这是因为，他们经常会不自觉的去访问远端内存导致性能下降。</p>
@@ -469,8 +469,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">posting</span>
               </a>
             </div>
           
@@ -481,7 +481,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">kategori</span>
               </a>
             </div>
           
@@ -491,8 +491,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -592,11 +592,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

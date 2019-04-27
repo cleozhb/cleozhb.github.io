@@ -114,7 +114,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Beranda
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Arsip
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Kategori
           </a>
         </li>
       
@@ -292,7 +292,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-10T00:36:22+08:00">
                 2017-07-10
@@ -313,7 +313,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">Di</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -351,7 +351,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>这篇文章已经没有用了，为了纪念我折腾的过程留下来。我发现移动硬盘在插入Ubuntu系统的USB接口后没有反应，是因为移动硬盘在Windows中设置了密码，用BitLocker加密过。因为是Windows的加密程序，Linux没有图形界面让用户输入密码，故无法解密。在终端输入命令可以检测到硬盘，但是并没有读写权限。硬盘厂商可能没有考虑到Windows和Linux的衔接问题，毕竟Linux是少量用户。所以，先在Windows中给移动硬盘解密，然后就可以在Linux中使用了。（吐血，因为开始完全没考虑到这个问题，还在想各种别的办法）<br>由于此次要传输的数据量很大，有1.2T，才开始学习Linux,受到windows中的影响开始的时候我尝试了用2T 的移动硬盘来拷贝数据。然而通过尝试发现，与windows不同，windows对于移动硬盘与U盘都是自动完成挂载的，在ubuntu 系统中并没有这么智能，U盘还好，移动硬盘想要挂载成功读数据已经很不容易，若还要向里面写数据几乎不可能。<br><a id="more"></a><br>于是通过查阅资料，可以通过网络传输的方式来进行数据的拷贝。采用scp在服务器之间拷贝文件，首先要做的是将被访问的电脑变成服务器，安装<strong>SSH(Secure Shell)</strong>服务以提供远程管理服务,并允许root权限远程登录，需要开启ssh服务支持scp远程登录。SSH分为客户端和服务端，需要安装SSH server </p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>这篇文章已经没有用了，为了纪念我折腾的过程留下来。我发现移动硬盘在插入Ubuntu系统的USB接口后没有反应，是因为移动硬盘在Windows中设置了密码，用BitLocker加密过。因为是Windows的加密程序，Linux没有图形界面让用户输入密码，故无法解密。在终端输入命令可以检测到硬盘，但是并没有读写权限。硬盘厂商可能没有考虑到Windows和Linux的衔接问题，毕竟Linux是少量用户。所以，先在Windows中给移动硬盘解密，然后就可以在Linux中使用了。（吐血，因为开始完全没考虑到这个问题，还在想各种别的办法）<br>由于此次要传输的数据量很大，有1.2T，才开始学习Linux,受到windows中的影响开始的时候我尝试了用2T 的移动硬盘来拷贝数据。然而通过尝试发现，与windows不同，windows对于移动硬盘与U盘都是自动完成挂载的，在ubuntu 系统中并没有这么智能，U盘还好，移动硬盘想要挂载成功读数据已经很不容易，若还要向里面写数据几乎不可能。<br><a id="more"></a><br>于是通过查阅资料，可以通过网络传输的方式来进行数据的拷贝。采用scp在服务器之间拷贝文件，首先要做的是将被访问的电脑变成服务器，安装<strong>SSH(Secure Shell)</strong>服务以提供远程管理服务,并允许root权限远程登录，需要开启ssh服务支持scp远程登录。SSH分为客户端和服务端，需要安装SSH server </p>
 <p><strong>一、检查是否开启SSH服务</strong><br>因为Ubuntu默认是不安装SSH服务的，所以在安装之前可以查看目前系统是否安装，通过以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps <span class="_">-e</span>|grep ssh</div></pre></td></tr></table></figure>
 <p>输出结果sshd表示 ssh-server 启动。<br><strong>二、安装SSH服务</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install ssh</div></pre></td></tr></table></figure></p>
@@ -483,8 +483,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">posting</span>
               </a>
             </div>
           
@@ -495,7 +495,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">kategori</span>
               </a>
             </div>
           
@@ -505,8 +505,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -606,11 +606,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>

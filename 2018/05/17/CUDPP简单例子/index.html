@@ -114,7 +114,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Beranda
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Arsip
           </a>
         </li>
       
@@ -222,7 +222,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            Kategori
           </a>
         </li>
       
@@ -292,7 +292,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T09:59:11+08:00">
                 2018-05-17
@@ -329,7 +329,7 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><h3 id="scan"><a href="#scan" class="headerlink" title="scan"></a>scan</h3><p>在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// Initialize the CUDPP Library</div><div class="line">   CUDPPHandle theCudpp;</div><div class="line">   cudppCreate(&amp;theCudpp);</div></pre></td></tr></table></figure></p>
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h3 id="scan"><a href="#scan" class="headerlink" title="scan"></a>scan</h3><p>在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// Initialize the CUDPP Library</div><div class="line">   CUDPPHandle theCudpp;</div><div class="line">   cudppCreate(&amp;theCudpp);</div></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p>配置cudpp执行什么算法依赖于cudppPlan的概念。cudppPlan用于维护算法的中间存储的数据结构，以及CUDPP可用于优化当前硬件的执行的信息。当调用一个算法时，cudppPlan会将配置细节传递给当前要执行的算法，并且生成一个内部的plan对象。返回一个CUDPPHandle（一个指针对象，用于引用plan对象，必须传递给其他CUDPP函数才能执行算法）。<br>下面这个例子中对numElements个元素进行exclusive sum-scan。首先将配置信息存储在CUDPPConfiguration 结构对象中。然后将CUDPPConfiguration 传递给cudppPlan，同时传递的参数还有要扫描的元素个数numElements, 最后传递1,0，作为numRows and rowPitch参数，因为这个例子中只是扫描一维数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">CUDPPConfiguration config;</div><div class="line">config.op = CUDPP_ADD;</div><div class="line">config.datatype = CUDPP_FLOAT;</div><div class="line">config.algorithm = CUDPP_SCAN;</div><div class="line">config.options = CUDPP_OPTION_FORWARD | CUDPP_OPTION_EXCLUSIVE;</div><div class="line"></div><div class="line">CUDPPHandle scanplan = 0;</div><div class="line">CUDPPResult res = cudppPlan(theCudpp, &amp;scanplan, config, numElements, 1, 0);  </div><div class="line"></div><div class="line">if (CUDPP_SUCCESS != res)</div><div class="line">&#123;</div><div class="line">    printf(&quot;Error creating CUDPPPlan\n&quot;);</div><div class="line">    exit(-1);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>现在有了一个scanplan对象句柄，接下来传递plan句柄、input和output设备数组、numElements，调用cudppScan()让CUDPP工作,确保cudppPlan不会运行错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// Run the scan</div><div class="line">res = cudppScan(scanplan, d_odata, d_idata, numElements);</div><div class="line">if (CUDPP_SUCCESS != res)</div><div class="line">&#123;</div><div class="line">    printf(&quot;Error in cudppScan()\n&quot;);</div><div class="line">    exit(-1);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -443,10 +443,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Daftar Isi
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Ikhtisar
           </li>
         </ul>
       
@@ -466,8 +466,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">posting</span>
               </a>
             </div>
           
@@ -478,7 +478,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">kategori</span>
               </a>
             </div>
           
@@ -488,8 +488,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">42</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -605,11 +605,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  Theme -
+  Tema -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
