@@ -1,0 +1,793 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="高性能计算,负载均衡," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。 超级并行——如何能够充分">
+<meta name="keywords" content="高性能计算,负载均衡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多节点CPU+GPU协同计算负载均衡">
+<meta property="og:url" content="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/index.html">
+<meta property="og:site_name" content="学思考的小孩儿">
+<meta property="og:description" content="近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。 超级并行——如何能够充分">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/1.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/2.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/3.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/4.png">
+<meta property="og:image" content="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/5.png">
+<meta property="og:updated_time" content="2019-04-27T02:35:25.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多节点CPU+GPU协同计算负载均衡">
+<meta name="twitter:description" content="近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。 超级并行——如何能够充分">
+<meta name="twitter:image" content="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/"/>
+
+
+
+
+
+  <title>多节点CPU+GPU协同计算负载均衡 | 学思考的小孩儿</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">学思考的小孩儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">多节点CPU+GPU协同计算负载均衡</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-28T20:15:10+08:00">
+                2019-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。</p>
+<p>超级并行——如何能够充分发挥计算机系统多层次硬件的计算能力，让这些硬件同时在全速工作。比如在单机多核多GPU平台上如何让众多的GPU、CPU和IO设备都处于忙碌状态。</p>
+<p>现在的并行一般分为三个层面：<br>多机——使用网络将多个计算机连接起来，典型的有MPI，要求大粒度<br>多核——处理器中现在4核已经非常普遍，基于线程的OpenMP和pthread是首选开发环境。<br>图形处理单元——CUDA、OpenCL</p>
+<a id="more"></a>
+<p>由于使用了不同的函数库和变成语言，构建超级并行程序不像普通程序那样简单，基本思想是分段编译，然后链接。</p>
+<ul>
+<li>进程+线程</li>
+<li>进程+GPU线程</li>
+<li>线程+GPU线程</li>
+<li>进程+线程+GPU线程</li>
+</ul>
+<p>进程+GPU线程。通常使用一个进程控制一个GPU。MPI编译多GPU的思想是：将CUDA程序用C封装，编译成目标文件;然后在mpicc编译时链接，最好保证GPU数和进程数相等，因为现在一些老的GPU不支持在单GPU上同时运行多个CUDA的kernel函数。</p>
+<h2 id="一、-CPU-GPU协同计算模式"><a href="#一、-CPU-GPU协同计算模式" class="headerlink" title="一、    CPU+GPU协同计算模式"></a>一、    CPU+GPU协同计算模式</h2><p>CPU+GPU异构协同计算集群如图1所示，CPU+GPU异构集群可以划分成三个并行层次：节点间并行、节点内CPU与GPU异构并行、设备（CPU或GPU）内并行。根据这三个层次我们可以得到CPU+GPU异构协同计算模式为：节点间分布式+节点内异构式+设备内共享式。</p>
+<h3 id="1-节点间分布式"><a href="#1-节点间分布式" class="headerlink" title="1           节点间分布式"></a>1           节点间分布式</h3><p>CPU+GPU异构协同计算集群中，各个节点之间的连接与传统CPU集群一样，采用网络连接，因此，节点间采用了分布式的计算方式，可以采用MPI消息通信的并行编程语言。</p>
+<h3 id="2-节点内异构式"><a href="#2-节点内异构式" class="headerlink" title="2           节点内异构式"></a>2           节点内异构式</h3><p>CPU+GPU异构协同计算集群中，每个节点上包含多核CPU和一块或多块GPU卡，节点内采用了异构的架构，采用主从式的编程模型，即每个GPU卡需要由CPU进程/线程调用。</p>
+<p>由于每个节点上，CPU核数也比较多，计算能力也很大，因此，在多数情况下，CPU也会参与部分并行计算，根据CPU是否参与并行计算，我们可以把CPU+GPU异构协同计算划分成两种计算模式：</p>
+<p>1)       CPU/GPU协同计算：CPU只负责复杂逻辑和事务处理等串行计算，GPU 进行大规模并行计算；</p>
+<p>2)       CPU+GPU共同计算：由一个CPU进程/线程负责复杂逻辑和事务处理等串行计算，其它CPU进程/线程负责小部分并行计算，GPU负责大部分并行计算。</p>
+<p>由于CPU/GPU协同计算模式比CPU+GPU共同计算模式简单，下面的介绍中，我们以CPU+GPU共同计算模式为例进行展开介绍各种编程模式。</p>
+<p>在CPU+GPU共同计算模式下，我们把所有的CPU统称为一个设备（device），如双路8核CPU共有16个核，我们把这16个核统称成一个设备；每个GPU卡成为一个设备。根据这种划分方式，我们可以采用MPI进程或OpenMP线程控制节点内的各设备之间的通信和数据划分。</p>
+<h3 id="3-设备内共享式"><a href="#3-设备内共享式" class="headerlink" title="3           设备内共享式"></a>3           设备内共享式</h3><p>1)       CPU设备：每个节点内的所有多核CPU采用了共享存储模型，因此，把节点内的所有多核CPU看作一个设备， 可以采用MPI进程或OpenMP线程、pThread线程控制这些CPU核的并行计算。</p>
+<p>2)       GPU设备：GPU设备内有自己独立的DRAM存储，GPU设备也是共享存储模型，在GPU上采用CUDA或OpenCL编程控制GPU众核的并行计算。CUDA编程模式只在NVIDIA GPU上支持，OpenCL编程模式在NVIDIA GPU和AMD GPU都支持。</p>
+<p>根据前面对CPU+GPU异构协同计算模式的描述，我们可以得到CPU+GPU异构协同计算的编程模型（以MPI和OpenMP为例）如表1所示。<br><img src="/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/1.png" alt="图片"><br><img src="/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/2.png" alt="图片"></p>
+<h2 id="二、-CPU-GPU协同计算负载均衡性设计"><a href="#二、-CPU-GPU协同计算负载均衡性设计" class="headerlink" title="二、    CPU+GPU协同计算负载均衡性设计"></a>二、    CPU+GPU协同计算负载均衡性设计</h2><p>下面以模式2为例简单介绍多节点CPU+GPU协同计算任务划分和负载均衡，模式2的进程和线程与CPU核和GPU设备对应关系如图2所示。若采用主从式MPI通信机制，我们在节点0上多起一个进程（0号进程）作为主进程，控制其它所有进程。每个节点上启动3个计算进程，其中两个控制GPU设备，一个控制其余所有CPU核的并行，在GPU内采用CUDA/OpenCL并行，在CPU设备内采用OpenMP多线程并行。</p>
+<p>由于CPU+GPU协同计算模式分为3个层次，那么负载均衡性也需要在这3个层次上分别设计。在模式2的编程方式下，节点内和节点间均采用MPI进程，合二为一，设计负载均衡时，只需要做到进程间（设备之间）的负载均衡和CPU设备内OpenMP线程负载均衡、GPU设备内CUDA线程负载均衡即可。</p>
+<p>对于设备内，采用的是共享存储器模型，CPU设备上的OpenMP线程可以采用schedule(static/ dynamic/ guided )方式；GPU设备上只要保证同一warp内的线程负载均衡即可。</p>
+<p>对于CPU+GPU协同计算，由于CPU和GPU计算能力相差很大，因此，在对任务和数据划分时不能给CPU设备和GPU设备划分相同的任务/数据量，这就增加了CPU与GPU设备间负载均衡的难度。CPU与GPU之间的负载均衡最好的方式是采用动态负载均衡的方法，然而有些应用无法用动态划分而只能采用静态划分的方式。下面我们分别介绍动态划分和静态划分。</p>
+<h3 id="1-动态划分"><a href="#1-动态划分" class="headerlink" title="1       动态划分"></a>1       动态划分</h3><p>对于一些高性能计算应用程序，在CPU与GPU之间的负载均衡可以采用动态负载均衡的优化方法，例如有N个任务/数据，一个节点内有2个GPU卡，即三个设备（CPU和2个GPU），动态负载均衡的方法是每个设备先获取一个任务/数据进行计算，计算之后立即获取下一个任务，不需要等待其他设备，直到N个任务/数据计算完成。这种方式只需要在集群上设定一个主进程，负责给各个计算进程分配任务/数据。</p>
+<h3 id="2-静态划分"><a href="#2-静态划分" class="headerlink" title="2       静态划分"></a>2       静态划分</h3><p>在一些应用中，无法采用动态划分的方式，需要静态划分方法，然而静态划分方法使异构设备间的负载均衡变得困难，有时甚至无法实现。对于一些迭代应用程序，我们可以采用学习型的数据划分方法，如先让CPU和GPU分别做一次相同计算量的计算，然后通过各自的运行时间计算出CPU与GPU的计算能力比例，然后再对数据进行划分。<br><img src="/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/3.png" alt="图片"></p>
+<h2 id="三、-CPU-GPU协同计算数据划分示例"><a href="#三、-CPU-GPU协同计算数据划分示例" class="headerlink" title="三、    CPU+GPU协同计算数据划分示例"></a>三、    CPU+GPU协同计算数据划分示例</h2><p>假设某一应用的数据特点如图3所示，从输出看，结果中的每个值的计算需要所有输入数据的信息，所有输出值的计算之间没有任何数据依赖性，可以表示成outj=；从输入看，每个输入值对所有的输出值都产生影响，所有输入数据之间也没有任何数据依赖性。从数据特点可以看出，该应用既可以对输入进行并行数据划分也可以对输出进行数据划分。下面我们分析CPU+GPU协同计算时的数据划分方式。<br><img src="/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/4.png" alt="图片"></p>
+<h3 id="1-按输入数据划分"><a href="#1-按输入数据划分" class="headerlink" title="1         按输入数据划分"></a>1         按输入数据划分</h3><p>假设按输入数据划分，我们可以采用动态的方式给每个CPU或GPU设备分配数据，做到动态负载均衡，然而这种划分方式，使所有的线程向同一个输出位置保存结果，为了正确性，需要使所有的线程对每个结果进行原子操作，这样将会严重影响性能，极端情况下，所有线程还是按顺序执行的。因此，这种方式效果很差。</p>
+<h3 id="2-按输出数据划分"><a href="#2-按输出数据划分" class="headerlink" title="2         按输出数据划分"></a>2         按输出数据划分</h3><p>按输出数据划分的话可以让每个线程做不同位置的结果计算，计算完全独立，没有依赖性。如果采用静态划分的方式，由于CPU和GPU计算能力不同，因此，很难做到负载均衡。采用动态的方式可以做到负载均衡，即把结果每次给CPU或GPU设备一块，当设备计算完本次之后，立即向主进程申请下一个分块，这样可以做到完全负载均衡。按输出数据划分，无论采用静态划分还是动态划分，都会带来另外一个问题，由于每个结果的计算都需要所有输入信息，那么所有进程（设备）都需要读取一遍所有输入数据，动态划分时还不只一次，尤其对于输入数据很大时，这将会对输入数据的IO产生很大的影响，很有可能使IO程序性能瓶颈。</p>
+<h3 id="3-按输入和输出同时划分"><a href="#3-按输入和输出同时划分" class="headerlink" title="3         按输入和输出同时划分"></a>3         按输入和输出同时划分</h3><p>由于按输入或按输出划分都存在不同的缺点，我们可以采用输入和输出同时划分的方式进行数据划分，如图4所示。</p>
+<p>从输出角度，让所有的计算进程（设备）都有一份计算结果，设备内的线程对结果进行并行计算，每个设备都有一份局部的计算结果，所有设备都计算完毕之后，利用MPI进程对所有设备的计算结果进行规约，规约最后的结果即是最终的结果。</p>
+<p>从输入角度，按输入数据动态划分给不同的计算进程（设备），这样可以满足所有的计算进程负载均衡。<br><img src="/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/5.png" alt="图片"></p>
+<p>参考：<a href="https://blog.csdn.net/zhang0311/article/details/8224093" target="_blank" rel="external">https://blog.csdn.net/zhang0311/article/details/8224093</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/高性能计算/" rel="tag"># 高性能计算</a>
+          
+            <a href="/tags/负载均衡/" rel="tag"># 负载均衡</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/27/Linux下用GDB调试MPI程序/" rel="next" title="Linux下用GDB调试MPI程序">
+                <i class="fa fa-chevron-left"></i> Linux下用GDB调试MPI程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/fly.jpg"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description">From zero to hero</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/silence-inner-peace" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yuan-hong-94-43/activities" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.imooc.com" title="imooc" target="_blank">imooc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.ted.com" title="TED" target="_blank">TED</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.nowcoder.com" title="nowcoder" target="_blank">nowcoder</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.bbc.co.uk/learningenglish/english/features/6-minute-english" title="BBC" target="_blank">BBC</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=110167&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、-CPU-GPU协同计算模式"><span class="nav-number">1.</span> <span class="nav-text">一、    CPU+GPU协同计算模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-节点间分布式"><span class="nav-number">1.1.</span> <span class="nav-text">1           节点间分布式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-节点内异构式"><span class="nav-number">1.2.</span> <span class="nav-text">2           节点内异构式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-设备内共享式"><span class="nav-number">1.3.</span> <span class="nav-text">3           设备内共享式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、-CPU-GPU协同计算负载均衡性设计"><span class="nav-number">2.</span> <span class="nav-text">二、    CPU+GPU协同计算负载均衡性设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-动态划分"><span class="nav-number">2.1.</span> <span class="nav-text">1       动态划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-静态划分"><span class="nav-number">2.2.</span> <span class="nav-text">2       静态划分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-CPU-GPU协同计算数据划分示例"><span class="nav-number">3.</span> <span class="nav-text">三、    CPU+GPU协同计算数据划分示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-按输入数据划分"><span class="nav-number">3.1.</span> <span class="nav-text">1         按输入数据划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-按输出数据划分"><span class="nav-number">3.2.</span> <span class="nav-text">2         按输出数据划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-按输入和输出同时划分"><span class="nav-number">3.3.</span> <span class="nav-text">3         按输入和输出同时划分</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

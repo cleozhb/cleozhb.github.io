@@ -265,6 +265,124 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/fly.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="学思考的小孩儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/" itemprop="url">多节点CPU+GPU协同计算负载均衡</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-28T20:15:10+08:00">
+                2019-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。</p>
+<p>超级并行——如何能够充分发挥计算机系统多层次硬件的计算能力，让这些硬件同时在全速工作。比如在单机多核多GPU平台上如何让众多的GPU、CPU和IO设备都处于忙碌状态。</p>
+<p>现在的并行一般分为三个层面：<br>多机——使用网络将多个计算机连接起来，典型的有MPI，要求大粒度<br>多核——处理器中现在4核已经非常普遍，基于线程的OpenMP和pthread是首选开发环境。<br>图形处理单元——CUDA、OpenCL</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/28/浅谈多节点CPU-GPU协同计算负载均衡性设计/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/27/Linux下用GDB调试MPI程序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -386,7 +504,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/27/多节点MPI-CUDA的程序中GPU与进程的绑定/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/07/多节点MPI-CUDA的程序中GPU与进程的绑定/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -405,7 +523,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/27/多节点MPI-CUDA的程序中GPU与进程的绑定/" itemprop="url">多节点MPI+CUDA的程序中GPU与进程的绑定</a></h1>
+                <a class="post-title-link" href="/2019/04/07/多节点MPI-CUDA的程序中GPU与进程的绑定/" itemprop="url">多节点MPI+CUDA的程序中GPU与进程的绑定</a></h1>
         
 
         <div class="post-meta">
@@ -417,8 +535,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-27T09:56:23+08:00">
-                2019-04-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-07T09:56:23+08:00">
+                2019-04-07
               </time>
             
 
@@ -456,7 +574,7 @@
           <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>GPU是提升性能的强大工具，所以我们希望能够利用多GPU提升程序的效率，这样就可以实现MPI进程+CUDA轻量级线程的两层并行。NVIDIA的SLI(Scalable Link Interface)技术允许一个主机同时控制4个GPU，由于功耗和散热的限制，在一个系统上运行多个任务一直是一个挑战。然而，kernel的启动一次只能针对一个GPU，在多GPU系统中可以使用cudaSetDevice()函数来指定目标设备。如果我们有GPU集群，能否支持超过4个GPU呢？<br>解决方案是用MPI协调多个主机程序，每个主机程序控制一个或多个GPU。MPI用于在主机缓冲区间进行数据传输。现在对于部分NVIDIA设备已经支持MPI的识别，可以直接将设备指针传到MPI的函数中。但为了使得程序在任何集群上都能运行，在MPI不能识别CUDA的情况下，在调用MPI函数进行数据传输之前，将数据显式的拷贝到主机端，在目的进程接收之后在拷贝到设备端。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/04/27/多节点MPI-CUDA的程序中GPU与进程的绑定/#more" rel="contents">
+            <a class="btn" href="/2019/04/07/多节点MPI-CUDA的程序中GPU与进程的绑定/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>
@@ -502,7 +620,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/27/MPI的进程组和通信域/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/03/26/MPI的进程组和通信域/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -521,7 +639,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/27/MPI的进程组和通信域/" itemprop="url">MPI的进程组和通信域</a></h1>
+                <a class="post-title-link" href="/2019/03/26/MPI的进程组和通信域/" itemprop="url">MPI的进程组和通信域</a></h1>
         
 
         <div class="post-meta">
@@ -533,8 +651,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-27T09:55:57+08:00">
-                2019-04-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-26T09:55:57+08:00">
+                2019-03-26
               </time>
             
 
@@ -574,7 +692,7 @@
 <p>（3）<strong>通信域产生的方法</strong>。根据看过的资料，大概有三种方法，先简要了解路子即可：<br>  a. 在已有通信域基础上划分获得：MPI_Comm_split(MPI_Comm comm, int color, int key, MPI_Comm <em>newcomm)<br>   b. 在已有通信域基础上复制获得：MPI_Comm_dup(MPI_Comm comm, MPI_Comm </em>newcomm)<br>     c. 在已有进程组的基础上创建获得：MPI_Comm_create(MPI_Comm comm, MPI_Group group, MPI_Comm *newcomm)</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/04/27/MPI的进程组和通信域/#more" rel="contents">
+            <a class="btn" href="/2019/03/26/MPI的进程组和通信域/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>
@@ -620,7 +738,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/27/STL-条件查找——find-if用法/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/03/07/STL-条件查找——find-if用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -639,7 +757,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/27/STL-条件查找——find-if用法/" itemprop="url">STL 条件查找——find_if用法</a></h1>
+                <a class="post-title-link" href="/2019/03/07/STL-条件查找——find-if用法/" itemprop="url">STL 条件查找——find_if用法</a></h1>
         
 
         <div class="post-meta">
@@ -651,8 +769,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-27T09:53:16+08:00">
-                2019-04-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-07T09:53:16+08:00">
+                2019-03-07
               </time>
             
 
@@ -690,7 +808,7 @@
           <p>find_if()函数，它接收一个<strong>函数对象的参数</strong>作为参数， 并使用它来做更复杂的评价对象是否和给出的查找条件相符。以下三个例子分别举例说明在map,vector,list中的用法，其实都是一样的，STL最大的好处就是用迭代器实现了容器和算法的分离，我们只需要在自己实现的类中实现仿函数，因为只有这个类本身知道该怎么样判定相等。构造一个函数对象参数传入find_if()函数。仿函数对象内部定义了要查找的条件，且返回类型必须为bool，客观反应在find_if()函数查找过程中的是否匹配。知道了这个，以后就不用再用遍历来查找元素了。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/04/27/STL-条件查找——find-if用法/#more" rel="contents">
+            <a class="btn" href="/2019/03/07/STL-条件查找——find-if用法/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>
@@ -736,7 +854,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/04/02/将map按value排序/">
+    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/03/02/将map按value排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -755,7 +873,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/02/将map按value排序/" itemprop="url">将map按value排序</a></h1>
+                <a class="post-title-link" href="/2019/03/02/将map按value排序/" itemprop="url">将map按value排序</a></h1>
         
 
         <div class="post-meta">
@@ -767,8 +885,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-02T15:17:04+08:00">
-                2019-04-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-02T15:17:04+08:00">
+                2019-03-02
               </time>
             
 
@@ -812,125 +930,7 @@
 <p>这个类有4个模板参数，Key和Value是我们比较熟悉的，最后一个是allocator分配器，用来定义存储分配。Compare这个参数也是一个class类型的，提供默认值less<key>。这个参数决定了map中元素的排序。接下来来解决刚刚说到的两个问题</key></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/04/02/将map按value排序/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://silence-inner-peace.github.io/2019/01/24/浅谈多节点CPU-GPU协同计算负载均衡性设计/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/image/fly.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学思考的小孩儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/24/浅谈多节点CPU-GPU协同计算负载均衡性设计/" itemprop="url">多节点CPU+GPU协同计算负载均衡</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-24T20:15:10+08:00">
-                2019-01-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。</p>
-<p>超级并行——如何能够充分发挥计算机系统多层次硬件的计算能力，让这些硬件同时在全速工作。比如在单机多核多GPU平台上如何让众多的GPU、CPU和IO设备都处于忙碌状态。</p>
-<p>现在的并行一般分为三个层面：<br>多机——使用网络将多个计算机连接起来，典型的有MPI，要求大粒度<br>多核——处理器中现在4核已经非常普遍，基于线程的OpenMP和pthread是首选开发环境。<br>图形处理单元——CUDA、OpenCL</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/01/24/浅谈多节点CPU-GPU协同计算负载均衡性设计/#more" rel="contents">
+            <a class="btn" href="/2019/03/02/将map按value排序/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>
