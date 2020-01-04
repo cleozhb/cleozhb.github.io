@@ -1,0 +1,116 @@
+---
+title: c++内存错误及valgrind使用
+date: 2018-11-16 12:28:28
+tags: [valgrind, 内存调试, c++]
+---
+这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。
+
+<!--more-->
+
+## valgrind简介
+首先要提到一个很好用的工具valgrind。用于linux程序的内存调试和代码剖析。它可以检测程序中内存的使用情况，C语言中的malloc和free,C++中的new和delete。使用valgrind可以快速发现bug。使用方式就是将程序编译好，然后通过valgrind来启动程序。不过valgrind对于protobuf,stl这样的3方库的兼容性不算太好，所以会造成输出一堆的still reachable字样。其实完全没有必要去纠结这些问题。
+Valgrind工具包包含多个工具，如Memcheck,Cachegrind,Helgrind, Callgrind，Massif。我主要使用的是Memcheck工具。
+### Memcheck 工具
+* 使用未初始化的内存 (Use of uninitialised memory)
+* 使用已经释放了的内存 (Reading/writing memory after it has been free’d)
+* 使用超过 malloc分配的内存空间(Reading/writing off the end of malloc’d blocks)
+* 对堆栈的非法访问 (Reading/writing inappropriate areas on the stack)
+* 申请的空间是否有释放 (Memory leaks – where pointers to malloc’d blocks are lost forever)
+* malloc/free/new/delete申请和释放内存的匹配(Mismatched use of malloc/new/new [] vs free/delete/delete [])
+* src和dst的重叠(Overlapping src and dst pointers in memcpy() and related functions)
+
+这些问题都是平时很容易犯的例如：
+```
+    #include <stdlib.h>  
+    #include <malloc.h>  
+    #include <string.h>  
+    void test()  
+    {  
+        int *ptr = malloc(sizeof(int)*10);  
+        ptr[10] = 7; // 内存越界  
+        memcpy(ptr +1, ptr, 5); // 踩内存  
+        free(ptr);   
+        free(ptr);// 重复释放  
+        int *p1;  
+        *p1 = 1; // 非法指针  
+    }  
+    int main(void)  
+    {  
+        test();  
+        return 0;  
+    }  
+```
+将程序编译生成可执行文件后执行：valgrind  ./程序名
+从valgrind的检测输出结果看，这几个错误都找了出来。
+![图片](1.png)
+
+一般只需要用带有gdb调试的命令 -g 编译源程序，然后在运行的时候键入类似下面的命令行。
+```
+valgrind --log-file=./valgrind_report.log --tool=memcheck --leak-check=full --show-leak-kinds=all --show-reachable=no --trace-children=yes --track-origins=yes ./main ../data/sanDiego.tif
+
+--log-file       指定报告输出文件 
+
+--tool           指定使用的工具,如果省略默认是memcheck
+
+--leak-check     当程序退出时是否收集输出内存泄漏，选项有[no|summary|full]这个地方我们将其设置成全输出，默认会使用summary方式。
+
+--show-leak-kinds 这里可以支持的选项有[definite|possible]，一般只需要去关注definite（绝逼），possible是可能会存在的内存泄漏。
+
+--show-reachable 显示内存泄漏的地点
+
+–track-origins    否显示未定义的变量，在堆、栈中被定义没有被initialised的变量都被定义成origins。默认是关闭这个option的。
+
+--trace-children   跟入子进程
+```
+输出报告之后重点看definite的，而且关于自己程序的。其次再去看possible的内存分配点的释放。
+### 其他几个工具
+* Callgrind 分析程序性能
+
+Callgrind收集程序运行时的一些数据，函数调用关系等信息，还可以有选择地进行cache模拟。在运行结束时，它会把分析数据写入一个文件。callgrind_annotate可以把这个文件的内容转化成可读的形式。
+* Cachegrind  分析cache
+
+它模拟 CPU中的一级缓存I1,D1和L2二级缓存，能够精确地指出程序中 cache的丢失和命中。如果需要，它还能够为我们提供cache丢失次数，内存引用次数，以及每行代码，每个函数，每个模块，整个程序产生的指令数。这对优化程序有很大的帮助。
+* Helgrind 分析多线程竞争
+
+它主要用来检查多线程程序中出现的竞争问题。Helgrind寻找内存中被多个线程访问，而又没有一贯加锁的区域，这些区域往往是线程之间失去同步的地方，而且会导致难以发掘的错误。Helgrind实现了名为” Eraser” 的竞争检测算法，并做了进一步改进，减少了报告错误的次数。
+* Massif   分析堆
+
+堆栈分析器，它能测量程序在堆栈中使用了多少内存，告诉我们堆块，堆管理块和栈的大小。Massif能帮助我们减少内存的使用，在带有虚拟内存的现代系统中，它还能够加速我们程序的运行，减少程序停留在交换区中的几率。
+
+### C++ 带有指针成员的类处理方式
+这个问题的来源是我在释放对象的时候报错。此问题涉及到c++中类对象的内存分布，析够函数怎样正确清理内存空间，当类中存在指针成员变量的时候怎样进行内存管理。在一个类中，如果类没有指针成员，一切方便，因为默认合成的析构函数会自动处理所有的内存。但是如果一个类带了指针成员，那么需要我们自己来写一个析构函数来管理内存。在<<c++ primer>> 中写到，如果一个类需要我们自己写析构函数，那么这个类，也会需要我们自己写拷贝构造函数和拷贝赋值函数。
+用对象声明的方式创建的新对象比如 A a;（该对象存在于栈上） 程序结束的时候析够函数会自动调用。而用指针指向的一个new出来的对象比如A *a = new A(); 这时产生一个动态对象（该对象存在于堆上），程序结束时不会自动调用析够函数，必须手动delete a;析够函数才会执行。所以：
+1. 当一个对象在stack 上时，析构函数自动调用。
+2. 当一个对象在heap上时，需要调用delete 语句，析构函数才会被执行。
+
+现在我在析够函数中调用delete来删除指针成员变量。在main 函数中创建栈上的对象，抛出错误，说明delete不能删除stack上的指针。改为动态对象（也就是new出来的对象），析够函数能够正常运行。结论：
+1. delete 语句不能删除stack 上的指针值。
+2. delete 语句只能删除heap上的指针值，也就是new 出来的对象。
+
+delete不能删除栈上的指针;也就是说当类对象中有指针成员对象mPtr时，在析够函数中调用 delete mPtr;会抛出错误。必须用new对象的方式创建对象，析够函数才可以正常运行。所以在程序中创建新对象的时候尽量用指针指向一个new出来的动态对象，然后在程序结束时手动delete掉这个指针。这样保证对象的析够函数可以正常运行。
+具体的例子参见下面的第一篇blog[http://www.cnblogs.com/lucy-lizhi/p/6551308.html](http://www.cnblogs.com/lucy-lizhi/p/6551308.html)
+，里面还介绍了智能指针的使用方法。
+### malloc 和free的机制
+1、malloc()到底从哪里得到了内存空间？
+答案是从堆里面获得空间。也就是说函数返回的指针是指向堆里面的一块内存。操作系统中有一个记录空闲内存地址的链表。当操作系统收到程序的申请时，就会遍历该链表，然后就寻找第一个空间大于所申请空间的堆结点，然后就将该结点从空闲结点链表中删除，并将该结点的空间分配给程序。就是这样！
+2、什么是堆
+堆是大家共有的空间，分全局堆和局部堆。全局堆就是所有没有分配的空间，局部堆就是用户分配的空间。堆在操作系统对进程 初始化的时候分配，运行过程中也可以向系统要额外的堆，但是记得用完了要还给操作系统，要不然就是内存泄漏。
+3、什么是栈
+栈是线程独有的，保存其运行状态和局部自动变量的。栈在线程开始的时候初始化，每个线程的栈互相独立。每个函数都有自己的栈，栈被用来在函数之间传递参数。操作系统在切换线程的时候会自动的切换栈，就是切换SS/ESP寄存器。栈空间不需要在高级语言里面显式的分配和释放。 
+![图片](2.png)
+当调用malloc时，除了你申请的大小，实际上malloc还保存了一些关于这部分内存的信息，比如这块儿内存有多大（这样当你调用free时，它才知道要释放掉多少内存），指向下一个分配块的指针等等。这这就意味着如果写过一个已分配区的尾端，则会改写后一块的管理信息。这种类型的错误是灾难性的，但是因为这种错误不会很快就暴露出来，所以也就很难发现，具体参考blog([https://blog.csdn.net/secondwatch/article/details/8017003](https://blog.csdn.net/secondwatch/article/details/8017003))。部分我称为内存元数据通常保留在malloc返回的位置之前。如果你分配连续的三个内存p1,p2,p3.内存看上去如图：
+![图片](3.png)
+如果代码中错误的写入了分配的内存（比如分配的内存少于需要的内存，或者使用了错误的边界条件）比如代码将大量的数据写入p2，它开始覆盖p3的size区域中的内容。然后现在我开始用malloc分配一个新的内存，malloc会查看最后一次内存分配的位置，查看它的size区域，然后将指针移动到p3+size，从这里开始分配内存。但是由于p3的size区域被p2的数据覆盖掉了，会造成严重的错误。
+还有一个要注意的问题，严禁将函数中的局部指针变量用浅复制的方式赋值给要传出的对象，或者作为返回值。局部变量是存储在栈上的，栈内存在函数退出后系统会自动将内存释放，浅复制只是将地址告诉了要传回的对象，在函数退出后，栈上的数据就会被释放掉，再使用就就是野指针的“非法”操作。具体参考第三篇和第四篇blog。
+在栈上分配的内存系统会自动地为其释放，例如在函数结束时，局部变量将不复存在，就是系统自动清除栈内存的结果。但堆中分配的内存则不然：一切由你负责，即使你退出了new表达式的所处的函数或者作用域，那块内存还处于被使用状态而不能再利用。好处就是如果你想在不同模块中共享内存，那么这一点正合你意，坏处是如果你不打算再利用这块内存又忘了把它释放掉，那么它就会霸占你宝贵的内存资源直到你的程序退出为止。
+栈是机器系统提供的数据结构，计算机会在底层对栈提供支持：分配专门的寄存器存放栈的地址，压栈出栈都有专门的指令执行，这就决定了栈的效率比较高。堆则是C/C++函数库提供的，它的机制是很复杂的，例如为了分配一块内存，库函数会按照一定的算法（具体的算法可以参考数据结构/操作系统）在堆内存中搜索可用的足够大小的空间，如果没有足够大小的空间（可能是由于内存碎片太多），就有可能调用系统功能去增加程序数据段的内存空间，这样就有机会分到足够大小的内存，然后进行返回。显然，堆的效率比栈要低得多。
+C/C++中，所有的方法调用都是通过栈来进行的,所有的局部变量,形式参数都是从栈中分配内存空间的。实际上也不是什么分配,只是从栈顶向上用就行,就好像工厂中的传送带(conveyor   belt)一样,Stack   Pointer会自动指引你到放东西的位置,你所要做的只是把东西放下来就行.退出函数的时候，修改栈指针就可以把栈中的内容销毁.这样的模式速度最快,当然要用来运行程序了.需要注意的是,在分配的时候,比如为一个即将要调用的程序模块分配数据区时,应事先知道这个数据区的大小,也就说是虽然分配是在程序运行时进行的,但是分配的大小多少是确定的,不变的,而这个"大小多少"是在编译时确定的,不是在运行时.
+### 参考blog
+* c++带有指针成员的类处理方式[http://www.cnblogs.com/lucy-lizhi/p/6551308.html](http://www.cnblogs.com/lucy-lizhi/p/6551308.html)
+* valgrind的介绍、安装和使用 [https://blog.csdn.net/justheretobe/article/details/52986461](https://blog.csdn.net/justheretobe/article/details/52986461)
+* 构造函数和析构函数及类中指针成员变量的new和delete[https://blog.csdn.net/qq_18548149/article/details/78942015](https://blog.csdn.net/qq_18548149/article/details/78942015)
+* 内存篇值指向栈的指针 [https://blog.csdn.net/ipmux/article/details/17549157](https://blog.csdn.net/ipmux/article/details/17549157)
+* 浅谈C中的malloc和free （指针与空间 堆与栈）[https://blog.csdn.net/secondwatch/article/details/8017003](https://blog.csdn.net/secondwatch/article/details/8017003)
+* 解决函数中返回局部指针变量的问题，加深理解《堆和栈》问题 [https://blog.csdn.net/cyp331203/article/details/18266695](https://blog.csdn.net/cyp331203/article/details/18266695)
+* linux下性能分析及内存泄漏检测[https://blog.csdn.net/u014717036/article/details/50762252](https://blog.csdn.net/u014717036/article/details/50762252)
+
