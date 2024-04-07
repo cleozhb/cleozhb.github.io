@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>STL sort函数实现详解 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="问题STL中的sort是怎么实现的为什么比我们自己写的sort要快那么多，接下来从源码的角度来看看STL中sort的实现。 分析函数声明sort函数有两个重载，一个使用默认的 &lt; 操作符，另一个使用自定义的比较仿函数。 1234567#include &lt;algorithm&gt; template&lt; class RandomIt &gt;void sort( RandomIt f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STL sort函数实现详解">
+<meta property="og:url" content="http://example.com/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="问题STL中的sort是怎么实现的为什么比我们自己写的sort要快那么多，接下来从源码的角度来看看STL中sort的实现。 分析函数声明sort函数有两个重载，一个使用默认的 &lt; 操作符，另一个使用自定义的比较仿函数。 1234567#include &lt;algorithm&gt; template&lt; class RandomIt &gt;void sort( RandomIt f">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-05-06T07:39:25.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.806Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="STL">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-STL-sort函数实现详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time class="dt-published" datetime="2019-05-06T07:39:25.000Z" itemprop="datePublished">2019-05-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      STL sort函数实现详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>STL中的sort是怎么实现的为什么比我们自己写的sort要快那么多，接下来从源码的角度来看看STL中sort的实现。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><h3 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h3><p>sort函数有两个重载，一个使用默认的 &lt; 操作符，另一个使用自定义的比较仿函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;algorithm&gt;</span><br><span class="line"> </span><br><span class="line">template&lt; class RandomIt &gt;</span><br><span class="line">void sort( RandomIt first, RandomIt last );</span><br><span class="line"> </span><br><span class="line">template&lt; class RandomIt, class Compare &gt;</span><br><span class="line">void sort( RandomIt first, RandomIt last, Compare comp );</span><br></pre></td></tr></table></figure>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>原来，STL中的sort并非只是普通的快速排序，除了对普通的快速排序进行优化，它还结合了插入排序和堆排序。根据不同的数量级别以及不同情况，能自动选用合适的排序方法。当数据量较大时采用快速排序，分段递归。一旦分段后的数据量小于某个阀值，为避免递归调用带来过大的额外负荷，便会改用插入排序。而如果递归层次过深，有出现最坏情况的倾向，还会改用堆排序。</p>
+<span id="more"></span>
+
+<h3 id="普通快排"><a href="#普通快排" class="headerlink" title="普通快排"></a>普通快排</h3><p>普通快速排序算法可以叙述如下，假设S代表需要被排序的数据序列：</p>
+<ol>
+<li>如果S中的元素只有0个或1个，结束。</li>
+<li>取S中的任何一个元素作为枢轴pivot。</li>
+<li>将S分割为L、R两端，使L内的元素都小于等于pivot，R内的元素都大于等于pivot。</li>
+<li>对L、R递归执行上述过程。</li>
+</ol>
+<p>快速排序最关键的地方在于枢轴的选择，最坏的情况发生在分割时产生了一个空的区间，这样就完全没有达到分割的效果。STL采用的做法称为median-of-three，即取整个序列的首、尾、中央三个地方的元素，以其中值作为枢轴。<br>分割的方法通常采用两个迭代器head和tail，head从头端往尾端移动，tail从尾端往头端移动，当head遇到大于等于pivot的元素就停下来，tail遇到小于等于pivot的元素也停下来，若head迭代器仍然小于tail迭代器，即两者没有交叉，则互换元素，然后继续进行相同的动作，向中间逼近，直到两个迭代器交叉，结束一次分割。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">template &lt;class _RandomAccessIter, class _Tp&gt;</span><br><span class="line">_RandomAccessIter __unguarded_partition(_RandomAccessIter __first, </span><br><span class="line">                                        _RandomAccessIter __last, </span><br><span class="line">                                        _Tp __pivot) </span><br><span class="line">&#123;</span><br><span class="line">    while (true) &#123;</span><br><span class="line">        while (*__first &lt; __pivot)</span><br><span class="line">            ++__first;</span><br><span class="line">        --__last;</span><br><span class="line">        while (__pivot &lt; *__last)</span><br><span class="line">            --__last;</span><br><span class="line">        if (!(__first &lt; __last))</span><br><span class="line">            return __first;</span><br><span class="line">        iter_swap(__first, __last);</span><br><span class="line">        ++__first;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内省式排序IntroSort"><a href="#内省式排序IntroSort" class="headerlink" title="内省式排序IntroSort"></a>内省式排序IntroSort</h3><p>不当的枢轴选择，导致不当的分割，会使快速排序恶化为 O(n2)。David R.Musser于1996年提出一种混合式排序算法：Introspective Sorting（内省式排序），简称IntroSort，其行为大部分与上面所说的median-of-three Quick Sort完全相同，但是当分割行为有恶化为二次方的倾向时，能够自我侦测，转而改用堆排序，使效率维持在堆排序的 O(nlgn)，又比一开始就使用堆排序来得好。</p>
+<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>下面是完整的SGI STL sort()源码（使用默认&lt;操作符版）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename _RandomAccessIterator, typename _Compare&gt;</span><br><span class="line">inline void</span><br><span class="line">__sort(_RandomAccessIterator __first, _RandomAccessIterator __last, _Compare __comp)</span><br><span class="line">&#123;</span><br><span class="line">    if (__first != __last)</span><br><span class="line">    &#123;</span><br><span class="line">        // __introsort_loop先进行一遍IntroSort，但是不是严格意义上的IntroSort。</span><br><span class="line">        //因为执行完之后区间并不是完全有序的，而是基本有序的。</span><br><span class="line">        //__introsort_loop和IntroSort不同的地方是，__introsort_loop会在一开始会判断区间的大小，当区间小于16的时候，就直接返回。</span><br><span class="line">        std::__introsort_loop(__first, __last,</span><br><span class="line">                std::__lg(__last - __first) * 2,</span><br><span class="line">                __comp); </span><br><span class="line">        // 在区间基本有序的基础上再做一遍插入排序，使区间完全有序</span><br><span class="line">        std::__final_insertion_sort(__first, __last, __comp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，__introsort_loop便是上面介绍的内省式排序，其第三个参数中所调用的函数__lg()便是用来控制分割恶化情况，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;class Size&gt;</span><br><span class="line">inline Size __lg(Size n) &#123;</span><br><span class="line">    Size k;</span><br><span class="line">    for (k = 0; n &gt; 1; n &gt;&gt;= 1) ++k;</span><br><span class="line">    return k;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即求lg(n)（取下整），意味着快速排序的递归调用最多 2*lg(n) 层。<br>内省式排序算法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">enum &#123; _S_threshold = 16 &#125;;</span><br><span class="line"></span><br><span class="line">template&lt;typename _RandomAccessIterator, typename _Size, typename _Compare&gt;</span><br><span class="line">void</span><br><span class="line">__introsort_loop(_RandomAccessIterator __first,</span><br><span class="line">         _RandomAccessIterator __last,</span><br><span class="line">         _Size __depth_limit, _Compare __comp)</span><br><span class="line">&#123;</span><br><span class="line">    while (__last - __first &gt; int(_S_threshold))// 若区间大小&lt;=16就不再排序</span><br><span class="line">    &#123;</span><br><span class="line">        if (__depth_limit == 0)// 若递归次数达到限制，就改用堆排序</span><br><span class="line">        &#123;</span><br><span class="line">            std::__partial_sort(__first, __last, __last, __comp);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        --__depth_limit;</span><br><span class="line">        _RandomAccessIterator __cut =</span><br><span class="line">        std::__unguarded_partition_pivot(__first, __last, __comp); // 分割</span><br><span class="line">        std::__introsort_loop(__cut, __last, __depth_limit, __comp); // 右半区间递归</span><br><span class="line">        __last = __cut;</span><br><span class="line">        // 回到while循环，对左半区间进行排序，这么做能显著减少__introsort_loop的调用的次数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>__final_insertion_sort代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename _RandomAccessIterator, typename _Compare&gt;</span><br><span class="line">void</span><br><span class="line">__final_insertion_sort(_RandomAccessIterator __first,</span><br><span class="line">           _RandomAccessIterator __last, _Compare __comp)</span><br><span class="line">&#123;</span><br><span class="line">    if (__last - __first &gt; int(_S_threshold)) // 区间长度大于16</span><br><span class="line">    &#123;</span><br><span class="line">        // 插入排序</span><br><span class="line">        std::__insertion_sort(__first, __first + int(_S_threshold), __comp); </span><br><span class="line">        // 也是插入排序，只是在插入排序的内循环时，不再判断边界条件，因为已经保证了区间前面肯定有比待插入元素更小的元素</span><br><span class="line">        std::__unguarded_insertion_sort(__first + int(_S_threshold), __last, </span><br><span class="line">                      __comp);</span><br><span class="line">    &#125;</span><br><span class="line">    else // 区间长度小于等于16的话</span><br><span class="line">        std::__insertion_sort(__first, __last, __comp); // 插入排序</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>首先判断元素规模是否大于阀值__stl_threshold，__stl_threshold是一个常整形的全局变量，值为16，表示若元素规模小于等于16，则结束内省式排序算法，返回sort函数，改用插入排序。</li>
+<li>若元素规模大于__stl_threshold，则判断递归调用深度是否超过限制。若已经到达最大限制层次的递归调用，则改用堆排序。代码中的partial_sort即用堆排序实现。</li>
+<li>若没有超过递归调用深度，则调用函数__unguarded_partition()对当前元素做一趟快速排序，并返回枢轴位置。__unguarded_partition()函数采用的便是上面所讲的使用普通快排中两个迭代器交换的方法。</li>
+<li>经过一趟快速排序后，再递归对右半部分调用内省式排序算法。然后回到while循环，对左半部分进行排序。</li>
+</ol>
+<p>递归上述过程，直到元素规模小于__stl_threshold，然后返回sort函数，对整个元素序列调用一次插入排序__final_insertion_sort，此时序列中的元素已基本有序，所以插入排序也很快。至此，整个sort函数运行结束。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>侯捷 STL源码剖析<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengcc/p/5256337.html">https://www.cnblogs.com/fengcc/p/5256337.html</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/50af00263200">https://www.jianshu.com/p/50af00263200</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" data-id="clupgymel000xih9kep09hbzp" data-title="STL sort函数实现详解" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hexo博客迁移
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">多节点CPU+GPU协同计算负载均衡</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

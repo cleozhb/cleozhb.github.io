@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>socket-python | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="socket-python">
+<meta property="og:url" content="http://example.com/2018/07/09/socket-python/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/1.png">
+<meta property="og:image" content="http://example.com/2.png">
+<meta property="og:image" content="http://example.com/3.png">
+<meta property="og:image" content="http://example.com/4.png">
+<meta property="og:image" content="http://example.com/5.png">
+<meta property="og:image" content="http://example.com/6.png">
+<meta property="article:published_time" content="2018-07-09T08:31:25.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.830Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="socket">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-socket-python" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/09/socket-python/" class="article-date">
+  <time class="dt-published" datetime="2018-07-09T08:31:25.000Z" itemprop="datePublished">2018-07-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      socket-python
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="/1.png" alt="图片"></p>
+<span id="more"></span>
+
+<p><img src="/2.png" alt="图片"><br>客户端发送SYN的报文给服务器端同时设置随机数序号X</p>
+<p>服务器端接收到客户端的报文之后，经过处理，给客户端返回SYN+ACK的报文，同时设置随机数序号Y，此时返回的报文确认为ACK&#x3D;X+1</p>
+<p>接收到报文的客户端会在处理之后再发送一个报文给服务器端此时确认为ACK &#x3D; Y+1</p>
+<p>服务器接收到客户端发送的报文之后在服务器端与客户端之间形成一个通路。</p>
+<p><img src="/3.png" alt="图片"><br>服务器端通过socket过程去绑定监听的IP以及监听的端口<br>客户端通过socket程序发出连接请求给服务器端<br>服务器端接收客户端发出的连接请求会返回回应报文给客户端<br>客户端受到服务器端发来的回应报文经过处理发送一个ACK报文给服务器端<br>服务器端接收到客户端发来的报文在服务器端与客户端之间建立通路<br>数据在通路中进行传输</p>
+<p><img src="/4.png" alt="图片"><br><img src="/5.png" alt="图片"></p>
+<p>socket_server.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import socket</span><br><span class="line"># 服务器端socket</span><br><span class="line"># 创建实例</span><br><span class="line">sk = socket.socket()</span><br><span class="line"></span><br><span class="line"># 定义绑定的IP和端口port</span><br><span class="line">ip_port = (&quot;127.0.0.1&quot;,8888)</span><br><span class="line"></span><br><span class="line"># 绑定监听</span><br><span class="line">sk.bind(ip_port)</span><br><span class="line"></span><br><span class="line"># 最大连接数,socket进行监听后的传入连接，</span><br><span class="line"># socket是阻塞的，也就是说同一时刻只有1个程序在进行处理</span><br><span class="line"># 这里的5是说socket可以挂起的最大连接数是5，同时有5个请求来可以同时进行回应</span><br><span class="line"># 正在处理的程序只有一个，其他的4个程序只能等着</span><br><span class="line"># 如果多于5个，服务器会直接拒绝第六个请求，</span><br><span class="line"># 最大连接数最小设置为1,大多数应用程序设置为5</span><br><span class="line">sk.listen(5)</span><br><span class="line"></span><br><span class="line">#不断循环，不断接收数据</span><br><span class="line">while True:</span><br><span class="line">    # 接收数据 ，传回两个参数，一个是连接对象，一个是传输地址</span><br><span class="line">    # 接收数据是阻塞状态</span><br><span class="line">    print &quot;waiting.....&quot;</span><br><span class="line">    conn,address = sk.accept()</span><br><span class="line"></span><br><span class="line">    # 定义信息</span><br><span class="line">    msg = &quot;success!&quot;</span><br><span class="line"></span><br><span class="line">    # 返回信息</span><br><span class="line">    # python3.x以上，网络数据的发送和接收都是byte类型</span><br><span class="line">    # 如果发送的数据是str型的则需要进行编码</span><br><span class="line">    conn.send(msg)</span><br><span class="line">    # 此时数据已经被发送给了客户端</span><br><span class="line"></span><br><span class="line">    # 主动关闭连接</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+
+
+<p>socket_client.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import socket</span><br><span class="line"></span><br><span class="line"># 实例初始化</span><br><span class="line">client = socket.socket()</span><br><span class="line"></span><br><span class="line"># 访问的服务器端的IP和端口</span><br><span class="line">ip_port = (&quot;127.0.0.1&quot;,8888)</span><br><span class="line"></span><br><span class="line"># 连接主机</span><br><span class="line">client.connect(ip_port)</span><br><span class="line"></span><br><span class="line"># 接收主机信息,每次接收1024个字节</span><br><span class="line">data = client.recv(1024)</span><br><span class="line"></span><br><span class="line">print data</span><br></pre></td></tr></table></figure>
+
+<p>上面为服务器端和客户端的代码，只是做到了客户端发送请求，服务器端返回数据，要如何做到客户端和服务器端真正的实时交互呢</p>
+<p>下面的代码加上了while true循环，来实现客户端与服务器端的实时通信。但是这里的连接是TCP连接，所以不能同时开启两个client端，服务器会直接拒绝连接，说明这个通信过程是阻塞的，当将第一个客户端连接关闭之后，刚刚阻塞的第二个客户端连接会直接连接上服务器。如果使用的是UDP连接，则没有三次握手建立通道的过程，所以可以同时开启多个客户端</p>
+<p><strong>socket_server.py TCP协议实时通信</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import random</span><br><span class="line"># from random import randint</span><br><span class="line">import socket</span><br><span class="line"># 服务器端socket</span><br><span class="line"># 创建实例</span><br><span class="line">sk = socket.socket()</span><br><span class="line"></span><br><span class="line"># 定义绑定的IP和端口port</span><br><span class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</span><br><span class="line"></span><br><span class="line"># 绑定监听</span><br><span class="line">sk.bind(ip_port)</span><br><span class="line"></span><br><span class="line"># 最大连接数,socket进行监听后的传入连接，</span><br><span class="line"># socket是阻塞的，也就是说同一时刻只有1个程序在进行处理</span><br><span class="line"># 这里的5是说socket可以挂起的最大连接数是5，同时有5个请求来可以同时进行回应</span><br><span class="line"># 正在处理的程序只有一个，其他的4个程序只能等着</span><br><span class="line"># 如果多于5个，服务器会直接拒绝第六个请求，</span><br><span class="line"># 最大连接数最小设置为1,大多数应用程序设置为5</span><br><span class="line">sk.listen(5)</span><br><span class="line"></span><br><span class="line">#不断循环，不断接收数据</span><br><span class="line">while True:</span><br><span class="line">    # 接收数据 ，传回两个参数，一个是连接对象，一个是传输地址</span><br><span class="line">    # 接收数据是阻塞状态</span><br><span class="line">    print &quot;waiting.....&quot;</span><br><span class="line">    conn,address = sk.accept()</span><br><span class="line"></span><br><span class="line">    # 定义信息</span><br><span class="line">    msg = &quot;success!&quot;</span><br><span class="line"></span><br><span class="line">    # 返回信息</span><br><span class="line">    # python3.x以上，网络数据的发送和接收都是byte类型</span><br><span class="line">    # 如果发送的数据是str型的则需要进行编码</span><br><span class="line">    conn.send(msg)</span><br><span class="line">    # 此时数据已经被发送给了客户端</span><br><span class="line"></span><br><span class="line">    # 进入一个while true循环，不断的接收客户端发来的消息</span><br><span class="line">    while True:</span><br><span class="line">        # 接收客户端消息</span><br><span class="line">        data = conn.recv(1024)</span><br><span class="line">        print data</span><br><span class="line">        # 接收到退出的指令</span><br><span class="line">        if data == &#x27;exit&#x27;:</span><br><span class="line">            break</span><br><span class="line">        # 处理客户端的数据</span><br><span class="line">        conn.send(data)</span><br><span class="line">        # 发送一个随机数</span><br><span class="line">        conn.send(str(random.randint(1,1000)))</span><br><span class="line">    # 主动关闭连接</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>socket_client.py TCP协议实时通信</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import socket</span><br><span class="line"></span><br><span class="line"># 实例初始化</span><br><span class="line">client = socket.socket()</span><br><span class="line"></span><br><span class="line"># 访问的服务器端的IP和端口</span><br><span class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</span><br><span class="line"></span><br><span class="line"># 连接主机</span><br><span class="line">client.connect(ip_port)</span><br><span class="line"></span><br><span class="line"># 定义一个循环，不断发送消息</span><br><span class="line">while True:</span><br><span class="line">    # 接收主机信息,每次接收1024个字节</span><br><span class="line">    data = client.recv(1024) </span><br><span class="line">    print data</span><br><span class="line"></span><br><span class="line">    # 定义发送的信息</span><br><span class="line">    msg_input = raw_input(&quot;input:&quot;)</span><br><span class="line">    # 消息发送</span><br><span class="line">    client.send(msg_input)</span><br><span class="line">    if msg_input == &quot;exit&quot;:</span><br><span class="line">        break</span><br><span class="line">    data = client.recv(1024)</span><br><span class="line">    print data</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>socket_serverUDP.py UDP协议实时通信</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import random</span><br><span class="line"># from random import randint</span><br><span class="line">import socket</span><br><span class="line"># 服务器端socket</span><br><span class="line"># 创建实例</span><br><span class="line">sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line"></span><br><span class="line"># 定义绑定的IP和端口port</span><br><span class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</span><br><span class="line">sk.bind(ip_port)</span><br><span class="line">while True:</span><br><span class="line">    data = sk.recv(1024)</span><br><span class="line">    print data</span><br></pre></td></tr></table></figure>
+
+<p><strong>socket_clientUDP.py UDP协议实时通信</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import random</span><br><span class="line"># from random import randint</span><br><span class="line">import socket</span><br><span class="line"># 服务器端socket</span><br><span class="line"></span><br><span class="line">sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line"></span><br><span class="line"># 定义绑定的IP和端口port</span><br><span class="line">ip_port = (&quot;127.0.0.1&quot;,8889)</span><br><span class="line"></span><br><span class="line">while True:</span><br><span class="line">    msg_input = raw_input(&quot;input:&quot;)</span><br><span class="line">    if msg_input == &quot;exit&quot;:</span><br><span class="line">        break</span><br><span class="line">    sk.sendto(msg_input,ip_port)</span><br><span class="line"></span><br><span class="line">sk.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="socket的非阻塞"><a href="#socket的非阻塞" class="headerlink" title="socket的非阻塞"></a>socket的非阻塞</h2><p>在TCP模式下只能有有限个连接，但是我们平时从来没有看到有阻塞的情况。<br><img src="/6.png" alt="图片"></p>
+<p>在编写服务器端程序的时候，使用SocketServer包，打开SocketServer的源码可以看到它是通过多线程的方式来进行多个客户端通过TCP连接服务器端的 。</p>
+<p>socket_serverTCP.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import SocketServer</span><br><span class="line">import random</span><br><span class="line">from random import randint</span><br><span class="line"># 定义一个类</span><br><span class="line"></span><br><span class="line">class MyServer(SocketServer.BaseRequestHandler):</span><br><span class="line">    # 如果handle出现报错，会跳过</span><br><span class="line">    # setup 和finish无论如何都会执行</span><br><span class="line">    # 首先执行setup</span><br><span class="line">    # 然后执行handle</span><br><span class="line">    # 最后执行finish</span><br><span class="line">    def setup(self):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    def handle(self):</span><br><span class="line">        conn = self.request</span><br><span class="line">        msg = &quot;hello&quot;</span><br><span class="line">        conn.send(msg)</span><br><span class="line">        while True:</span><br><span class="line">            data = conn.recv(1024)</span><br><span class="line">            print data</span><br><span class="line">            if data == &quot;exit&quot;:</span><br><span class="line">                break</span><br><span class="line">            conn.send(data)</span><br><span class="line">            conn.send(str(random.randint(1,1000)))</span><br><span class="line">        conn.close()</span><br><span class="line">    def finish(self):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    # 创建多线程实例</span><br><span class="line">    server = SocketServer.ThreadingTCPServer((&quot;127.0.0.1&quot;,8888),MyServer)</span><br><span class="line">    # 开启socketserver的异步多线程，等待客户端的连接</span><br><span class="line">    server.serve_forever()</span><br></pre></td></tr></table></figure>
+
+<h2 id="用socket实现文件的上传和接收："><a href="#用socket实现文件的上传和接收：" class="headerlink" title="用socket实现文件的上传和接收："></a><strong>用socket实现文件的上传和接收：</strong></h2><p>客户端上传文件socketSendFile.py，服务器端接收文件socketRecvFile.py<br>socketSendFile.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import socket</span><br><span class="line">sk = socket.socket()</span><br><span class="line">ip_port = (&#x27;127.0.0.1&#x27;,9999)</span><br><span class="line">sk.connect(ip_port)</span><br><span class="line"></span><br><span class="line">with open(&#x27;socket_serverUDP.py&#x27;,&#x27;rb&#x27;) as f:</span><br><span class="line">    for i in f:</span><br><span class="line">        sk.send(i)</span><br><span class="line">        data = sk.recv(1024)</span><br><span class="line">        if data != &#x27;success&#x27;:</span><br><span class="line">            break</span><br><span class="line"># 给服务器端发送结束信号</span><br><span class="line">sk.send(&#x27;quit&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+<p>socketRecvFile.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># coding:utf-8</span><br><span class="line">import socket</span><br><span class="line">sk = socket.socket()</span><br><span class="line">ip_port = (&#x27;127.0.0.1&#x27;,9999)</span><br><span class="line"></span><br><span class="line">sk.bind(ip_port)</span><br><span class="line">sk.listen(5)</span><br><span class="line"># 进入循环接收数据</span><br><span class="line">while True:</span><br><span class="line">    # 等待客户端连接</span><br><span class="line">    conn,address = sk.accept()</span><br><span class="line">    # 一直使用当前连接进行数据接收，知道结束标志出现</span><br><span class="line">    while True:</span><br><span class="line">        # 打开文件，等待数据写入</span><br><span class="line">        with open(&quot;file&quot;,&quot;ab&quot;) as f:</span><br><span class="line">            data = conn.recv(1024)</span><br><span class="line">            if data == &#x27;quit&#x27;:</span><br><span class="line">                break</span><br><span class="line">            f.write(data)</span><br><span class="line">        conn.send(&#x27;success&#x27;)</span><br><span class="line">    print &quot;receive finish!&quot;</span><br><span class="line">sk.close()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/07/09/socket-python/" data-id="clupgymeo001rih9k763d0o1d" data-title="socket-python" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/socket/" rel="tag">socket</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/23/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          右值引用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/07/c-%E7%9A%84%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">c++的单例模式与全局变量</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

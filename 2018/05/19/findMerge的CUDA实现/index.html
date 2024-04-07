@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>findMerge的CUDA实现 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="算法目标根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="findMerge的CUDA实现">
+<meta property="og:url" content="http://example.com/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="算法目标根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/1.png">
+<meta property="og:image" content="http://example.com/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/2.png">
+<meta property="og:image" content="http://example.com/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/3.png">
+<meta property="article:published_time" content="2018-05-19T02:07:37.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:52:57.598Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CUDPP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-findMerge的CUDA实现" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time class="dt-published" datetime="2018-05-19T02:07:37.000Z" itemprop="datePublished">2018-05-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      findMerge的CUDA实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="算法目标"><a href="#算法目标" class="headerlink" title="算法目标"></a>算法目标</h3><p>根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。</p>
+<span id="more"></span>
+
+<img src="/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/1.png" class="">
+
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">input：</span><br><span class="line">    const int width = 5;</span><br><span class="line">    int h_rowOneValue[width] = &#123; 1, 1, 2, 1, 3 &#125;;</span><br><span class="line">    int h_rowTwoValue[width] = &#123; 4, 1, 1, 1, 1 &#125;;</span><br><span class="line"></span><br><span class="line">    int h_rowOneLabel[width] = &#123; 1, 1, 4, 2, 5 &#125;;</span><br><span class="line">    int h_rowTwoLabel[width] = &#123; 6, 3, 3, 3, 3 &#125;;</span><br><span class="line"></span><br><span class="line">output</span><br><span class="line">  father &#123;1，2&#125;</span><br><span class="line">  child  &#123;3，3&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CUDA并行算法思想"><a href="#CUDA并行算法思想" class="headerlink" title="CUDA并行算法思想"></a>CUDA并行算法思想</h3><p>将每个pixel映射到一个CUDA线程上，将可能要合并的pair先都存储，然后将重复项和无效项去除。以上面的例子作为输入来说明，首先会产生一个3倍于原输入大小的father和child，因为每个线程都要对应遍历模板产生3个输出。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">father &#123;-1，-1，1，  -1，1，1，  -1，-1，-1，  2，2，2，  -1，-1，-1&#125;</span><br><span class="line">child  &#123;-1，-1，3，  -1，3，3，  -1，-1，-1，  3，3，3，  -1，-1，-1&#125;</span><br><span class="line">IsValid&#123; 0， 0，1，   0，0，0，   0， 0， 0，  1，0，0，   0， 0， 0&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后用CUDPP compact 操作根据中间数组IsValid将无效项（-1，-1）和重复项（1,3）（2,3）去掉。<br>最终输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">father &#123;1，2&#125;</span><br><span class="line">child  &#123;3，3&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="程序实现过程中遇到的问题"><a href="#程序实现过程中遇到的问题" class="headerlink" title="程序实现过程中遇到的问题"></a>程序实现过程中遇到的问题</h3><p>一、怎样在一个函数中再调用另外的函数对传进来的表示数组的指针申请内存空间并进行修改赋值等操作。<br>之前的经验告诉我，要在一个函数内申请内存空间并使得赋值有效传回，得传递双指针。脑子里有指针传递和值传递这个概念，但一直不是很清晰，对函数的调用机制也不清晰。下面就来搞清楚这中间到底发生了什么。<br>指针就是一个变量，存放的是地址，也是一个值而已。函数参数的传递实际上是一个拷贝的过程。以前是在被调用的函数中改变调用者中实参的值，用指向实参的指针传值就可以，现在，要在被调用函数中改变指针的指向，就要用指向指针的指针（双重指针）。在被调用函数中*<em>ptr代表指针指向的值，</em>ptr代表指针，ptr代表指针的指针就是指针的地址。</p>
+<img src="/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/2.png" class="">
+
+<p>其实在函数传递中我们只是将指针的地址复制了过来，但是这个地址仍然指向这个指针。所以当需要嵌套的在函数中传递一个数组，并要在最内层的函数调用中申请数组空间或修改数组的值的时候，要将指针的指针作为函数的参数传递，这样每次向内层的调用都会复制指针的地址，修改指针指向的地址中的值。</p>
+<p>二、怎样让一个线程调用另外一个核函数，我使用了__device__函数，但是启动失败。这个问题待解决</p>
+<p>三、遇到CUDA 的报错 invalid device function.<br>cudpp中可能用到了比较高级的函数，必须要用计算能力大于3.5的显卡，并且在编译的时候设置 -arch&#x3D;sm_35.原因是有些特性在低端的机器上是不支持的，需要指明显卡的计算能力。所以首先你得知道自己的显卡的计算能力，在编译的时候将-arch改为与自己的显卡相匹配的数值。</p>
+<h3 id="并行算法实现"><a href="#并行算法实现" class="headerlink" title="并行算法实现"></a>并行算法实现</h3><p>在实现中将原先的数组前后各添加一个无效项，避免边界处理操作。然后对每个线程使用模板，将产生的pair存放于father和child，然后得到IsValid数组，最后去重得到有效的pair。<br>每个线程产生的pair的存放位置如下:</p>
+<img src="/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/3.png" class="">
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;cuda_runtime.h&quot;</span><br><span class="line">#include &quot;device_launch_parameters.h&quot;</span><br><span class="line"></span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;cudpp.h&quot;</span><br><span class="line">#include &quot;cudpp_hash.h&quot;</span><br><span class="line"></span><br><span class="line">__global__ void getFatherAndChild(int* d_rowOneValue, int* d_rowTwoValue, int* d_rowOneLabel, int* d_rowTwoLabel, int width,</span><br><span class="line">                                 int* d_father, int* d_child)</span><br><span class="line">&#123;</span><br><span class="line">    const int tid = threadIdx.x;</span><br><span class="line">    int gid = blockIdx.x * blockDim.x + tid;</span><br><span class="line">    /*//gid是针对于第一行的</span><br><span class="line">    要遍历的模板是下面这种</span><br><span class="line">         A</span><br><span class="line">    A   A   A</span><br><span class="line">    */</span><br><span class="line">    //将原先的数组前后各添加一个无效项，避免边界处理操作</span><br><span class="line">    if ((gid == 0) || (gid == width+1))</span><br><span class="line">    &#123;</span><br><span class="line">        d_rowOneValue[gid] = -1;</span><br><span class="line">        d_rowTwoValue[gid] = -1;</span><br><span class="line">        d_rowOneLabel[gid] = -1;</span><br><span class="line">        d_rowTwoLabel[gid] = -1;</span><br><span class="line">    &#125;</span><br><span class="line">    if ((gid &gt; 0) &amp;&amp; (gid &lt; width+1))</span><br><span class="line">    &#123;</span><br><span class="line">        if (d_rowOneValue[gid] == d_rowTwoValue[gid - 1])</span><br><span class="line">        &#123;</span><br><span class="line">            d_father[3 * (gid - 1)] = d_rowOneLabel[gid];</span><br><span class="line">            d_child[3 * (gid - 1)] = d_rowTwoLabel[gid - 1];</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            d_father[3 * (gid - 1)] = -1;</span><br><span class="line">            d_child[3 * (gid - 1)] = -1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (d_rowOneValue[gid] == d_rowTwoValue[gid])</span><br><span class="line">        &#123;</span><br><span class="line">            d_father[3 * (gid - 1) + 1] = d_rowOneLabel[gid];</span><br><span class="line">            d_child[3 * (gid - 1) + 1] = d_rowTwoLabel[gid];</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            d_father[3 * (gid - 1) + 1] = -1;</span><br><span class="line">            d_child[3 * (gid - 1) + 1] = -1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (d_rowOneValue[gid] == d_rowTwoValue[gid + 1])</span><br><span class="line">        &#123;</span><br><span class="line">            d_father[3 * (gid - 1) + 2] = d_rowOneLabel[gid];</span><br><span class="line">            d_child[3 * (gid - 1) + 2] = d_rowTwoLabel[gid + 1];</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            d_father[3 * (gid - 1) + 2] = -1;</span><br><span class="line">            d_child[3 * (gid - 1) + 2] = -1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__device__ void reLabelRepeatItem(int* d_father, int* d_child, int currentId)</span><br><span class="line">&#123;</span><br><span class="line">    const int tid = threadIdx.x;</span><br><span class="line">    int gid = blockIdx.x * blockDim.x + tid;</span><br><span class="line">    if ((gid &lt; currentId) &amp;&amp; (d_father[gid] == d_father[currentId]) &amp;&amp; (d_child[gid] == d_child[currentId]))</span><br><span class="line">    &#123;</span><br><span class="line">        d_father[currentId] = -1;</span><br><span class="line">        d_child[currentId] = -1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">__global__ void getIsvalid(int* d_father, int* d_child, unsigned int* d_isValid, int N, int numThreads, int numBlocks)</span><br><span class="line">&#123;</span><br><span class="line">    const int tid = threadIdx.x;</span><br><span class="line">    int gid = blockIdx.x * blockDim.x + tid;</span><br><span class="line">    int currentId;</span><br><span class="line">    if (gid &lt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        currentId = gid;</span><br><span class="line">        int i = 0;</span><br><span class="line">        for (i = currentId - 1; i &gt;= 0; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            if ((d_father[i] == d_father[currentId]) &amp;&amp; (d_child[i] == d_child[currentId]))</span><br><span class="line">            &#123;</span><br><span class="line">                d_father[currentId] = -1;</span><br><span class="line">                d_child[currentId] = -1;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //reLabelRepeatItem &lt;&lt; &lt;numBlocks, numThreads &gt;&gt; &gt;(d_father, d_child, currentId);</span><br><span class="line">    &#125;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    if (gid &lt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        if (d_father[gid] &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            d_isValid[gid] = 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">size_t compactArray(int* d_Val, unsigned int* d_isValid, int totalNum, CUDPPHandle&amp; compactplan,</span><br><span class="line">    int** h_ValValid)</span><br><span class="line">&#123;</span><br><span class="line">    int memSize = sizeof(int)* totalNum;</span><br><span class="line">    </span><br><span class="line">    size_t* d_numValid = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_numValid, sizeof(size_t));</span><br><span class="line">    int *d_ValValid;</span><br><span class="line">    cudaMalloc((void**)&amp;d_ValValid, memSize);</span><br><span class="line">    cudaMemset(d_ValValid, 0, memSize);</span><br><span class="line"></span><br><span class="line">    // Run the compact</span><br><span class="line">    CUDPPResult res = cudppCompact(compactplan, d_ValValid, d_numValid, d_Val, d_isValid, totalNum);</span><br><span class="line">    if (CUDPP_SUCCESS != res)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Error in cudppScan()\n&quot;);</span><br><span class="line">        exit(-1);</span><br><span class="line">    &#125;</span><br><span class="line">    size_t h_numValidElements = 0;</span><br><span class="line">    cudaMemcpy(&amp;h_numValidElements, d_numValid, sizeof(size_t), cudaMemcpyDeviceToHost);</span><br><span class="line"></span><br><span class="line">    *h_ValValid = (int*)malloc(sizeof(int)*h_numValidElements);</span><br><span class="line">    cudaMemcpy(*h_ValValid, d_ValValid, sizeof(int)*h_numValidElements, cudaMemcpyDeviceToHost);</span><br><span class="line"></span><br><span class="line">    cudaFree(d_numValid);</span><br><span class="line">    cudaFree(d_ValValid);</span><br><span class="line">    return h_numValidElements;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">size_t compactFatherAndChild(int* d_father, int* d_child, unsigned int* d_isValid, int totalNum,</span><br><span class="line">                            int** h_fatherValid, int** h_childValid)</span><br><span class="line">&#123;</span><br><span class="line">    CUDPPHandle cudppForCompact;</span><br><span class="line">    cudppCreate(&amp;cudppForCompact);</span><br><span class="line"></span><br><span class="line">    CUDPPConfiguration compactConfig;</span><br><span class="line">    compactConfig.datatype = CUDPP_INT;</span><br><span class="line">    compactConfig.algorithm = CUDPP_COMPACT;</span><br><span class="line">    compactConfig.options = CUDPP_OPTION_FORWARD | CUDPP_OPTION_EXCLUSIVE;</span><br><span class="line">    </span><br><span class="line">    CUDPPHandle compactplan = 0;</span><br><span class="line">    CUDPPResult res = cudppPlan(cudppForCompact, &amp;compactplan, compactConfig, totalNum, 1, 0);</span><br><span class="line">    if (CUDPP_SUCCESS != res)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Error creating CUDPPPlan\n&quot;);</span><br><span class="line">        exit(-1);</span><br><span class="line">    &#125;</span><br><span class="line">    compactArray(d_father, d_isValid, totalNum, compactplan, h_fatherValid);</span><br><span class="line">    size_t h_numValidElements = compactArray(d_child, d_isValid, totalNum, compactplan, h_childValid);</span><br><span class="line">    </span><br><span class="line">    cudppDestroy(cudppForCompact);</span><br><span class="line">    cudppDestroyPlan(compactplan);</span><br><span class="line">    </span><br><span class="line">    return h_numValidElements;</span><br><span class="line">&#125;</span><br><span class="line">void checkDeviceArrayOfTypeInt(int* d_val, int length, char* name)</span><br><span class="line">&#123;</span><br><span class="line">    int memSize = sizeof(int)*length;</span><br><span class="line">    int *h_val = (int*)malloc(memSize);</span><br><span class="line">    cudaMemcpy(h_val, d_val, memSize, cudaMemcpyDeviceToHost);</span><br><span class="line">    printf(&quot;%s:\n&quot;,name);</span><br><span class="line">    int i = 0;</span><br><span class="line">    for (i = 0; i &lt; length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;%d\t&quot;, h_val[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;\n&quot;);</span><br><span class="line">    free(h_val);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">size_t findMergeFunc(int* h_rowOneValue, int* h_rowTwoValue, int* h_rowOneLabel, int* h_rowTwoLabel, int width, int numThreads, int numBlocks,</span><br><span class="line">    int** h_fatherValid, int** h_childValid)</span><br><span class="line">&#123;</span><br><span class="line">    int memSize = sizeof(int)* (width + 2);//这里设置数组长度为width+2是为了在前后都加一个无效项，避免边界处理操作</span><br><span class="line">    </span><br><span class="line">    int *d_rowOneValue = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_rowOneValue, memSize);</span><br><span class="line">    cudaMemcpy(d_rowOneValue+1, h_rowOneValue, sizeof(int)* (width), cudaMemcpyHostToDevice);</span><br><span class="line">    </span><br><span class="line">    int *d_rowTwoValue = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_rowTwoValue, memSize);</span><br><span class="line">    cudaMemcpy(d_rowTwoValue + 1, h_rowTwoValue, sizeof(int)* (width), cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">    int *d_rowOneLabel = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_rowOneLabel, memSize);</span><br><span class="line">    cudaMemcpy(d_rowOneLabel + 1, h_rowOneLabel, sizeof(int)* (width), cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">    int *d_rowTwoLabel = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_rowTwoLabel, memSize);</span><br><span class="line">    cudaMemcpy(d_rowTwoLabel + 1, h_rowTwoLabel, sizeof(int)* (width), cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    int memSizeFatherChild = sizeof(int)* width * 3;</span><br><span class="line">    </span><br><span class="line">    int* d_father = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_father, memSizeFatherChild);</span><br><span class="line">    cudaMemset(d_father, 0, memSizeFatherChild);</span><br><span class="line">    int* d_child = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_child, memSizeFatherChild);</span><br><span class="line">    cudaMemset(d_child, 0, memSizeFatherChild);</span><br><span class="line"></span><br><span class="line">    //接下来就是给d_father和d_child赋值</span><br><span class="line">    getFatherAndChild &lt;&lt; &lt;numBlocks, numThreads &gt;&gt; &gt;(d_rowOneValue, d_rowTwoValue, d_rowOneLabel, d_rowTwoLabel, width, d_father, d_child);</span><br><span class="line">    </span><br><span class="line">    char str_father[] = &quot;d_father&quot;;</span><br><span class="line">    checkDeviceArrayOfTypeInt(d_father, width * 3, str_father);</span><br><span class="line">    char str_child[] = &quot;d_father&quot;;</span><br><span class="line">    checkDeviceArrayOfTypeInt(d_child, width * 3, str_child);</span><br><span class="line"></span><br><span class="line">    //到这里为止father和child设置完毕，接下来要进行去重操作</span><br><span class="line">    //首先声明一个有效数组用来标记是否有效d_isValid</span><br><span class="line">    unsigned int* d_isValid = NULL;</span><br><span class="line">    cudaMalloc((void**)&amp;d_isValid, sizeof(unsigned int)* width * 3);</span><br><span class="line">    cudaMemset(d_isValid, 0, memSizeFatherChild);</span><br><span class="line">    getIsvalid &lt;&lt; &lt;numBlocks, numThreads &gt;&gt; &gt;(d_father, d_child, d_isValid, width * 3, numThreads, numBlocks);</span><br><span class="line"></span><br><span class="line">    int *h_isValid = (int*)malloc(sizeof(unsigned int)* width * 3);</span><br><span class="line">    cudaMemcpy(h_isValid, d_isValid, sizeof(unsigned int)* width * 3, cudaMemcpyDeviceToHost);</span><br><span class="line">    printf(&quot;h_isValid:\n&quot;);</span><br><span class="line">    int i;</span><br><span class="line">    for (i = 0; i &lt; width * 3; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;%d\t&quot;, h_isValid[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;\n&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //现在已经有了d_father和d_child，以及d_isValid，接下来需要对d_father和d_child根据d_isValid进行compact操作</span><br><span class="line">    </span><br><span class="line">    size_t h_numValidElements = compactFatherAndChild(d_father, d_child, d_isValid, width * 3, h_fatherValid, h_childValid);</span><br><span class="line"></span><br><span class="line">    cudaFree(d_rowOneValue);</span><br><span class="line">    cudaFree(d_rowTwoValue);</span><br><span class="line">    cudaFree(d_rowOneLabel);</span><br><span class="line">    cudaFree(d_rowTwoLabel);</span><br><span class="line">    cudaFree(d_father);</span><br><span class="line">    cudaFree(d_child);</span><br><span class="line">    cudaFree(d_isValid);</span><br><span class="line"></span><br><span class="line">    return h_numValidElements;</span><br><span class="line">&#125;</span><br><span class="line">void initCUDA(int&amp; devIdx)</span><br><span class="line">&#123;</span><br><span class="line">    int deviceCount;</span><br><span class="line">    cudaGetDeviceCount(&amp;deviceCount);</span><br><span class="line">    if (deviceCount == 0) &#123;</span><br><span class="line">        fprintf(stderr, &quot;error: no devices supporting CUDA.\n&quot;);</span><br><span class="line">        exit(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    int dev = 0;</span><br><span class="line">    if (devIdx &lt; 0) dev = 0;</span><br><span class="line">    if (devIdx &gt; deviceCount - 1) dev = deviceCount - 1;</span><br><span class="line">    else dev = devIdx;</span><br><span class="line">    cudaSetDevice(dev);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaDeviceProp prop;</span><br><span class="line">    if (cudaGetDeviceProperties(&amp;prop, dev) == cudaSuccess)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Using device %d:\n&quot;, dev);</span><br><span class="line">        printf(&quot;%s; global mem: %dB; compute v%d.%d; clock: %d kHz\n&quot;,</span><br><span class="line">            prop.name, (int)prop.totalGlobalMem, (int)prop.major,</span><br><span class="line">            (int)prop.minor, (int)prop.clockRate);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">void findMerge()</span><br><span class="line">&#123;</span><br><span class="line"> int gpuIdx = 1;</span><br><span class="line"> initCUDA(gpuIdx);</span><br><span class="line">    const int width = 5;</span><br><span class="line">    int h_rowOneValue[width] = &#123; 1, 1, 2, 1, 3 &#125;;</span><br><span class="line">    int h_rowTwoValue[width] = &#123; 4, 2, 1, 1, 1 &#125;;</span><br><span class="line"></span><br><span class="line">    int h_rowOneLabel[width] = &#123; 1, 1, 4, 2, 5 &#125;;</span><br><span class="line">    int h_rowTwoLabel[width] = &#123; 6, 7, 3, 3, 3 &#125;;</span><br><span class="line"></span><br><span class="line">    int numThreads = 1024;</span><br><span class="line">    int numBlocks = (width + numThreads - 1) / numThreads;</span><br><span class="line">    size_t h_numValidElements = 0;</span><br><span class="line">    int* h_fatherValid = NULL;</span><br><span class="line">    int* h_childValid = NULL;</span><br><span class="line"></span><br><span class="line">    h_numValidElements = findMergeFunc(h_rowOneValue, h_rowTwoValue, h_rowOneLabel, h_rowTwoLabel, width, numThreads, numBlocks, &amp;h_fatherValid, &amp;h_childValid);</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    printf(&quot;numValidElements: %ld\n&quot;, h_numValidElements);</span><br><span class="line">    int i = 0;</span><br><span class="line">    for (i = 0; i &lt; h_numValidElements; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;%d\t&quot;, h_fatherValid[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;\n&quot;);</span><br><span class="line">    for (i = 0; i &lt; h_numValidElements; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;%d\t&quot;, h_childValid[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;\n&quot;);</span><br><span class="line">    free(h_fatherValid);</span><br><span class="line">    free(h_childValid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/" data-id="clupgymen001fih9kewbkc48d" data-title="findMerge的CUDA实现" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/25/static%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          static关键字的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/17/CUDA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CUDA性能指标</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

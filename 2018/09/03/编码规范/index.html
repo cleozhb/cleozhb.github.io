@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>编码规范 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="C&#x2F;C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编码规范">
+<meta property="og:url" content="http://example.com/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="C&#x2F;C++程序变量和函数命名规范及注意事项 主要内容   函数命名规则（驼峰命名法） 变量命名规则（匈牙利命名法） 其他非常重要的注意事项">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/%E5%A4%B4%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89.png">
+<meta property="og:image" content="http://example.com/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/h%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8F%AA%E5%A3%B0%E6%98%8E%E4%B8%8D%E5%8C%85%E5%90%AB%E5%A4%B4%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="http://example.com/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/%E6%8C%87%E9%92%88%E6%93%8D%E4%BD%9C.png">
+<meta property="og:image" content="http://example.com/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4%E4%BA%8C%E7%BB%B4%E6%8C%87%E9%92%88.png">
+<meta property="article:published_time" content="2018-09-03T05:53:55.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.843Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="编码规范">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/%E5%A4%B4%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-编码规范" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" class="article-date">
+  <time class="dt-published" datetime="2018-09-03T05:53:55.000Z" itemprop="datePublished">2018-09-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      编码规范
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="C-C-程序变量和函数命名规范及注意事项"><a href="#C-C-程序变量和函数命名规范及注意事项" class="headerlink" title="C&#x2F;C++程序变量和函数命名规范及注意事项"></a>C&#x2F;C++程序变量和函数命名规范及注意事项</h2><blockquote>
+<p>主要内容</p>
+</blockquote>
+<ul>
+<li>函数命名规则（驼峰命名法）</li>
+<li>变量命名规则（匈牙利命名法）</li>
+<li>其他非常重要的注意事项<span id="more"></span></li>
+</ul>
+<h3 id="函数命名规则（驼峰命名法）"><a href="#函数命名规则（驼峰命名法）" class="headerlink" title="函数命名规则（驼峰命名法）"></a>函数命名规则（驼峰命名法）</h3><p>普通函数：函数名由若干个单词组成，第一个单词全部小写，第二个单词开始首字母大写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bool getMeanValue(...);</span><br><span class="line">int csvToShp(...);</span><br><span class="line">double ** computeUrbanConversionMatrix(...);</span><br></pre></td></tr></table></figure>
+
+<p><strong>tips</strong></p>
+<ol>
+<li><p>inline类型的函数，在函数名前面加下划线_：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inline int _getCuberInterpolationValue(...);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>若为static类型的函数，函数名第一个单词首字母大写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int OpenFiles(...);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="变量命名规则（匈牙利命名法）"><a href="#变量命名规则（匈牙利命名法）" class="headerlink" title="变量命名规则（匈牙利命名法）"></a>变量命名规则（匈牙利命名法）</h3><ul>
+<li>原则1：禁止使用简单英文单词命名变量，如min,max,left,right,会造成和某些库保留变量名冲突</li>
+<li>原则2：<strong>变量作用域(w&#x2F;m&#x2F;_&#x2F;无)+指针&#x2F;数组(p&#x2F;pp&#x2F;ppp&#x2F;无)+变量类型(c&#x2F;u&#x2F;n&#x2F;f&#x2F;d&#x2F;s&#x2F;v 等)+变量名称</strong></li>
+<li>原则3：迭代变量允许但不推荐使用i,j,k,n,m,尽量使用有意义的迭代变量名称，如<code>_nFilesIdx</code></li>
+</ul>
+<p><em>表1：变量作用域命名规则</em></p>
+<p>| 变量作用域 | 前缀 | 例子   | 意义|<br>| ———  |:—–:|: —–:|—–:|<br>| 全局变量  | w  | wnValue  | 全局int型变量 |<br>| 静态变量  | S(大写)  | SnValue  | 静态int型变量 |<br>| 类变量    | m  | mnValue  | 类int型变量 |<br>| 普通变量  | 不需要  | nValue  | int型变量 |<br>| 临时变量  | _  | _nValue  | 临时int型变量 |</p>
+<p><em>表2：指针&#x2F;数组命名规则</em></p>
+<p>| 指针&#x2F;数组 | 前缀 | 例子   | 意义|<br>| ———  |:—–:|: —–:|—–:|<br>| 一维  | p  | pdValues  | 普通一维double型数组 |<br>| 二维  | pp  | ppdValues  | 普通2维double型数组 |<br>| 三维  | ppp | pppdValues  | 普通3维double型数组 |<br>| 非指针  | 无 | dValues  | 普通double型数组 |</p>
+<p><em>表3：变量类型命名规则</em></p>
+<p>| 指针&#x2F;数组 | 前缀 | 例子   | 意义|<br>| ———  |:—–:|: —–:|—–:|<br>| char  | c  | cValue  |  |<br>| unsigned char,byte  | u  | uValue  |  |<br>| short,unsigned short,int,unsigned int  | n  | nValue  |  |<br>| long,long long  | l  | lValue  |  |<br>| float  | f  | fVafue  |  |<br>| double  | d  | dVadue  |  |<br>| bool  | b  | bVabue  |  |<br>| char*,string  | s&#x2F;str&#x2F;sz  | strValue  |  |<br>| list,vector  | v  | vValues  | 链表&#x2F;容器 |<br>| file  | in&#x2F;out&#x2F;fi  | inFile&#x2F;outFile&#x2F;fiOutput  | 输入输出文件 |<br>| map,hash  | map  | mapKeyValues  | 映射表&#x2F;哈希表 |<br>| HANDLE  | h  | hDesktop  | 桌面句柄 |<br>| GDAL相关指针  | po  | poDataset  |  |<br>| 控件  | ctrl  | ctrlTextView  | TextView控件 |<br>| 源对象  | src  | srcString  | 源字符串 |<br>| 目的对象  | dst  | dstString  | 目的字符串 |</p>
+<p><strong>例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">double ** mppdDistanceMatrix;   //类内二维双精度型指针变量</span><br><span class="line">QList&lt;int&gt;* wpvnValuesList;     //全局int型链表的指针</span><br><span class="line">QList&lt;int*&gt; mvpnValueList;      //类内链表对象，存储int型指针</span><br><span class="line">QProgressBar*mpctrlProgBar;     //类内ProgressBar控件指针对象</span><br><span class="line">GDALDataset*mpoDataset;         //GDAL栅格数据集指针对象</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="其他非常重要的注意事项"><a href="#其他非常重要的注意事项" class="headerlink" title="其他非常重要的注意事项"></a>其他非常重要的注意事项</h3><ol>
+<li>为了防止同一个文件被编译器多次编译，每个头文件(*.h)实现结构必须为：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#ifndef 随机唯一表示字符串，千万不要与其他头文件重复</span><br><span class="line">#define 随机唯一表示字符串，千万不要与其他头文件重复</span><br><span class="line">(类的实现)</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+e.g. <img src="/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/%E5%A4%B4%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89.png" class=""></li>
+<li>为了防止头文件互相包含造成编译错误，每个头文件(.h)中的include的其他头文件数量越少越好。或者只进行声明，在对应的实现文件(.cpp)中将所需头文件包含进来；<br>e.g.<img src="/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/h%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8F%AA%E5%A3%B0%E6%98%8E%E4%B8%8D%E5%8C%85%E5%90%AB%E5%A4%B4%E6%96%87%E4%BB%B6.png" class=""></li>
+<li>为防止内存泄露造成程序不稳定，在类和函数中声明的指针一定要先置NULL,或nullptr;每次使用前先判断是否为NULL,若需要更行，先delete再new;并在类的析构函数中或函数尾部对该指针delete并置NULL或nullptr处理.<img src="/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/%E6%8C%87%E9%92%88%E6%93%8D%E4%BD%9C.png" class="">
+<img src="/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4%E4%BA%8C%E7%BB%B4%E6%8C%87%E9%92%88.png" class=""></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/09/03/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" data-id="clupgymet003pih9kdm219at3" data-title="编码规范" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/12/%E8%AE%B0%E5%AE%9E%E9%AA%8C%E5%AE%A4code-review/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          记实验室code review
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/02/NVIDIA-parallel-computing-5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NVIDIA parallel computing-5</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

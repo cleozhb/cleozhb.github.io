@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>基于深度学习的人流量预测 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="该研究论文《Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction》已经发表在 AAAI 2017。是深度学习用在城市计算领域中首次在高等级会议上发表。 深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于深度学习的人流量预测">
+<meta property="og:url" content="http://example.com/2017/09/12/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F%E9%A2%84%E6%B5%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="该研究论文《Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction》已经发表在 AAAI 2017。是深度学习用在城市计算领域中首次在高等级会议上发表。 深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E6%80%BB%E4%BD%93%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E5%8D%B7%E7%A7%AF%E7%BB%93%E6%9E%84%E5%92%8C%E6%AE%8B%E5%B7%AE%E7%BB%93%E6%9E%84%E5%9B%BE.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E5%8D%B7%E7%A7%AF%E5%85%AC%E5%BC%8F.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E4%B8%89%E7%A7%8D%E6%97%B6%E9%97%B4%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E5%9B%BE.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/3%E4%B8%AA%E6%97%B6%E9%97%B4%E8%9E%8D%E5%90%88.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E6%AE%8B%E5%B7%AE%E5%8D%95%E5%85%83%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E6%AE%8B%E5%B7%AE%E7%BD%91%E7%BB%9C%E5%AF%B9%E6%AF%94%E5%9B%BE.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/deep%E5%B1%82%E6%95%B0%E5%BD%B1%E5%93%8D.png">
+<meta property="article:published_time" content="2017-09-12T00:13:26.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.856Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="DNN">
+<meta property="article:tag" content="CNN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://oqadn1oza.bkt.clouddn.com/%E6%80%BB%E4%BD%93%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-基于深度学习的人流量预测" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/09/12/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F%E9%A2%84%E6%B5%8B/" class="article-date">
+  <time class="dt-published" datetime="2017-09-12T00:13:26.000Z" itemprop="datePublished">2017-09-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      基于深度学习的人流量预测
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>该研究论文《Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction》已经发表在 AAAI 2017。是深度学习用在城市计算领域中首次在高等级会议上发表。<br></p>
+<h3 id="深度时空残差网络ST-ResNet-Deep-Spatio-temporal-residual-network"><a href="#深度时空残差网络ST-ResNet-Deep-Spatio-temporal-residual-network" class="headerlink" title="深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)"></a>深度时空残差网络ST-ResNet(Deep Spatio-temporal residual network)</h3><p><img src="http://oqadn1oza.bkt.clouddn.com/%E6%80%BB%E4%BD%93%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.png" alt="时空模型结构"></p>
+<span id="more"></span>
+<p>&emsp;&emsp; 论文使用了北京市的出租车 GPS 轨迹上面做了验证，大概用了约 3 万多辆出租车长达 5 年的数据，同时也利用纽约公开的自行车租赁数据做了验证。将这些琐碎的数据转变成有规律的、能够对深度学习作为输入的格式，通过空间的划分和折射，变成一个二维矩阵，使它能够作为深度学习模型的输入。这个转换过程很重要，涉及到不同数据之间的多元化融合。具体而言，论文中将城市划分成均匀且不相交的网格，比如划分成一个个一平方公里的网格，然后输入人流数据（包括手机、出租车轨迹等）投射在网格里面，计算出每个格子里有多少人进和出。红色越亮的地方就表示人越多，一帧的图像比如说是二维图像，如果有很多时间点就可以持续生成图片，同时有对应的事件和天气信息，这就构成了数据的输入，把时空数据转换成这样一个模式。</p>
+<h2 id="模型总架构："><a href="#模型总架构：" class="headerlink" title="模型总架构："></a>模型总架构：</h2><p>&emsp;&emsp;模型包括4个主要部分来对时空数据的周期性、趋势性、平滑性和外部数据的影响分别建模。上图中可以看到，首先将每个格网中的流入人流量和流出人流量分别转化为一个有两个信道的图像矩阵。将时间轴提取3类信息，包括了近期、中长期、长期。将各个时间戳下包含输入输出2个信道的这三类数据分别喂给三个相同参数的convolutionalNN。紧接着是深度残差网络。这样的结构可以学习到从近处到远处大范围的时空依赖关系。外部数据包括一些人工提取的天气、事件等数据，将这些数据喂给fully-connection neural network。上面那三个输出先进行一次融合，融合时考虑到每个区域事件范围作用强度不同，对于不同区域给三种数据不同的权重。然后将融合结果与外部数据的结果进行进一步融合。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8D%B7%E7%A7%AF%E7%BB%93%E6%9E%84%E5%92%8C%E6%AE%8B%E5%B7%AE%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="CNN &amp; residual模型结构"></p>
+<h2 id="卷积层架构："><a href="#卷积层架构：" class="headerlink" title="卷积层架构："></a>卷积层架构：</h2><p>&emsp;&emsp;一个城市通常很大，在图上由很多pixel组成，直觉上，人流量会受到周免邻近区域的影响，所以CNN可以很好的抓取分层的空间结构特征。现在地铁的发展已将将这种影响扩展到更远的区域了。我们要设计一个深层的CNN，因为单层CNN受卷积核大小的限制，只考虑到相邻的单元。卷积层的输入数据中，每一层可以看做是一个2<em>time_interval×I×J的图像。有2×time_interval这么多个信道，大小为I</em>J个pixel。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8D%B7%E7%A7%AF%E5%85%AC%E5%BC%8F.png" alt="卷积公式"></p>
+<h2 id="残差网络层："><a href="#残差网络层：" class="headerlink" title="残差网络层："></a>残差网络层：</h2><p>&emsp;&emsp;在卷积神经网络中我们往往需要深层的CNN来学习更大范围。例如要用3×3的kenel来学习32×32的图像，需要15层卷积层堆叠。为了解决因为深度增加而导致性能下降问题，使用深度残差网络，可以用来训练很深的网络，网络深度甚至可以大于1000。具体介绍见文末。<br>&emsp;&emsp;</p>
+<h2 id="创新点："><a href="#创新点：" class="headerlink" title="创新点："></a>创新点：</h2><ol>
+<li><p>ST-ResNet使用了卷积残差网络来进行空间属性模拟。深度卷积神经网络的过程就是把区域划成格子之后，对相关区域进行卷积运算得到一个值，可以认为，通过一次卷积之后把周围区域人流的相关性抓住了，卷积多次后把更远地方的区域属性都卷积到一起，如果你想捕捉很远的地方，意味着你的卷积网络层次必须要比较深，只有一层抓不到很远地方的相关性。之所以要这样做，是因为之前有提到，很多人可能从外地很远的地方通过高铁或高速公路直接抵达，不会经过你所覆盖到的周边区。<br><br>此外，一旦网络层次比较深，训练会变得非常复杂，基于卷积神经网络，文中引入了深度残差网络结构来做人流量预测，用来帮助深度卷积网络提高训练精度。<br></p>
+</li>
+<li><p>提取了三个维度下人流量数据的特征，平滑性、周期性和趋势性。分别利用三个深度残差网络来对这些属性进行建模。基于对时空数据深刻的理解，论文中提出一个特殊的网络模型。在这个结构里，只需要抽取一些关键帧，比如说昨天同一时刻，前天同一时刻，其他时间不做输入，大概只要用几十帧的关键帧作为输入，就可以体现出几个月里所包含的周期性和趋势性，使得的网络结构大大简化。有了这样的数据之后，再对时间特性进行模拟。把最近几个小时、几帧的数据，输入到时空残差网络里面，模拟相邻时刻变化的平滑过程，然后把对应时间点昨天、前天的数据输入来模拟周期性，再把更远的时间点对应的读数拿进来，模拟一个趋势性，分别模拟了三个时间属性。</p>
+</li>
+<li><p>在融合相似性、周期性和趋势性这三个模块时，相比于直接的融合，提出的基于参数矩阵的融合方法考虑到了每个区域的时间特性的强度不同给予不同的权重，因此取得了更好的结果。<br><br><img src="http://oqadn1oza.bkt.clouddn.com/%E4%B8%89%E7%A7%8D%E6%97%B6%E9%97%B4%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%9C%E5%9B%BE.png" alt="三种时间模型结果图"><br><img src="http://oqadn1oza.bkt.clouddn.com/3%E4%B8%AA%E6%97%B6%E9%97%B4%E8%9E%8D%E5%90%88.png" alt="模型融合公式"></p>
+</li>
+<li><p>再把外部事件、天气等因素拿进来进行二次融合，得到一个结果。多元数据融合依旧是个值得探索的领域。</p>
+</li>
+</ol>
+<h2 id="深度残差网络："><a href="#深度残差网络：" class="headerlink" title="深度残差网络："></a>深度残差网络：</h2><p>&emsp;&emsp; 实践中发现网络的深度和模型的效果并不是正相关的关系，导致这个问题的原因并不是由过拟合造成的，很多实践表明在训练深度神经网络的时候，训练误差和测试误差都随着网络深度的增加而增加。导致这个问题可能的原因：<br></p>
+<ul>
+<li>很有可能是梯度消失&#x2F;爆炸引起的</li>
+<li>新加的层表达能力有限，对前面几层学好的模型是一种损害，所以可能存在一个「最优层数」。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E6%AE%8B%E5%B7%AE%E5%8D%95%E5%85%83%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="residual模型图"><br>假定某段神经网络的输入是 x，期望输出是 H(x)，即 H(x) 是期望的复杂潜在映射，但学习难度大；如果我们直接把输入x传到输出作为初始结果，通过下图“shortcut connections”，那么此时我们需要学习的目标就是 F(x)&#x3D;H(x)-x，于是 ResNet 相当于将学习目标改变了，不再是学习一个完整的输出，而是最优解 H(X) 和全等映射 x 的差值，即残差F(X)&#x3D;H(X)-X。Shortcut 原意指捷径，在这里就表示越层连接，在Highway Network 在设置了一条从 x 直接到 y 的通路，以 T(x, Wt) 作为 gate 来把握两者之间的权重；而 ResNet shortcut 没有权值，传递 x 后每个模块只学习残差F(x)，且网络稳定易于学习，作者同时证明了随着网络深度的增加，性能将逐渐变好。可以推测，当网络层数够深时，优化 Residual Function：F(x)&#x3D;H(x)−x，易于优化一个复杂的非线性映射 H(x)。<br><br>下图所示为 VGGNet-19，以及一个34层深的普通卷积网络，和34层深的 ResNet 网络的对比图。可以看到普通直连的卷积神经网络和 ResNet 的最大区别在于，ResNet 有很多旁路的支线将输入直接连到后面的层，使得后面的层可以直接学习残差，这种结构也被称为 shortcut connections。传统的卷积层或全连接层在信息传递时，或多或少会存在信息丢失、损耗等问题。ResNet 在某种程度上解决了这个问题，通过直接将输入信息绕道传到输出，保护信息的完整性，整个网络则只需要学习输入、输出差别的那一部分，简化学习目标和难度。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E6%AE%8B%E5%B7%AE%E7%BD%91%E7%BB%9C%E5%AF%B9%E6%AF%94%E5%9B%BE.png" alt="残差网络对比图"><br>&emsp;&emsp;它主要思想很简单，打破了传统的神经网络n-1层的输出只能给n层作为输入的惯例，使某一层的输出可以直接跨过几层作为后面某一层的输入。<br><img src="http://oqadn1oza.bkt.clouddn.com/deep%E5%B1%82%E6%95%B0%E5%BD%B1%E5%93%8D.png" alt="deep层数对结果的影响"><br>&emsp;&emsp;上图就是其构造深度残差网络的构思来源图，一个是56层的网络一个是20层的网络，从原理上来说其实56层网络的解空间是包括了20层网络的解空间的，换而言之也就是说，56层网络取得的性能应该大于等于20层网络的性能的。但是从训练的迭代过程来看，56层的网络无论从训练误差来看还是测试误差来看，误差都大于20层的网络（这也说明了为什么这不是过拟合现象，因为56层网络本身的训练误差都没有降下去）。导致这个原因就是虽然56层网络的解空间包含了20层网络的解空间，但是我们在训练网络用的是随机梯度下降策略，往往解到的不是全局最优解，而是局部的最优解，显而易见56层网络的解空间更加的复杂，所以导致使用随机梯度下降算法无法解到最优解。<br>&emsp;&emsp;其实深度残差网络的网络结构能够让一部分的数据可以跳过某些变换层，而直接到后面的层中去。从大量的实验中，我感觉这两种网络只有在很深的场景中才能发挥出“威力”，如果本身网络层数较浅，勉强使用这两种结构是很难得到好的结果的。</li>
+</ul>
+<p>参考文献：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://m.blog.csdn.net/xiaocong1990/article/details/72499047">深度残差网络和Highway网络</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650723081&idx=2&sn=19a3ea9f1e4fbce9133932d74f6d5429&chksm=871b1777b06c9e61f9701c389d198a064ffdb4175ee4c66120c504ffbe014275dfbb2b82b0f3&mpshare=1&scene=1&srcid=0210Cpx38s7lP5HZ3Oaw7Omk&pass_ticket=yQiyvLfZam1x+D7r4Of02uamLCMD3SMvqi0SP4aC6p696nKNGeXwYHVEo54u9R1X#rd">专访 | 微软亚洲研究院郑宇：用人工智能进行城市人流预测</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.thepaper.cn/newsDetail_forward_1617662">人流量千变万化难以预测，但微软通过大数据和人工智能做到了</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/peaceWang/p/Markdown-tian-jia-Latex-shu-xue-gong-shi.html">MarkDown添加Latex公式</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/diamonjoy_zone/article/details/70904212"> CNN卷积神经网络_深度残差网络 ResNet</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2017/09/12/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F%E9%A2%84%E6%B5%8B/" data-id="clupgymeq002kih9kghrhfuxn" data-title="基于深度学习的人流量预测" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          linux集群相关笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/10/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%8F%8C%E5%90%91%E5%A0%86%E5%8F%A0%E4%B8%8E%E5%8D%95%E5%90%91LSTM%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E9%A2%84%E6%B5%8B%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%81%93%E8%B7%AF%E7%BD%91%E4%BA%A4%E9%80%9A%E9%80%9F%E5%BA%A6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

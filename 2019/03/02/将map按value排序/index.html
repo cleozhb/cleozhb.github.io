@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>将map按value排序 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="我们知道map的底层是红黑树，可以保证map内部的数据都是有序的。红黑树是一种二叉查找树，但在每个节点上增加了一个位表示颜色，通过对任何一条从跟到叶子的路径上各个节点的着色方式的现在，红黑树确保没有一条路径会比其它路径长出两倍，所以是接近平衡的，也就保证了红黑树的查找、插入、删除的时间复杂度最坏为O(logn)。map的排序默认按照key从小到大排序。有两个常用的功能需要注意：  key是一个结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将map按value排序">
+<meta property="og:url" content="http://example.com/2019/03/02/%E5%B0%86map%E6%8C%89value%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我们知道map的底层是红黑树，可以保证map内部的数据都是有序的。红黑树是一种二叉查找树，但在每个节点上增加了一个位表示颜色，通过对任何一条从跟到叶子的路径上各个节点的着色方式的现在，红黑树确保没有一条路径会比其它路径长出两倍，所以是接近平衡的，也就保证了红黑树的查找、插入、删除的时间复杂度最坏为O(logn)。map的排序默认按照key从小到大排序。有两个常用的功能需要注意：  key是一个结构">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/1.png">
+<meta property="og:image" content="http://example.com/2.png">
+<meta property="article:published_time" content="2019-03-02T07:17:04.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.833Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="STL">
+<meta property="article:tag" content="map">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-将map按value排序" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/03/02/%E5%B0%86map%E6%8C%89value%E6%8E%92%E5%BA%8F/" class="article-date">
+  <time class="dt-published" datetime="2019-03-02T07:17:04.000Z" itemprop="datePublished">2019-03-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      将map按value排序
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>我们知道map的底层是红黑树，可以保证map内部的数据都是有序的。红黑树是一种二叉查找树，但在每个节点上增加了一个位表示颜色，通过对任何一条从跟到叶子的路径上各个节点的着色方式的现在，红黑树确保没有一条路径会比其它路径长出两倍，所以是接近平衡的，也就保证了红黑树的查找、插入、删除的时间复杂度最坏为O(logn)。map的排序默认按照key从小到大排序。有两个常用的功能需要注意：</p>
+<ol>
+<li>key是一个结构体，按照key从大到小排序</li>
+<li>想按value排序</li>
+</ol>
+<p>map是STL中的一个模板类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template &lt;class Key, class Value, class Compare = less&lt;Key&gt;,</span><br><span class="line">       class Allocator = allocator&lt;pair&lt;const Key, Value&gt;&gt;&gt; class map;</span><br></pre></td></tr></table></figure>
+<p>这个类有4个模板参数，Key和Value是我们比较熟悉的，最后一个是allocator分配器，用来定义存储分配。Compare这个参数也是一个class类型的，提供默认值less<Key>。这个参数决定了map中元素的排序。接下来来解决刚刚说到的两个问题</p>
+<span id="more"></span>
+
+<ol>
+<li>key是一个结构体，按照key从大到小排序</li>
+</ol>
+<p>对于内置类型,其内部实现了&lt;操作符重载。想要从大到小排序只需要写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map&lt;string, int, greater&lt;string&gt;&gt; mapStudent;</span><br></pre></td></tr></table></figure>
+<p>key是结构体的，如果没有重载&lt;号，就会导致insert函数在编译时无法编译成功。下面实现一个将学生按iID排序，如果iID相等的话，按strName排序。mapStudent的key是StudentInfo类型的。要重载StudentInfo的&lt;号才能正常的插入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;map&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef struct tagStudentInfo  </span><br><span class="line">&#123;  </span><br><span class="line">    int iID;  </span><br><span class="line">    string  strName;  </span><br><span class="line">    bool operator &lt; (tagStudentInfo const&amp; r) const &#123;  </span><br><span class="line">        //这个函数指定排序策略，按iID排序，如果iID相等的话，按strName排序  </span><br><span class="line">        if(iID &lt; r.iID)  return true;  </span><br><span class="line">        if(iID == r.iID) return strName.compare(r.strName) &lt; 0;  </span><br><span class="line">        return false;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;StudentInfo;//学生信息 </span><br><span class="line">int main()&#123;</span><br><span class="line">    /*用学生信息映射分数*/  </span><br><span class="line">    map&lt;StudentInfo, int&gt;mapStudent;  </span><br><span class="line">    StudentInfo studentInfo;  </span><br><span class="line">    studentInfo.iID = 1;  </span><br><span class="line">    studentInfo.strName = &quot;student_one&quot;;  </span><br><span class="line">    mapStudent[studentInfo]=90;</span><br><span class="line">    studentInfo.iID = 2;  </span><br><span class="line">    studentInfo.strName = &quot;student_two&quot;; </span><br><span class="line">    mapStudent[studentInfo]=80;</span><br><span class="line">    map&lt;StudentInfo, int&gt;::iterator iter=mapStudent.begin();</span><br><span class="line">    for(;iter!=mapStudent.end();iter++)&#123;</span><br><span class="line">        cout&lt;&lt;iter-&gt;first.iID&lt;&lt;&quot; &quot;&lt;&lt;iter-&gt;first.strName&lt;&lt;&quot; &quot;&lt;&lt;iter-&gt;second&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/1.png" alt="图片"><br>2. 按value排序</p>
+<p>将map按value排序，第一反应是利用STL中的sort算法实现，但是sort只能对序列容器（vector, deque, list）进行排序。map是个集合容器，里面存储的元素是pair，底层的红黑树不是线性存储，所以不能用sort直接和map结合进行排序。但是可以间接进行，先将map中的元素放入vector中，然后再对这些元素进行排序。这个想法看似可行，sort排序的一个基本要求就是元素是可比较的，也就是实现了 &lt; 操作的。map中的元素类型是pair，具体定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">template &lt;class T1, class T2&gt; struct pair</span><br><span class="line">&#123;</span><br><span class="line">    typedef T1 first_type;</span><br><span class="line">    typedef T2 second_type;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    T1 first;</span><br><span class="line">    T2 second;</span><br><span class="line">    </span><br><span class="line">    pair():first(T1()), second(T2()) &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    pair(const T1&amp; x, const T2&amp; y) : first(x), second(y)&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    template&lt;class U, class V&gt;</span><br><span class="line">    pair(const pair&lt;U,V&gt;&amp; p) : first(p.first), second(p.second)&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>pair 也是一个模板类，这样就实现了良好的通用性。它仅仅有两个数据成员 first和second，在<utility>文件中为pair重载了&lt;运算符.具体实现如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template &lt;class _T1, class _T2&gt;</span><br><span class="line">inline bool operator &lt; (const pair&lt;_T1, _T2&gt;&amp; __x, const pair&lt;_T1, _T2&gt;&amp; __y)</span><br><span class="line">&#123;</span><br><span class="line">    return (__x.first &lt;__y.first)||</span><br><span class="line">           (!(__x.first &lt;__y.first) &amp;&amp; __x.second &lt;__y.second);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个实现中有一处非常巧妙，(__x.first &lt;__y.first)  || !(__x.first &lt;__y.first)  这一句等价于 __x.first &#x3D;&#x3D; __y.first， 可是为什么不直接用__x.first &#x3D;&#x3D;__y.first呢？这样写看似费解，其实是有道理的，前面讲过，作为map的key必须实现 &lt;操作符的重载，但是并不保证 &#x3D;&#x3D; 操作符也被重载了，如果key 没有提供 &#x3D;&#x3D; ，那么__x.first &#x3D;&#x3D;__y.first的写法就不对。<br>从上面这个pair 的实现中可以看到，它是按照先对key进行比较，key相等的时候才对value进行比较。显然不能满足按value进行排序的要求。而且，既然已经对pair重载了 &lt; 运算符，也不能修改其实现，不能在外部重复实现重载 &lt; 运算符。那么要怎样实现对pair按照value进行比较呢？可以写一个比较函数或一个仿函数来实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;map&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef pair&lt;string, int&gt; PAIR;   </span><br><span class="line">bool cmp_by_value(const PAIR&amp; lhs, const PAIR&amp; rhs) &#123;  </span><br><span class="line">  return lhs.second &lt; rhs.second;  </span><br><span class="line">&#125;  </span><br><span class="line">struct CmpByValue &#123;  </span><br><span class="line">  bool operator()(const PAIR&amp; lhs, const PAIR&amp; rhs) &#123;  </span><br><span class="line">    return lhs.second &lt; rhs.second;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;;</span><br><span class="line">int main()&#123;  </span><br><span class="line">  map&lt;string, int&gt; name_score_map;  </span><br><span class="line">  name_score_map[&quot;LiMin&quot;] = 90;  </span><br><span class="line">  name_score_map[&quot;ZiLinMi&quot;] = 79;  </span><br><span class="line">  name_score_map[&quot;BoB&quot;] = 92;  </span><br><span class="line">  name_score_map.insert(make_pair(&quot;Bing&quot;,99));  </span><br><span class="line">  name_score_map.insert(make_pair(&quot;Albert&quot;,86));  </span><br><span class="line">  /*把map中元素转存到vector中*/   </span><br><span class="line">  vector&lt;PAIR&gt; name_score_vec(name_score_map.begin(), name_score_map.end());  </span><br><span class="line">  sort(name_score_vec.begin(), name_score_vec.end(), CmpByValue());  </span><br><span class="line">  /*sort(name_score_vec.begin(), name_score_vec.end(), cmp_by_value);也是可以的*/ </span><br><span class="line">  for (int i = 0; i != name_score_vec.size(); ++i) &#123;  </span><br><span class="line">    cout&lt;&lt;name_score_vec[i].first&lt;&lt;&quot; &quot;&lt;&lt;name_score_vec[i].second&lt;&lt;endl;  </span><br><span class="line">  &#125;  </span><br><span class="line">  return 0;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2.png" alt="图片"><br>要对map中的元素按照value进行排序，先将map的元素按照pair形式插入到vector中，然后对vector写个信的比较函数，这样就可以实现按照map的value排序了.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/03/02/%E5%B0%86map%E6%8C%89value%E6%8E%92%E5%BA%8F/" data-id="clupgymer002tih9k90xug0ww" data-title="将map按value排序" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/map/" rel="tag">map</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/07/STL-%E6%9D%A1%E4%BB%B6%E6%9F%A5%E6%89%BE%E2%80%94%E2%80%94find-if%E7%94%A8%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          STL 条件查找——find_if用法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/23/Array-2D-CUDA%E4%BD%BF%E7%94%A8CUDA%E6%89%A9%E5%B1%95C-%E6%A8%A1%E6%9D%BF%E5%BA%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Array_2D_CUDA使用CUDA扩展C++模板库</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

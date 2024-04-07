@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>c++模板 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概念 模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。 模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++模板">
+<meta property="og:url" content="http://example.com/2018/08/26/c-%E6%A8%A1%E6%9D%BF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概念 模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。 模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-26T04:25:24.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.811Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="模板">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-c-模板" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/26/c-%E6%A8%A1%E6%9D%BF/" class="article-date">
+  <time class="dt-published" datetime="2018-08-26T04:25:24.000Z" itemprop="datePublished">2018-08-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      c++模板
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li>模板：模板不是函数或者类，并不能直接拿来使用生成实实在在的对象，也就是没有实体。模板跟据你所给它的类型参数帮你生成一个可以拿来使用的实例对象。</li>
+<li>模板实例化（instantiation）：给模板类型参数之后，编译器由模板自动创建实例类或函数的过程叫做模板的实例化。实例化的结果是产生一个具体的类或者函数。这时候虽然没有创建类的对象，编译器将生成类声明。在一些编译器中，模板只有在被实例化时编译器才能检查其语法正确性，如果写了一个模板但没有用到，那么编译器是不会报告这个模板中的语法错误的。</li>
+</ul>
+<span id="more"></span>
+
+<ul>
+<li>模板特化（也叫具体化specialization）：针对某些特定的具体类型，对模板进行修改，使其对于该类型的实例对象的行为不同。比如定义一个swap函数，用于交换两个对象。现在对于某个类型的对象交换时只交换其中的一个属性，就不能直接使用原先的模板函数。原先的模板函数会交换整个对象，这时候就需要对模板进行特化，实现对该类型实例对象不同的行为。模板具体化的结果是从类模板产生一个具体的类（类似于声明）。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T1, typename T2&gt;</span><br><span class="line">class Pair</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Pair &lt;string, string &gt; strPair; //隐式实例化对象 implicit instantiation</span><br><span class="line"></span><br><span class="line">template class Pair&lt;int,double&gt;;  //显式实例化模板 explicit instantiation</span><br><span class="line"></span><br><span class="line">//显式具体化模板 explicit specialization</span><br><span class="line">template &lt;&gt; class Pair&lt;const char* , int&gt; </span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//部分具体化模板 partial specialization</span><br><span class="line">template  &lt;typename T1&gt; class Pair&lt;typename T1, int&gt;</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">void func()&#123;</span><br><span class="line">    vector&lt;int&gt;::iterator it_int;</span><br><span class="line">    vector&lt;T&gt;::iterator it;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">编译后提示:[Error] need ‘typename’ before ‘std::vector::iterator’ because ‘std::vector’ is a dependent scope</span><br></pre></td></tr></table></figure>
+<p>func函数的第一行，vector<int>::iterator it_int;是可以编译通过的，而第二行，用模板参数T申明的却不能通过。它们的区别在于vector<int>是实例化之后的一个类型，而vector<T>还是一个模板类型，如何实例化还取决于外部实际传进来的参数类型T。<br>正如编译器编译的提示dependent scope，指出了这个类型还需要别的依赖条件。但是为什么编译器不能直接跟据模板类型的定义来实现这个声明呢？原因是编译器无法识别std::vector<T>::iterator这个名称是一个成员变量还是一个类型。加入这个类被特化了，例如vector的特化类定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template &lt;&gt;</span><br><span class="line">class vector&lt;char&gt;&#123;</span><br><span class="line">    int iterator;</span><br><span class="line">    // ..detail omitted</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="那么在std-vector-iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std-vector-iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。"><a href="#那么在std-vector-iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std-vector-iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。" class="headerlink" title="那么在std::vector::iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std::vector::iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。"></a>那么在std::vector<char>::iterator这个名称就是一个成员变量了，不能当作类型使用。因此为了防止出现这样的歧义，正如编译器的提示，需要在std::vector<T>::iterator前面加一个关键字typename来显式的说明这是一个类型而不是一个成员变量。</h3><p>模板类中可以使用虚函数吗？<br>在模板类中使用虚函数与在非模板类中使用虚函数完全一样。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">template class&lt;T&gt;</span><br><span class="line">class A</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">  virtual void f1()&#123;cout&lt;&lt;&quot;A is called&quot;&lt;&lt;endl;&#125;  //虚函数</span><br><span class="line">  virtual void f2()=0&#123;cout&lt;&lt;&quot;A=0&quot;&lt;&lt;endl;&#125;  //纯虚函数</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">template class&lt;T&gt;</span><br><span class="line">class B: public A&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">  void f1()&#123;cout&lt;&lt;&quot;B is called&quot;&lt;&lt;endl;&#125;</span><br><span class="line">  void f2()&#123;cout&lt;&lt;&quot;B!=0&quot;&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">  A&lt;int&gt;* p=new B&lt;int&gt;;</span><br><span class="line">  p-&gt;f1();                   //输出B is called,虚函数成功</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是A<int>和A<char>是两个完全不同的类。不能写A<int>* p &#x3D; new B<char>;因为A<int>不是B<char>的基类。所以得出结论：模板不影响类的多态。</p>
+<h3 id="模板成员函数可以是虚函数吗？"><a href="#模板成员函数可以是虚函数吗？" class="headerlink" title="模板成员函数可以是虚函数吗？"></a>模板成员函数可以是虚函数吗？</h3><p>模板成员函数不可以是虚函数！<br>原因：<br>编译器期望在处理类的定义的时候就能确定这个类的虚函数表的大小，如果允许有类的虚成员模板函数，那么就必须要求编译器提前知道程序中所有对该类的虚成员模板函数的调用。在实例化模板类时，需要创建虚函数表 virtual table， 在模板类实例化完成之前不能确定函数模板会被实例化多少个（包括虚函数模板）。普通成员函数模板无所谓，什么时候需要什么时候编译器就实例化。编译器不用知道到底需要实例化多少个，虚函数的个数必须知道，否则这个类无法被实例化（因为要创建 virtual table）。因此目前不支持虚函数模板继承。</p>
+<h3 id="模板嵌套"><a href="#模板嵌套" class="headerlink" title="模板嵌套"></a>模板嵌套</h3><p>一个模板可以采用本身就是模板名称的参数<br>例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T, template &lt;typename&gt; class Cont&gt;</span><br><span class="line">class Stack;</span><br></pre></td></tr></table></figure>
+<p>这个栈模板的第二个参数Cont是模板的模板参数，Cont是一个具有单个类型参数的类模板的名字。这里没有给Cont的类型名称参数命名。也可以像下面这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T, template &lt;typename ElementType&gt; class Cont&gt;</span><br><span class="line">class Stack;</span><br><span class="line">ElementType这样的名称可以被省略，但是为了提高程序的可读性，应该写上。Stack模板使用类型名参数来实例化其模板参数的模板。生成的容器类型用于实现堆栈。就像下面这样：</span><br><span class="line">template &lt;typename T, template &lt;typename&gt; class Cont&gt;</span><br><span class="line">class Stack &#123;</span><br><span class="line">    //...</span><br><span class="line">  private:</span><br><span class="line">    Cont&lt;T&gt; s_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这种方法允许通过Stack本身的实现来协调元素与容器。保证了元素类型与保存元素的容器之间的一致性。用这种方法来处理一组模板参数与要用这一组参数实例化的模板的好方法。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li>模板的编译错误need ‘typename’ before *** because *** is a dependent scope <a target="_blank" rel="noopener" href="https://blog.csdn.net/pb1995/article/details/49532285">https://blog.csdn.net/pb1995/article/details/49532285</a></li>
+<li>详谈模板实例化和具体化 <a target="_blank" rel="noopener" href="https://blog.csdn.net/gettogetto/article/details/79439577">https://blog.csdn.net/gettogetto/article/details/79439577</a></li>
+<li>模板类中可以使用虚函数吗？模板成员函数可以是虚函数吗？<a target="_blank" rel="noopener" href="https://blog.csdn.net/zzuchengming/article/details/51763563">https://blog.csdn.net/zzuchengming/article/details/51763563</a></li>
+<li>C++虚函数表分析<a target="_blank" rel="noopener" href="https://www.cnblogs.com/hushpa/p/5707475.html">https://www.cnblogs.com/hushpa/p/5707475.html</a></li>
+<li>C++：模板参数的模板 <a target="_blank" rel="noopener" href="http://www.informit.com/articles/article.aspx?p=376878">http://www.informit.com/articles/article.aspx?p=376878</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/26/c-%E6%A8%A1%E6%9D%BF/" data-id="clupgymem0018ih9k10ze1ufr" data-title="c++模板" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/28/%E7%8E%8B%E9%98%B3%E6%98%8E%E7%9A%84%E5%9C%A3%E4%BA%BA%E4%B9%8B%E8%B7%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          王阳明的圣人之路
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/23/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">右值引用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

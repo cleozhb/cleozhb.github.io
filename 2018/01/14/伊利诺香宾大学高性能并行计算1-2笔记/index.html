@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>伊利诺香宾大学高性能并行计算week1笔记 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备">
+<meta property="og:type" content="article">
+<meta property="og:title" content="伊利诺香宾大学高性能并行计算week1笔记">
+<meta property="og:url" content="http://example.com/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/GPU%E4%B8%8ECPU%E7%9A%84%E6%9E%B6%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/CPU%E6%9E%B6%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/GPU%E6%9E%B6%E6%9E%84.png">
+<meta property="article:published_time" content="2018-01-14T15:32:49.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.856Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CUDA">
+<meta property="article:tag" content="高性能计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/GPU%E4%B8%8ECPU%E7%9A%84%E6%9E%B6%E6%9E%84.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-伊利诺香宾大学高性能并行计算1-2笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2018-01-14T15:32:49.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      伊利诺香宾大学高性能并行计算week1笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="异构并行计算Heterogeneous-Parallel-Computing简介"><a href="#异构并行计算Heterogeneous-Parallel-Computing简介" class="headerlink" title="异构并行计算Heterogeneous_Parallel_Computing简介"></a>异构并行计算Heterogeneous_Parallel_Computing简介</h2><blockquote>
+<p>主要内容</p>
+</blockquote>
+<ul>
+<li>学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别</li>
+<li>为什么越来越多的应用同时使用这两种设备</li>
+</ul>
+<span id="more"></span>
+
+<blockquote>
+<p> CPU与GPU的区别</p>
+</blockquote>
+<img src="/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/GPU%E4%B8%8ECPU%E7%9A%84%E6%9E%B6%E6%9E%84.png" class="" title="CUP与GPU架构区别">
+
+<ol>
+<li>CPU有更大的局部cache，GPU有相对小的cache和局部内存。</li>
+<li>GPU有更多的寄存器，支持大量的线程。而CPU只有能够支持少量线程的寄存器。</li>
+<li>GPU有更多的SIMD执行单元；</li>
+<li>CPU有复杂的控制器，CPU有简单的控制单元，但是有大量的线程需要管理</li>
+</ol>
+<blockquote>
+<p> CPU特性：CPU延迟敏感，以减少延迟为目标</p>
+</blockquote>
+<img src="/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/CPU%E6%9E%B6%E6%9E%84.png" class="" title="CUP架构">
+
+<p>上图中的三个特性解释如下：</p>
+<ol>
+<li>强大的ALU，减少操作延迟：ALU(算术逻辑单元)被设计的很强大，可以在几个时钟周期中进行数值计算。现在的CPU核心中，64位双精度浮点运算，加法运算、乘法运算只需要花费1-3个时钟周期。 这些时钟频率非常高。</li>
+<li>大的缓存：将长时间的访问延迟转为更短的访问延迟；将尽可能多的数据放入缓存中，所以，将下一时刻更有可能被访问到的数据放入cache中。</li>
+<li>复杂的控制<ul>
+<li>使用分值预测来减少分支延迟：分支指令由控制指令产生(if…else,loops)，让硬件能够预测出下一次会走哪一个分支，就可以及时获取到下个时间要执行的指令。但是当预测出错时得用足够的处理器从错误的预测中恢复，因此我们需要将资源放入控制逻辑来支持分支预测和恢复错误。 </li>
+<li>数据转发以减少数据延迟；当一些指令需要同一个指令的输出结果时，数据分发决定了那些指令在流水线的哪个地方，并通过最快的方式将数据路由过去。这个过程涉及到大量的对比电路单元和转发电路单元，会耗费很多的运行能力。</li>
+</ul>
+</li>
+</ol>
+<p>结论：CPU运算速度更快，指令周期短，即便是双精度的浮点数乘法也只需要1~3个时钟周期。</p>
+<blockquote>
+<p> GPU特性：以提升吞吐量为目标的结构设计</p>
+</blockquote>
+<img src="/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/GPU%E6%9E%B6%E6%9E%84.png" class="" title="GUP架构">
+<p>上图中GPU的四个特性解释如下：</p>
+<ol>
+<li>很小的缓存————提高内存吞吐量：这些缓存并不是用来保存未来可能访问到的数据，而是作为大量线程的阶段性单位，是为thread提高服务的；如果有很多线程需要用相同的数据同时执行，cache会将这些需求整合成一个，由这一个请求去访问DRAM(dynamic random access memory)（因为需要访问的数据保存在dram中而不是cache里面）数据取回来以后，cache转发数据给所有需要这些数据的执行单元或者线程。但是由于需要访问DRAM，访问DRAM的延迟依然存在，然而这个逻辑可以将多次访问整合为一个，因此我们可以保证访问DRAM的traffic。</li>
+<li>简单控制<ul>
+<li>无分支预测</li>
+<li>无数据转发</li>
+</ul>
+</li>
+<li>高效节能的ALU<ul>
+<li>很多高延迟但对于高吞吐量的GPU来说是流水线操作，GPU没有使用少量的功能强大低延迟的ALUs，而是使用大量的高延迟且非常节能ALUs，所以这些ALUs通常在流水线中，所以它们每个时钟周期接受一个操作，然后每个操作用很长的时间来产生结果。每个时钟周期会有一个结果从流水线输出，作为ALU的输出。因此有这么多的ALUs，且对于每个ALU都有很长的流水线，我们必须有大量的线程。为了充分的应用硬件资源，每个线程进行算数操作，能在一个阶段被这些ALU执行。在高吞吐量的情况下，如果我们有大量的线程，每个线程同时进行操作，我们就能够充分利用大量的ALU来计算。然而每个线程会花费大量的时间来执行任务，相较于CPU中对应的功能单元，每个操作都会花费大量的时间执行一个操作。</li>
+</ul>
+</li>
+<li>需要大量的线程来抵消延迟<br> GPU的虽然有DRAM延时，却有非常多的ALU和非常多的thread. 为了平衡内存延时的问题，我们可以中充分利用多的ALU的特性达到一个非常大的吞吐量的效果。尽可能多的分配多的Threads.通常来看GPU ALU会有非常重的pipeline就是因为这样。</li>
+</ol>
+<p>结论：GPU可以达到很好的吞吐量。</p>
+<p>对比：CPU擅长逻辑控制，串行的运算。和通用类型数据运算不同，GPU擅长的是大规模并行计算。所以GPU除了图像处理，也越来越多的参与到计算当中来。在数据吞吐量很大的时候GPU的计算速度很容易达到CPU的十倍甚至百倍，同样，对于程序中的线性部分，CPU也很容易达到GPU的十倍或者更多。所以现在越来越多的软件同时使用CPU和GPU，</p>
+<p>控制单元包括程序计数器(program counter)和指令寄存器(instruction register)。PC实际上定义了内存中的位置，使得硬件能够找到应用下一条要执行的指令的位置。从控制单元到memory有一条虚线，程序计数器从内存中取回指令。指令一旦取回来，理科放入指令寄存器(IR)中，</p>
+<blockquote>
+<p> word</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>word</th>
+<th align="center">chinese</th>
+<th align="right">synonym</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>heterogeneous</td>
+<td align="center">异构的</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>versatile</td>
+<td align="center">adj.多才多艺的 多面手</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>definitely</td>
+<td align="center">adv.无疑，明确地</td>
+<td align="right">undoubtedly，explicitly</td>
+</tr>
+<tr>
+<td>sophisticated</td>
+<td align="center">adj.复杂的</td>
+<td align="right">intricate</td>
+</tr>
+<tr>
+<td>consolidate</td>
+<td align="center">v.巩固，整合</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>scalability</td>
+<td align="center">n.可扩展性</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>portability</td>
+<td align="center">n.可移植性</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>latency-oriented</td>
+<td align="center">延时为导向</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>through-oriented</td>
+<td align="center">吞吐为导向</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>exploiation</td>
+<td align="center">n.开发</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>hierarchical</td>
+<td align="center">adj.分级</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>criteria</td>
+<td align="center">n.标准</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>terminate</td>
+<td align="center">v.终止</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>micro-architecture</td>
+<td align="center">n.微架构</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>circuites</td>
+<td align="center">n.电路</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>electrons</td>
+<td align="center">n.电子</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>interpreted</td>
+<td align="center">v.解读</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>diagram</td>
+<td align="center">n.图</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>dash line</td>
+<td align="center">n.虚线</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>back and forth</td>
+<td align="center">来来回回</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td>elaborate on</td>
+<td align="center">详细说明，阐述</td>
+<td align="right"></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/" data-id="clupgymep002bih9kejy39ksx" data-title="伊利诺香宾大学高性能并行计算week1笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/15/%E9%AB%98%E6%80%A7%E8%83%BDCUDA%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          高性能CUDA应用设计与开发——读书笔记（第四章）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/13/%E9%AB%98%E6%80%A7%E8%83%BDCUDA%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">高性能CUDA应用设计与开发——读书笔记（第二章）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

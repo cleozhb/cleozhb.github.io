@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>win10+VS2013与Ubuntu16.04配置GDAL | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="GDAL在不同操作系统下的安装 主要内容   GDAL简介 Ubuntu配置GDAL win10+VS2013配置GDAL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win10+VS2013与Ubuntu16.04配置GDAL">
+<meta property="og:url" content="http://example.com/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="GDAL在不同操作系统下的安装 主要内容   GDAL简介 Ubuntu配置GDAL win10+VS2013配置GDAL">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/GDAL%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84.png">
+<meta property="og:image" content="http://example.com/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/%E5%8E%BB%E6%8E%89ODBC%E6%94%AF%E6%8C%81.png">
+<meta property="og:image" content="http://example.com/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/%E7%BC%96%E8%AF%91%E5%B9%B3%E5%8F%B0%E5%8F%8A%E9%99%84%E5%8A%A0%E4%BE%9D%E8%B5%96%E9%A1%B9.png">
+<meta property="og:image" content="http://example.com/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/%E5%8C%85%E5%90%AB%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%BA%93%E7%9B%AE%E5%BD%95.png">
+<meta property="article:published_time" content="2018-04-10T06:05:16.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.832Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="GDAL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/GDAL%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-win10-VS2013与Ubuntu16-04配置GDAL" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/" class="article-date">
+  <time class="dt-published" datetime="2018-04-10T06:05:16.000Z" itemprop="datePublished">2018-04-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      win10+VS2013与Ubuntu16.04配置GDAL
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="GDAL在不同操作系统下的安装"><a href="#GDAL在不同操作系统下的安装" class="headerlink" title="GDAL在不同操作系统下的安装"></a>GDAL在不同操作系统下的安装</h2><blockquote>
+<p>主要内容</p>
+</blockquote>
+<ul>
+<li>GDAL简介</li>
+<li>Ubuntu配置GDAL</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011574296/article/details/76565703">win10+VS2013配置GDAL</a><span id="more"></span></li>
+</ul>
+<h3 id="GDAL简介"><a href="#GDAL简介" class="headerlink" title="GDAL简介"></a>GDAL简介</h3><p>GDAL(Geospatial Data Abstraction Library)是开源栅格空间数据转换库，它用抽象的数据模型来表达所支持的各种文件格式，有一系列的命令行工具来进行数据转换和处理。OGR是GDAL项目的一个分支，提供对矢量数据的支持。</p>
+<h4 id="支持格式"><a href="#支持格式" class="headerlink" title="支持格式"></a>支持格式</h4><p>GDAL提供对多种栅格数据的支持，包括Arc&#x2F;Info ASCII Grid(asc)，GeoTiff (tiff)，Erdas Imagine Images(img)，ASCII DEM(dem) 等格式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">GDAL使用抽象数据模型(abstract data model)来解析它所支持的数据格式</span><br><span class="line">抽象数据模型包括数据集(dataset)</span><br><span class="line">坐标系统</span><br><span class="line">仿射地理坐标转换(Affine Geo Transform)</span><br><span class="line">大地控制点(GCPs)</span><br><span class="line">元数据(Metadata)</span><br><span class="line">栅格波段(Raster Band)</span><br><span class="line">颜色表(Color Table)</span><br><span class="line">子数据集域(Subdatasets Domain)</span><br><span class="line">图像结构域(Image_Structure Domain)</span><br><span class="line">XML域(XML:Domains)</span><br><span class="line">GDALMajorObject类：带有元数据的对象。</span><br><span class="line">GDALDdataset类：通常是从一个栅格文件中提取的相关联的栅格波段集合和这些波段的元数据;</span><br><span class="line">GDALDdataset也负责所有栅格波段的地理坐标转换(georeferencing transform)和坐标系定义。</span><br><span class="line">GDALDriver类：文件格式驱动类，GDAL会为每一个所支持的文件格式创建一个该类的实体，来管理该文件格式。</span><br><span class="line">GDALDriverManager类：文件格式驱动管理类，用来管理GDALDriver类。</span><br></pre></td></tr></table></figure>
+
+<p>###Ubuntu配置GDAL<br>在Ubuntu中配置GDAL时，原本只需要按照博客中说的步骤：</p>
+<ol>
+<li>下载[URL: <a target="_blank" rel="noopener" href="http://download.osgeo.org/gdal/]">http://download.osgeo.org/gdal/]</a>(URL: <a target="_blank" rel="noopener" href="http://download.osgeo.org/gdal/">http://download.osgeo.org/gdal/</a>)</li>
+<li>安装GDAL</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">% cd gdal</span><br><span class="line">% ./configure</span><br><span class="line">% make</span><br><span class="line">% su</span><br><span class="line">Password: ********</span><br><span class="line">% make install</span><br><span class="line">% exit</span><br><span class="line"></span><br><span class="line">安装成功后，会在/usr/local/include文件夹中产生一系列.h文件(cpl_config.h、gdal.h……)，在/usr/local/lib文件夹中产生5个库文件，其中libgdal.a和libgdal.la为静态链接库，libgdal.so, libgdal.so.1, libgdal.so.1.13.2为动态链接库。</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>将&#x2F;usr&#x2F;local&#x2F;lib添加到环境变量中，命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/ld.so.conf.d</span><br><span class="line">touch local.conf</span><br><span class="line">vi local.conf</span><br><span class="line">i</span><br><span class="line">/usr/local/lib</span><br><span class="line">Esc</span><br><span class="line">Wq</span><br><span class="line">ldconfig -v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将&#x2F;usr&#x2F;local&#x2F;include文件夹copy到当前工程（test）目录下。test.cpp里面加载必要的头文件就可以使用GDAL和PROJ里面的函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;./include/gdal.h&quot;</span><br><span class="line">#include &quot;./include/gdal_alg.h&quot;</span><br><span class="line">#include &quot;./include/cpl_conv.h&quot;</span><br><span class="line">#include &quot;./include/cpl_port.h&quot;</span><br><span class="line">#include &quot;./include/cpl_multiproc.h&quot;</span><br><span class="line">#include &quot;./include/ogr_srs_api.h&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译g++ test.cpp –lgdal –o TEST</p>
+</li>
+<li><p>运行.&#x2F;TEST</p>
+</li>
+</ol>
+<p>但是由于Ubuntu中对包的依赖，之前安装anaconda2时安装了一些包，包的等级比较低，不满足GDAL的需求，但Ubuntu对已安装的包进行保护，故不能重新安装高版本，所以无奈之下卸载了anaconda2。以后要用再重装吧。。。</p>
+<h3 id="win10-VS2013配置GDAL"><a href="#win10-VS2013配置GDAL" class="headerlink" title="win10+VS2013配置GDAL"></a>win10+VS2013配置GDAL</h3><ol>
+<li>下载源码，从参考文献3的链接中可以找到各种历史版本，我这里下载的是最新的gdal2.2.4</li>
+<li>GDAL_HOME &#x3D; “C:\warmerda\bld”，编译后的生成的头文件、静态库、动态库将会存储到这个路径。我在D盘新建了文件夹gdal2.2.4，然后修成了D:\gdal2.2.4。</li>
+<li>并将ODBC_SUPPORTED&#x3D;1注释掉(因为后面会报错。。。)</li>
+<li>还有’#WIN64&#x3D;YES’，在编译64位GDAL时，要删除前面的#。<img src="/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/GDAL%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84.png" class="">
+<img src="/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/%E5%8E%BB%E6%8E%89ODBC%E6%94%AF%E6%8C%81.png" class=""></li>
+<li>进入VS2013 X64 本机工具命令提示符，在菜单栏的Visual Studio 2013文件夹下</li>
+<li>使用命令行，进入到源代码目录,依次输入以下命令</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">e:</span><br><span class="line">cd gdal-2.2.4</span><br><span class="line">nmake -f makefile.vc </span><br><span class="line">nmake /f makefile.vc install </span><br><span class="line">nmake /f makefile.vc devinstal</span><br><span class="line"></span><br><span class="line">第一个命令是编译GDAL </span><br><span class="line">第二个、第三个命令是将生成的头文件、静态库、动态库复制到GDAL_HOME目录。 </span><br><span class="line">如果需要编译debug模式，就将第一个命令改成nmake -f makefile.vc DEBUG=1</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>配置环境变量<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">计算机-&gt;属性-&gt;高级系统设置-&gt;环境变量-&gt;编辑 path </span><br><span class="line">添加：D:\gdal2.2.4\bin</span><br></pre></td></tr></table></figure></li>
+<li>在VS2013中配置GDAL时，按照上面连接中的博客配置完成(亲测有效，为博主点赞)。<br>生成时出现连接错误，错误原因是我编译的是x64的GDAL，而我的VS默认建工程是x86的，所以需要更改编译平台为x64并重新设置附加依赖项、包含目录、库目录。一定要注意你编译的GDAL是多少位的，你建立的工程是多少位的。需要将GDAL的lib link到你的工程中，而且它的编译版本要跟你的开发环境的VS一致。<img src="/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/%E7%BC%96%E8%AF%91%E5%B9%B3%E5%8F%B0%E5%8F%8A%E9%99%84%E5%8A%A0%E4%BE%9D%E8%B5%96%E9%A1%B9.png" class="">
+<img src="/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/%E5%8C%85%E5%90%AB%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%BA%93%E7%9B%AE%E5%BD%95.png" class=""></li>
+<li>小例子<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &quot;gdal_priv.h&quot;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    if (argc != 2)</span><br><span class="line">    &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    GDALDataset *poDataset;</span><br><span class="line">    GDALAllRegister();</span><br><span class="line">    poDataset = (GDALDataset *)GDALOpen(argv[1], GA_ReadOnly);</span><br><span class="line">    if (poDataset != NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;RasterXSize:&quot; &lt;&lt; poDataset-&gt;GetRasterXSize() &lt;&lt; endl;</span><br><span class="line">        cout &lt;&lt; &quot;RasterYSize:&quot; &lt;&lt; poDataset-&gt;GetRasterYSize() &lt;&lt; endl;</span><br><span class="line">        cout &lt;&lt; &quot;RasterCount:&quot; &lt;&lt; poDataset-&gt;GetRasterCount() &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>点击生成，在debug文件夹下进入命令行模式，假设在e:有个名叫nd_dem.tif的图片，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\gdal_installtest.exe e:\nd_dem.tif</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bigbigtree/archive/2011/11/19/2255495.html">GDAL 的安装介绍及使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011574296/article/details/76565703">win10+VS2015 编译64位的gdal，并配置环境</a></li>
+<li><a target="_blank" rel="noopener" href="http://trac.osgeo.org/gdal/wiki/DownloadSource">Downloading GDAL&#x2F;OGR Source</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012505618/article/details/52724060">新手使用GDAL详细教程</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/" data-id="clupgymeo001zih9k21gw7ko1" data-title="win10+VS2013与Ubuntu16.04配置GDAL" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          linux下编译CUDPP
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/07/Linux%E6%9F%A5%E7%9C%8BCPU%E4%BF%A1%E6%81%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux查看CPU信息</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

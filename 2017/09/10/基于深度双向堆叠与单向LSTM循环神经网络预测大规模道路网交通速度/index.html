@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="这篇文章来自今年8月召开的国际城市计算研讨会(International Workshop on Urban Computing). 论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction作者：华盛顿大学学生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度">
+<meta property="og:url" content="http://example.com/2017/09/10/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%8F%8C%E5%90%91%E5%A0%86%E5%8F%A0%E4%B8%8E%E5%8D%95%E5%90%91LSTM%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E9%A2%84%E6%B5%8B%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%81%93%E8%B7%AF%E7%BD%91%E4%BA%A4%E9%80%9A%E9%80%9F%E5%BA%A6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章来自今年8月召开的国际城市计算研讨会(International Workshop on Urban Computing). 论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction作者：华盛顿大学学生">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91+%E5%8D%95%E5%90%91LSTM%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/RNNstruct.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91LSTM%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://oqadn1oza.bkt.clouddn.com/%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
+<meta property="article:published_time" content="2017-09-10T13:18:16.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.854Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="LSTM">
+<meta property="article:tag" content="速度预测">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91+%E5%8D%95%E5%90%91LSTM%E7%BB%93%E6%9E%84.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/09/10/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%8F%8C%E5%90%91%E5%A0%86%E5%8F%A0%E4%B8%8E%E5%8D%95%E5%90%91LSTM%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E9%A2%84%E6%B5%8B%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%81%93%E8%B7%AF%E7%BD%91%E4%BA%A4%E9%80%9A%E9%80%9F%E5%BA%A6/" class="article-date">
+  <time class="dt-published" datetime="2017-09-10T13:18:16.000Z" itemprop="datePublished">2017-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>这篇文章来自今年8月召开的国际城市计算研讨会(<a target="_blank" rel="noopener" href="http://urbcomp.ist.psu.edu/2017/accept.html">International Workshop on Urban Computing</a>).</p>
+<h2 id="论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction"><a href="#论文题目：Deep-Stacked-Bidirectional-and-Unidirectional-LSTM-Recurrent-Neural-Network-for-Network-wide-Traffic-Speed-Prediction" class="headerlink" title="论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction"></a>论文题目：Deep Stacked Bidirectional and Unidirectional LSTM Recurrent Neural Network for Network-wide Traffic Speed Prediction</h2><p>作者：华盛顿大学学生</p>
+<h2 id="论文背景："><a href="#论文背景：" class="headerlink" title="论文背景："></a>论文背景：<br></h2><p>&emsp;深度学习方法的潜能尚未被完全挖掘出来，尤其是在预测区域的时空尺度的应用方面。这篇文章提出了一种双向深度堆叠的LSTM和单向LSTM相结合的方法来预测大规模交通网络中的交通流速。<br></p>
+<span id="more"></span>
+<h2 id="主要内容："><a href="#主要内容：" class="headerlink" title="主要内容："></a>主要内容：</h2><p>&emsp;双向LSTM(bidirectional LSTM)<br>用双向LSTM学习历史时间序列数据和空间特征，最后一层只需要用到之前双向堆叠的LSTM的输出值，用单向LSTM来预测未来的值。<br><br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91+%E5%8D%95%E5%90%91LSTM%E7%BB%93%E6%9E%84.png" alt="网络结构图"><br>&emsp;通常情况下，喂给LSTM的数据都是按照时间顺序排列好的，LSTM只学到了前向依赖，在这个过程中可能有些有用的信息被过滤掉了，导致这部分信息没有有效的通过门结构。为了将时间序列信息完全利用起来，应该让LSTM同时学习时间序列反向依赖。交通数据具有周期性，甚至可以观察到短期周期性。学习时间序列的周期性，发现交通模式，增强模型表现。双向LSTM可以处理正向和反向依赖。<br>此外当预测整个交通网络中的流速时，上下游的车速也应该考虑进来。但是考虑到交通网结构复杂，可能存在环路，甚至有些地方互为上下游。<br>本文将bidirectional 和unidirectioanl的LSTM结合起来预测交通流速。用于测试的交通网包括西雅图的323个监测站。<br></p>
+<h2 id="创新点："><a href="#创新点：" class="headerlink" title="创新点："></a>创新点：</h2><p>(1)扩展了交通预测区域，从原先的单个道路或少数几个相连的道路到整个交通网络<br><br>(2)采用深度神经网络结构，并分析了隐藏层数量对预测结果的影响<br><br>(3)采用双向LSTM增强时间序列的特征学习<br></p>
+<p>RNN简介：<br>&emsp;RNN是一种强大的深度神经网络，它通过内部的循环记忆来处理序列数据。每个隐藏层节点有当前隐藏状态ht，这个隐藏状态通过上一节点的隐藏状态和当前节点的输入来更新。<br><img src="http://oqadn1oza.bkt.clouddn.com/RNNstruct.png" alt="RNN"><br>每一步隐藏层都会产生一个yt,最终的输出yT在下一步中用来预测速度。<br>RNN在非线性时间序列模型中表现很好，但是在反向传播的过程中，它会有梯度消失或梯度爆炸的问题，因此不能用来处理长时间依赖的时间序列。</p>
+<p>LSTM简介：<br>&emsp;为了解决上述提到的RNN的问题，有很多复杂的RNN结构被提出，比较典型的有LSTM和GRU。LSTM在长时间序列依赖的问题上处理的很好。GRU是一个简化版的LSTM结构，近期被用来做机器翻译。近年来也有大量的LSTM变体被提出，但是这些变体与原始的LSTM相比性能并没有显著的提升。标准LSTM与标准RNN之间结构上唯一不同之处在于隐藏层。只是每个隐藏层单元都有更为复杂的结构。除了隐藏层状态ht和输入xt，当更新参数时，LSTM还将当前单元输入状态，当前单元输出状态、上一单元的输出状态纳入考虑。LSTM特殊的门结构让它可以将长时间依赖的信息沿着LSTM网络传递下去。LSTM隐藏单元包括三个门，输入门，遗忘门和输出门，尤其是遗忘门是LSTM成为一个有效的可扩展的模型。<br><img src="http://oqadn1oza.bkt.clouddn.com/%E5%8F%8C%E5%90%91LSTM%E7%BB%93%E6%9E%84.png" alt="LSTM"></p>
+<h2 id="实验："><a href="#实验：" class="headerlink" title="实验："></a>实验：</h2><p>&emsp;考虑全部的P个站点，预测T时刻的交通速度用n个历史数据。输入数据可以用下图的矩阵表示：P个站点，每个站点n个数据，总共P<em>n个输入数据<br><img src="http://oqadn1oza.bkt.clouddn.com/%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="输入数据"><br>&emsp;用n个历史时刻数据来预测T时刻的速度，输入矩阵中的每一项代表第P个位置的t-th时刻的速度。这里将全部的323个站点过去10个单位也就是50分钟的速度纳入考虑，所以该二维矩阵[n,P]&#x3D;[10,323]。由于数据包括2015年一年的，所以总共有N&#x3D;60&#x2F;5</em>24*365-10组sample。所以模型最终的输入为一个[N,n,P]的3D vector。<br><br>&emsp; 实验中对比了SBU-LSTM与传统的单个位置速度模型预测效果。讨论了应该用过去多久的数据来预测T时刻，实验证明过去10个单位的数据用来预测是比较合适的。实验还测试了隐藏层的个数，证明1-layer BDLSTM+1-layer LSTM的预测效果是最好的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2017/09/10/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%8F%8C%E5%90%91%E5%A0%86%E5%8F%A0%E4%B8%8E%E5%8D%95%E5%90%91LSTM%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E9%A2%84%E6%B5%8B%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%81%93%E8%B7%AF%E7%BD%91%E4%BA%A4%E9%80%9A%E9%80%9F%E5%BA%A6/" data-id="clupgymeq002hih9k29i45zv7" data-title="基于深度双向堆叠与单向LSTM循环神经网络预测大规模道路网交通速度" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/12/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F%E9%A2%84%E6%B5%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          基于深度学习的人流量预测
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/15/Centos%E7%B3%BB%E7%BB%9F%E5%9F%BA%E4%BA%8EAnaconda%E5%AE%89%E8%A3%85TensorFlow/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Centos系统基于Anaconda安装TensorFlow</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>linux下编译CUDPP | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具记录以下编译的过程参考cudpp库的编译和使用 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;liangliangdetianxia&#x2F;p&#x2F;4162634.html这篇文章是在windows中编译的，有些地方有点变化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下编译CUDPP">
+<meta property="og:url" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具记录以下编译的过程参考cudpp库的编译和使用 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;liangliangdetianxia&#x2F;p&#x2F;4162634.html这篇文章是在windows中编译的，有些地方有点变化">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/1.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/2.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/3.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/4.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/5.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/6.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/7.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/8.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/9.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/1.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/2.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/3.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/4.png">
+<meta property="og:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/5.png">
+<meta property="article:published_time" content="2018-04-10T07:59:03.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:48:50.319Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CUDA">
+<meta property="article:tag" content="CUDPP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-linux下编译CUDPP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/" class="article-date">
+  <time class="dt-published" datetime="2018-04-10T07:59:03.000Z" itemprop="datePublished">2018-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      linux下编译CUDPP
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具<br>记录以下编译的过程<br>参考cudpp库的编译和使用 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/liangliangdetianxia/p/4162634.html">https://www.cnblogs.com/liangliangdetianxia/p/4162634.html</a>这篇文章是在windows中编译的，有些地方有点变化</p>
+<span id="more"></span>
+
+<h3 id="编译动态库和静态库"><a href="#编译动态库和静态库" class="headerlink" title="编译动态库和静态库"></a>编译动态库和静态库</h3><p>我的环境<br>ubuntu 16.04 64位<br>项目主页<br><a target="_blank" rel="noopener" href="http://cudpp.github.io/">http://cudpp.github.io/</a><br>源码地址<br><a target="_blank" rel="noopener" href="https://github.com/cudpp/cudpp">https://github.com/cudpp/cudpp</a><br>根据这个网址的提示进行<br><a target="_blank" rel="noopener" href="https://github.com/cudpp/cudpp/wiki/BuildingCUDPPwithCMake">https://github.com/cudpp/cudpp/wiki/BuildingCUDPPwithCMake</a></p>
+<ol>
+<li>从github上下载源码，下载后的源码目录中有个ext文件夹，是空的</li>
+<li>所以在github网页中点开进入这个文件夹。</li>
+</ol>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/1.png" class="">
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/2.png" class="">
+
+<p>点开这两个连接之后，都打包下载下来一定要点击download，而不是用clone的方式下载源码，clone方式下载的源码编译不通过。我也不知道为啥！<br>到此，所需文件全了！！！<br>放在对应的文件夹下。</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/3.png" class="">
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/4.png" class="">
+
+
+<p>下载CMake用cmake-gui来编译，配置源码目录和要build的目录，点击configure,再点generate</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/5.png" class="">
+
+<p>Useful options to set:</p>
+<ul>
+<li>CMAKE_BUILD_TYPE: set to Debug for debug builds, Release (or blank) for release builds. Not needed on Windows.</li>
+<li>BUILD_APPLICATIONS: set to on to build the CUDPP example applications and testrig in addition to CUDPP libraries.（这个选项是同时编译cudpp这个库里面的例子，选上比较好）</li>
+<li>BUILD_SHARED_LIBS: set to on to build dynamic&#x2F;shared CUDPP libraries, off to build static libraries</li>
+<li>CUDA_VERBOSE_BUILD: Print out commands run while compiling CUDA source files</li>
+<li>CUDA_VERBOSE_PTXAS: Print out the output of –ptxas-options&#x3D;-verbose, which displays details of shared memory, registers, and constants used by CUDA device kernels.</li>
+</ul>
+<p>这样在cudpp-build目录中就生成了Makefile文件<br>然后控制台进入cudpp-build目录，键入make，然后等一会儿，就编译完了</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/6.png" class="">
+<p>之后在cudpp-build&#x2F;bin目录下可以看到三个可执行文件，控制台进入目录，执行。可以看到all test passed的提示。</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/7.png" class="">
+
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/8.png" class="">
+
+
+<h3 id="在项目中配置动态库"><a href="#在项目中配置动态库" class="headerlink" title="在项目中配置动态库"></a>在项目中配置动态库</h3><p>在cudpp-build&#x2F;lib目录下可以找到生成的.so动态连接库。如果不勾选动态连接选项的话生成的是静态连接库，就是.a文件。然后配合include目录下的头文件就可以用于其他项目了。</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/9.png" class="">
+
+
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/1.png" class="">
+
+<p>一开始我将动态库和源码放在同一个目录下，然后用nvcc -o main scan_gold.cpp simpleCUDPP.cu -L .&#x2F; -lcudpp命令，可以正常编译，但是运行时报错。报错的原因是共享路径配置不正确;</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/2.png" class="">
+
+<p>一个简单易行的办法是将动态库拷贝到&#x2F;usr&#x2F;local&#x2F;lib目录下即可</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/3.png" class="">
+
+<p>还有一个办法就是使用静态库，将静态库拷贝到源码目录下nvcc -o main scan_gold.cpp simpleCUDPP.cu -L .&#x2F; -lcudpp编译成功。然后.&#x2F;main运行成功。但是静态库生成的可执行文件main非常大，因为它包括了库中所有的数据。比如在这个实验中用静态库生成的可执行文件有40多M，而用动态库生成的可执行文件只有500多K。<br>动态链接库和静态函数库不同，它里面的函数并不是执行程序本身的一部分，而是根据执行程序需要按需装入，同时其执行代码可在多个执行程序间共享，节省了空间，提高了效率。由于函数库没有被整合进你的程序，而是程序运行时动态的申请并调用，所以程序的运行环境中必须提供相应的库。动态函数库的改变并不影响你的程序，所以动态函数库的升级比较方便。linux系统有几个重要的目录存放相应的函数库，如&#x2F;lib &#x2F;usr&#x2F;lib。<br>当要使用静态的程序库时，连接器会找出程序所需的函数，然后将它们拷贝到执行文件，由于这种拷贝是完整的，所以一旦连接成功，静态程序库也就不再需要了。然而，对动态库而言，就不是这样。动态库会在执行程序内留下一个标记指明当程序执行时，首先必须载入这个库。由于动态库节省空间，linux下进行连接的缺省操作是首先连接动态库，也就是说，如果同时存在静态和动态库，不特别指定的话，将与动态库相连接。</p>
+<h3 id="一个cudpp-hash的例子"><a href="#一个cudpp-hash的例子" class="headerlink" title="一个cudpp_hash的例子"></a>一个cudpp_hash的例子</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;cuda_runtime_api.h&gt;</span><br><span class="line">#include &quot;cudpp.h&quot;</span><br><span class="line">#include &quot;cudpp_hash.h&quot;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">  const int N = 10;</span><br><span class="line"></span><br><span class="line">  int keys[N] = &#123;1, 6, 4, 9, 0, 3, 7, 2, 5, 8&#125;;</span><br><span class="line">  int vals[N] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</span><br><span class="line"></span><br><span class="line">  int *d_keys, *d_vals;</span><br><span class="line">  cudaMalloc((void**)&amp;d_keys, sizeof(int) * N);</span><br><span class="line">  cudaMemcpy(d_keys, keys, sizeof(int) * N, cudaMemcpyHostToDevice);</span><br><span class="line">  cudaMalloc((void**)&amp;d_vals, sizeof(int) * N);</span><br><span class="line">  cudaMemcpy(d_vals, vals, sizeof(int) * N, cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">  int input[N] = &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</span><br><span class="line">  int output[N];</span><br><span class="line"></span><br><span class="line">  int *d_input, *d_output;</span><br><span class="line">  cudaMalloc((void**)&amp;d_input, sizeof(int) * N);</span><br><span class="line">  cudaMemcpy(d_input, input, sizeof(int) * N, cudaMemcpyHostToDevice);</span><br><span class="line">  cudaMalloc((void**)&amp;d_output, sizeof(int) * N);</span><br><span class="line">  cudaMemset(d_output, 0, sizeof(int) * N);</span><br><span class="line"></span><br><span class="line">  CUDPPHandle cudpp;</span><br><span class="line">  cudppCreate(&amp;cudpp);</span><br><span class="line"></span><br><span class="line">  CUDPPHashTableConfig config;</span><br><span class="line">  config.type = CUDPP_BASIC_HASH_TABLE;</span><br><span class="line">  config.kInputSize = N;</span><br><span class="line">  config.space_usage = 2.0;</span><br><span class="line"></span><br><span class="line">  CUDPPHandle hash_table_handle;</span><br><span class="line">  cudppHashTable(cudpp, &amp;hash_table_handle, &amp;config);</span><br><span class="line"></span><br><span class="line">  cudppHashInsert(hash_table_handle, d_keys, d_vals, N);</span><br><span class="line"></span><br><span class="line">  cudppHashRetrieve(hash_table_handle, d_input, d_output, N);</span><br><span class="line"></span><br><span class="line">  cudaMemcpy(output, d_output, sizeof(int) * N, cudaMemcpyDeviceToHost);</span><br><span class="line">  for (int i = 0; i &lt; N; ++i) &#123;</span><br><span class="line">    printf(&quot;%d\n&quot;, output[i]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  cudppDestroyHashTable(cudpp, hash_table_handle);</span><br><span class="line">  </span><br><span class="line">  cudppDestroy(cudpp);</span><br><span class="line"></span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译命令： nvcc cudpphashtesting.cu -o hashtesting -lcudpp -lcudpp_hash<br>运行结果</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/4.png" class="">
+
+
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h3><p>1、linux库文件分为静态库和动态库两种。静态库习惯以.a 结尾，而动态库习惯以.so(shared object)结尾。而且必须以lib开头。<br>2、静态库的原则是“以空间换时间”，增加程序体积，减少运行时间;因为整个函数库的所有数据都会被整合进目标代码中，他的优点就显而易见了，即编译后的执行程序不需要外部的函数库支持，因为所有使用的函数都已经被编译进去了。当然这也会成为他的缺点，因为如果静态函数库改变了，那么你的程序必须重新编译。<br>生成：在编译时候，先生成目标文件.o，然后用ar文件对目标文件归档，生成静态库文件。<br>例如：ar -rc libtest.a myalib.o （注意：ar -rc 目标 .o文件名），目标一定要以lib开头。<br>3、使用时候，在链接时候，加上选项 -l 后接库文件名，注意：必须是文件名去掉后缀和lib，<br> 如：gcc -o main main.o -ltest 。而且-ltest必须放在main.o的后面，（规则是，越底层的库越要放在后面）。<br>4、gcc的其他常用的选项，<br>-c 编译成目标文件 如：gcc -c main.c 就是编译main.c成目标文件main.o<br>-I 头文件的查找路径，如：gcc -c main.c -I.&#x2F;inc 意思是：头文件的查找路径除了默认的之外，再加上.&#x2F;inc目录下的。<br>-L 库文件的查找路径，如：gcc -o main main.o -L.&#x2F;lib -ltest 说明：libtest.a 或者 libtest.so 库文件的查找路径除了默认之外，再加上.&#x2F;lib目录。<br>-MM 导出文件的依赖关系（用#include 中的内容）如：gcc -MM main.c找出main.c的所依赖的头文件<br>-o 生成最终目标<br>-D宏定义 相当于在C中些语句#define … 如：-DPI&#x3D;3.14 就相当于在文件里面写语句#define PI 3.14<br>5、动态库<br>（1）、生成：在链接时，用如下选项：-shared -fpic 如： gcc -fpic -shared -o libtest.so myalib.c<br>（2）、使用：有隐式使用和显示使用，隐式使用就是共享方式，程序一开始运行就调进去。在链接时候用如下：<br> gcc -o main main.o -L.&#x2F;lib -ltest(像静态库的一样)<br>显示使用就是在程序中用语句把动态库调进来，用系统调用：dlopen、dlsym、dlerror、dlclose函数，那样在编译链接时候，不用加上：-L.&#x2F;lib -ltest了。不过要使用dl*系列函数在编译链接时要加上 -ldl<br>6、如果同一目录下，既有静态库也有动态库，比如libtest.a libtest.so都存在，那么dl程序（等一下介绍）就把动态库调进去，没有动态的，就找静态的。再没有，就报错。<br>7、动态库的搜索路径<br>dl对动态库的搜索路径如下（按顺序如下）</p>
+<p>a.编译目标代码时指定的动态库搜索路径；（如果要指定程序行时在.&#x2F;lib目录下找库文件libtest.so，命令如下：gcc -o main main.c -L.&#x2F;lib -ltest -Wl,-rpath .&#x2F;lib) ，其中，-Wl的意思是，后面的选项直接交给ld程序处理,-rpath选项是说更改搜索路径为后面的参数.&#x2F;lib</p>
+<p>b.环境变量LD_LIBRARY_PATH指定的动态库搜索路径；</p>
+<p>c.配置文件&#x2F;etc&#x2F;ld.so.conf中指定的动态库搜索路径；（修改完文件后，用ldconfig更新）</p>
+<p>d.默认的动态库搜索路径&#x2F;lib和&#x2F;usr&#x2F;lib；</p>
+<p>8、一些常用的命令（与库有关的）</p>
+<p>（1）、ld 是gcc的链接程序。</p>
+<p>（2）、ldd是查看可执行文件中所依赖的库的程序，比如想查main程序用到了那些动态库，可以直接<br> ldd main</p>
+<p>（3）、ldconfig用来更新文件&#x2F;etc&#x2F;ld.so.conf的修改生效。</p>
+<p>（4）、nm用来查看.so库中的函数名字，标记是T的就是动态库里面生成的名字。如：nm &#x2F;lib&#x2F;libc*.so<br> 有时候当我们的应用程序无法运行时，它会提示我们说它找不到什么样的库，或者哪个库的版本又不合它胃口了等等之类的话。那么应用程序它是怎么知道需要哪些库的呢？我们前面已几个学了个很棒的命令ldd，用就是用来查看一个文件到底依赖了那些so库文件。</p>
+<img src="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/5.png" class="">
+
+<p>Linux系统中动态链接库的配置文件一般在&#x2F;etc&#x2F;ld.so.conf文件内，它里面存放的内容是可以被Linux共享的动态联库所在的目录的名字。<br>9.库的依赖问题<br>比如我们有一个基础库libbase.a,还有一个依赖libbase.a编译的库，叫做libchild.a；在我们编译程序时，一定要先-lchild再-lbase。 如果使用 -lbase -lchild，在编译时将出现一些函数undefined，而这些函数实际上已经在base中已经定义；<br>   为什么会有库的依赖问题？    一、静态库解析符号引用：       链接器ld是如何使用静态库来解析引用的。在符号解析阶段，链接器从左至右，依次扫描可重定位目标文件（*.o）和静态库（*.a）。    在这个过程中，链接器将维持三个集合：    集合E：可重定位目标文件(<em>.o文件)的集合。    集合U：未解析(未定义)的符号集，即符号表中UNDEF的符号。    集合D： 已定义的符号集。    初始情况下，E、U、D均为空。    1、对于每个输入文件f，如果是目标文件(.o)，则将f加入E，并用f中的符号表修改U、D(在文件f中定义实现的符号是D，在f中引用的符号是U)，然后继续下个文件。    2、如果f是一个静态库(.a)，那么链接器将尝试匹配U中未解析符号与静态库成员(静态库的成员就是.o文件)定义的符号。如果静态库中某个成员m(某个.o文件)定义了一个符号来解析U中引用，那么将m加入E中，    同时使用m的符号表，来更新U、D。对静态库中所有成员目标文件反复进行该过程，直至U和D不再发生变化。此时，静态库f中任何不包含在E中的成员目标文件都将丢弃，链接器将继续下一个文件。    3、当所有输入文件完成后，如果U非空，链接器则会报错，否则合并和重定位E中目标文件，构建出可执行文件。  到这里，为什么会有库的依赖问题已经得到解答：  因为libchild.a依赖于libbase.a，但是libbase.a在libchild.a的左边，导致libbase.a中的目标文件(</em>.o)根本就没有被加载到E中，所以解决方法就是交换两者的顺序。当然也可以使用-lbase -lchild -lbase的方法。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>linux下添加动态链接库路径的方法 <a target="_blank" rel="noopener" href="https://blog.csdn.net/zxh2075/article/details/54629318">https://blog.csdn.net/zxh2075/article/details/54629318</a><br>Linux中的静态库和动态库那点事儿 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/sky-heaven/p/5918139.html">https://www.cnblogs.com/sky-heaven/p/5918139.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wainiwann/p/4204248.html">linux下静态库和动态库一些东西</a> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/wainiwann/p/4204248.html">https://www.cnblogs.com/wainiwann/p/4204248.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/" data-id="clupgymen001kih9khyt2htyg" data-title="linux下编译CUDPP" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/11/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%BF%85%E9%A1%BB%E4%B8%BA%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%BA%E5%80%BC%E4%BC%A0%E9%80%92/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          为什么拷贝构造函数必须为引用传递，不能为值传递
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/10/win10-VS2013%E4%B8%8EUbuntu16-04%E9%85%8D%E7%BD%AEGDAL/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">win10+VS2013与Ubuntu16.04配置GDAL</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

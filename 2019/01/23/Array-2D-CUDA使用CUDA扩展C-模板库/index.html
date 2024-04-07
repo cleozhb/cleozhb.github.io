@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Array_2D_CUDA使用CUDA扩展C++模板库 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="场景考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Array_2D_CUDA使用CUDA扩展C++模板库">
+<meta property="og:url" content="http://example.com/2019/01/23/Array-2D-CUDA%E4%BD%BF%E7%94%A8CUDA%E6%89%A9%E5%B1%95C-%E6%A8%A1%E6%9D%BF%E5%BA%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="场景考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/CPUtest.png">
+<meta property="og:image" content="http://example.com/GPUtest.png">
+<meta property="article:published_time" content="2019-01-23T03:17:40.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.709Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CUDA">
+<meta property="article:tag" content="模板">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/CPUtest.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Array-2D-CUDA使用CUDA扩展C-模板库" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/01/23/Array-2D-CUDA%E4%BD%BF%E7%94%A8CUDA%E6%89%A9%E5%B1%95C-%E6%A8%A1%E6%9D%BF%E5%BA%93/" class="article-date">
+  <time class="dt-published" datetime="2019-01-23T03:17:40.000Z" itemprop="datePublished">2019-01-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Array_2D_CUDA使用CUDA扩展C++模板库
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个场景，你正在开发一个c++模板库，用于对自定义的复杂数据类型执行计算密集型处理，并且使用了一些通过CUDA加速一些较慢的功能。但是对于大多数用户来说CUDA的学习成本较高，且用户的机器并不一定支持CUDA的运行。最佳方案是让用户能够像使用CPU函数一样使用GPU函数。从软件工程的角度思考以下，这个问题该怎样处理呢？<br>一种简单直观的思路是开发两个独立的项目。更好一点的方法是对每个用CPU和GPU实现的函数提供编译时选项。这样用户在使用时需要选择一个版本的实现并一直使用，或者要重新编译才能改变执行文件。此外，对于一些小数据来说，CPU运行的比GPU快，但当数据量大的时候GPU会有很好的加速效果。所以最佳方案是让用户能在在CPU模式和GPU模式下任意切换。<br>还有一个问题涉及到开发CUDA库，CUDA是一个非常低级的语言，如果我们的库中有复杂的数据结构，就有可能很难管理数据分配、内存传输。在CPU端，C++类可以通过抽象的方式使得开发变得容易。理想情况下，我希望在GPU上能够做同样的事情。通过专业的模板元编程，能够为现有的类创建CUDA-interface，通过抽象的处理cudaMalloc,cudaMemcpy等低级的GPU内存管理操作，从而大大简化GPU的开发。</p>
+<span id="more"></span>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>接下来实现一个简单的二维数组的模板类，并实现将数组中每个元素求平方的简单函数。这个例子只是考虑传达一种软件工程角度的编程思想。在实现中没有引用计数机制的情况下，在构造函数、析够函数中传递&#x2F;释放了原始指针，这通常是我们不希望看到的。同样也没有重载operator[]，没有错误检查等。</p>
+<h3 id="CPU版本实现"><a href="#CPU版本实现" class="headerlink" title="CPU版本实现"></a>CPU版本实现</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">//Array2D.h</span><br><span class="line">#ifndef ARRAY2D_H</span><br><span class="line">#define ARRAY2D_H</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">class Array2D &#123;</span><br><span class="line">public:</span><br><span class="line">    Array2D(T* _data,</span><br><span class="line">            const size_t&amp; _nrows,</span><br><span class="line">            const size_t&amp; _ncols); // constructor</span><br><span class="line">    Array2D(const Array2D&lt;T&gt;&amp; other); // copy constructor</span><br><span class="line">    Array2D&lt;T&gt;&amp; operator=(const Array2D&lt;T&gt;&amp; other);</span><br><span class="line">    T&amp; operator[](int i)</span><br><span class="line">    &#123;</span><br><span class="line">        if(i &gt; size())</span><br><span class="line">        &#123;</span><br><span class="line">            return data[0];</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            return data[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ~Array2D()&#123;delete[] this-&gt;data;&#125;</span><br><span class="line">    size_t get_nrows() const &#123;return this-&gt;nrows;&#125;</span><br><span class="line">    size_t get_ncols() const &#123;return this-&gt;ncols;&#125;</span><br><span class="line">    size_t size()      const &#123;return this-&gt;N;&#125;</span><br><span class="line">    T* begin()&#123;return data;&#125;</span><br><span class="line">    T* begin()const&#123;return data;&#125;</span><br><span class="line">    T* end()&#123;return data + this-&gt;size();&#125;</span><br><span class="line">    T* end()const&#123;return data + this-&gt;size();&#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    T* data;</span><br><span class="line">    size_t nrows;</span><br><span class="line">    size_t ncols;</span><br><span class="line">    size_t N;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">Array2D&lt;T&gt;::Array2D(T* _data,</span><br><span class="line">                    const size_t&amp; _nrows,</span><br><span class="line">                    const size_t&amp; _ncols):data(_data), nrows(_nrows), ncols(_ncols)&#123;</span><br><span class="line">    this-&gt;N = _nrows * _ncols;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">Array2D&lt;T&gt;::Array2D(const Array2D&lt;T&gt;&amp; other):nrows(other.nrows), ncols(other.ncols), N(other.N)&#123;</span><br><span class="line">    data = new T[N];</span><br><span class="line">    auto i = this-&gt;begin();</span><br><span class="line">    for (auto&amp; o:other)*i++=o;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">Array2D&lt;T&gt;&amp; Array2D&lt;T&gt;::operator=(const Array2D&lt;T&gt;&amp; other)&#123;</span><br><span class="line">    this-&gt;ncols = other.ncols;</span><br><span class="line">    this-&gt;ncols = other.nrows;</span><br><span class="line">    this-&gt;N     = other.N;</span><br><span class="line"></span><br><span class="line">    // here should compare the sizes of the arrays and reallocate if necessary</span><br><span class="line">    delete[] data;</span><br><span class="line">    data = new T[N];</span><br><span class="line">    auto i = this-&gt;begin();</span><br><span class="line">    for (auto&amp; o:other)*i++=o;</span><br><span class="line">    return *this;</span><br><span class="line">&#125;;</span><br><span class="line">#endif //ARRAY2D_H</span><br></pre></td></tr></table></figure>
+<p>这个类中存储了一个指针，和二维数组的行数、列数。有一个copy操作的重载。定义了begin()和end()方法，析够函数中释放了指针。一个二维数组对象可以通过new操作返回的指针来构造了。接下来实现ArrayPow2，非常简单。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//ArrayPow2.h</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &quot;Array2D.h&quot;</span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">void ArrayPow2_CPU(Array2D&lt;T&gt;&amp; in, Array2D&lt;T&gt;&amp; result)&#123;</span><br><span class="line">    std::cout &lt;&lt; &quot;Using the CPU version\n&quot;;</span><br><span class="line">    std::transform(in.begin(), in.end(), result.begin(), [](const T&amp; a)&#123;return a*a;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>std::transform的第四个参数中用一个lambda表达式对在第一个参数到第二个参数中的每个元素进行计算，并存储在第三个参数中。<br>接下来实现一个简单的测试，来验证函数是否正确。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//driver1.cpp</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &quot;Array2D.h&quot;</span><br><span class="line">#include &quot;ArrayPow2.h&quot;</span><br><span class="line">using namespace std;</span><br><span class="line">int main() &#123;</span><br><span class="line">    Array2D&lt;float&gt; arr(new float[100], 10, 10);</span><br><span class="line">    int a = 2;</span><br><span class="line">    for (auto&amp; i:arr)i=++a;</span><br><span class="line">    Array2D&lt;float&gt; result(arr);</span><br><span class="line">    ArrayPow2(arr, result);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; &quot;arr[0]   = &quot; &lt;&lt; *arr.begin() &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;arr[0]^2 = &quot; &lt;&lt; *result.begin() &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="GPU-CUDA模板实现"><a href="#GPU-CUDA模板实现" class="headerlink" title="GPU-CUDA模板实现"></a>GPU-CUDA模板实现</h3><p>为了使得开发CUDA代码更容易，首先要实现一个CUDA版本的Array2D类。可以通过创建一个特殊的Array2D类。为了区别于CPU版本的Array2D，引入了一个辅助结构体，在结构体中只包含一个值。现在能够创建一个Array2D&lt; Cutype<T>&gt;数组，这与Array2D<T>的对象完全不同。这样就可以通过抽象的方法来调用cudaMalloc,cudaMemcpy等低级函数。在我的实现中所有的类型都会包含float型的数据，可以通过Cutype<float>用CUDA版的array本来存储float型的数据。这样一层数据类型并不会产生额外的开销。在编译阶段已经被float代替掉了，可以通过检查汇编代码来测试。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line">//Array2D_CUDA.h</span><br><span class="line">#ifndef ARRAY2D_CUDA_H</span><br><span class="line">#define ARRAY2D_CUDA_H</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &quot;Array2D.h&quot;</span><br><span class="line">#include &quot;cuda.h&quot;</span><br><span class="line">#include &quot;cuda_runtime_api.h&quot;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">struct Cutype&#123;</span><br><span class="line">    T val;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">template &lt;class U&gt;</span><br><span class="line">class Array2D&lt; Cutype&lt;U&gt; &gt; &#123;</span><br><span class="line">public:</span><br><span class="line">    Array2D(U* _data,</span><br><span class="line">            const size_t&amp; _nrows,</span><br><span class="line">            const size_t&amp; _ncols);</span><br><span class="line">    Array2D(const Array2D&lt;U&gt;&amp;);</span><br><span class="line">    Array2D&lt; Cutype&lt;U&gt; &gt;&amp; operator=(const Array2D&lt;U&gt;&amp; other);</span><br><span class="line">    U&amp; operator[](int i)</span><br><span class="line">    &#123;</span><br><span class="line">        if(i &gt; size())</span><br><span class="line">        &#123;</span><br><span class="line">            return data[0];</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            return data[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ~Array2D();</span><br><span class="line">    size_t get_nrows() const &#123;return *this-&gt;nrows;&#125;</span><br><span class="line">    size_t get_ncols() const &#123;return *this-&gt;ncols;&#125;</span><br><span class="line">    size_t size()      const &#123;return *this-&gt;N;&#125;</span><br><span class="line">    U* begin()const&#123;return data;&#125;</span><br><span class="line">    U* end()const&#123;return data + this-&gt;size();&#125;</span><br><span class="line">    U* begin()&#123;return data;&#125;</span><br><span class="line">    U* end()&#123;return data + this-&gt;size();&#125;</span><br><span class="line">private:</span><br><span class="line">    U* data;</span><br><span class="line">    size_t* nrows;</span><br><span class="line">    size_t* ncols;</span><br><span class="line">    size_t* N;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">template &lt;class U&gt;</span><br><span class="line">Array2D&lt; Cutype&lt;U&gt; &gt;::Array2D(U* _data,</span><br><span class="line">                    const size_t&amp; _nrows,</span><br><span class="line">                    const size_t&amp; _ncols):data(_data)&#123;</span><br><span class="line">    size_t N_tmp = _nrows * _ncols;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaMalloc((void**)&amp;nrows, sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;ncols, sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;N    , sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;data , sizeof(U) * N_tmp);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaMemcpy(nrows, &amp;_nrows, sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(ncols, &amp;_ncols, sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(N,     &amp;N_tmp , sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(data,  _data  , sizeof(U)*N_tmp, cudaMemcpyHostToDevice);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">template &lt;class U&gt;</span><br><span class="line">Array2D&lt; Cutype&lt;U&gt; &gt;::Array2D(const Array2D&lt;U&gt;&amp; other)&#123;</span><br><span class="line">    size_t N_tmp = other.size();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaMalloc((void**)&amp;nrows, sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;ncols, sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;N    , sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;data , sizeof(U) * N_tmp);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    const size_t other_nrows = other.get_nrows();</span><br><span class="line">    const size_t other_ncols = other.get_ncols();</span><br><span class="line">    const size_t other_N = other.size();</span><br><span class="line">    U *other_data = other.begin();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaMemcpy(nrows, &amp;other_nrows, sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(ncols, &amp;other_ncols, sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(N,     &amp;other_N    , sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(data,  other_data  , sizeof(U)*N_tmp, cudaMemcpyHostToDevice);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template &lt;class U&gt;</span><br><span class="line">Array2D&lt; Cutype&lt;U&gt; &gt;&amp; Array2D&lt; Cutype&lt;U&gt; &gt;::operator=(const Array2D&lt;U&gt;&amp; other)&#123;</span><br><span class="line">    size_t N_tmp = other.size();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaMalloc((void**)&amp;nrows, sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;ncols, sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;N    , sizeof(size_t));</span><br><span class="line">    cudaMalloc((void**)&amp;data , sizeof(U) * N_tmp);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    const size_t other_nrows = other.get_nrows();</span><br><span class="line">    const size_t other_ncols = other.get_ncols();</span><br><span class="line">    const size_t other_N = other.size();</span><br><span class="line">    U *other_data = other.begin();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cudaMemcpy(nrows, &amp;other_nrows, sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(ncols, &amp;other_ncols, sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(N,     &amp;other_N    , sizeof(size_t) , cudaMemcpyHostToDevice);</span><br><span class="line">    cudaMemcpy(data,  other_data , sizeof(U)*N_tmp, cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return *this;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template &lt;class U&gt;</span><br><span class="line">Array2D&lt; Cutype&lt;U&gt; &gt;::~Array2D()&#123;</span><br><span class="line">    cudaFree(nrows);</span><br><span class="line">    cudaFree(ncols);</span><br><span class="line">    cudaFree(N);</span><br><span class="line">    cudaFree(data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#endif //ARRAY2D_CUDA_H</span><br></pre></td></tr></table></figure>
+<p>大多数代码看上去与CPU版本非常相似，在拷贝构造函数是通过传入一个Array2D<T>的数组对象进行的，在代码中定义了如何从一个Array2D<T>数组拷贝到一个Array2D&lt;Cutype<T>&gt;.这样可以通过传入一个主机端的数组，在GPU上构建一个数组对象。new和delete被cudaMalloc和cudaFree取代，数据拷贝由cudaMemcpy处理。构建类的方式变了，但是与类进行交互的方式并没有变。花时间构造这样一个类从长远来看可以节约大量的时间，不必为每个内核手动处理内存复制。<br>下面是CUDA版本的ArrayPow2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//ArrayPow2.cuh</span><br><span class="line">#include &quot;Array2D_CUDA.h&quot;</span><br><span class="line">#include &quot;Array2D.h&quot;</span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">void ArrayPow2_CUDA(Array2D&lt;T&gt;&amp; in, Array2D&lt;T&gt;&amp; result);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//ArrayPow2.cu</span><br><span class="line">#include &quot;Array2D_CUDA.h&quot;</span><br><span class="line">#include &quot;Array2D.h&quot;</span><br><span class="line">#include &quot;cuda.h&quot;</span><br><span class="line">#include &quot;cuda_runtime_api.h&quot;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#define BLOCK_SIZE 1024</span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">__global__ void pow2(T* in, T* out, size_t N)&#123;</span><br><span class="line">    int idx = threadIdx.x + blockIdx.x*blockDim.x;</span><br><span class="line">    if (idx &lt; N)out[idx] = in[idx] * in[idx];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">void ArrayPow2_CUDA(Array2D&lt;T&gt;&amp; in, Array2D&lt;T&gt;&amp; result) &#123;</span><br><span class="line">    std::cout &lt;&lt; &quot;Using the GPU version\n&quot;;</span><br><span class="line">    Array2D&lt; Cutype&lt;T&gt; &gt; in_d(in);</span><br><span class="line">    std::cout &lt;&lt; &quot;in[0] = &quot; &lt;&lt; *in.begin() &lt;&lt; std::endl;</span><br><span class="line">    size_t N = in.size();</span><br><span class="line">    std::cout &lt;&lt; &quot;N = &quot; &lt;&lt; N &lt;&lt; std::endl;</span><br><span class="line">    pow2 &lt;&lt;&lt; (N - 1) / BLOCK_SIZE + 1, BLOCK_SIZE &gt;&gt;&gt; (in_d.begin(), in_d.begin(), in.size());</span><br><span class="line">    cudaDeviceSynchronize();</span><br><span class="line">    cudaMemcpy(result.begin(), in_d.begin(), sizeof(T) * N, cudaMemcpyDeviceToHost);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template void ArrayPow2_CUDA(Array2D&lt;float&gt;&amp;, Array2D&lt;float&gt;&amp;);</span><br><span class="line">template __global__ void pow2(float*, float*, size_t);</span><br></pre></td></tr></table></figure>
+<h3 id="CUDA模板trick"><a href="#CUDA模板trick" class="headerlink" title="CUDA模板trick"></a>CUDA模板trick</h3><p>在上面的实现中，包装函数的名字与原始的CPU实现相同，调用内核也使用了.begin()。更重要也让人很痛苦的一点是最后两行必须加上。<br>经常使用模板的同学一定碰到过当你想把定义和实现分开在不同的文件中时，会报错undefined reference…原因是模板仅仅用于编译器用一个给定的类型构造类。而如果模板代码在编译单元中存在，那么它在知道实际需要实例化哪些类之前就会被编译。当连接器试图与它需要的任何类型模板连接时，通常会报错undefined reference…这意味着它在寻找一个未定义的对象。在C++中，通常最简单的解决方案是将完整的模板实现放在头文件中。这样保证了需要实例化的类在编译时可见。但是在CUDA代码中，这种方案不起作用，原因是NVCCC对CUDA和C++代码的编译在本质上是分离的，因此必须有多个文件。解决方案是强制实例化要使用的模板类型，最后两行就是实例化的过程。</p>
+<h3 id="整合CPU版本和CUDA版本"><a href="#整合CPU版本和CUDA版本" class="headerlink" title="整合CPU版本和CUDA版本"></a>整合CPU版本和CUDA版本</h3><p>现在已经实现了CUDA模板和内核，接下来要做的就是将这些与之前的CPU版本的库整合在一起，并且当用户只能使用CPU或者不想用GPU时不填加任何CUDA的东西，提供一种方式在CPU和GPU之间选择。选择时不需要程序员在代码中修改很多地方的函数名称。方法如下：</p>
+<ol>
+<li>创建一个函数指针，指针指向的函数与纯C++版本和CUDA版本的一样，在你改变函数指针之前对其进行重命名，命名成任何方便理解的名字。</li>
+<li>添加一个编译指示，ENABLE_GPU,如果在编译时没有定义ENABLE_GPU，意味着不会使用CUDA的函数，将函数指针指向CPU版本。 如果定义了ENABLE_GPU，在命令行输入引入运行时检查，并适当的将函数指针设置为CPU或者CUDA版本。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">//main.cpp</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line">#include &quot;Array2D.h&quot;</span><br><span class="line">#include &quot;ArrayPow2_CPU.h&quot;</span><br><span class="line"></span><br><span class="line">#ifdef ENABLE_GPU</span><br><span class="line">#include &quot;Array2D_CUDA.h&quot;</span><br><span class="line">#include &quot;ArrayPow2_CUDA.cuh&quot;</span><br><span class="line">#endif //ENABLE_GPU</span><br><span class="line"></span><br><span class="line">template &lt;class T&gt;</span><br><span class="line">using ArrayPow2_F = void(*)(Array2D&lt;T&gt;&amp;, Array2D&lt;T&gt;&amp;);</span><br><span class="line">ArrayPow2_F&lt;float&gt; ArrayPow2;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main(int argc, char** argv) &#123;</span><br><span class="line">#ifdef ENABLE_GPU</span><br><span class="line">    if (argc&gt;2 &amp;&amp; !strcmp(argv[1],&quot;gpu&quot;))&#123;</span><br><span class="line">        if (!strcmp(argv[2],&quot;1&quot;))&#123;</span><br><span class="line">            ArrayPow2 = ArrayPow2_CUDA;</span><br><span class="line">        &#125; else&#123;</span><br><span class="line">            ArrayPow2 = ArrayPow2_CPU;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125; else</span><br><span class="line">    &#123;</span><br><span class="line">        ArrayPow2 = ArrayPow2_CUDA;</span><br><span class="line">    &#125;</span><br><span class="line">#else</span><br><span class="line">    ArrayPow2 = ArrayPow2_CPU;</span><br><span class="line">#endif //ENABLE_GPU</span><br><span class="line"></span><br><span class="line">    Array2D&lt;float&gt; arr(new float[12], 6, 2);</span><br><span class="line">    int a = 2;</span><br><span class="line">    for (auto&amp; i:arr)</span><br><span class="line">    &#123;</span><br><span class="line">        i=++a;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Array2D&lt;float&gt; result(arr);</span><br><span class="line">    ArrayPow2(arr, result);</span><br><span class="line">    for (int i = 0; i &lt; 12; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; *(arr.begin()+i) &lt;&lt; &quot;\t&quot;&lt;&lt; *(result.begin()+i) &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">all: cpu</span><br><span class="line">clean:</span><br><span class="line">    -rm demo</span><br><span class="line">cpu:</span><br><span class="line">    g++ -std=c++11 main.cpp -o demo</span><br><span class="line">gpu:</span><br><span class="line">    nvcc -std=c++11 main.cpp -D ENABLE_GPU ArrayPow2_CUDA.cu -o demo</span><br></pre></td></tr></table></figure>
+<p>通过这样的设置现在可以有3种方式来编译运行程序：</p>
+<ol>
+<li>直接make</li>
+<li>编译是使用GPU，make gpu,现在默认就是用GPU运行</li>
+<li>用make gpu编译，在运行时的命令行上通过添加gpu 0，这样就不会使用GPU运算了</li>
+</ol>
+<p><img src="/CPUtest.png" alt="CPUtest"><img src="/GPUtest.png" alt="GPUtest"></p>
+<p>通过这种编程模式，不想使用GPU的用户不会受到任何影响。对于想要使用GPU的用户来说，用函数指针来代替加速函数是代价最小的一种方式。一个项目中可能会调用很多次ArrayPow2，只要这个指针指向GPU实现的函数，整个项目立即就会使用GPU版本，无需进一步更改。考虑以下几种场景</p>
+<ul>
+<li>根据数组的大小和优化的效果选择使用GPU版本还是CPU版本</li>
+<li>当程序在大型集群上运行时，有些节点上有GPU有些节点没有，此时运行一个简单的查询来判断是否有可用的GPU，如果没有，则退回CPU版本执行</li>
+</ul>
+<p>总之良好的可扩展性是软件工程首要考虑的问题之一。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="http://alanpryorjr.com/2017-02-11-Flexible-CUDA/">http://alanpryorjr.com/2017-02-11-Flexible-CUDA/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/01/23/Array-2D-CUDA%E4%BD%BF%E7%94%A8CUDA%E6%89%A9%E5%B1%95C-%E6%A8%A1%E6%9D%BF%E5%BA%93/" data-id="clupgymeb0000ih9k6wsu4b3w" data-title="Array_2D_CUDA使用CUDA扩展C++模板库" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/02/%E5%B0%86map%E6%8C%89value%E6%8E%92%E5%BA%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          将map按value排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/19/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">linux性能测试工具</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%80%9D%E8%80%83/">思考</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNN/" rel="tag">CNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CUDPP/" rel="tag">CUDPP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Centos/" rel="tag">Centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNN/" rel="tag">DNN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDAL/" rel="tag">GDAL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MPI-CUDA/" rel="tag">MPI+CUDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/" rel="tag">STL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/map/" rel="tag">map</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket/" rel="tag">socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tensorflow/" rel="tag">tensorflow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AE%E7%82%BC/" rel="tag">修炼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" rel="tag">并查集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag">性能测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%80%BB%E7%BB%93/" rel="tag">总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" rel="tag">研究生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag">编码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91/" rel="tag">编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" rel="tag">速度预测</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" rel="tag">高性能计算</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/test/">test</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/07/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
