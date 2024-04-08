@@ -69,142 +69,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-c-内存错误及valgrind使用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/16/c-%E5%86%85%E5%AD%98%E9%94%99%E8%AF%AF%E5%8F%8Avalgrind%E4%BD%BF%E7%94%A8/" class="article-date">
-  <time class="dt-published" datetime="2018-11-16T04:28:28.000Z" itemprop="datePublished">2018-11-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/16/c-%E5%86%85%E5%AD%98%E9%94%99%E8%AF%AF%E5%8F%8Avalgrind%E4%BD%BF%E7%94%A8/">c++内存错误及valgrind使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>这周我在程序中我要实现一个小小的功能，将map中的对象的键和值分别存储到两个数组中去。然后引发了一系列的bug。这个功能本身并不重要，是我平时的基本功不扎实导致频频出错。下面就来记录以下这些错误。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/11/16/c-%E5%86%85%E5%AD%98%E9%94%99%E8%AF%AF%E5%8F%8Avalgrind%E4%BD%BF%E7%94%A8/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/16/c-%E5%86%85%E5%AD%98%E9%94%99%E8%AF%AF%E5%8F%8Avalgrind%E4%BD%BF%E7%94%A8/" data-id="clupgymem0015ih9k6ewbdb2j" data-title="c++内存错误及valgrind使用" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/valgrind/" rel="tag">valgrind</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" rel="tag">内存调试</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-MPI-CUDA混合编程-Makefile文件写法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/22/MPI-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B-Makefile%E6%96%87%E4%BB%B6%E5%86%99%E6%B3%95/" class="article-date">
-  <time class="dt-published" datetime="2018-10-22T08:06:07.000Z" itemprop="datePublished">2018-10-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/22/MPI-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B-Makefile%E6%96%87%E4%BB%B6%E5%86%99%E6%B3%95/">MPI+CUDA混合编程 Makefile文件写法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="CUDA代码与c-代码分开时Makefile文件的写法"><a href="#CUDA代码与c-代码分开时Makefile文件的写法" class="headerlink" title="CUDA代码与c++代码分开时Makefile文件的写法"></a>CUDA代码与c++代码分开时Makefile文件的写法</h3><p>用网上找的一个例子作为参考，主要记录Makefile文件的写法<br>总的来说就是要用nvcc编译.cu文件，生成.o文件;<br>然后用mpic++编译.cpp文件，生成.o文件;<br>最后用mpic++将这两个.o文件连接起来，生成可执行文件。<br>在控制台中依次键入下面的命令，可以生成可执行文件main。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># nvcc -c test_cuda.cu</span><br><span class="line"># mpic++ -c test.cpp</span><br><span class="line"># mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart</span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a href="/2018/10/22/MPI-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B-Makefile%E6%96%87%E4%BB%B6%E5%86%99%E6%B3%95/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/22/MPI-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B-Makefile%E6%96%87%E4%BB%B6%E5%86%99%E6%B3%95/" data-id="clupgymek000oih9k2o7ce8ns" data-title="MPI+CUDA混合编程 Makefile文件写法" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CUDA/" rel="tag">CUDA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Makefile/" rel="tag">Makefile</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-MPI实现manager-worker模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/11/MPI%E5%AE%9E%E7%8E%B0manager-worker%E6%A8%A1%E5%BC%8F/" class="article-date">
-  <time class="dt-published" datetime="2018-10-11T08:10:11.000Z" itemprop="datePublished">2018-10-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/11/MPI%E5%AE%9E%E7%8E%B0manager-worker%E6%A8%A1%E5%BC%8F/">MPI实现manager-worker模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="并行计算中的任务分发"><a href="#并行计算中的任务分发" class="headerlink" title="并行计算中的任务分发"></a>并行计算中的任务分发</h3><p>在并行计算中，任务划分与求解问题的规模和处理机的结构密切相关，任务划分的方式极大的影响并行计算机能否有效发挥其性能，减少求解的时间。任务分配的几种常用方法有：按块分配、卷帘分配等;<br>传统的块分配中，如果有m个处理器，就将任务分为m块，然后每个处理器或者进程组负责完成其中的一块任务，这种方法属于静态负载平衡。但是有的时候任务计算时间的多少是不固定的，比如当算法中出现迭代的情况时，静态负载平衡的方法可能效果较差。<br>还有一种情况就是当任务之间存在相互依赖时。一种解决方案就是将这些任务在处理器中利用求解连通分量的方法划分为s个任务组，再将这些任务组分配给各个从处理器。<br>当任务之间不存在依赖关系时，可以在主进程上将任务进行分组，形成任务列表，各个从进程向主进程发出任务请求，如果任务列表中还有没有完成的任务，那么将任务发送给从进程，否则发送一个终止信号给从进程，说明没有任务可以执行了，然后从进程发送一个本进程要终止的消息，主进程那边终止进程的计数+1,当所有从进程都终止之后程序完成，退出。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/10/11/MPI%E5%AE%9E%E7%8E%B0manager-worker%E6%A8%A1%E5%BC%8F/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/11/MPI%E5%AE%9E%E7%8E%B0manager-worker%E6%A8%A1%E5%BC%8F/" data-id="clupgymek000tih9k7uxke3qw" data-title="MPI实现manager-worker模式" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MPI/" rel="tag">MPI</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-CUDA概念理解以及犯过的错" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/09/16/CUDA%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E7%8A%AF%E8%BF%87%E7%9A%84%E9%94%99/" class="article-date">
@@ -380,12 +244,12 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h1 id="Lesson5-optimizing-GPU-programs"><a href="#Lesson5-optimizing-GPU-programs" class="headerlink" title="Lesson5 optimizing GPU programs"></a>Lesson5 optimizing GPU programs</h1><ol>
-<li>picking good algorithms 选择时间复杂度低的算法</li>
-<li>basic principles for efficiency 提高效率的基本原则</li>
-<li>arch-specific detailed optimization 优化架构上的细节</li>
-<li>Optimization at instruction level 指令级别的优化</li>
+<li>picking good algorithms 选择时间复杂度低的算法</li>
+<li>basic principles for efficiency 提高效率的基本原则</li>
+<li>arch-specific detailed optimization 优化架构上的细节</li>
+<li>Optimization at instruction level 指令级别的优化</li>
 </ol>
-<p> <br>前两个原则是优化最应该考虑的问题，能提高的加速比也是最高的;比如选择快排而不是插入排序，比如在遍历二维数组的时候按行遍历，这样可以访问内存中连续部分，减少内存访问的次数。</p>
+<p>前两个原则是优化最应该考虑的问题，能提高的加速比也是最高的;比如选择快排而不是插入排序，比如在遍历二维数组的时候按行遍历，这样可以访问内存中连续部分，减少内存访问的次数。</p>
         
           <p class="article-more-link">
             <a href="/2018/09/02/NVIDIA-parallel-computing-5/#more">Read More</a>
@@ -549,11 +413,147 @@
 
 
   
+    <article id="post-socket-python" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/09/socket-python/" class="article-date">
+  <time class="dt-published" datetime="2018-07-09T08:31:25.000Z" itemprop="datePublished">2018-07-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/09/socket-python/">socket-python</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <img src="/2018/07/09/socket-python/1.png" class="">
+        
+          <p class="article-more-link">
+            <a href="/2018/07/09/socket-python/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/07/09/socket-python/" data-id="clupgymeo001rih9k763d0o1d" data-title="socket-python" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/socket/" rel="tag">socket</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-c-的单例模式与全局变量" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/07/c-%E7%9A%84%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/" class="article-date">
+  <time class="dt-published" datetime="2018-07-07T04:12:42.000Z" itemprop="datePublished">2018-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/07/c-%E7%9A%84%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">c++的单例模式与全局变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在之前的code review中因为使用了大量的全局变量被老师批的一无是处，于是痛定思痛，从网上查了全局变量的缺点以及如何减少甚至不用全局变量。单例模式就是全局变量的一种很好的代替方法。<br>简而言之就是创建一个单例类，保证这个类只有一个对象实例（将构造函数私有化），并提供一个访问的方法，然后用它的静态成员函数得到类的唯一对象实例。<br>考虑多线程，单例模式还要做很多调整，具体的在第二篇参考blog 中写的非常好;虽然是用java描述，但是转为c++也是相同的原理。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/07/07/c-%E7%9A%84%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/07/07/c-%E7%9A%84%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/" data-id="clupgymem001aih9kgkdegv7e" data-title="c++的单例模式与全局变量" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-仿函数" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/21/%E4%BB%BF%E5%87%BD%E6%95%B0/" class="article-date">
+  <time class="dt-published" datetime="2018-06-21T12:26:40.000Z" itemprop="datePublished">2018-06-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/06/21/%E4%BB%BF%E5%87%BD%E6%95%B0/">仿函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>函数(functor)又称之为函数对象（function object），其实就是重载了operator（）操作符的struct或class，没有什么特别的地方。仿函数(functor)使一个类的使用看上去象一个函数，这个类就有了类似函数的行为，就是一个仿函数类了。 <br>如下面的代码定义了一个二元的仿函数（有两个参数）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct IntLess</span><br><span class="line">&#123;</span><br><span class="line">    bool operator()(int _left, int _right) const</span><br><span class="line">    &#123;</span><br><span class="line">        return _left&lt;_right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/06/21/%E4%BB%BF%E5%87%BD%E6%95%B0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/06/21/%E4%BB%BF%E5%87%BD%E6%95%B0/" data-id="clupgymep0027ih9kes5z4lw6" data-title="仿函数" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" rel="tag">仿函数</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -584,7 +584,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+      <a href="/tags/C/" style="font-size: 11.25px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 11.25px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 13.75px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 11.25px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 17.5px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 11.25px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 11.25px;">Makefile</a> <a href="/tags/STL/" style="font-size: 13.75px;">STL</a> <a href="/tags/c/" style="font-size: 11.25px;">c</a> <a href="/tags/c/" style="font-size: 18.75px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 11.25px;">map</a> <a href="/tags/socket/" style="font-size: 11.25px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 11.25px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 11.25px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 11.25px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 11.25px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 11.25px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 11.25px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 11.25px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 11.25px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 11.25px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 12.5px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 11.25px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 15px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 12.5px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 11.25px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 11.25px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 11.25px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 11.25px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 11.25px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 11.25px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
     </div>
   </div>
 
@@ -593,7 +593,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -606,23 +606,23 @@
       <ul>
         
           <li>
-            <a href="/2024/04/07/test/">test</a>
-          </li>
-        
-          <li>
-            <a href="/2024/04/07/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
-          </li>
-        
-          <li>
             <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
           </li>
         
           <li>
             <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/27/Linux%E4%B8%8B%E7%94%A8GDB%E8%B0%83%E8%AF%95MPI%E7%A8%8B%E5%BA%8F/">Linux下用GDB调试MPI程序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/07/%E5%A4%9A%E8%8A%82%E7%82%B9MPI-CUDA%E7%9A%84%E7%A8%8B%E5%BA%8F%E4%B8%ADGPU%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%BB%91%E5%AE%9A/">多节点MPI+CUDA的程序中GPU与进程的绑定</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/26/MPI%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%BB%84%E5%92%8C%E9%80%9A%E4%BF%A1%E5%9F%9F/">MPI的进程组和通信域</a>
           </li>
         
       </ul>

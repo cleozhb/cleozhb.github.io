@@ -13,22 +13,22 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="HPSCIL集群介绍    实验室的集群装的是rocks的集群，centos7的系统。需要学习一些集群管理的知识，sge, slurm等。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/1.png">
-<meta property="og:image" content="http://example.com/2.png">
-<meta property="og:image" content="http://example.com/3.png">
-<meta property="og:image" content="http://example.com/4.png">
-<meta property="og:image" content="http://example.com/5.png">
-<meta property="og:image" content="http://example.com/6.png">
-<meta property="og:image" content="http://example.com/7.png">
-<meta property="og:image" content="http://example.com/8.png">
-<meta property="og:image" content="http://example.com/9.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/1.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/2.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/3.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/4.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/5.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/6.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/7.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/8.png">
+<meta property="og:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/9.png">
 <meta property="article:published_time" content="2017-12-29T07:51:06.000Z">
-<meta property="article:modified_time" content="2024-04-07T11:37:25.828Z">
+<meta property="article:modified_time" content="2024-04-08T10:22:51.829Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="集群">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/1.png">
+<meta name="twitter:image" content="http://example.com/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -108,7 +108,35 @@
         <p>HPSCIL集群介绍<br>    实验室的集群装的是rocks的集群，centos7的系统。需要学习一些集群管理的知识，sge, slurm等。</p>
 <span id="more"></span>
 
-<p>CPU信息<br>参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/dongfang12n/article/details/79968217">https://blog.csdn.net/dongfang12n/article/details/79968217</a><br>    非统一内存访问（NUMA）是一种用于多处理器的电脑记忆体设计，内存访问时间取决于处理器的内存位置。 在NUMA下，处理器访问它自己的本地存储器的速度比非本地存储器（存储器的地方到另一个处理器之间共享的处理器或存储器）快一些。<br><img src="/1.png" alt="图片"><br> <br><img src="/2.png" alt="图片"><br>    我们的集群中有两个NUMA结点。每个NUMA结点有一些CPU, 一个内部总线，和自己的内存，甚至可以有自己的IO。每个CPU有离自己最近的内存可以直接访问。所以，使用NUMA架构，系统的性能会更快。在NUMA结构下，我们可以比较方便的增加CPU的数目。而在非NUMA架构下，增加CPU会导致系统总线负载很重，性能提升不明显。<br>    每个CPU也可以访问另外NUMA结点上的内存，但是这样的访问，速度会比较慢。我们要尽量避免。应用软件如果没有意识到这种结构，在NUMA机器上，有时候性能会更差，这是因为，他们经常会不自觉的去访问远端内存导致性能下降。<br> <br><strong>NUMA的几个概念（Socket，Core，Thread , Node）</strong><br>man lscpu 查看系统中对这个命令的解释：<br>   CPU    The logical CPU number of a CPU as used by the Linux kernel.<br>   CORE   The logical core number.  A core can contain several CPUs.<br>   SOCKET The logical socket number.  A socket can contain several cores.<br>   BOOK   The logical book number.  A book can contain several sockets.<br>·         Socket就是主板上的CPU插槽;<br>·         Core就是socket里独立的一组程序执行的硬件单元，比如寄存器，计算单元等;<br>·         Thread：就是超线程hyperthread的概念，逻辑的执行单元，独立的执行上下文，但是共享core内的寄存器和计算单元。<br>     <br>    NUMA体系结构中多了Node的概念，这个概念其实是用来解决core的分组的问题，具体参见下图来理解（图中的OS CPU可以理解thread，那么core就没有在图中画出），从图中可以看出每个Socket里有两个node，共有4个socket，每个socket 2个node，每个node中有8个thread，总共4（Socket）× 2（Node）× 8 （4core × 2 Thread） &#x3D; 64个thread。<br><img src="/3.png" alt="图片"><br>我们的集群中就是<br>    2（Socket）× 2（Node）× 8 （4core × 2 Thread） &#x3D; 32个thread。<br> <br> <br>CPU配置信息<br><img src="/4.png" alt="图片"><img src="/5.png" alt="图片"><br> <br>内存信息<br><img src="/6.png" alt="图片"><br>可以看出内存大小为125G。<br> <br><img src="/7.png" alt="图片"><br>硬盘总共930.4G<br> <br>Rocks 集群基本信息查看<br><img src="/8.png" alt="图片"><br>然后我访问 ssh compute-0-5<br>访问到子节点，然后查看显卡信息<br><img src="/9.png" alt="图片"></p>
+<p>CPU信息<br>参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/dongfang12n/article/details/79968217">https://blog.csdn.net/dongfang12n/article/details/79968217</a><br>    非统一内存访问（NUMA）是一种用于多处理器的电脑记忆体设计，内存访问时间取决于处理器的内存位置。 在NUMA下，处理器访问它自己的本地存储器的速度比非本地存储器（存储器的地方到另一个处理器之间共享的处理器或存储器）快一些。</p>
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/1.png" class="">
+
+
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/2.png" class="">
+
+<p>​    我们的集群中有两个NUMA结点。每个NUMA结点有一些CPU, 一个内部总线，和自己的内存，甚至可以有自己的IO。每个CPU有离自己最近的内存可以直接访问。所以，使用NUMA架构，系统的性能会更快。在NUMA结构下，我们可以比较方便的增加CPU的数目。而在非NUMA架构下，增加CPU会导致系统总线负载很重，性能提升不明显。<br>​    每个CPU也可以访问另外NUMA结点上的内存，但是这样的访问，速度会比较慢。我们要尽量避免。应用软件如果没有意识到这种结构，在NUMA机器上，有时候性能会更差，这是因为，他们经常会不自觉的去访问远端内存导致性能下降。</p>
+<p><strong>NUMA的几个概念（Socket，Core，Thread , Node）</strong><br>man lscpu 查看系统中对这个命令的解释：<br>   CPU    The logical CPU number of a CPU as used by the Linux kernel.<br>   CORE   The logical core number.  A core can contain several CPUs.<br>   SOCKET The logical socket number.  A socket can contain several cores.<br>   BOOK   The logical book number.  A book can contain several sockets.<br>·         Socket就是主板上的CPU插槽;<br>·         Core就是socket里独立的一组程序执行的硬件单元，比如寄存器，计算单元等;<br>·         Thread：就是超线程hyperthread的概念，逻辑的执行单元，独立的执行上下文，但是共享core内的寄存器和计算单元。</p>
+<p>​    NUMA体系结构中多了Node的概念，这个概念其实是用来解决core的分组的问题，具体参见下图来理解（图中的OS CPU可以理解thread，那么core就没有在图中画出），从图中可以看出每个Socket里有两个node，共有4个socket，每个socket 2个node，每个node中有8个thread，总共4（Socket）× 2（Node）× 8 （4core × 2 Thread） &#x3D; 64个thread。</p>
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/3.png" class="">
+
+<p>我们的集群中就是<br>    2（Socket）× 2（Node）× 8 （4core × 2 Thread） &#x3D; 32个thread。</p>
+<p>CPU配置信息</p>
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/4.png" class="">
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/5.png" class="">
+
+
+<p>内存信息</p>
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/6.png" class="">
+
+<p>可以看出内存大小为125G。</p>
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/7.png" class="">
+
+<p>硬盘总共930.4G</p>
+<p>Rocks 集群基本信息查看</p>
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/8.png" class="">
+
+<p>然后我访问 ssh compute-0-5<br>访问到子节点，然后查看显卡信息</p>
+<img src="/2017/12/29/linux%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/9.png" class="">
 
       
     </div>
@@ -135,9 +163,9 @@
     </a>
   
   
-    <a href="/2017/09/12/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F%E9%A2%84%E6%B5%8B/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/07/10/%E6%80%8E%E6%A0%B7%E5%9C%A8Linux%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%BF%AB%E9%80%9F%E4%BC%A0%E8%BE%93%E5%A4%A7%E6%96%87%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">基于深度学习的人流量预测</div>
+      <div class="article-nav-title">怎样在Linux系统中快速传输大文件</div>
     </a>
   
 </nav>
@@ -174,7 +202,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+      <a href="/tags/C/" style="font-size: 11.25px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 11.25px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 13.75px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 11.25px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 17.5px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 11.25px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 11.25px;">Makefile</a> <a href="/tags/STL/" style="font-size: 13.75px;">STL</a> <a href="/tags/c/" style="font-size: 11.25px;">c</a> <a href="/tags/c/" style="font-size: 18.75px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 11.25px;">map</a> <a href="/tags/socket/" style="font-size: 11.25px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 11.25px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 11.25px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 11.25px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 11.25px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 11.25px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 11.25px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 11.25px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 11.25px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 11.25px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 12.5px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 11.25px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 15px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 12.5px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 11.25px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 11.25px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 11.25px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 11.25px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 11.25px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 11.25px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
     </div>
   </div>
 
@@ -183,7 +211,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -196,23 +224,23 @@
       <ul>
         
           <li>
-            <a href="/2024/04/07/test/">test</a>
-          </li>
-        
-          <li>
-            <a href="/2024/04/07/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
-          </li>
-        
-          <li>
             <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
           </li>
         
           <li>
             <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/27/Linux%E4%B8%8B%E7%94%A8GDB%E8%B0%83%E8%AF%95MPI%E7%A8%8B%E5%BA%8F/">Linux下用GDB调试MPI程序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/07/%E5%A4%9A%E8%8A%82%E7%82%B9MPI-CUDA%E7%9A%84%E7%A8%8B%E5%BA%8F%E4%B8%ADGPU%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%BB%91%E5%AE%9A/">多节点MPI+CUDA的程序中GPU与进程的绑定</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/26/MPI%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%BB%84%E5%92%8C%E9%80%9A%E4%BF%A1%E5%9F%9F/">MPI的进程组和通信域</a>
           </li>
         
       </ul>

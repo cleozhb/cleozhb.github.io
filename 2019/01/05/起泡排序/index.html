@@ -13,17 +13,17 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/1.png">
-<meta property="og:image" content="http://example.com/2.png">
-<meta property="og:image" content="http://example.com/3.png">
-<meta property="og:image" content="http://example.com/4.png">
+<meta property="og:image" content="http://example.com/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/1.png">
+<meta property="og:image" content="http://example.com/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/2.png">
+<meta property="og:image" content="http://example.com/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/3.png">
+<meta property="og:image" content="http://example.com/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/4.png">
 <meta property="article:published_time" content="2019-01-05T04:32:28.000Z">
-<meta property="article:modified_time" content="2024-04-07T11:37:25.843Z">
+<meta property="article:modified_time" content="2024-04-08T10:43:44.175Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="排序">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/1.png">
+<meta name="twitter:image" content="http://example.com/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -100,13 +100,21 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)<br>一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。<br><img src="/1.png" alt="图片"></p>
+        <p>首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)<br>一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。</p>
+<img src="/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/1.png" class="">
+
 <span id="more"></span>
 
-<p>第一版改进，与原始版本的不同之处在于添加了一个标志，来记录if语句是否成立过。首先认为是有序的，一旦发现逆序元素，就将其标志为true，这反映了这一趟扫描中是否发现了逆序对。这个标志作为返回值，在主程序中作为while循环的控制条件。计算量就变为下面这个梯形，判定有序之后及时终止。<br><img src="/2.png" alt="图片"></p>
+<p>第一版改进，与原始版本的不同之处在于添加了一个标志，来记录if语句是否成立过。首先认为是有序的，一旦发现逆序元素，就将其标志为true，这反映了这一趟扫描中是否发现了逆序对。这个标志作为返回值，在主程序中作为while循环的控制条件。计算量就变为下面这个梯形，判定有序之后及时终止。</p>
+<img src="/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/2.png" class="">
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; //向量的起泡排序</span><br><span class="line">void Vector&lt;T&gt;::bubbleSort ( Rank lo, Rank hi ) //assert: 0 &lt;= lo &lt; hi &lt;= size</span><br><span class="line">&#123; while ( !bubble ( lo, hi-- ) ); &#125; //逐趟做扫描交换，直至全序</span><br><span class="line">template &lt;typename T&gt; bool Vector&lt;T&gt;::bubble ( Rank lo, Rank hi ) &#123; //一趟扫描交换</span><br><span class="line">   bool sorted = true; //整体有序标志</span><br><span class="line">   while ( ++lo &lt; hi ) //自左向右，逐一检查各对相邻元素</span><br><span class="line">      if ( _elem[lo - 1] &gt; _elem[lo] ) &#123; //若逆序，则</span><br><span class="line">         sorted = false; //意味着尚未整体有序，并需要</span><br><span class="line">         swap ( _elem[lo - 1], _elem[lo] ); //通过交换使局部有序</span><br><span class="line">      &#125;</span><br><span class="line">   return sorted; //返回有序标志</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在新一版的改进中，记录的不再是一个逻辑变量，而是一个名为last的整形，表示最后发生交换的元素的秩。初始值为lo，在整个程序中lo这个变量是持续递增的，不会发生减少。<br>在程序运行的过程中，可能会发现一部分已经有序了。这种情况可能会多次出现，即使最初的向量是无序的，在进行若干次扫描之后，区间的某个后缀已经完全有序了，这时候就可以聪明的跳过有序的部分。<br><img src="/3.png" alt="图片"><img src="/4.png" alt="图片"><br>这样的若干个梯形，比之前的版本划分更加精细，节省的时间应该更多。</p>
+<p>在新一版的改进中，记录的不再是一个逻辑变量，而是一个名为last的整形，表示最后发生交换的元素的秩。初始值为lo，在整个程序中lo这个变量是持续递增的，不会发生减少。<br>在程序运行的过程中，可能会发现一部分已经有序了。这种情况可能会多次出现，即使最初的向量是无序的，在进行若干次扫描之后，区间的某个后缀已经完全有序了，这时候就可以聪明的跳过有序的部分。</p>
+<img src="/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/3.png" class="">
+
+<img src="/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/4.png" class="">
+<p>这样的若干个梯形，比之前的版本划分更加精细，节省的时间应该更多。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt; //向量的起泡排序</span><br><span class="line">void Vector&lt;T&gt;::bubbleSort ( Rank lo, Rank hi ) //assert: 0 &lt;= lo &lt; hi &lt;= size</span><br><span class="line">&#123; while ( lo &lt; ( hi = bubble ( lo, hi ) ) ); &#125; //逐趟做扫描交换，直至全序</span><br><span class="line"></span><br><span class="line">template &lt;typename T&gt; Rank Vector&lt;T&gt;::bubble ( Rank lo, Rank hi ) &#123; //一趟扫描交换</span><br><span class="line">   Rank last = lo; //最右侧的逆序对初始化为[lo - 1, lo]</span><br><span class="line">   while ( ++lo &lt; hi ) //自左向右，逐一检查各对相邻元素</span><br><span class="line">      if ( _elem[lo - 1] &gt; _elem[lo] ) &#123; //若逆序，则</span><br><span class="line">         last = lo; //更新最右侧逆序对位置记录，并</span><br><span class="line">         swap ( _elem[lo - 1], _elem[lo] ); //通过交换使局部有序</span><br><span class="line">      &#125;</span><br><span class="line">   return last; //返回最右侧的逆序对位置</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
@@ -174,7 +182,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 10px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 12.5px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 18.75px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 10px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/c/" style="font-size: 10px;">c</a> <a href="/tags/c/" style="font-size: 17.5px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 10px;">map</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 10px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 10px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 10px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 10px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 10px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 10px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.25px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 10px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.75px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 11.25px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 10px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 10px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
+      <a href="/tags/C/" style="font-size: 11.25px;">C</a> <a href="/tags/CNN/" style="font-size: 10px;">CNN</a> <a href="/tags/CPU/" style="font-size: 11.25px;">CPU</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CUDPP/" style="font-size: 13.75px;">CUDPP</a> <a href="/tags/Centos/" style="font-size: 10px;">Centos</a> <a href="/tags/DNN/" style="font-size: 10px;">DNN</a> <a href="/tags/GDAL/" style="font-size: 10px;">GDAL</a> <a href="/tags/GDB/" style="font-size: 11.25px;">GDB</a> <a href="/tags/LSTM/" style="font-size: 10px;">LSTM</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/MPI/" style="font-size: 17.5px;">MPI</a> <a href="/tags/MPI-CUDA/" style="font-size: 11.25px;">MPI+CUDA</a> <a href="/tags/Makefile/" style="font-size: 11.25px;">Makefile</a> <a href="/tags/STL/" style="font-size: 13.75px;">STL</a> <a href="/tags/c/" style="font-size: 11.25px;">c</a> <a href="/tags/c/" style="font-size: 18.75px;">c++</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/linux/" style="font-size: 11.25px;">linux</a> <a href="/tags/map/" style="font-size: 11.25px;">map</a> <a href="/tags/socket/" style="font-size: 11.25px;">socket</a> <a href="/tags/tensorflow/" style="font-size: 10px;">tensorflow</a> <a href="/tags/valgrind/" style="font-size: 11.25px;">valgrind</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 11.25px;">仿函数</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 11.25px;">修炼</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 11.25px;">内存调试</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 11.25px;">单例模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 11.25px;">并查集</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 11.25px;">性能测试</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 11.25px;">总结</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 11.25px;">排序</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 12.5px;">模板</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 11.25px;">研究生</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 15px;">算法</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 12.5px;">编码规范</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 11.25px;">编译</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 11.25px;">网络</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 11.25px;">论文</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 11.25px;">负载均衡</a> <a href="/tags/%E9%80%9F%E5%BA%A6%E9%A2%84%E6%B5%8B/" style="font-size: 10px;">速度预测</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 11.25px;">集群</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 11.25px;">面向对象</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 16.25px;">高性能计算</a>
     </div>
   </div>
 
@@ -183,7 +191,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -196,23 +204,23 @@
       <ul>
         
           <li>
-            <a href="/2024/04/07/test/">test</a>
-          </li>
-        
-          <li>
-            <a href="/2024/04/07/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2020/01/04/Hexo%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">Hexo博客迁移</a>
-          </li>
-        
-          <li>
             <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
           </li>
         
           <li>
             <a href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">多节点CPU+GPU协同计算负载均衡</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/27/Linux%E4%B8%8B%E7%94%A8GDB%E8%B0%83%E8%AF%95MPI%E7%A8%8B%E5%BA%8F/">Linux下用GDB调试MPI程序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/07/%E5%A4%9A%E8%8A%82%E7%82%B9MPI-CUDA%E7%9A%84%E7%A8%8B%E5%BA%8F%E4%B8%ADGPU%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%BB%91%E5%AE%9A/">多节点MPI+CUDA的程序中GPU与进程的绑定</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/26/MPI%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%BB%84%E5%92%8C%E9%80%9A%E4%BF%A1%E5%9F%9F/">MPI的进程组和通信域</a>
           </li>
         
       </ul>
