@@ -4,22 +4,22 @@
   <meta charset="utf-8">
   
   
-  <title>CUDA性能指标 | Hexo</title>
+  <title>CUDA性能指标 | cleo的笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="共享内存被分配在SM上的常驻线程块中，寄存器在线程中被分配。寄存器和共享内存是SM中的稀缺资源。CUDA将这些资源分配到SM中的所有常驻线程里。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CUDA性能指标">
 <meta property="og:url" content="http://example.com/2018/05/17/CUDA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="cleo的笔记">
 <meta property="og:description" content="共享内存被分配在SM上的常驻线程块中，寄存器在线程中被分配。寄存器和共享内存是SM中的稀缺资源。CUDA将这些资源分配到SM中的所有常驻线程里。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-05-17T02:13:38.000Z">
 <meta property="article:modified_time" content="2024-04-07T11:37:25.710Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="cleo">
 <meta property="article:tag" content="CUDA">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="cleo的笔记" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -44,8 +44,12 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">cleo的笔记</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">交付事实，随时记录自己的生活和感想，留痕，可能现在找不到意义，但是意义会自己长出来</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -349,7 +353,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -360,6 +364,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/">设计一个分布式系统中的唯一ID生成器</a>
+          </li>
         
           <li>
             <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
@@ -377,10 +385,6 @@
             <a href="/2019/04/07/%E5%A4%9A%E8%8A%82%E7%82%B9MPI-CUDA%E7%9A%84%E7%A8%8B%E5%BA%8F%E4%B8%ADGPU%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%BB%91%E5%AE%9A/">多节点MPI+CUDA的程序中GPU与进程的绑定</a>
           </li>
         
-          <li>
-            <a href="/2019/03/26/MPI%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%BB%84%E5%92%8C%E9%80%9A%E4%BF%A1%E5%9F%9F/">MPI的进程组和通信域</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -394,7 +398,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2024 John Doe<br>
+      &copy; 2024 cleo<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>cleo的笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+  <meta name="description" content="From zero to hero">
+<meta property="og:type" content="website">
+<meta property="og:title" content="cleo的笔记">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="cleo的笔记">
+<meta property="og:description" content="From zero to hero">
 <meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="cleo">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="cleo的笔记" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -39,8 +41,12 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">cleo的笔记</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">交付事实，随时记录自己的生活和感想，留痕，可能现在找不到意义，但是意义会自己长出来</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -68,6 +74,50 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-设计一个分布式系统中的唯一ID生成器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2024-04-08T13:55:11.000Z" itemprop="datePublished">2024-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/">设计一个分布式系统中的唯一ID生成器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>​		在这一章中，我们要设计一个分布式系统中唯一ID生成器，你的第一反应可能是使用主键，在类似MySQL这样的传统数据库中可以设置auto_increment 属性。但是auto_increment 并不适用于分布式系统，因为单个数据库不够大，而且在多个数据库之间以最小的延迟生成唯一的ID是一项挑战。下面是一些唯一ID的例子：</p>
+<img src="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/image-20240408220025317.png" class="" title="image-20240408220025317">
+        
+          <p class="article-more-link">
+            <a href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" data-id="clur1tfij0000yo9kgylcbzt8" data-title="设计一个分布式系统中的唯一ID生成器" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-STL-sort函数实现详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -494,57 +544,11 @@
 
 
   
-    <article id="post-由面向对象产生的联想" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/" class="article-date">
-  <time class="dt-published" datetime="2019-01-18T04:32:59.000Z" itemprop="datePublished">2019-01-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/">由面向对象产生的联想</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。</p>
-<h3 id="计算机科学和生物学"><a href="#计算机科学和生物学" class="headerlink" title="计算机科学和生物学"></a>计算机科学和生物学</h3><p>在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行不同的代码，同样子进程也可以继续fork出自己的子进程，为人们提供各种各样的功能，或者利用计算机的多核用并行的技术更快的完成某一个任务。<br>细胞是可以独立运作的，它们之间可以通过能透过细胞膜的化学信号进行通信。同样，在计算机中，每个进程是可以独立运行的，它们之间可以通过特定的方式（信号量、管道、消息队列、共享内存、socket）进行通信。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/" data-id="clupgymes003lih9k5ncgflsk" data-title="由面向对象产生的联想" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -584,7 +588,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -595,6 +599,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/">设计一个分布式系统中的唯一ID生成器</a>
+          </li>
         
           <li>
             <a href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/">STL sort函数实现详解</a>
@@ -612,10 +620,6 @@
             <a href="/2019/04/07/%E5%A4%9A%E8%8A%82%E7%82%B9MPI-CUDA%E7%9A%84%E7%A8%8B%E5%BA%8F%E4%B8%ADGPU%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%BB%91%E5%AE%9A/">多节点MPI+CUDA的程序中GPU与进程的绑定</a>
           </li>
         
-          <li>
-            <a href="/2019/03/26/MPI%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%BB%84%E5%92%8C%E9%80%9A%E4%BF%A1%E5%9F%9F/">MPI的进程组和通信域</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -629,7 +633,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2024 John Doe<br>
+      &copy; 2024 cleo<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
