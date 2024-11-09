@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>并查集 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="并查集的原理及应用 主要内容   并查集定义、性质 Find()与join() 应用例题1http:&#x2F;&#x2F;acm.hdu.edu.cn&#x2F;showproblem.php?pid&#x3D;1232 应用例题2https:&#x2F;&#x2F;blog.csdn.net&#x2F;The_best_man&#x2F;article&#x2F;details&#x2F;62418823">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并查集">
+<meta property="og:url" content="http://example.com/2018/03/28/%E5%B9%B6%E6%9F%A5%E9%9B%86/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="并查集的原理及应用 主要内容   并查集定义、性质 Find()与join() 应用例题1http:&#x2F;&#x2F;acm.hdu.edu.cn&#x2F;showproblem.php?pid&#x3D;1232 应用例题2https:&#x2F;&#x2F;blog.csdn.net&#x2F;The_best_man&#x2F;article&#x2F;details&#x2F;62418823">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2018-03-28T08:31:00.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.838Z">
+<meta property="article:author" content="cleo">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="并查集">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2018/03/28/%E5%B9%B6%E6%9F%A5%E9%9B%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '并查集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">并查集</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">并查集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2018-03-28T08:31:00.000Z" title="Created 2018-03-28 16:31:00">2018-03-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-04-07T11:37:25.838Z" title="Updated 2024-04-07 19:37:25">2024-04-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="并查集的原理及应用"><a href="#并查集的原理及应用" class="headerlink" title="并查集的原理及应用"></a>并查集的原理及应用</h2><blockquote>
+<p>主要内容</p>
+</blockquote>
+<ul>
+<li>并查集定义、性质</li>
+<li>Find()与join()</li>
+<li>应用例题1<a target="_blank" rel="noopener" href="http://acm.hdu.edu.cn/showproblem.php?pid=1232">http://acm.hdu.edu.cn/showproblem.php?pid=1232</a></li>
+<li>应用例题2<a target="_blank" rel="noopener" href="https://blog.csdn.net/The_best_man/article/details/62418823">https://blog.csdn.net/The_best_man&#x2F;article&#x2F;details&#x2F;62418823</a><span id="more"></span></li>
+</ul>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>见到的讲的很好的一篇并查集的文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013546077/article/details/64509038">一个很有意思的并查集详解</a></p>
+<h3 id="例题1"><a href="#例题1" class="headerlink" title="例题1"></a>例题1</h3><h4 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还需要建设多少条道路？ </span><br></pre></td></tr></table></figure>
+
+<h4 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">测试输入包含若干测试用例。每个测试用例的第1行给出两个正整数，分别是城镇数目N ( &lt; 1000 )和道路数目M；随后的M行对应M条道路，每行给出一对正整数，分别是该条道路直接连通的两个城镇的编号。为简单起见，城镇从1到N编号。 </span><br><span class="line">注意:两个城市之间可以有多条道路相通,也就是说</span><br><span class="line">3 3</span><br><span class="line">1 2</span><br><span class="line">1 2</span><br><span class="line">2 1</span><br><span class="line">这种输入也是合法的</span><br><span class="line">当N为0时，输入结束，该用例不被处理。 </span><br></pre></td></tr></table></figure>
+
+<h4 id="output"><a href="#output" class="headerlink" title="output"></a>output</h4><p>对每个测试用例，在1行里输出最少还需要建设的道路数目。 </p>
+<h4 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">4 2</span><br><span class="line">1 3</span><br><span class="line">4 3</span><br><span class="line">3 3</span><br><span class="line">1 2</span><br><span class="line">1 3</span><br><span class="line">2 3</span><br><span class="line">5 2</span><br><span class="line">1 2</span><br><span class="line">3 5</span><br><span class="line">999 0</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<h4 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">0</span><br><span class="line">2</span><br><span class="line">998</span><br></pre></td></tr></table></figure>
+
+<h4 id="用并查集的解法"><a href="#用并查集的解法" class="headerlink" title="用并查集的解法"></a>用并查集的解法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">// bingchaji.cpp : 定义控制台应用程序的入口点。</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int pre[1000 ];</span><br><span class="line"></span><br><span class="line">int find(int x)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    int r = x;</span><br><span class="line">    while (pre[r] != r)</span><br><span class="line">        r = pre[r];</span><br><span class="line">    int i = x; int j;</span><br><span class="line">    while (i != r)</span><br><span class="line">    &#123;</span><br><span class="line">        j = pre[i];</span><br><span class="line">        pre[i] = r;</span><br><span class="line">        i = j;</span><br><span class="line">    &#125;</span><br><span class="line">    return r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int n, m, p1, p2, i, total, f1, f2;</span><br><span class="line">    while (scanf_s(&quot;%d&quot;, &amp;n) &amp;&amp; n)         //读入n，如果n为0，结束</span><br><span class="line">    &#123;   //刚开始的时候，有n个城镇，一条路都没有 //那么要修n-1条路才能把它们连起来</span><br><span class="line">        total = n - 1;</span><br><span class="line">        //每个点互相独立，自成一个集合，从1编号到n //所以每个点的上级都是自己</span><br><span class="line">        for (i = 1; i &lt;= n; i++) </span><br><span class="line">        &#123;</span><br><span class="line">            pre[i] = i; </span><br><span class="line">        &#125;   </span><br><span class="line">        //共有m条路</span><br><span class="line">        scanf_s(&quot;%d&quot;, &amp;m); </span><br><span class="line">        while (m--)</span><br><span class="line">        &#123;   //下面这段代码，其实就是join函数，只是稍作改动以适应题目要求</span><br><span class="line">            //每读入一条路，看它的端点p1，p2是否已经在一个连通分支里了</span><br><span class="line">            scanf_s(&quot;%d %d&quot;, &amp;p1, &amp;p2);</span><br><span class="line">            f1 = find(p1);</span><br><span class="line">            f2 = find(p2);</span><br><span class="line">            //如果是不连通的，那么把这两个分支连起来</span><br><span class="line">            //分支的总数就减少了1，还需建的路也就减了1</span><br><span class="line">            if (f1 != f2)</span><br><span class="line">            &#123;</span><br><span class="line">                pre[f2] = f1;</span><br><span class="line">                total--;</span><br><span class="line">            &#125;</span><br><span class="line">            //如果两点已经连通了，那么这条路只是在图上增加了一个环 //对连通性没有任何影响，无视掉</span><br><span class="line">        &#125;</span><br><span class="line">        //最后输出还要修的路条数</span><br><span class="line">        printf(&quot;%d\n&quot;, total);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="例题2"><a href="#例题2" class="headerlink" title="例题2"></a>例题2</h3><h4 id="Problem-Description-1"><a href="#Problem-Description-1" class="headerlink" title="Problem Description"></a>Problem Description</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">标题：风险度量</span><br><span class="line"></span><br><span class="line">X星系的的防卫体系包含 n 个空间站。这 n 个空间站间有 m 条通信链路，构成通信网。 </span><br><span class="line">两个空间站间可能直接通信，也可能通过其它空间站中转。</span><br><span class="line"></span><br><span class="line">对于两个站点x和y (x != y), 如果能找到一个站点z，使得： </span><br><span class="line">当z被破坏后，x和y无法通信，则称z为关于x,y的关键站点。</span><br><span class="line"></span><br><span class="line">显然，对于给定的两个站点，关于它们的关键点的个数越多，通信风险越大。</span><br><span class="line"></span><br><span class="line">你的任务是：已知网络结构，求两站点之间的通信风险度，即：它们之间的关键点的个数。</span><br></pre></td></tr></table></figure>
+
+<h4 id="Input-1"><a href="#Input-1" class="headerlink" title="Input"></a>Input</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入数据第一行包含2个整数n(2 &lt;= n &lt;= 1000), m(0 &lt;= m &lt;= 2000),分别代表站点数，链路数。 </span><br><span class="line">空间站的编号从1到n。通信链路用其两端的站点编号表示。 </span><br><span class="line">接下来m行，每行两个整数 u,v (1 &lt;= u, v &lt;= n; u != v)代表一条链路。 </span><br><span class="line">最后1行，两个数u,v，代表被询问通信风险度的两个站点。  </span><br></pre></td></tr></table></figure>
+
+<h4 id="output-1"><a href="#output-1" class="headerlink" title="output"></a>output</h4><p>一个整数，如果询问的两点不连通则输出-1. </p>
+<h4 id="Sample-Input-1"><a href="#Sample-Input-1" class="headerlink" title="Sample Input"></a>Sample Input</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">7 6 </span><br><span class="line">1 3 </span><br><span class="line">2 3 </span><br><span class="line">3 4 </span><br><span class="line">3 5 </span><br><span class="line">4 5 </span><br><span class="line">5 6 </span><br><span class="line">1 6 </span><br></pre></td></tr></table></figure>
+
+<h4 id="Sample-Output-1"><a href="#Sample-Output-1" class="headerlink" title="Sample Output"></a>Sample Output</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/dm_vincent/article/details/7655764">并查集(Union-Find)算法介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/dm_vincent/article/details/7769159">并查集(Union-Find) 应用举例 — 基础篇</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.52ml.net/1103.html">OpenCV_连通区域分析与标记（Connected Component Analysis-Labeling）
+</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">cleo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2018/03/28/%E5%B9%B6%E6%9F%A5%E9%9B%86/">http://example.com/2018/03/28/%E5%B9%B6%E6%9F%A5%E9%9B%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</a></div><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2018/03/29/%E5%A6%82%E4%BD%95%E8%AF%BB%E8%AE%BA%E6%96%87/" title="如何读论文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">如何读论文</div></div><div class="info-2"><div class="info-item-1">怎样提高英文文献阅读能力 主要内容   读什么 怎么读   关注领域内顶级期刊，保证能跟踪重要发现和进展开阔视野，大概知道其他领域的动态 可以背诵一些写的好的摘要 在读论文时，最重要的是了解文章的主线逻辑.文章中所有的figures都是按照这个主线逻辑展开描述的。所以，读论文的顺序如下：abstract——&gt;introduction——&gt;figures——&gt;result——&gt;discussion——&gt;methodology。在看完figures之后大概知道主线了，然后再一句句去读其余的部分。且文章的每个部分与摘要的每一句一定是对应的。结论更往往是摘要的详细论述。 先把文章看完一遍，不能因为小小的技术细节影响了对整个文章的理解。 个别重要文章，与自己领域内科研论文应该精读。与自己课题相关的论文要字斟句酌的读。不仅仅要完全读懂实验、方法的细节、分析、结论，还必须联想到这些实验和结论对自己课题的影响和启发，提出自己的观点。 不能迷信已经发表了的论文要有critical reading...</div></div></div></a><a class="pagination-related" href="/2018/03/19/%E4%BB%80%E4%B9%88%E6%98%AF%E7%A7%91%E7%A0%94/" title="什么是科研"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">什么是科研</div></div><div class="info-2"><div class="info-item-1">今天基本上研一的所有课程都结束了，而且又是新的一年，关于以后的发展方向和选择都应该有个规划，我现在主要在思考的问题有以下两个：  要不要读博 是继续做数据分析还是做高性能计算  这位博士的几年总结，或许能解答你许多问题 从上面的文章中，讲到了一点，读博就是学会怎样去做一件大一点的事情。在现在这个浮躁的社会中，每个人都想一口吃成胖子，但是心急不配做高手。   接下来的工作  并行IO库 prpl改造：非阻塞通信 加入GPU：CPU&#x2F;GPU异构并行  编码过程： 12模块化，每个模块的输入什么-输出什么粒度搞细，每个模块都可以在下次拿出来直接使用  1234并行计算的思维过程：串行算法有什么问题(能否并行化)并行算法的问题(哪种并行的方式最好)异构算法的问题(还有哪些可以优化的部分)</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-05-06</div><div class="info-item-2">STL sort函数实现详解</div></div><div class="info-2"><div class="info-item-1">问题STL中的sort是怎么实现的为什么比我们自己写的sort要快那么多，接下来从源码的角度来看看STL中sort的实现。 分析函数声明sort函数有两个重载，一个使用默认的 &lt; 操作符，另一个使用自定义的比较仿函数。 1234567#include &lt;algorithm&gt; template&lt; class RandomIt &gt;void sort( RandomIt first, RandomIt last ); template&lt; class RandomIt, class Compare &gt;void sort( RandomIt first, RandomIt last, Compare comp...</div></div></div></a><a class="pagination-related" href="/2018/02/22/%E6%9C%89%E5%BA%8F%E5%90%91%E9%87%8F%E7%9A%84%E6%9F%A5%E6%89%BE/" title="有序向量的查找"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-02-22</div><div class="info-item-2">有序向量的查找</div></div><div class="info-2"><div class="info-item-1">常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置 只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。  12345678910111213// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _sizetemplate &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) &#123;  /*DSA*/printf ( &quot;BIN search (A)\n&quot; );   while ( lo &lt; hi )    &#123;              //每步迭代可能要做两次比较判断，有三个分支      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点      if      ( e &lt; A[mi] )...</div></div></div></a><a class="pagination-related" href="/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/" title="起泡排序"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-01-05</div><div class="info-item-2">起泡排序</div></div><div class="info-2"><div class="info-item-1">首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。   第一版改进，与原始版本的不同之处在于添加了一个标志，来记录if语句是否成立过。首先认为是有序的，一旦发现逆序元素，就将其标志为true，这反映了这一趟扫描中是否发现了逆序对。这个标志作为返回值，在主程序中作为while循环的控制条件。计算量就变为下面这个梯形，判定有序之后及时终止。 123456789101112template &lt;typename T&gt; //向量的起泡排序void Vector&lt;T&gt;::bubbleSort ( Rank lo, Rank hi ) //assert: 0 &lt;= lo &lt; hi &lt;= size&#123; while ( !bubble ( lo, hi-- ) ); &#125; //逐趟做扫描交换，直至全序template &lt;typename T&gt; bool Vector&lt;T&gt;::bubble...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">并查集的原理及应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E9%A2%981"><span class="toc-number">1.2.</span> <span class="toc-text">例题1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Problem-Description"><span class="toc-number">1.2.1.</span> <span class="toc-text">Problem Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Input"><span class="toc-number">1.2.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#output"><span class="toc-number">1.2.3.</span> <span class="toc-text">output</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sample-Input"><span class="toc-number">1.2.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sample-Output"><span class="toc-number">1.2.5.</span> <span class="toc-text">Sample Output</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="toc-number">1.2.6.</span> <span class="toc-text">用并查集的解法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E9%A2%982"><span class="toc-number">1.3.</span> <span class="toc-text">例题2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Problem-Description-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">Problem Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Input-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#output-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">output</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sample-Input-1"><span class="toc-number">1.3.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sample-Output-1"><span class="toc-number">1.3.5.</span> <span class="toc-text">Sample Output</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">1.4.</span> <span class="toc-text">参考文献</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%80%83%E2%80%94%E2%80%94%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82/" title="微服务架构设计的思考——腾讯课堂">微服务架构设计的思考——腾讯课堂</a><time datetime="2024-11-09T15:43:28.000Z" title="Created 2024-11-09 23:43:28">2024-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解">STL sort函数实现详解</a><time datetime="2019-05-06T07:39:25.000Z" title="Created 2019-05-06 15:39:25">2019-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" title="多节点CPU+GPU协同计算负载均衡">多节点CPU+GPU协同计算负载均衡</a><time datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By cleo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

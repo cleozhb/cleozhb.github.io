@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>linux性能测试工具 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="安装perfsudo apt install linux-tools-common然后键入perf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux性能测试工具">
+<meta property="og:url" content="http://example.com/2019/01/19/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="安装perfsudo apt install linux-tools-common然后键入perf">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2019-01-19T08:03:19.000Z">
+<meta property="article:modified_time" content="2024-04-08T10:18:02.044Z">
+<meta property="article:author" content="cleo">
+<meta property="article:tag" content="性能测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2019/01/19/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'linux性能测试工具',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">linux性能测试工具</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">linux性能测试工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-01-19T08:03:19.000Z" title="Created 2019-01-19 16:03:19">2019-01-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-04-08T10:18:02.044Z" title="Updated 2024-04-08 18:18:02">2024-04-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="安装perf"><a href="#安装perf" class="headerlink" title="安装perf"></a>安装perf</h2><p>sudo apt install linux-tools-common<br>然后键入perf<br><img src="/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/1.png"></p>
+<span id="more"></span>
+
+<p>按照提示键入<br>sudo apt-get install linux-tools-4.4.0-139-generic linux-cloud-tools-4.4.0-139-generic linux-tools-generic linux-cloud-tools-generic<br>安装完成<br><img src="/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/2.png"></p>
+<h2 id="gprof"><a href="#gprof" class="headerlink" title="gprof"></a>gprof</h2><p>gprof可以显示程序运行的“flat profile”，包括每个函数的调用次数，每个函数消耗的处理器时间。也可以显示“调用图”，包括函数的调用关系，每个函数调用花费了多少时间。还可以显示“注释的源代码”，是程序源代码的一个复本，标记有程序中每行代码的执行次数。常用于Linux中，默认是自带的。</p>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><ol>
+<li>使用-pg选项编译和链接你的应用程序。</li>
+<li>像往常一样运行你的应用程序，使之运行完成后生成供gprof分析的数据文件（默认是gmon.out）。运行会比平时慢一些（大约2倍）</li>
+<li>使用gprof程序分析你的应用程序生成的数据。</li>
+<li>（可选， 见章节4）可用python可视化。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -pg -o test test.c               //程序文件名称 test.c 编译时使用 -pg</span><br></pre></td></tr></table></figure>
+
+<p>现在我们可以再次运行生成的结果文件test ，并使用我们前面使用的测试数据。这次我们运行的时候，test运行的分析数据会被搜集并保存在’gmon.out’文件中，我们可以通过运行 ‘gprof  test gmon.out&gt;result’到一个result文件来查看结果。</p>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>profiling中插入了工具代码，确定程序的各个部分需要多少时间，GPROF产生两种形式的信息。首先它能确定程序中每个函数花费了多少CPU时间。其次，它能统计每个函数被调用的次数，包括顶层调用次数和递归调用次数。例如函数是一个递归过程，它扫描一个hash bucket的链表，查找一个特殊的字符串。对于这个函数，递归调用次数 &#x2F; 顶层调用 大致等于程序每次平均扫描大约多少个元素，这提供了关于遍历这些链表的长度的统计信息。这些信息帮助我们确定这些函数在整个程序运行中的重要性。使得我们能理解程序的动态行为。</p>
+<p>在所有的函数内部加入了三个函数：<br><strong>.cfi_startproc负责初始化profile环境，分配内存空间</strong><br><strong>_mcount记录每个函数代码的caller和callee的位置</strong><br><strong>.cfi_endproc清除profile环境，保存结果数据为gmon.out，供gprof分析结果</strong></p>
+<p>在编译和链接程序的时候（使用 -pg 编译和链接选项），gcc 在你应用程序的每个函数中都加入了一个名为mcount（or“_mcount”, or“__mcount”）的函数，也就是说-pg编译的应用程序里的每一个函数都会调用mcount, 而mcount会在内存中保存一张函数调用图，并通过函数调用堆栈的形式查找子函数和父函数的地址。这张调用图也保存了所有与函数相关的调用时间，调用次数等等的所有信息。程序运行结束后，会在程序退出的路径下生成一个 gmon.out文件。这个文件就是记录并保存下来的监控数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">g++ -pg -o main main.cpp</span><br><span class="line">./main ../data/input.txt  //生成gmon.out</span><br><span class="line"></span><br><span class="line">gprof ./main gmon.out &gt; result.txt</span><br><span class="line">gprof2dot -n0 -e0 -w ./result.txt &gt; result.dot</span><br><span class="line"></span><br><span class="line">以上2步可以用管道连接写成一步</span><br><span class="line">gprof ./main | gprof2dot -n0 -e0 -w | dot -o result.dot</span><br><span class="line"></span><br><span class="line">//如果需要生成png图片，继续执行下面的指令</span><br><span class="line">dot -Tpng -o result.png result.dot  </span><br></pre></td></tr></table></figure>
+
+<h2 id="安装可视化工具"><a href="#安装可视化工具" class="headerlink" title="安装可视化工具"></a>安装可视化工具</h2><p>gprof2dot可以将众多代码效率检测工具生成的结果可视化出来，gprof,valgrind等。<br>sudo apt-get install python graphviz<br>sudo apt-get install python3 xdot<br>sudo pip install gprof2dot</p>
+<p>xdot是用来查看dot文件的python脚本工具<br>然后输入gprof2dot -h<br><img src="/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/3.png"></p>
+<p>在编译时-pg参数产生供gprof剖析用的可执行文件(会在每个function call 插入一个_mcount的routine 功能)  -g参数产生供gdb调试用的可执行文件<br>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">编译时加入-pg</span><br><span class="line">$ gcc -pg -g -o test test.c</span><br><span class="line"></span><br><span class="line">接着执行  ./test ，会在当前目录下默认生成 gmon.out，有输入参数的跟在后面就可以</span><br><span class="line">$./test ../data/srcdata.tif</span><br><span class="line"></span><br><span class="line">执行以下命令，生成图片output.png</span><br><span class="line">$ gprof ./test | gprof2dot -n0 -e0 | dot -Tpng -o output.png</span><br><span class="line">执行下面命令生成dot文件，可以用xdot查看</span><br><span class="line">$ gprof ./main | gprof2dot -n0 -e0 -s | dot -o output.dot</span><br><span class="line">也可以用valgrind工具检查运行过程中的时间。它生成的结果非常详细，甚至连函数入口，及库函数调用都标识出来了</span><br><span class="line">valgrind --tool=callgrind ./main ../../data/sanDiego.tif</span><br><span class="line">执行完之后会生成&quot;callgrind.out.XXX&quot;的文件这是分析文件，可以直接利用：callgrind_annotate callgrind.out.XXX 打印结果，也可以使用：</span><br><span class="line">gprof2dot -f callgrind callgrind.out.XXX | dot -o output.dot 来生成dot结果</span><br></pre></td></tr></table></figure>
+
+<p>gprof2dot默认是部分函数调用图，对性能影响不大的函数调用都不显示，如果想要显示全部的函数调用，可以 gprof2dot -n0 -e0 ，默认是n0.5即影响小于5%的函数就不显示了。具体可以通过gprof2dot -h查看。<br><strong>-s</strong> 表示不显示诸如模板，函数入口参数等等，使得函数名称显示更加精简。</p>
+<p>查看图片，可以看到函数调用的百分比和次数，以及热点线路。建议生成.dot文件，用xdot查看，这是矢量文件，当函数比较多，调用情况复杂时放大看不会失真。程序调用过程清晰明了，<br><img src="/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/4.png"></p>
+<p>+———————————–+<br>|          function name           |<br>| total time % ( self time % ) |<br>|            total calls                 |<br>+———————————–+<br>每个节点，方框内部依次显示</p>
+<ul>
+<li>函数名称</li>
+<li>函数整体包括内部子函数占用时间%比</li>
+<li>函数自身，不包括内部子函数占用时间%比</li>
+<li>函数执行次数</li>
+</ul>
+<p>每一条边表示父函数调用子函数所占用的时间百分比，默认低于1%就不显示了，这里将设置-e0。<br>           total time %<br>              calls<br>parent ——————–&gt; children<br>节点和边的颜色跟据总时间的百分比来变化</p>
+<p><img src="/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/5.png"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>gprof2dot:<a target="_blank" rel="noopener" href="https://github.com/jrfonseca/gprof2dot">https://github.com/jrfonseca/gprof2dot</a></li>
+<li>xdot:<a target="_blank" rel="noopener" href="https://github.com/jrfonseca/xdot.py">https://github.com/jrfonseca/xdot.py</a></li>
+<li>深入理解计算机系统 第5章 P388</li>
+<li>C++优化工具gprof <a target="_blank" rel="noopener" href="https://blog.csdn.net/jacke121/article/details/56044754">https://blog.csdn.net/jacke121/article/details/56044754</a></li>
+<li>linux下性能分析及内存泄漏检测<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014717036/article/details/50762252">https://blog.csdn.net/u014717036/article/details/50762252</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">cleo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2019/01/19/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/">http://example.com/2019/01/19/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/">性能测试</a></div><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2019/01/23/Array-2D-CUDA%E4%BD%BF%E7%94%A8CUDA%E6%89%A9%E5%B1%95C-%E6%A8%A1%E6%9D%BF%E5%BA%93/" title="Array_2D_CUDA使用CUDA扩展C++模板库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Array_2D_CUDA使用CUDA扩展C++模板库</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/" title="由面向对象产生的联想"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">由面向对象产生的联想</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85perf"><span class="toc-number">1.</span> <span class="toc-text">安装perf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gprof"><span class="toc-number">2.</span> <span class="toc-text">gprof</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="toc-number">2.2.</span> <span class="toc-text">原理分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-number">3.</span> <span class="toc-text">安装可视化工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%80%83%E2%80%94%E2%80%94%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82/" title="微服务架构设计的思考——腾讯课堂">微服务架构设计的思考——腾讯课堂</a><time datetime="2024-11-09T15:43:28.000Z" title="Created 2024-11-09 23:43:28">2024-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解">STL sort函数实现详解</a><time datetime="2019-05-06T07:39:25.000Z" title="Created 2019-05-06 15:39:25">2019-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" title="多节点CPU+GPU协同计算负载均衡">多节点CPU+GPU协同计算负载均衡</a><time datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By cleo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

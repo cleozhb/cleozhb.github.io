@@ -1,0 +1,330 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CUDA性能指标 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="共享内存被分配在SM上的常驻线程块中，寄存器在线程中被分配。寄存器和共享内存是SM中的稀缺资源。CUDA将这些资源分配到SM中的所有常驻线程里。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUDA性能指标">
+<meta property="og:url" content="http://example.com/2018/05/17/CUDA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="共享内存被分配在SM上的常驻线程块中，寄存器在线程中被分配。寄存器和共享内存是SM中的稀缺资源。CUDA将这些资源分配到SM中的所有常驻线程里。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2018-05-17T02:13:38.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.710Z">
+<meta property="article:author" content="cleo">
+<meta property="article:tag" content="CUDA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2018/05/17/CUDA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CUDA性能指标',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">CUDA性能指标</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">CUDA性能指标</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2018-05-17T02:13:38.000Z" title="Created 2018-05-17 10:13:38">2018-05-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-04-07T11:37:25.710Z" title="Updated 2024-04-07 19:37:25">2024-04-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>共享内存被分配在SM上的常驻线程块中，寄存器在线程中被分配。寄存器和共享内存是SM中的稀缺资源。CUDA将这些资源分配到SM中的所有常驻线程里。</p>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>观察线程束分化</td>
+<td>nvprof –metrics branch_efficiency</td>
+</tr>
+<tr>
+<td>获得分支和分化分支的事件计数器</td>
+<td>nvprof –events branch,divergent_branch</td>
+</tr>
+<tr>
+<td>检测活跃的线程束(一个内核的可实现占用率)</td>
+<td>nvprof –metrics achieved_occupacy</td>
+</tr>
+<tr>
+<td>检测内核的内存读取效率</td>
+<td>nvprof –metrics gld_throughput</td>
+</tr>
+<tr>
+<td>检测全局加载效率</td>
+<td>nvprof –metrics gld_efficiency</td>
+</tr>
+<tr>
+<td>查看每个线程束上执行指令数量的平均值</td>
+<td>nvprof –metrics inst_per_warp</td>
+</tr>
+<tr>
+<td>查看因为同步占用的时间</td>
+<td>nvprof –metrics stall_sync</td>
+</tr>
+<tr>
+<td>检测内存加载&#x2F;存储效率指标</td>
+<td>nvprof –metrics gld_efficiency,gst_efficiency</td>
+</tr>
+<tr>
+<td>设备内存读取吞吐量指标</td>
+<td>nvprof –metrics dram_read_throughput</td>
+</tr>
+</tbody></table>
+<p>所需线程束的数量&#x3D;延迟×吞吐量<br>对内存操作来说，所需要的并行可以表示为在每个周期隐藏内存延迟所需要的字节数。内存带宽是针对整个设备而言的。也就是说假设一个Fermi架构的GPU，<br>指令延迟（周期）800<br>吞吐量（GB&#x2F;s）144<br>内存频率（GHz）1.566<br>带宽（B&#x2F;周期）92<br>那么要充分利用其内存吞吐，需要多少内存操作以支持并行呢？<br>144GB&#x2F;s   &#x2F;    1.566GHz   &#x3D;   92 字节&#x2F;周期<br>92×800&#x2F;1024 &#x3D; 74KB<br>所以Fermi内存操作所需要的并行接近74KB的内存I&#x2F;O运行，才能充分利用。假设每个线程都将一个4字节的数据从全局内存移动到SM中用于计算，则总共需要74×1024&#x2F;4 &#x3D; 18944个线程;18944  &#x2F;  32  &#x3D;  592个线程束来隐藏所有的内存延迟;<br>Fermi架构有16个SM，因此需要592&#x2F;16&#x3D;37个线程束来隐藏所有的内存延迟。</p>
+<p>后两种情况中最内层维数中块的大小是线程束的一半，这样就只利用了半个线程束大小的线程。</p>
+<table>
+<thead>
+<tr>
+<th>执行时间(ms)</th>
+<th>线程块维数</th>
+<th>可实现占用率</th>
+<th>内存操作效率(GB&#x2F;s)</th>
+<th>全局加载效率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60</td>
+<td>（32，32 ）</td>
+<td>0.501</td>
+<td>35.9</td>
+<td>1</td>
+</tr>
+<tr>
+<td>38</td>
+<td>（32，16 ）</td>
+<td>0.7369</td>
+<td>56.478</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51</td>
+<td>（16，32 ）</td>
+<td>0.766</td>
+<td>85.195</td>
+<td>0.4996</td>
+</tr>
+<tr>
+<td>46</td>
+<td>（16，16 ）</td>
+<td>0.8106</td>
+<td>94.708</td>
+<td>0.498</td>
+</tr>
+<tr>
+<td>33</td>
+<td>（64,2）</td>
+<td>0.55</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>（64,4）</td>
+<td>0.798</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>36</td>
+<td>（64,8）</td>
+<td>0.753</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32.68</td>
+<td>（128,2）</td>
+<td>0.802</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>（128,4）</td>
+<td>0.746</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>46</td>
+<td>（128,8）</td>
+<td>0.573</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32.79</td>
+<td>（256,2）</td>
+<td>0.76</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>38</td>
+<td>（256.4）</td>
+<td>0.595</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32.6</td>
+<td>（128,1）</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>30.96</td>
+<td>（256,1）</td>
+<td>0.8086</td>
+<td>69.76</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>1、用nvprof检测活跃的线程束<br>内核的<strong>可实现占用率</strong>是每个周期内活跃线程束的平均数量与一个SM支持的线程束最大数量的比值。nvprof –metrics achieved_occupacy<br>假设现在有4中线程块的配置方式如下，最后一列为可实现占用率。第二种情况中的块数比第一种情况多，设备有更多活跃的线程束。第四种情况有最高的可实现占用率，但不是最快的，<strong>更高的占用率并不代表的更高的性能</strong>，有其他的因素限制GPU的性能。</p>
+<p>2、用nvprof检测内存操作</p>
+<ul>
+<li>用nvprof –metrics gld_throughput检测内核的内存读取效率，得到每个执行配置的差异。其中第四种情况的加载吞吐量最高。第二种情况的加载吞吐量大约是第四种情况的一般，但却更快。所以<strong>更高的加载吞吐量并不一定意味着更高的性能</strong>。</li>
+<li>用nvprof –metrics gld_efficiency 检测全局加载效率，即被请求的全局加载吞吐量占所需全局加载吞吐量的壁纸。它衡量了应用程序的加载操作利用设备内存带宽的程度。后两种情况的加载效率是前面两种的一半。这可以解释为什么后两种情况下更高的加载吞吐量和可实现占用率没有产生更好的性能。因为尽管在最后两种情况下正在执行的加载数量（即吞吐量）很多，但是加载的有效性（效率）很低。</li>
+<li>设备内存读取吞吐量指标，用nvprof –metrics dram_read_throughput比如在循环展开操作中就可以用这个指标来观察展开后的读取吞吐量的指标。</li>
+</ul>
+<p>3、增大并行性<br>（128,2）和（256,2）有最高的性能配置，几乎有相同的可实现占用率。下面通过将这两种情况的block.y设置为1来增大块间并行性，观察性能如何变化。结果发现这样做使得每个线程块的大小减少，从而有更多的线程块被启动来处理相同数量的数据，得到了更好的结果。值得注意的是最好的执行配置不具有最高的可实现占用率，也不具有最高的加载吞吐量。所以没有一个单独的指标能直接优化性能。需要在几个相关的指标之间寻找一个前当的平衡来达到最佳的总体性能。</p>
+<p><strong>指标与性能</strong></p>
+<ul>
+<li><strong>在大多数情况下一个单独的指标不能产生最佳性能</strong></li>
+<li><strong>与总体性能最相关的指标或事件取决于内核代码的本质</strong></li>
+<li><strong>在相关的指标与事件之间寻求一个好的平衡</strong></li>
+</ul>
+<p>指标</p>
+<ul>
+<li>分支效率：未分化的分支与全部分支之比</li>
+<li>吞吐量：已经达到的值。用来描述单位时间内任何形式的信息或操作的执行速度。例如：每个周期完成了多少个指令。</li>
+<li>带宽：理论峰值。通常用来描述单位时间内最大可能的数据传输量。</li>
+<li>占用率：每个SM中活跃的线程束占最大线程束数量的比值。</li>
+</ul>
+<p>GPU与CPU之间的通信以及同步。一个流中的函数是串行执行的<br>GPU-GPU<br>GPU-CPU<br>CPU-GPU</p>
+<p>当执行异步数据传输时，必须使用固定（非分页）主机内存。<br>在主机虚拟内存中固定分配，可以确保其在CPU内存中的物理位置在应用程序的整个生命周期中保持不变。否则，操作系统可以随时自由改变主机虚拟内存的物理位置。如果没有固定主机内存的情况下执行一个异步的CUDA转移操作，操作系统可能会在物理层面移动数组，而CUDA操作运行时将该数组移动到设备中，这样会导致未定义的行为。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">cleo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2018/05/17/CUDA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/">http://example.com/2018/05/17/CUDA%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CUDA/">CUDA</a></div><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2018/05/19/findMerge%E7%9A%84CUDA%E5%AE%9E%E7%8E%B0/" title="findMerge的CUDA实现"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">findMerge的CUDA实现</div></div><div class="info-2"><div class="info-item-1">算法目标根据原图像值，在两个相邻分块的标记值中寻找要合并的标记，并将其分别存放在father和child两个数组中。寻找8连通的合并对，其实就是以第一行为核心按照如下模板进行遍历，如果图像pixel的原值相同，就说明这两个pixel所在的标记应该合并，就将上一行计入father数组，将下一行计入child数组。    例如： 1234567891011input：    const int width = 5;    int h_rowOneValue[width] = &#123; 1, 1, 2, 1, 3 &#125;;    int h_rowTwoValue[width] = &#123; 4, 1, 1, 1, 1 &#125;;    int h_rowOneLabel[width] = &#123; 1, 1, 4, 2, 5 &#125;;    int h_rowTwoLabel[width] = &#123; 6, 3, 3, 3, 3 &#125;;output  father &#123;1，2&#125;  child ...</div></div></div></a><a class="pagination-related" href="/2018/05/17/CUDPP%E7%AE%80%E5%8D%95%E4%BE%8B%E5%AD%90/" title="CUDPP简单例子"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">CUDPP简单例子</div></div><div class="info-2"><div class="info-item-1">scan在使用CUDPP库之前，必须先初始化cudppCreate()返回一个CUDPP对象句柄，在创建cudppPlan时要用。 1234// Initialize the CUDPP Library   CUDPPHandle theCudpp;   cudppCreate(&amp;theCudpp);    配置cudpp执行什么算法依赖于cudppPlan的概念。cudppPlan用于维护算法的中间存储的数据结构，以及CUDPP可用于优化当前硬件的执行的信息。当调用一个算法时，cudppPlan会将配置细节传递给当前要执行的算法，并且生成一个内部的plan对象。返回一个CUDPPHandle（一个指针对象，用于引用plan对象，必须传递给其他CUDPP函数才能执行算法）。下面这个例子中对numElements个元素进行exclusive sum-scan。首先将配置信息存储在CUDPPConfiguration 结构对象中。然后将CUDPPConfiguration 传递给cudppPlan，同时传递的参数还有要扫描的元素个数numElements,...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2019/01/23/Array-2D-CUDA%E4%BD%BF%E7%94%A8CUDA%E6%89%A9%E5%B1%95C-%E6%A8%A1%E6%9D%BF%E5%BA%93/" title="Array_2D_CUDA使用CUDA扩展C++模板库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-01-23</div><div class="info-item-2">Array_2D_CUDA使用CUDA扩展C++模板库</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2018/09/16/CUDA%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E7%8A%AF%E8%BF%87%E7%9A%84%E9%94%99/" title="CUDA概念理解以及犯过的错"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-09-16</div><div class="info-item-2">CUDA概念理解以及犯过的错</div></div><div class="info-2"><div class="info-item-1">首先要记录的就是这次改bug的过程，Program received signal CUDA_EXCEPTION_14, Warp Illegal Address.错误的原因是CUDA访问越界。要记住一个点__syncthreads()函数仅仅能够用于线程块内的线程同步，不能用于全局所有线程块的同步。我这次犯的错就是在一个核函数内部试图构造一个全局数组，然后接下来的操作用到此全局数组的值。     &#x2F;&#x2F;错误的写法 global void ReLabelEachPixel(int* d_label, int* d_RootPos, int* d_IsRoot, int curPatchNum, int labelStart, int width, int task_height) { ​    int x &#x3D; blockIdx.x * blockDim.x + threadIdx.x**;** ​    int y &#x3D; blockIdx.y * blockDim.y + threadIdx.y**;** ​    int gid...</div></div></div></a><a class="pagination-related" href="/2018/01/21/Dijkstras%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95%E7%9A%84MPI%E5%92%8CCUDA%E5%AE%9E%E7%8E%B0/" title="Dijkstras最短路径算法的MPI和CUDA实现"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-01-21</div><div class="info-item-2">Dijkstras最短路径算法的MPI和CUDA实现</div></div><div class="info-2"><div class="info-item-1">Dijkstras最短路径算法的MPI和CUDA实现 主要内容   dijkstra串行算法 算法并行性分析 MPI的dijkstra实现 CUDA的dijkstra实现 并行效率分析    dijkstra串行算法串行算法核心思想 引入一个辅助向量D，它的每个分量D[i]为源顶点v到其他顶点v[i]的路径长度。初始态为：如有从v到vi的路径，则D[i]为弧[v,vi]的权值；否则D[i]为无穷大。显然D[j] &#x3D; min{D[i]}为顶点v出发到其他顶点的一条最短路径的长度，其路径为（v，vj）。下一条最短路径长度要么是源顶点v直接到某一顶点vk的长度，即{v，vk}。要么是源顶点v经过顶点vj到某一顶点的长度，即{v，vj，vk}。假设S为已经求得最短路径的顶点的集合，下一条最短路径（设其终点为x），要么是弧{v， vx}，要么为中间只经过S中顶点而最后到达终点X的路径。在一般情况下，下一条最短路径的长度为：D[j] &#x3D; min{D[i] | vi 属于 V-S} 其中V为图顶点的集合， D[i]为弧{v， vi}的权值，或者为D[k]和弧{vk，...</div></div></div></a><a class="pagination-related" href="/2018/10/22/MPI-CUDA%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B-Makefile%E6%96%87%E4%BB%B6%E5%86%99%E6%B3%95/" title="MPI+CUDA混合编程 Makefile文件写法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-10-22</div><div class="info-item-2">MPI+CUDA混合编程 Makefile文件写法</div></div><div class="info-2"><div class="info-item-1">CUDA代码与c++代码分开时Makefile文件的写法用网上找的一个例子作为参考，主要记录Makefile文件的写法总的来说就是要用nvcc编译.cu文件，生成.o文件;然后用mpic++编译.cpp文件，生成.o文件;最后用mpic++将这两个.o文件连接起来，生成可执行文件。在控制台中依次键入下面的命令，可以生成可执行文件main。 123# nvcc -c test_cuda.cu# mpic++ -c test.cpp# mpic++ -o main test.o test_cuda.o  -L /usr/local/cuda-8.0/lib64 -lcudart    完整的Makefile文件写法如下：几个要注意的点：  弄清楚CUDA和MPI的环境变量。如果不知道，可以用which 命令查看。 最后一行，生成可执行文件的那一行，依赖的库放在最后，将目标文件写在中间，否则在有些机器上会报错。 学到了一个函数，fseek， 可以将数组写入到文件指定的位置;  123456789101112131415161718192021CUDA_INSTALL_PATH =...</div></div></div></a><a class="pagination-related" href="/2018/09/02/NVIDIA-parallel-computing-5/" title="NVIDIA parallel computing-5"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-09-02</div><div class="info-item-2">NVIDIA parallel computing-5</div></div><div class="info-2"><div class="info-item-1">Lesson5 optimizing GPU programs picking good algorithms 选择时间复杂度低的算法 basic principles for efficiency 提高效率的基本原则 arch-specific detailed optimization 优化架构上的细节 Optimization at instruction level...</div></div></div></a><a class="pagination-related" href="/2018/04/10/linux%E4%B8%8B%E7%BC%96%E8%AF%91CUDPP/" title="linux下编译CUDPP"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-04-10</div><div class="info-item-2">linux下编译CUDPP</div></div><div class="info-2"><div class="info-item-1">今天在linux下编译了一个CUDA库，CUDPP，第一次用CMake这个工具记录以下编译的过程参考cudpp库的编译和使用 https://www.cnblogs.com/liangliangdetianxia/p/4162634.html这篇文章是在windows中编译的，有些地方有点变化   编译动态库和静态库我的环境ubuntu 16.04...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%80%83%E2%80%94%E2%80%94%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82/" title="微服务架构设计的思考——腾讯课堂">微服务架构设计的思考——腾讯课堂</a><time datetime="2024-11-09T15:43:28.000Z" title="Created 2024-11-09 23:43:28">2024-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解">STL sort函数实现详解</a><time datetime="2019-05-06T07:39:25.000Z" title="Created 2019-05-06 15:39:25">2019-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" title="多节点CPU+GPU协同计算负载均衡">多节点CPU+GPU协同计算负载均衡</a><time datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By cleo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

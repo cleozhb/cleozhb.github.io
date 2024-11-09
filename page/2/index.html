@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>cleo札记 - 交付事实，可能现在找不到意义，但是意义会自己长出来</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="From zero to hero">
+<meta property="og:type" content="website">
+<meta property="og:title" content="cleo札记">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="From zero to hero">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:author" content="cleo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/page/2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'cleo札记',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page fixed" id="page-header" style="background-image: url(/img/pic1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">cleo札记</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/01/23/Array-2D-CUDA%E4%BD%BF%E7%94%A8CUDA%E6%89%A9%E5%B1%95C-%E6%A8%A1%E6%9D%BF%E5%BA%93/" title="Array_2D_CUDA使用CUDA扩展C++模板库">Array_2D_CUDA使用CUDA扩展C++模板库</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2019-01-23T03:17:40.000Z" title="Created 2019-01-23 11:17:40">2019-01-23</time></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/01/19/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="linux性能测试工具">linux性能测试工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2019-01-19T08:03:19.000Z" title="Created 2019-01-19 16:03:19">2019-01-19</time></span></div><div class="content">安装perfsudo apt install linux-tools-common然后键入perf   按照提示键入sudo apt-get install linux-tools-4.4.0-139-generic linux-cloud-tools-4.4.0-139-generic linux-tools-generic linux-cloud-tools-generic安装完成 gprofgprof可以显示程序运行的“flat profile”，包括每个函数的调用次数，每个函数消耗的处理器时间。也可以显示“调用图”，包括函数的调用关系，每个函数调用花费了多少时间。还可以显示“注释的源代码”，是程序源代码的一个复本，标记有程序中每行代码的执行次数。常用于Linux中，默认是自带的。 基本用法 使用-pg选项编译和链接你的应用程序。 像往常一样运行你的应用程序，使之运行完成后生成供gprof分析的数据文件（默认是gmon.out）。运行会比平时慢一些（大约2倍） 使用gprof程序分析你的应用程序生成的数据。 （可选， 见章节4）可用python可视化。  1gcc -pg...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/" title="由面向对象产生的联想">由面向对象产生的联想</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2019-01-18T04:32:59.000Z" title="Created 2019-01-18 12:32:59">2019-01-18</time></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/" title="起泡排序">起泡排序</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2019-01-05T04:32:28.000Z" title="Created 2019-01-05 12:32:28">2019-01-05</time></span></div><div class="content">首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。   第一版改进，与原始版本的不同之处在于添加了一个标志，来记录if语句是否成立过。首先认为是有序的，一旦发现逆序元素，就将其标志为true，这反映了这一趟扫描中是否发现了逆序对。这个标志作为返回值，在主程序中作为while循环的控制条件。计算量就变为下面这个梯形，判定有序之后及时终止。 123456789101112template &lt;typename T&gt; //向量的起泡排序void Vector&lt;T&gt;::bubbleSort ( Rank lo, Rank hi ) //assert: 0 &lt;= lo &lt; hi &lt;= size&#123; while ( !bubble ( lo, hi-- ) ); &#125; //逐趟做扫描交换，直至全序template &lt;typename T&gt; bool Vector&lt;T&gt;::bubble...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/12/29/%E9%93%BE%E6%8E%A5/" title="链接">链接</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-12-29T04:29:37.000Z" title="Created 2018-12-29 12:29:37">2018-12-29</time></span></div><div class="content">能否正确解析与命令行给出的顺序有关，好的做法是将.o文件按照调用顺序写，将.a文件放在命令行的最后。在命令行中-lxxx&#x3D;libxxx.a。.a文件又叫做归档（archive）文件，是一些.o文件的集合。连接器对外部引用的解析过程是：  按照命令行给出的顺序扫描.o和.a文件 扫描期间将当前未解析的引用记录到一个列表U中 每次遇到一个新的.o或者.a中的模块，都试图用其来解析U中的符号 如果扫描到最后U中还有未解析的符号，则发生错误    如果没有按照调用顺序写命令行，会导致连接器将可能用到的.o文件抛弃，这样就无法找到定义，导致undefined reference to ‘ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/12/19/Linux-C/" title="Linux C">Linux C</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-12-19T07:30:16.000Z" title="Created 2018-12-19 15:30:16">2018-12-19</time></span></div><div class="content">宏和typedef   这个过程其实经历了4步第一步预处理gcc -o helloworld.i helloworld.c -E用这个命令使得编译器只进行第一步，得到一个.i文件。打开helloworld.i文件可以看到的是将头文件展开后的结果。 在预处理阶段，代码中所有的宏会被替换成相应的值。在这个过程中，编译器将宏中定义的值视为字符串，而不是数字。在替换过程中只是单纯的将字符串替换到了代码中。宏的本质就是发生在预处理阶段的单纯的字符串替换。所以在使用宏定义函数的时候要加上括号，以防运算优先级在替换后被改变。比如，如果ADD不加括号，被替换之后就会变成注释掉的那行代码，这显然不是我们的本意。 宏的好处在于不考虑参数的类型，比如上面我们传入浮点型，那就可以计算浮点型出来，。都看作字符串来处理。 除了宏，在预处理阶段还有一个功能是条件编译，可以按照不同的条件编译不同的程序部分，从而产生不同的目标代码文件，对于程序的移植和调试很有用。 typedef要满足C语法,语句结尾有封号define不用满足C语法define...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/12/01/Linux%E8%BE%BE%E4%BA%BA%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92/" title="Linux达人养成计划">Linux达人养成计划</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-12-01T07:41:22.000Z" title="Created 2018-12-01 15:41:22">2018-12-01</time></span></div><div class="content">将正确输出结果和错误输出结果保存在同一个文件中   ls sdff &amp;&gt;&gt;test3.log等价于ls sdff &gt;&gt;test3.log 2&gt;&amp;1 将正确输出结果和错误输出结果分开保存cat test.log &gt;&gt; access.log 2&gt;&gt;error.log 管道：第一条命令正确执行，第二条命令才会执行，并且将第一条命令的输出作为第二条命令的输入  Linux操作文件和目录 Linux 重定向linux中一切皆为文件，无论是普通文件还是目录，还是设备，都被抽象为文件。可以用文件名来指定一个文件，但是系统每打开一个文件，会给文件分配一个叫做文件描述符的东西，系统中有3个文件非常特殊，因为他们是一直打开的，系统就给它们分配了三个固定的文件描述符。stdin   0stdout 1stderr  2 输出重定向 redirect stdout 用 &gt; 来表示。重定向符的特点就是每次重定向之前先将文件清空。追加是用两个大于符号&gt;&gt;来表示的。 redirect stderr 重定向标准错误输出 用...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/11/27/%E6%80%8E%E6%A0%B7%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%8C%85%E5%90%ABCUDA%E6%A0%B8%E5%87%BD%E6%95%B0/" title="怎样在类中包含CUDA核函数">怎样在类中包含CUDA核函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-11-27T04:18:13.000Z" title="Created 2018-11-27 12:18:13">2018-11-27</time></span></div><div class="content">因为CUDA中__global__函数不能作为类的成员函数，所以该如何将CUDA和C++类更好的结合起来使用呢？方法：在类的外边定义核函数，在类的成员函数中调用核函数，将类的成员变量作为参数传入。   1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283// How to &quot;wrap&quot; a CUDA kernel with a C++ class; the kernel must be defined outside of// the class and launched from within a class instance&#x27;s method.// 怎样将一个CUDA核函数包装在一个C++类中？// 核函数必须在类的外面定义，并且从类实例的方法中启用#include...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/11/21/MPI%E4%B8%AD%E5%A6%82%E4%BD%95%E5%8F%91%E9%80%81C-%E5%AF%B9%E8%B1%A1/" title="MPI中如何发送C++对象">MPI中如何发送C++对象</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-11-21T08:11:59.000Z" title="Created 2018-11-21 16:11:59">2018-11-21</time></span></div><div class="content">现在考虑用MPI+CUDA实现多GPU同时计算景观指数。在编写代码的过程中遇到了一个问题就是如何将原先定义的dataBlock对象传递到子进程中去。在做这个问题的过程中产生了以下几点疑问：       ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/11/20/Linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" title="Linux网络基础">Linux网络基础</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-11-20T15:33:00.000Z" title="Created 2018-11-20 23:33:00">2018-11-20</time></span></div><div class="content">ISO&#x2F;OSI七层模型简介![图Linux网络基础&#x2F;(1.png)  ![图Linux网络基础&#x2F;(2.png)![图Linux网络基础&#x2F;(3.png)四层模型是现在互联网中真正使用的模型，TCP&#x2F;IP四层模型是建立在七层模型的基础之上的。最下层物理层负责真正的数据传递，最上层最贴近用户。 发送数据是通过接口从上层传递到下层，接收数据是从下层传到上层，整个7层模型就只是模型，无法在计算机中找到。 为什么要进行分层表示呢？分层便于管理。真正的传输在物理层中，上面所有的层中的并列都是假的，实际是从A7—&gt;A1—-&gt;B1—&gt;B7 ...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#content-inner">6</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%80%83%E2%80%94%E2%80%94%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82/" title="微服务架构设计的思考——腾讯课堂">微服务架构设计的思考——腾讯课堂</a><time datetime="2024-11-09T15:43:28.000Z" title="Created 2024-11-09 23:43:28">2024-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解">STL sort函数实现详解</a><time datetime="2019-05-06T07:39:25.000Z" title="Created 2019-05-06 15:39:25">2019-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" title="多节点CPU+GPU协同计算负载均衡">多节点CPU+GPU协同计算负载均衡</a><time datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/"><span class="card-category-list-name">代码</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%80%9D%E8%80%83/"><span class="card-category-list-name">思考</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">技术</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">算法</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/"><span class="card-category-list-name">经验</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">读书笔记</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">课程笔记</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/socket/" style="font-size: 1.1em; color: #999">socket</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 1.1em; color: #999">集群</a> <a href="/tags/c/" style="font-size: 1.1em; color: #999">c</a> <a href="/tags/Linux/" style="font-size: 1.27em; color: #99a0a9">Linux</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 1.1em; color: #999">负载均衡</a> <a href="/tags/linux/" style="font-size: 1.1em; color: #999">linux</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 1.33em; color: #99a2af">高性能计算</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 1.1em; color: #999">编译</a> <a href="/tags/c/" style="font-size: 1.44em; color: #99a7ba">c++</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">网络</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 1.16em; color: #999b9e">模板</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 1.1em; color: #999">总结</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 1.1em; color: #999">修炼</a> <a href="/tags/CPU/" style="font-size: 1.1em; color: #999">CPU</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 1.1em; color: #999">单例模式</a> <a href="/tags/CUDPP/" style="font-size: 1.21em; color: #999ea4">CUDPP</a> <a href="/tags/valgrind/" style="font-size: 1.1em; color: #999">valgrind</a> <a href="/tags/C/" style="font-size: 1.1em; color: #999">C</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 1.1em; color: #999">性能测试</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/STL/" style="font-size: 1.21em; color: #999ea4">STL</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 1.16em; color: #999b9e">编码规范</a> <a href="/tags/MPI/" style="font-size: 1.39em; color: #99a4b4">MPI</a> <a href="/tags/CUDA/" style="font-size: 1.5em; color: #99a9bf">CUDA</a> <a href="/tags/GDB/" style="font-size: 1.1em; color: #999">GDB</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 1.1em; color: #999">研究生</a> <a href="/tags/map/" style="font-size: 1.1em; color: #999">map</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 1.1em; color: #999">内存调试</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 1.1em; color: #999">并查集</a> <a href="/tags/MPI-CUDA/" style="font-size: 1.1em; color: #999">MPI+CUDA</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 1.1em; color: #999">仿函数</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.27em; color: #99a0a9">算法</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 1.1em; color: #999">面向对象</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 1.1em; color: #999">论文</a> <a href="/tags/Makefile/" style="font-size: 1.1em; color: #999">Makefile</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
+      <a class="card-more-btn" href="/archives/" title="View More"><i class="fas fa-angle-right"></i></a>
+    </div>
+    <ul class="card-archive-list">
+  
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/11/">
+          <span class="card-archive-list-date">November 2024</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/04/">
+          <span class="card-archive-list-date">April 2024</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/05/">
+          <span class="card-archive-list-date">May 2019</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/04/">
+          <span class="card-archive-list-date">April 2019</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/03/">
+          <span class="card-archive-list-date">March 2019</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/01/">
+          <span class="card-archive-list-date">January 2019</span>
+          <span class="card-archive-list-count">4</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2018/12/">
+          <span class="card-archive-list-date">December 2018</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2018/11/">
+          <span class="card-archive-list-date">November 2018</span>
+          <span class="card-archive-list-count">4</span>
+        </a>
+      </li>
+    </ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">53</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-11-09T17:21:35.179Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By cleo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>由面向对象产生的联想 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。 计算机科学和生物学在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="由面向对象产生的联想">
+<meta property="og:url" content="http://example.com/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。 计算机科学和生物学在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2019-01-18T04:32:59.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:37:25.851Z">
+<meta property="article:author" content="cleo">
+<meta property="article:tag" content="面向对象">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '由面向对象产生的联想',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">由面向对象产生的联想</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">由面向对象产生的联想</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-01-18T04:32:59.000Z" title="Created 2019-01-18 12:32:59">2019-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-04-07T11:37:25.851Z" title="Updated 2024-04-07 19:37:25">2024-04-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>随着对计算机基础知识的构建，越发的感到在各个学科中存在一些可以统一的思想，这些思想就像催化剂，在不同学科中各有各的精彩。</p>
+<h3 id="计算机科学和生物学"><a href="#计算机科学和生物学" class="headerlink" title="计算机科学和生物学"></a>计算机科学和生物学</h3><p>在生物学中，细胞开始时都是一样的，是通过细胞分裂产生的。在不同的环境下，细胞渐渐分化为不同的功能的细胞，产生了各种各样的功能。这就像是Linux系统，刚开始系统启动的时候只有一个进程，然后不断的fork出子进程，这些子进程都遵循父进程的一些基本行为，并能够运行不同的代码，同样子进程也可以继续fork出自己的子进程，为人们提供各种各样的功能，或者利用计算机的多核用并行的技术更快的完成某一个任务。<br>细胞是可以独立运作的，它们之间可以通过能透过细胞膜的化学信号进行通信。同样，在计算机中，每个进程是可以独立运行的，它们之间可以通过特定的方式（信号量、管道、消息队列、共享内存、socket）进行通信。</p>
+<span id="more"></span>
+
+<p>这个思想同样可以运用到面向对象的思想中，面向对象的根本是消息传递。把对象看成是生物学中的细胞。每个细胞遵从一些基本行为（基类），可以独立运作，细胞会跟据不同的环境进行分化（派生类）。相互独立的个体（细胞）之间能够通过特定的方式进行通信，具体的说是通过发送讯息彼此交流，每一条信息都包含数据、发送者地址、接受者地址、接收者如何对数据进行操作的指令。将这种简单的讯息机制贯彻到编程语言中去，就变成了面向对象程序设计的雏形，将数据与处理数据的行为封装起来，对象要对自己负责。对象与对象之间通过消息来进行相互合作。</p>
+<ul>
+<li>将对象想象成细胞生物或者网络中的单个计算机，它们之间只能通过消息进行通讯。</li>
+<li>每个对象可以有多个代数与之关联，这些代数关系可以构成家族</li>
+<li>关注消息机制和模块间的松耦合和交互，而不是模块内部的对象组成</li>
+<li>作出好的可扩展的系统的重中之重是设计模块间如何进行通信，而不是模块应该具备什么内部的属性和方法。</li>
+</ul>
+<p>在计算机中，最最根本的计算，所有的数字、字符、操作……全部都会被转换为二进制，由二进制的机器代码表示。在计算机系统中CPU做的事情就是不断的取址执行取址执行。从信息论的角度所有的信息最终都是由二进制来表示的。在生物学中，我们知道人类和黑猩猩的基因相似度高达95%以上，却有如此大的差异。即便是人类，也没有两个完全相同的人，而决定这些的说到底只是DNA中的4个碱基对的编码顺序。</p>
+<h3 id="计算机科学与音乐"><a href="#计算机科学与音乐" class="headerlink" title="计算机科学与音乐"></a>计算机科学与音乐</h3><p>科学是确定的，限定在一个范围内才成立的公理、定理<br>艺术是非确定的，可以随着人们的思想天马行空<br>计算机与音乐是两个看上去毫无关联的领域，但其实计算机科学家也可以从音乐中获得灵感。还是有很多相似的概念。比如在一支乐曲中，会反复播放其中一段，这是不是可以对应于我们计算机中的循环呢。在一个乐团的演奏中往往还有高声部和低声部的交叉、合奏。就像在计算机中高速的CPU和低速的硬盘IO也可以同时进行，或者互相等待，交替执行。交响乐就像一个并行+并发的系统，（相同类型或不同类型的乐器同时演奏）。和弦也是多进程并行的很好的类比。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">cleo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/">http://example.com/2019/01/18/%E7%94%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E7%9A%84%E8%81%94%E6%83%B3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</a></div><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2019/01/19/linux%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="linux性能测试工具"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">linux性能测试工具</div></div><div class="info-2"><div class="info-item-1">安装perfsudo apt install linux-tools-common然后键入perf   按照提示键入sudo apt-get install linux-tools-4.4.0-139-generic linux-cloud-tools-4.4.0-139-generic linux-tools-generic linux-cloud-tools-generic安装完成 gprofgprof可以显示程序运行的“flat profile”，包括每个函数的调用次数，每个函数消耗的处理器时间。也可以显示“调用图”，包括函数的调用关系，每个函数调用花费了多少时间。还可以显示“注释的源代码”，是程序源代码的一个复本，标记有程序中每行代码的执行次数。常用于Linux中，默认是自带的。 基本用法 使用-pg选项编译和链接你的应用程序。 像往常一样运行你的应用程序，使之运行完成后生成供gprof分析的数据文件（默认是gmon.out）。运行会比平时慢一些（大约2倍） 使用gprof程序分析你的应用程序生成的数据。 （可选， 见章节4）可用python可视化。  1gcc -pg...</div></div></div></a><a class="pagination-related" href="/2019/01/05/%E8%B5%B7%E6%B3%A1%E6%8E%92%E5%BA%8F/" title="起泡排序"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">起泡排序</div></div><div class="info-2"><div class="info-item-1">首先说明，无论如何改进，最坏情况下，起泡排序的时间复杂度仍然为O(n2)一般而言起泡排序的时间复杂度是O(n2)，机械的从头到尾的扫描。整体运行时间可以用整个三角形的面积来表示。   第一版改进，与原始版本的不同之处在于添加了一个标志，来记录if语句是否成立过。首先认为是有序的，一旦发现逆序元素，就将其标志为true，这反映了这一趟扫描中是否发现了逆序对。这个标志作为返回值，在主程序中作为while循环的控制条件。计算量就变为下面这个梯形，判定有序之后及时终止。 123456789101112template &lt;typename T&gt; //向量的起泡排序void Vector&lt;T&gt;::bubbleSort ( Rank lo, Rank hi ) //assert: 0 &lt;= lo &lt; hi &lt;= size&#123; while ( !bubble ( lo, hi-- ) ); &#125; //逐趟做扫描交换，直至全序template &lt;typename T&gt; bool Vector&lt;T&gt;::bubble...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E5%92%8C%E7%94%9F%E7%89%A9%E5%AD%A6"><span class="toc-number">1.</span> <span class="toc-text">计算机科学和生物学</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%8E%E9%9F%B3%E4%B9%90"><span class="toc-number">2.</span> <span class="toc-text">计算机科学与音乐</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%80%83%E2%80%94%E2%80%94%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82/" title="微服务架构设计的思考——腾讯课堂">微服务架构设计的思考——腾讯课堂</a><time datetime="2024-11-09T15:43:28.000Z" title="Created 2024-11-09 23:43:28">2024-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解">STL sort函数实现详解</a><time datetime="2019-05-06T07:39:25.000Z" title="Created 2019-05-06 15:39:25">2019-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" title="多节点CPU+GPU协同计算负载均衡">多节点CPU+GPU协同计算负载均衡</a><time datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By cleo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

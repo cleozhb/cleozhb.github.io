@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>cleo札记 - 交付事实，可能现在找不到意义，但是意义会自己长出来</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="From zero to hero">
+<meta property="og:type" content="website">
+<meta property="og:title" content="cleo札记">
+<meta property="og:url" content="http://example.com/page/5/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="From zero to hero">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:author" content="cleo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/page/5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'cleo札记',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page fixed" id="page-header" style="background-image: url(/img/pic1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">cleo札记</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/04/07/Linux%E6%9F%A5%E7%9C%8BCPU%E4%BF%A1%E6%81%AF/" title="Linux查看CPU信息">Linux查看CPU信息</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-04-07T08:27:12.000Z" title="Created 2018-04-07 16:27:12">2018-04-07</time></span></div><div class="content">Linux下区分物理CPU、逻辑CPU和CPU核数㈠ 概念 物理CPU                实际Server中插槽上的CPU个数 物理cpu数量，可以数不重复的 physical id 有几个            逻辑CPU                Linux用户对 &#x2F;proc&#x2F;cpuinfo 这个文件肯定不陌生. 它是用来存储cpu硬件信息的 信息内容分别列出了processor 0 – n 的规格。这里需要注意，如果你认为n就是真实的cpu数的话, 就大错特错了一般情况，我们认为一颗cpu可以有多核，加上intel的超线程技术(HT), 可以在逻辑上再分一倍数量的cpu core出来。逻辑CPU数量&#x3D;物理cpu数量 x cpu cores 这个规格值 x 2(如果支持并开启ht)。备注一下：Linux下top查看的CPU也是逻辑CPU个数               CPU核数            一块CPU上面能处理数据的芯片组的数量、比如现在的i5 760,是双核心四线程的CPU、而 i5 2250...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/03/29/%E5%A6%82%E4%BD%95%E8%AF%BB%E8%AE%BA%E6%96%87/" title="如何读论文">如何读论文</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-03-29T12:28:08.000Z" title="Created 2018-03-29 20:28:08">2018-03-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BB%8F%E9%AA%8C/">经验</a></span></div><div class="content">怎样提高英文文献阅读能力 主要内容   读什么 怎么读   关注领域内顶级期刊，保证能跟踪重要发现和进展开阔视野，大概知道其他领域的动态 可以背诵一些写的好的摘要 在读论文时，最重要的是了解文章的主线逻辑.文章中所有的figures都是按照这个主线逻辑展开描述的。所以，读论文的顺序如下：abstract——&gt;introduction——&gt;figures——&gt;result——&gt;discussion——&gt;methodology。在看完figures之后大概知道主线了，然后再一句句去读其余的部分。且文章的每个部分与摘要的每一句一定是对应的。结论更往往是摘要的详细论述。 先把文章看完一遍，不能因为小小的技术细节影响了对整个文章的理解。 个别重要文章，与自己领域内科研论文应该精读。与自己课题相关的论文要字斟句酌的读。不仅仅要完全读懂实验、方法的细节、分析、结论，还必须联想到这些实验和结论对自己课题的影响和启发，提出自己的观点。 不能迷信已经发表了的论文要有critical reading...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/03/28/%E5%B9%B6%E6%9F%A5%E9%9B%86/" title="并查集">并查集</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-03-28T08:31:00.000Z" title="Created 2018-03-28 16:31:00">2018-03-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="content">并查集的原理及应用 主要内容   并查集定义、性质 Find()与join() 应用例题1http://acm.hdu.edu.cn/showproblem.php?pid=1232 应用例题2https://blog.csdn.net/The_best_man&#x2F;article&#x2F;details&#x2F;62418823  定义见到的讲的很好的一篇并查集的文章一个很有意思的并查集详解 例题1Problem Description1某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还需要建设多少条道路？   Input12345678测试输入包含若干测试用例。每个测试用例的第1行给出两个正整数，分别是城镇数目N ( &lt; 1000 )和道路数目M；随后的M行对应M条道路，每行给出一对正整数，分别是该条道路直接连通的两个城镇的编号。为简单起见，城镇从1到N编号。...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/03/19/%E4%BB%80%E4%B9%88%E6%98%AF%E7%A7%91%E7%A0%94/" title="什么是科研">什么是科研</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-03-19T08:17:28.000Z" title="Created 2018-03-19 16:17:28">2018-03-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%80%9D%E8%80%83/">思考</a></span></div><div class="content">今天基本上研一的所有课程都结束了，而且又是新的一年，关于以后的发展方向和选择都应该有个规划，我现在主要在思考的问题有以下两个：  要不要读博 是继续做数据分析还是做高性能计算  这位博士的几年总结，或许能解答你许多问题 从上面的文章中，讲到了一点，读博就是学会怎样去做一件大一点的事情。在现在这个浮躁的社会中，每个人都想一口吃成胖子，但是心急不配做高手。   接下来的工作  并行IO库 prpl改造：非阻塞通信 加入GPU：CPU&#x2F;GPU异构并行  编码过程： 12模块化，每个模块的输入什么-输出什么粒度搞细，每个模块都可以在下次拿出来直接使用  1234并行计算的思维过程：串行算法有什么问题(能否并行化)并行算法的问题(哪种并行的方式最好)异构算法的问题(还有哪些可以优化的部分)</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/02/22/%E6%9C%89%E5%BA%8F%E5%90%91%E9%87%8F%E7%9A%84%E6%9F%A5%E6%89%BE/" title="有序向量的查找">有序向量的查找</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-02-22T04:10:35.000Z" title="Created 2018-02-22 12:10:35">2018-02-22</time></span></div><div class="content">常用的有序向量的查找有，二分查找，Fibonacci查找，插值查找。查找接口的要求：  当有多个元素命中时，保证返回秩最大的 当查找失败时，能够返回失败的位置 只有满足上述要求，才能够将计算结果不浪费，为其他功能提供接口。  12345678910111213// 二分查找算法（版本A）：在有序向量的区间[lo, hi)内查找元素e，0 &lt;= lo &lt;= hi &lt;= _sizetemplate &lt;typename T&gt; static Rank binSearch ( T* A, T const&amp; e, Rank lo, Rank hi ) &#123;  /*DSA*/printf ( &quot;BIN search (A)\n&quot; );   while ( lo &lt; hi )    &#123;              //每步迭代可能要做两次比较判断，有三个分支      Rank mi = ( lo + hi ) &gt;&gt; 1; //以中点为轴点      if      ( e &lt; A[mi] )...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/02/16/c-%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83/" title="c++类的内存分布">c++类的内存分布</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-02-16T04:19:05.000Z" title="Created 2018-02-16 12:19:05">2018-02-16</time></span></div><div class="content">1.C++中，类函数是放在代码段的，用static修饰的类成员变量和函数是放在静态数据区的，这些都不放入类的内存中。2.要是有虚函数（无论多少个虚函数）的话，编译器会自动给类创建一个虚表指针，指向虚表，这个虚表指针占8个字节。3.类的内存计算，linux64位默认为8个字节对齐 例1                  1234567891011121314151617181920212223242526272829#pragma pack(push)#pragma pack(4)  //要是这里的改成1字节对齐，则这个类是13个字节，而不是16个字&gt;节#include &lt;iostream&gt;using namespace std;class A               //总字节数：4+1+8=13，由于4字节对齐，所以为16&#123;public:        int a;                                  //4个字节        char b;                                ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/01/21/Dijkstras%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95%E7%9A%84MPI%E5%92%8CCUDA%E5%AE%9E%E7%8E%B0/" title="Dijkstras最短路径算法的MPI和CUDA实现">Dijkstras最短路径算法的MPI和CUDA实现</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-01-21T13:17:01.000Z" title="Created 2018-01-21 21:17:01">2018-01-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></span></div><div class="content">Dijkstras最短路径算法的MPI和CUDA实现 主要内容   dijkstra串行算法 算法并行性分析 MPI的dijkstra实现 CUDA的dijkstra实现 并行效率分析    dijkstra串行算法串行算法核心思想 引入一个辅助向量D，它的每个分量D[i]为源顶点v到其他顶点v[i]的路径长度。初始态为：如有从v到vi的路径，则D[i]为弧[v,vi]的权值；否则D[i]为无穷大。显然D[j] &#x3D; min{D[i]}为顶点v出发到其他顶点的一条最短路径的长度，其路径为（v，vj）。下一条最短路径长度要么是源顶点v直接到某一顶点vk的长度，即{v，vk}。要么是源顶点v经过顶点vj到某一顶点的长度，即{v，vj，vk}。假设S为已经求得最短路径的顶点的集合，下一条最短路径（设其终点为x），要么是弧{v， vx}，要么为中间只经过S中顶点而最后到达终点X的路径。在一般情况下，下一条最短路径的长度为：D[j] &#x3D; min{D[i] | vi 属于 V-S} 其中V为图顶点的集合， D[i]为弧{v， vi}的权值，或者为D[k]和弧{vk，...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/01/15/%E9%AB%98%E6%80%A7%E8%83%BDCUDA%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%89/" title="高性能CUDA应用设计与开发——读书笔记（第四章）">高性能CUDA应用设计与开发——读书笔记（第四章）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-01-15T12:07:45.000Z" title="Created 2018-01-15 20:07:45">2018-01-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/" title="伊利诺香宾大学高性能并行计算week1笔记">伊利诺香宾大学高性能并行计算week1笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-01-14T15:32:49.000Z" title="Created 2018-01-14 23:32:49">2018-01-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></span></div><div class="content">异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备      CPU与GPU的区别    CPU有更大的局部cache，GPU有相对小的cache和局部内存。 GPU有更多的寄存器，支持大量的线程。而CPU只有能够支持少量线程的寄存器。 GPU有更多的SIMD执行单元； CPU有复杂的控制器，CPU有简单的控制单元，但是有大量的线程需要管理    CPU特性：CPU延迟敏感，以减少延迟为目标   上图中的三个特性解释如下：  强大的ALU，减少操作延迟：ALU(算术逻辑单元)被设计的很强大，可以在几个时钟周期中进行数值计算。现在的CPU核心中，64位双精度浮点运算，加法运算、乘法运算只需要花费1-3个时钟周期。...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/01/13/%E9%AB%98%E6%80%A7%E8%83%BDCUDA%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%89/" title="高性能CUDA应用设计与开发——读书笔记（第二章）">高性能CUDA应用设计与开发——读书笔记（第二章）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-01-13T10:55:09.000Z" title="Created 2018-01-13 18:55:09">2018-01-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></span></div><div class="content">第二章：CUDA在机器学习与优化中的应用 主要内容   精通CUDA的编程者应该如何为建模与数据挖掘做出巨大贡献 机器学习技术，以及XOR问题对于计算通用设备的重要性 C++仿函数    建模与模拟数学模型：对现实的抽象，用来对现实进行分析与预测。数值模拟：通过应用程序将数学模型映射到电脑上。  常用的两个建模方法： 基于第一性原理分析以及其他方法的人工推导模型     “第一性原理”是一个量子力学中的一个术语，意思是从头算，只采用最基本的事实，然后根据事实推论。   基于数据拟合的参数化模型     与人工推导模型相比，经过数据计算推导出的模型相对容易建立。许多现有方法可以建立精确的模型得到很好的推广。使用数据来拟合模型是一个代价高昂的计算过程，并行计算依靠于处理单元数量密切相关的因素来缩减运行时间。对显现非线性特征的系统进行建模时，因为非线性系统不会对输入刺激做出线性回应，这意味着不能仅仅根据输入或者系统刺激的线性组合来建模。  机器学习与神经网络  ...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/4/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#content-inner">6</a><a class="extend next" rel="next" href="/page/6/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%80%83%E2%80%94%E2%80%94%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82/" title="微服务架构设计的思考——腾讯课堂">微服务架构设计的思考——腾讯课堂</a><time datetime="2024-11-09T15:43:28.000Z" title="Created 2024-11-09 23:43:28">2024-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解">STL sort函数实现详解</a><time datetime="2019-05-06T07:39:25.000Z" title="Created 2019-05-06 15:39:25">2019-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" title="多节点CPU+GPU协同计算负载均衡">多节点CPU+GPU协同计算负载均衡</a><time datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/"><span class="card-category-list-name">代码</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%80%9D%E8%80%83/"><span class="card-category-list-name">思考</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">技术</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">算法</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/"><span class="card-category-list-name">经验</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">读书笔记</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">课程笔记</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/socket/" style="font-size: 1.1em; color: #999">socket</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 1.1em; color: #999">集群</a> <a href="/tags/c/" style="font-size: 1.1em; color: #999">c</a> <a href="/tags/Linux/" style="font-size: 1.27em; color: #99a0a9">Linux</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 1.1em; color: #999">负载均衡</a> <a href="/tags/linux/" style="font-size: 1.1em; color: #999">linux</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 1.33em; color: #99a2af">高性能计算</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 1.1em; color: #999">编译</a> <a href="/tags/c/" style="font-size: 1.44em; color: #99a7ba">c++</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">网络</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 1.16em; color: #999b9e">模板</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 1.1em; color: #999">总结</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 1.1em; color: #999">修炼</a> <a href="/tags/CPU/" style="font-size: 1.1em; color: #999">CPU</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 1.1em; color: #999">单例模式</a> <a href="/tags/CUDPP/" style="font-size: 1.21em; color: #999ea4">CUDPP</a> <a href="/tags/valgrind/" style="font-size: 1.1em; color: #999">valgrind</a> <a href="/tags/C/" style="font-size: 1.1em; color: #999">C</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 1.1em; color: #999">性能测试</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/STL/" style="font-size: 1.21em; color: #999ea4">STL</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 1.16em; color: #999b9e">编码规范</a> <a href="/tags/MPI/" style="font-size: 1.39em; color: #99a4b4">MPI</a> <a href="/tags/CUDA/" style="font-size: 1.5em; color: #99a9bf">CUDA</a> <a href="/tags/GDB/" style="font-size: 1.1em; color: #999">GDB</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 1.1em; color: #999">研究生</a> <a href="/tags/map/" style="font-size: 1.1em; color: #999">map</a> <a href="/tags/%E5%86%85%E5%AD%98%E8%B0%83%E8%AF%95/" style="font-size: 1.1em; color: #999">内存调试</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 1.1em; color: #999">并查集</a> <a href="/tags/MPI-CUDA/" style="font-size: 1.1em; color: #999">MPI+CUDA</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 1.1em; color: #999">仿函数</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.27em; color: #99a0a9">算法</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 1.1em; color: #999">面向对象</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 1.1em; color: #999">论文</a> <a href="/tags/Makefile/" style="font-size: 1.1em; color: #999">Makefile</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
+      <a class="card-more-btn" href="/archives/" title="View More"><i class="fas fa-angle-right"></i></a>
+    </div>
+    <ul class="card-archive-list">
+  
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/11/">
+          <span class="card-archive-list-date">November 2024</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/04/">
+          <span class="card-archive-list-date">April 2024</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/05/">
+          <span class="card-archive-list-date">May 2019</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/04/">
+          <span class="card-archive-list-date">April 2019</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/03/">
+          <span class="card-archive-list-date">March 2019</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2019/01/">
+          <span class="card-archive-list-date">January 2019</span>
+          <span class="card-archive-list-count">4</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2018/12/">
+          <span class="card-archive-list-date">December 2018</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2018/11/">
+          <span class="card-archive-list-date">November 2018</span>
+          <span class="card-archive-list-count">4</span>
+        </a>
+      </li>
+    </ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">53</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-11-09T17:21:35.179Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By cleo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

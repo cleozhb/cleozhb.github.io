@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>多节点CPU+GPU协同计算负载均衡 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。 超级并行——如何能够充分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多节点CPU+GPU协同计算负载均衡">
+<meta property="og:url" content="http://example.com/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。 超级并行——如何能够充分">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2019-04-28T12:15:10.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:57:21.945Z">
+<meta property="article:author" content="cleo">
+<meta property="article:tag" content="高性能计算">
+<meta property="article:tag" content="负载均衡">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '多节点CPU+GPU协同计算负载均衡',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">多节点CPU+GPU协同计算负载均衡</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">多节点CPU+GPU协同计算负载均衡</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-04-07T11:57:21.945Z" title="Updated 2024-04-07 19:57:21">2024-04-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>近年来，基于CPU+GPU的混合异构计算系统开始逐渐成为国内外高性能计算领域的热点研究方向。在实际应用中，许多基于 CPU+GPU 的混合异构计算机系统表现出了良好的性能。但是，由于各种历史和现实原因的制约，异构计算仍然面临着诸多方面的问题，其中最突出的问题是程序开发困难，尤其是扩展到集群规模级别时这个问题更为突出。主要表现在扩展性、负载均衡、自适应性、通信、内存等方面。</p>
+<p>超级并行——如何能够充分发挥计算机系统多层次硬件的计算能力，让这些硬件同时在全速工作。比如在单机多核多GPU平台上如何让众多的GPU、CPU和IO设备都处于忙碌状态。</p>
+<p>现在的并行一般分为三个层面：<br>多机——使用网络将多个计算机连接起来，典型的有MPI，要求大粒度<br>多核——处理器中现在4核已经非常普遍，基于线程的OpenMP和pthread是首选开发环境。<br>图形处理单元——CUDA、OpenCL</p>
+<span id="more"></span>
+
+<p>由于使用了不同的函数库和变成语言，构建超级并行程序不像普通程序那样简单，基本思想是分段编译，然后链接。</p>
+<ul>
+<li>进程+线程</li>
+<li>进程+GPU线程</li>
+<li>线程+GPU线程</li>
+<li>进程+线程+GPU线程</li>
+</ul>
+<p>进程+GPU线程。通常使用一个进程控制一个GPU。MPI编译多GPU的思想是：将CUDA程序用C封装，编译成目标文件;然后在mpicc编译时链接，最好保证GPU数和进程数相等，因为现在一些老的GPU不支持在单GPU上同时运行多个CUDA的kernel函数。</p>
+<h2 id="一、-CPU-GPU协同计算模式"><a href="#一、-CPU-GPU协同计算模式" class="headerlink" title="一、    CPU+GPU协同计算模式"></a>一、    CPU+GPU协同计算模式</h2><p>CPU+GPU异构协同计算集群如图1所示，CPU+GPU异构集群可以划分成三个并行层次：节点间并行、节点内CPU与GPU异构并行、设备（CPU或GPU）内并行。根据这三个层次我们可以得到CPU+GPU异构协同计算模式为：节点间分布式+节点内异构式+设备内共享式。</p>
+<h3 id="1-节点间分布式"><a href="#1-节点间分布式" class="headerlink" title="1           节点间分布式"></a>1           节点间分布式</h3><p>CPU+GPU异构协同计算集群中，各个节点之间的连接与传统CPU集群一样，采用网络连接，因此，节点间采用了分布式的计算方式，可以采用MPI消息通信的并行编程语言。</p>
+<h3 id="2-节点内异构式"><a href="#2-节点内异构式" class="headerlink" title="2           节点内异构式"></a>2           节点内异构式</h3><p>CPU+GPU异构协同计算集群中，每个节点上包含多核CPU和一块或多块GPU卡，节点内采用了异构的架构，采用主从式的编程模型，即每个GPU卡需要由CPU进程&#x2F;线程调用。</p>
+<p>由于每个节点上，CPU核数也比较多，计算能力也很大，因此，在多数情况下，CPU也会参与部分并行计算，根据CPU是否参与并行计算，我们可以把CPU+GPU异构协同计算划分成两种计算模式：</p>
+<ol>
+<li><pre><code>  CPU/GPU协同计算：CPU只负责复杂逻辑和事务处理等串行计算，GPU 进行大规模并行计算；
+</code></pre>
+</li>
+<li><pre><code>  CPU+GPU共同计算：由一个CPU进程/线程负责复杂逻辑和事务处理等串行计算，其它CPU进程/线程负责小部分并行计算，GPU负责大部分并行计算。
+</code></pre>
+</li>
+</ol>
+<p>由于CPU&#x2F;GPU协同计算模式比CPU+GPU共同计算模式简单，下面的介绍中，我们以CPU+GPU共同计算模式为例进行展开介绍各种编程模式。</p>
+<p>在CPU+GPU共同计算模式下，我们把所有的CPU统称为一个设备（device），如双路8核CPU共有16个核，我们把这16个核统称成一个设备；每个GPU卡成为一个设备。根据这种划分方式，我们可以采用MPI进程或OpenMP线程控制节点内的各设备之间的通信和数据划分。</p>
+<h3 id="3-设备内共享式"><a href="#3-设备内共享式" class="headerlink" title="3           设备内共享式"></a>3           设备内共享式</h3><ol>
+<li><pre><code>  CPU设备：每个节点内的所有多核CPU采用了共享存储模型，因此，把节点内的所有多核CPU看作一个设备， 可以采用MPI进程或OpenMP线程、pThread线程控制这些CPU核的并行计算。
+</code></pre>
+</li>
+<li><pre><code>  GPU设备：GPU设备内有自己独立的DRAM存储，GPU设备也是共享存储模型，在GPU上采用CUDA或OpenCL编程控制GPU众核的并行计算。CUDA编程模式只在NVIDIA GPU上支持，OpenCL编程模式在NVIDIA GPU和AMD GPU都支持。
+</code></pre>
+</li>
+</ol>
+<p>根据前面对CPU+GPU异构协同计算模式的描述，我们可以得到CPU+GPU异构协同计算的编程模型（以MPI和OpenMP为例）如表1所示。<br><img src="/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/1.png"></p>
+<p><img src="/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/2.png"></p>
+<h2 id="二、-CPU-GPU协同计算负载均衡性设计"><a href="#二、-CPU-GPU协同计算负载均衡性设计" class="headerlink" title="二、    CPU+GPU协同计算负载均衡性设计"></a>二、    CPU+GPU协同计算负载均衡性设计</h2><p>下面以模式2为例简单介绍多节点CPU+GPU协同计算任务划分和负载均衡，模式2的进程和线程与CPU核和GPU设备对应关系如图2所示。若采用主从式MPI通信机制，我们在节点0上多起一个进程（0号进程）作为主进程，控制其它所有进程。每个节点上启动3个计算进程，其中两个控制GPU设备，一个控制其余所有CPU核的并行，在GPU内采用CUDA&#x2F;OpenCL并行，在CPU设备内采用OpenMP多线程并行。</p>
+<p>由于CPU+GPU协同计算模式分为3个层次，那么负载均衡性也需要在这3个层次上分别设计。在模式2的编程方式下，节点内和节点间均采用MPI进程，合二为一，设计负载均衡时，只需要做到进程间（设备之间）的负载均衡和CPU设备内OpenMP线程负载均衡、GPU设备内CUDA线程负载均衡即可。</p>
+<p>对于设备内，采用的是共享存储器模型，CPU设备上的OpenMP线程可以采用schedule(static&#x2F; dynamic&#x2F; guided )方式；GPU设备上只要保证同一warp内的线程负载均衡即可。</p>
+<p>对于CPU+GPU协同计算，由于CPU和GPU计算能力相差很大，因此，在对任务和数据划分时不能给CPU设备和GPU设备划分相同的任务&#x2F;数据量，这就增加了CPU与GPU设备间负载均衡的难度。CPU与GPU之间的负载均衡最好的方式是采用动态负载均衡的方法，然而有些应用无法用动态划分而只能采用静态划分的方式。下面我们分别介绍动态划分和静态划分。</p>
+<h3 id="1-动态划分"><a href="#1-动态划分" class="headerlink" title="1       动态划分"></a>1       动态划分</h3><p>对于一些高性能计算应用程序，在CPU与GPU之间的负载均衡可以采用动态负载均衡的优化方法，例如有N个任务&#x2F;数据，一个节点内有2个GPU卡，即三个设备（CPU和2个GPU），动态负载均衡的方法是每个设备先获取一个任务&#x2F;数据进行计算，计算之后立即获取下一个任务，不需要等待其他设备，直到N个任务&#x2F;数据计算完成。这种方式只需要在集群上设定一个主进程，负责给各个计算进程分配任务&#x2F;数据。</p>
+<h3 id="2-静态划分"><a href="#2-静态划分" class="headerlink" title="2       静态划分"></a>2       静态划分</h3><p>在一些应用中，无法采用动态划分的方式，需要静态划分方法，然而静态划分方法使异构设备间的负载均衡变得困难，有时甚至无法实现。对于一些迭代应用程序，我们可以采用学习型的数据划分方法，如先让CPU和GPU分别做一次相同计算量的计算，然后通过各自的运行时间计算出CPU与GPU的计算能力比例，然后再对数据进行划分。<br><img src="/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/3.png"></p>
+<h2 id="三、-CPU-GPU协同计算数据划分示例"><a href="#三、-CPU-GPU协同计算数据划分示例" class="headerlink" title="三、    CPU+GPU协同计算数据划分示例"></a>三、    CPU+GPU协同计算数据划分示例</h2><p>假设某一应用的数据特点如图3所示，从输出看，结果中的每个值的计算需要所有输入数据的信息，所有输出值的计算之间没有任何数据依赖性，可以表示成outj&#x3D;；从输入看，每个输入值对所有的输出值都产生影响，所有输入数据之间也没有任何数据依赖性。从数据特点可以看出，该应用既可以对输入进行并行数据划分也可以对输出进行数据划分。下面我们分析CPU+GPU协同计算时的数据划分方式。<br><img src="/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/4.png"></p>
+<h3 id="1-按输入数据划分"><a href="#1-按输入数据划分" class="headerlink" title="1         按输入数据划分"></a>1         按输入数据划分</h3><p>假设按输入数据划分，我们可以采用动态的方式给每个CPU或GPU设备分配数据，做到动态负载均衡，然而这种划分方式，使所有的线程向同一个输出位置保存结果，为了正确性，需要使所有的线程对每个结果进行原子操作，这样将会严重影响性能，极端情况下，所有线程还是按顺序执行的。因此，这种方式效果很差。</p>
+<h3 id="2-按输出数据划分"><a href="#2-按输出数据划分" class="headerlink" title="2         按输出数据划分"></a>2         按输出数据划分</h3><p>按输出数据划分的话可以让每个线程做不同位置的结果计算，计算完全独立，没有依赖性。如果采用静态划分的方式，由于CPU和GPU计算能力不同，因此，很难做到负载均衡。采用动态的方式可以做到负载均衡，即把结果每次给CPU或GPU设备一块，当设备计算完本次之后，立即向主进程申请下一个分块，这样可以做到完全负载均衡。按输出数据划分，无论采用静态划分还是动态划分，都会带来另外一个问题，由于每个结果的计算都需要所有输入信息，那么所有进程（设备）都需要读取一遍所有输入数据，动态划分时还不只一次，尤其对于输入数据很大时，这将会对输入数据的IO产生很大的影响，很有可能使IO程序性能瓶颈。</p>
+<h3 id="3-按输入和输出同时划分"><a href="#3-按输入和输出同时划分" class="headerlink" title="3         按输入和输出同时划分"></a>3         按输入和输出同时划分</h3><p>由于按输入或按输出划分都存在不同的缺点，我们可以采用输入和输出同时划分的方式进行数据划分，如图4所示。</p>
+<p>从输出角度，让所有的计算进程（设备）都有一份计算结果，设备内的线程对结果进行并行计算，每个设备都有一份局部的计算结果，所有设备都计算完毕之后，利用MPI进程对所有设备的计算结果进行规约，规约最后的结果即是最终的结果。</p>
+<p>从输入角度，按输入数据动态划分给不同的计算进程（设备），这样可以满足所有的计算进程负载均衡。<br><img src="/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/5.png"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhang0311/article/details/8224093">https://blog.csdn.net/zhang0311/article/details/8224093</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">cleo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/">http://example.com/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/">高性能计算</a><a class="post-meta__tags" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></div><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">STL sort函数实现详解</div></div><div class="info-2"><div class="info-item-1">问题STL中的sort是怎么实现的为什么比我们自己写的sort要快那么多，接下来从源码的角度来看看STL中sort的实现。 分析函数声明sort函数有两个重载，一个使用默认的 &lt; 操作符，另一个使用自定义的比较仿函数。 1234567#include &lt;algorithm&gt; template&lt; class RandomIt &gt;void sort( RandomIt first, RandomIt last ); template&lt; class RandomIt, class Compare &gt;void sort( RandomIt first, RandomIt last, Compare comp...</div></div></div></a><a class="pagination-related" href="/2019/04/27/Linux%E4%B8%8B%E7%94%A8GDB%E8%B0%83%E8%AF%95MPI%E7%A8%8B%E5%BA%8F/" title="Linux下用GDB调试MPI程序"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Linux下用GDB调试MPI程序</div></div><div class="info-2"><div class="info-item-1">GDB常用命令GDB有三种启动方式  gdb .&#x2F;a.out gdb .&#x2F;a.out core        用gdb同时调试一个运行程序和core文件，core是程序非法执行后core dump后产生的文件。 gdb -p            如果你的程序是一个服务程序，那么你可以指定这个服务程序运行时的进程ID。gdb会自动attach上去，并调试他。可以通过 ps -ef | grep procName 来查找pId。    先介绍以下GDB的常用命令    l l命令相当于list，从第一行开始例出原码    直接回车 直接回车表示，重复上一次命令   break &lt;16&gt; 设置断点，在源程序第16行处   break  设置断点，在函数func()入口处   info break 查看断点信息   r 运行程序，run命令简写   n 单条语句执行，next命令简写   c 继续运行程序，continue命令简写   bt backtrace 查看函数堆栈   p...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2018/01/21/Dijkstras%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95%E7%9A%84MPI%E5%92%8CCUDA%E5%AE%9E%E7%8E%B0/" title="Dijkstras最短路径算法的MPI和CUDA实现"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-01-21</div><div class="info-item-2">Dijkstras最短路径算法的MPI和CUDA实现</div></div><div class="info-2"><div class="info-item-1">Dijkstras最短路径算法的MPI和CUDA实现 主要内容   dijkstra串行算法 算法并行性分析 MPI的dijkstra实现 CUDA的dijkstra实现 并行效率分析    dijkstra串行算法串行算法核心思想 引入一个辅助向量D，它的每个分量D[i]为源顶点v到其他顶点v[i]的路径长度。初始态为：如有从v到vi的路径，则D[i]为弧[v,vi]的权值；否则D[i]为无穷大。显然D[j] &#x3D; min{D[i]}为顶点v出发到其他顶点的一条最短路径的长度，其路径为（v，vj）。下一条最短路径长度要么是源顶点v直接到某一顶点vk的长度，即{v，vk}。要么是源顶点v经过顶点vj到某一顶点的长度，即{v，vj，vk}。假设S为已经求得最短路径的顶点的集合，下一条最短路径（设其终点为x），要么是弧{v， vx}，要么为中间只经过S中顶点而最后到达终点X的路径。在一般情况下，下一条最短路径的长度为：D[j] &#x3D; min{D[i] | vi 属于 V-S} 其中V为图顶点的集合， D[i]为弧{v， vi}的权值，或者为D[k]和弧{vk，...</div></div></div></a><a class="pagination-related" href="/2018/01/14/%E4%BC%8A%E5%88%A9%E8%AF%BA%E9%A6%99%E5%AE%BE%E5%A4%A7%E5%AD%A6%E9%AB%98%E6%80%A7%E8%83%BD%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%971-2%E7%AC%94%E8%AE%B0/" title="伊利诺香宾大学高性能并行计算week1笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-01-14</div><div class="info-item-2">伊利诺香宾大学高性能并行计算week1笔记</div></div><div class="info-2"><div class="info-item-1">异构并行计算Heterogeneous_Parallel_Computing简介 主要内容   学习延迟设备(CPU)和吞吐设备(GPU)之间的主要区别 为什么越来越多的应用同时使用这两种设备      CPU与GPU的区别    CPU有更大的局部cache，GPU有相对小的cache和局部内存。 GPU有更多的寄存器，支持大量的线程。而CPU只有能够支持少量线程的寄存器。 GPU有更多的SIMD执行单元； CPU有复杂的控制器，CPU有简单的控制单元，但是有大量的线程需要管理    CPU特性：CPU延迟敏感，以减少延迟为目标   上图中的三个特性解释如下：  强大的ALU，减少操作延迟：ALU(算术逻辑单元)被设计的很强大，可以在几个时钟周期中进行数值计算。现在的CPU核心中，64位双精度浮点运算，加法运算、乘法运算只需要花费1-3个时钟周期。...</div></div></div></a><a class="pagination-related" href="/2018/01/13/%E9%AB%98%E6%80%A7%E8%83%BDCUDA%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%89/" title="高性能CUDA应用设计与开发——读书笔记（第一章）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-01-13</div><div class="info-item-2">高性能CUDA应用设计与开发——读书笔记（第一章）</div></div><div class="info-2"><div class="info-item-1">第一章：CUDA入门与编程思想 主要内容   CUDA的一些基本概念 选用合适的CUDA API的准则 高性能GPU计算的三条准则 大O记号，以及数据传输的影响  CUDA的一些基本概念 用于CUDA的GPU是安装于主机系统Host中的独立设备 ...</div></div></div></a><a class="pagination-related" href="/2018/01/13/%E9%AB%98%E6%80%A7%E8%83%BDCUDA%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%89/" title="高性能CUDA应用设计与开发——读书笔记（第二章）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-01-13</div><div class="info-item-2">高性能CUDA应用设计与开发——读书笔记（第二章）</div></div><div class="info-2"><div class="info-item-1">第二章：CUDA在机器学习与优化中的应用 主要内容   精通CUDA的编程者应该如何为建模与数据挖掘做出巨大贡献 机器学习技术，以及XOR问题对于计算通用设备的重要性 C++仿函数    建模与模拟数学模型：对现实的抽象，用来对现实进行分析与预测。数值模拟：通过应用程序将数学模型映射到电脑上。  常用的两个建模方法： 基于第一性原理分析以及其他方法的人工推导模型     “第一性原理”是一个量子力学中的一个术语，意思是从头算，只采用最基本的事实，然后根据事实推论。   基于数据拟合的参数化模型     与人工推导模型相比，经过数据计算推导出的模型相对容易建立。许多现有方法可以建立精确的模型得到很好的推广。使用数据来拟合模型是一个代价高昂的计算过程，并行计算依靠于处理单元数量密切相关的因素来缩减运行时间。对显现非线性特征的系统进行建模时，因为非线性系统不会对输入刺激做出线性回应，这意味着不能仅仅根据输入或者系统刺激的线性组合来建模。  机器学习与神经网络  ...</div></div></div></a><a class="pagination-related" href="/2018/01/15/%E9%AB%98%E6%80%A7%E8%83%BDCUDA%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%89/" title="高性能CUDA应用设计与开发——读书笔记（第四章）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2018-01-15</div><div class="info-item-2">高性能CUDA应用设计与开发——读书笔记（第四章）</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">一、    CPU+GPU协同计算模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%8A%82%E7%82%B9%E9%97%B4%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">1           节点间分布式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%8A%82%E7%82%B9%E5%86%85%E5%BC%82%E6%9E%84%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">2           节点内异构式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%AE%BE%E5%A4%87%E5%86%85%E5%85%B1%E4%BA%AB%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">3           设备内共享式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">二、    CPU+GPU协同计算负载均衡性设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8A%A8%E6%80%81%E5%88%92%E5%88%86"><span class="toc-number">2.1.</span> <span class="toc-text">1       动态划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%9D%99%E6%80%81%E5%88%92%E5%88%86"><span class="toc-number">2.2.</span> <span class="toc-text">2       静态划分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81-CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E6%95%B0%E6%8D%AE%E5%88%92%E5%88%86%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">三、    CPU+GPU协同计算数据划分示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8C%89%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E5%88%92%E5%88%86"><span class="toc-number">3.1.</span> <span class="toc-text">1         按输入数据划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8C%89%E8%BE%93%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%92%E5%88%86"><span class="toc-number">3.2.</span> <span class="toc-text">2         按输出数据划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%8C%89%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA%E5%90%8C%E6%97%B6%E5%88%92%E5%88%86"><span class="toc-number">3.3.</span> <span class="toc-text">3         按输入和输出同时划分</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%80%9D%E8%80%83%E2%80%94%E2%80%94%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82/" title="微服务架构设计的思考——腾讯课堂">微服务架构设计的思考——腾讯课堂</a><time datetime="2024-11-09T15:43:28.000Z" title="Created 2024-11-09 23:43:28">2024-11-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/05/06/STL-sort%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%AF%A6%E8%A7%A3/" title="STL sort函数实现详解">STL sort函数实现详解</a><time datetime="2019-05-06T07:39:25.000Z" title="Created 2019-05-06 15:39:25">2019-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/28/%E6%B5%85%E8%B0%88%E5%A4%9A%E8%8A%82%E7%82%B9CPU-GPU%E5%8D%8F%E5%90%8C%E8%AE%A1%E7%AE%97%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%80%A7%E8%AE%BE%E8%AE%A1/" title="多节点CPU+GPU协同计算负载均衡">多节点CPU+GPU协同计算负载均衡</a><time datetime="2019-04-28T12:15:10.000Z" title="Created 2019-04-28 20:15:10">2019-04-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By cleo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
