@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>cleo札记 - Follow Your Heart</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="From zero to hero">
+<meta property="og:type" content="website">
+<meta property="og:title" content="cleo札记">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="From zero to hero">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:author" content="cleo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/page/2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'cleo札记',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page fixed" id="page-header" style="background-image: url(/img/pic11.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">cleo札记</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/cleozhb" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:huihuistep@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/05/21/AI-Agent%E5%88%9D%E4%BD%93%E9%AA%8C/" title="AI Agent初体验">AI Agent初体验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-05-21T03:20:51.000Z" title="Created 2025-05-21 11:20:51">2025-05-21</time></span></div><div class="content">参考文档What We’ve Learned From A Year of Building with LLMs https://applied-llms.org/ 大模型工程 https://github.com/mlabonne/llm-course 是什么让Claude code如此出色，如何在你自己的代理中重现这种魔力 https://minusx.ai/blog/decoding-claude-code/ Claude code 生态 How to implement tool use https://docs.claude.com/en/docs/agents-and-tools/tool-use/implement-tool-use#complete-test-script-for-parallel-tools 背景Claude code横空出世也有一段时间了，对AI Agent的好奇心也达到了前所未有的高度。想要体验AI Agent已经很久了，各种框架也听得眼花缭乱 Langchain, crewAI, n8n, AutoGPT,...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/04/28/%E8%AE%A9%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8B%A5%E6%9C%89%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86%E2%80%94%E2%80%94mem0/" title="让大模型拥有长期记忆——mem0">让大模型拥有长期记忆——mem0</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-04-28T03:08:41.000Z" title="Created 2025-04-28 11:08:41">2025-04-28</time></span></div><div class="content">简介https://github.com/mem0ai/mem0/tree/ce8a285003a83f3d139a441f3ae5b8f8e5f1b836 https://docs.mem0.ai/introduction mem0 是一种内存架构，它使 AI  Agent 能够长时间保持连贯且语境丰富的对话。与传统方法难以处理固定的上下文窗口不同，mem0 能够智能地从对话中提取、整合和检索有效信息。  两阶段记忆流水线：提取阶段从对话中捕获关键信息，更新阶段智能管理知识库 选择性记忆形成：仅存储关键信息而非整个对话块 智能操作：自动确定是否添加、更新或删除记忆 高效检索：使用向量嵌入快速查找相关记忆 图增强选项：Mem0ᵍ 变体将记忆表示为有向标记图，用于复杂的关系推理  mem0持久的结构性存储，让AI有效记得用户偏好，适应不断变化的环境，并在多个会话之间保持一致的交互。 核心组件Prompt默认实现可以参考这个文件：https://github.com/mem0ai/mem0/blob/main/mem0/configs/prompts.py...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/04/20/%E5%A6%82%E4%BD%95%E4%B8%BA%E4%BD%A0%E7%9A%84RAG%E7%B3%BB%E7%BB%9F%E6%8F%90%E4%BE%9B%E6%95%B0%E6%8D%AE%E2%80%94%E2%80%94docling/" title="如何为你的RAG系统提供数据——docling">如何为你的RAG系统提供数据——docling</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-04-20T03:05:58.000Z" title="Created 2025-04-20 11:05:58">2025-04-20</time></span></div><div class="content">背景如何将各种各样的数据高效的提供给RAG系统？向量数据库是怎样做相似性检索的？如何处理数据分块存入向量数据库有利于相似性检索？这些都是做好一个RAG应用我们必须要了解的问题。 文档处理https://github.com/docling-project/docling docling简化文档处理过程，提供格式化的数据与生成式AI系统无缝衔接。将各种文档类型转化为DoclingDocument格式  解析多种文档类型PDF, DOCX, PPTX, XLSX, HTML, WAV, MP3, VTT, images (PNG, TIFF, JPEG, …) PDF 理解，包括页面布局、阅读顺序、表格结构、代码、公式、图像分类等 提供各种导出格式和选项，包括 Markdown、HTML、DocTags 和无损 JSON 本地执行，敏感数据处理便利  支持解析的格式    Format Description    PDF Native PDF documents with layout preservation   DOCX, XLSX, PPTX Microsoft...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/03/12/%E5%A6%82%E4%BD%95%E7%94%A8%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%81%9A%E5%88%86%E7%B1%BB/" title="如何用大模型做分类">如何用大模型做分类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-03-11T16:00:00.000Z" title="Created 2025-03-12 00:00:00">2025-03-12</time></span></div><div class="content">目的：对用户的投诉订单进行分类 几个重要的库：pydantic结合instructor可以将非结构化文本&#x2F;多模态数据快速转换为结构化数据，同时保证类型安全。如果你需要从 GPT 的响应中提取特定字段（如生成 JSON、数据库记录），它可以大幅减少手动解析的工作量 12345678910111213141516171819202122from pydantic import BaseModelimport instructorfrom openai import OpenAI# 注入 instructor 到 OpenAI 客户端client = instructor.patch(OpenAI())# 定义数据模型class UserInfo(BaseModel):    name: str    age: int    email: str# 调用 OpenAI API，直接返回 Pydantic 对象user = client.chat.completions.create(    model=&quot;gpt-3.5-turbo&quot;,   ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/02/08/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%BD%AC%E5%9E%8BAI%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88/" title="软件工程师转型AI能做什么">软件工程师转型AI能做什么</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-02-08T03:01:13.000Z" title="Created 2025-02-08 11:01:13">2025-02-08</time></span></div><div class="content">​		大模型这件事从2023年刚出来时各种幻觉让人觉得并不可靠，到如今这才2年多的时间已经能回答95%的普通问题，且置信度非常高，更加坚定了我AI这件事一定是here to stay的。行业很新，才3年不到，把大家的起跑线拉到一起了，空间还特别大，是一个未来的技术，我想这时候为什么不去多花点时间去学习呢？最近一直在想怎么转型AI，不仅仅是薪酬上的溢价，更是一种对未来的探索。 从岗位上来说大概分为2类：  AI Researcher：至少是PhD为基础，而且现在去读已经有点晚了，现在在做这一代LLM的最核心的模型架构设计的都是几年前一直在搞NLP深度学习的那帮人，这部分需求不多且要求极高，不是普通人能触及的。 AI Engineer：包括模型的后训练，微调，workflow设计等等更偏应用层，还是需要先看一下AI stack中包含哪些  AI Stack...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/11/10/DDIA%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E5%88%86%E5%8C%BA/" title="DDIA第六章：分区">DDIA第六章：分区</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-11-09T16:43:50.000Z" title="Created 2024-11-10 00:43:50">2024-11-10</time></span></div><div class="content">如何保存更多的数据？为了保存大量数据，有两种做法：1、使用更大内存的机器。2、使用切片集群。实际上对应着数据系统中应对数据量增加的两种解决方案：纵向扩展 scale up 和横向扩展 scale out...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/10/09/%E3%80%8A%E4%B8%96%E7%BA%AA%E4%B8%89%E9%83%A8%E6%9B%B2%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="《世纪三部曲》读后感">《世纪三部曲》读后感</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-10-08T17:23:36.000Z" title="Created 2024-10-09 01:23:36">2024-10-09</time></span></div><div class="content">菲茨、艾瑟尔、比利、米姐、沃尔特...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/08/20/%E3%80%8A%E8%A2%AB%E8%AE%A8%E5%8E%8C%E7%9A%84%E5%8B%87%E6%B0%94%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="《被讨厌的勇气》读后感">《被讨厌的勇气》读后感</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-08-19T17:35:40.000Z" title="Created 2024-08-20 01:35:40">2024-08-20</time></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/04/08/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E5%99%A8/" title="设计一个分布式系统中的唯一ID生成器">设计一个分布式系统中的唯一ID生成器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-04-08T13:55:11.000Z" title="Created 2024-04-08 21:55:11">2024-04-08</time></span></div><div class="content">最近在看Alex Xu的系统设计，记录一下。		 我们要设计一个分布式系统中唯一ID生成器，你的第一反应可能是使用主键，在类似MySQL这样的传统数据库中可以设置auto_increment 属性。但是auto_increment 并不适用于分布式系统，因为单个数据库不够大，而且在多个数据库之间以最小的延迟生成唯一的ID是一项挑战。下面是一些唯一ID的例子：    step1 理解问题明确设计范围首先要明确问题：    候选人 唯一ID有什么特性    面试官 ID必须是有序且唯一的   候选人 对于每一个新的记录，ID必须是增加1么   面试官 ID随着时间推移而增加，但是不必只增加1，比如说晚上创建的记录ID比早上的大   候选人 ID只包含数字么   面试官 是滴   候选人 ID的长度有什么要求么   面试官 ID要能用64bit存储   候选人 系统的规模是怎样的   面试官 每秒钟要能生成10000个ID   上面是一些你可以问面试官的问题，明确需求把一些模糊的点弄清楚非常重要。对于这个问题需求如下：  ID必须唯一 ID必须由数字组成 ID fit into...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/11/02/%E3%80%8A%E6%82%B2%E6%83%A8%E4%B8%96%E7%95%8C%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="《悲惨世界》读后感">《悲惨世界》读后感</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-11-01T17:18:34.000Z" title="Created 2023-11-02 01:18:34">2023-11-02</time></span></div><div class="content">只记录几个让我触动的瞬间  冉阿让偷了主教的银器，被抓回来，主教却说是送给他的，并且还给了他两个银烛台。主教的这种以德报怨从此救赎了冉阿让 芳汀卖掉头发和牙齿 冉阿让在海滨蒙特伊办工厂，芳汀在他的工厂由于八卦被开除，并吐了冉阿让口水在脸上，冉阿让却仍然救了她 冉阿让 天人交战，该不该去救那个被误认为是他的苦役犯，还是去了。康德主义和功效主义，冉阿让可以做很多事，他对人民有好处，但是别人是替他获罪，该不该舍弃自己去救这个人 冉阿让在轮船桅杆上救人跳海 冉阿让去孟费郿从泰纳迪一家手上救珂赛特，小珂赛特获得大娃娃，冉阿让从此有了女儿 修道院获救 因为施舍穷人被沙威认出来 绑架案在...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#content-inner">8</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cleozhb"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cleozhb" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:huihuistep@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/26/Pi-Agent%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/" title="Pi Agent是如何工作的">Pi Agent是如何工作的</a><time datetime="2026-07-26T09:33:46.000Z" title="Created 2026-07-26 17:33:46">2026-07-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/21/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="code agent 系统设计">code agent 系统设计</a><time datetime="2026-06-21T08:34:30.000Z" title="Created 2026-06-21 16:34:30">2026-06-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/05/%E9%A9%AC%E5%85%8B%E5%AE%89%E5%BE%B7%E6%A3%AE%E8%AE%B2Agent%E7%9A%84%E6%9C%AC%E8%B4%A8/" title="马克安德森讲Agent的本质">马克安德森讲Agent的本质</a><time datetime="2026-04-04T17:06:55.000Z" title="Created 2026-04-05 01:06:55">2026-04-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/Lex-fridman-%E5%AF%B9%E8%B0%88Openclaw%E5%88%9B%E5%A7%8B%E4%BA%BA/" title="Lex fridman 对谈Openclaw创始人">Lex fridman 对谈Openclaw创始人</a><time datetime="2026-03-09T17:11:16.000Z" title="Created 2026-03-10 01:11:16">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/28/ChatGPT-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="ChatGPT 系统设计">ChatGPT 系统设计</a><time datetime="2025-11-28T03:34:03.000Z" title="Created 2025-11-28 11:34:03">2025-11-28</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BB%A3%E7%A0%81/"><span class="card-category-list-name">代码</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%80%9D%E8%80%83/"><span class="card-category-list-name">思考</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">技术</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">算法</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BB%8F%E9%AA%8C/"><span class="card-category-list-name">经验</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">读书笔记</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">课程笔记</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 1.1em; color: #999">面向对象</a> <a href="/tags/%E8%AE%BA%E6%96%87/" style="font-size: 1.1em; color: #999">论文</a> <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" style="font-size: 1.1em; color: #999">性能测试</a> <a href="/tags/linux/" style="font-size: 1.1em; color: #999">linux</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 1.1em; color: #999">工作</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E7%94%9F/" style="font-size: 1.1em; color: #999">研究生</a> <a href="/tags/Agent/" style="font-size: 1.15em; color: #999b9e">Agent</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1.1em; color: #999">排序</a> <a href="/tags/c/" style="font-size: 1.1em; color: #999">c</a> <a href="/tags/GDB/" style="font-size: 1.1em; color: #999">GDB</a> <a href="/tags/podcast/" style="font-size: 1.15em; color: #999b9e">podcast</a> <a href="/tags/%E4%BF%AE%E7%82%BC/" style="font-size: 1.1em; color: #999">修炼</a> <a href="/tags/LLM/" style="font-size: 1.45em; color: #99a7ba">LLM</a> <a href="/tags/c/" style="font-size: 1.4em; color: #99a5b6">c++</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 1.1em; color: #999">单例模式</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 1.1em; color: #999">集群</a> <a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 1.1em; color: #999">编译</a> <a href="/tags/CUDPP/" style="font-size: 1.2em; color: #999da3">CUDPP</a> <a href="/tags/Linux/" style="font-size: 1.25em; color: #999fa7">Linux</a> <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/" style="font-size: 1.3em; color: #99a1ac">高性能计算</a> <a href="/tags/Makefile/" style="font-size: 1.1em; color: #999">Makefile</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 1.1em; color: #999">并查集</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 1.15em; color: #999b9e">模板</a> <a href="/tags/CPU/" style="font-size: 1.1em; color: #999">CPU</a> <a href="/tags/%E7%BA%A2%E6%A5%BC%E6%A2%A6/" style="font-size: 1.25em; color: #999fa7">红楼梦</a> <a href="/tags/CUDA/" style="font-size: 1.5em; color: #99a9bf">CUDA</a> <a href="/tags/MPI-CUDA/" style="font-size: 1.1em; color: #999">MPI+CUDA</a> <a href="/tags/map/" style="font-size: 1.1em; color: #999">map</a> <a href="/tags/C/" style="font-size: 1.1em; color: #999">C</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 1.4em; color: #99a5b6">读书</a> <a href="/tags/%E4%BB%BF%E5%87%BD%E6%95%B0/" style="font-size: 1.1em; color: #999">仿函数</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.25em; color: #999fa7">算法</a> <a href="/tags/MPI/" style="font-size: 1.35em; color: #99a3b1">MPI</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 1.15em; color: #999b9e">编码规范</a> <a href="/tags/STL/" style="font-size: 1.2em; color: #999da3">STL</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" style="font-size: 1.1em; color: #999">系统设计</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 1.1em; color: #999">负载均衡</a> <a href="/tags/socket/" style="font-size: 1.1em; color: #999">socket</a> <a href="/tags/valgrind/" style="font-size: 1.1em; color: #999">valgrind</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 1.1em; color: #999">总结</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
+      <a class="card-more-btn" href="/archives/" title="View More"><i class="fas fa-angle-right"></i></a>
+    </div>
+    <ul class="card-archive-list">
+  
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2026/07/">
+          <span class="card-archive-list-date">July 2026</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2026/06/">
+          <span class="card-archive-list-date">June 2026</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2026/04/">
+          <span class="card-archive-list-date">April 2026</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2026/03/">
+          <span class="card-archive-list-date">March 2026</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2025/11/">
+          <span class="card-archive-list-date">November 2025</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2025/09/">
+          <span class="card-archive-list-date">September 2025</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2025/07/">
+          <span class="card-archive-list-date">July 2025</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2025/06/">
+          <span class="card-archive-list-date">June 2025</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    </ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">75</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-07-26T11:28:37.046Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["Follow Your Heart"])
+  } else {
+    document.getElementById("subtitle").textContent = "Follow Your Heart"
+  }
+}
+typedJSFn.run(subtitleType)</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

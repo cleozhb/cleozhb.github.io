@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hugging face 🤗 下载的模型文件都是啥 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="刚接触大模型时一脸懵，在🤗下了一堆模型文件，但这都是啥？一张纸如果不戳破，还以为是一堵墙；一个小问题如果不了解，还真觉得是个拦路虎。 知乎上看到一个类似的问题，先放这里：huggingface的bin模型不需要代码吗？ 是什么？Hugging Face使用了一种结构化的方式来存储和管理模型。模型的存储方式不仅限于模型权重文件，还包括其他配置文件，以确保模型可以正确加载和使用。以下是Hugging">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hugging face 🤗 下载的模型文件都是啥">
+<meta property="og:url" content="http://example.com/2025/06/08/Hugging-face-%F0%9F%A4%97-%E4%B8%8B%E8%BD%BD%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E9%83%BD%E6%98%AF%E5%95%A5/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="刚接触大模型时一脸懵，在🤗下了一堆模型文件，但这都是啥？一张纸如果不戳破，还以为是一堵墙；一个小问题如果不了解，还真觉得是个拦路虎。 知乎上看到一个类似的问题，先放这里：huggingface的bin模型不需要代码吗？ 是什么？Hugging Face使用了一种结构化的方式来存储和管理模型。模型的存储方式不仅限于模型权重文件，还包括其他配置文件，以确保模型可以正确加载和使用。以下是Hugging">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2025-06-08T03:48:34.000Z">
+<meta property="article:modified_time" content="2026-07-05T16:16:33.304Z">
+<meta property="article:author" content="cleo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2025/06/08/Hugging-face-%F0%9F%A4%97-%E4%B8%8B%E8%BD%BD%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E9%83%BD%E6%98%AF%E5%95%A5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hugging face 🤗 下载的模型文件都是啥',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic11.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">Hugging face 🤗 下载的模型文件都是啥</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Hugging face 🤗 下载的模型文件都是啥</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-06-08T03:48:34.000Z" title="Created 2025-06-08 11:48:34">2025-06-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-07-05T16:16:33.304Z" title="Updated 2026-07-06 00:16:33">2026-07-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>刚接触大模型时一脸懵，在🤗下了一堆模型文件，但这都是啥？一张纸如果不戳破，还以为是一堵墙；一个小问题如果不了解，还真觉得是个拦路虎。</p>
+<p>知乎上看到一个类似的问题，先放这里：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/620641385">huggingface的bin模型不需要代码吗？</a></p>
+<h1 id="是什么？"><a href="#是什么？" class="headerlink" title="是什么？"></a>是什么？</h1><p>Hugging Face使用了一种结构化的方式来存储和管理模型。模型的存储方式不仅限于模型权重文件，还包括其他配置文件，以确保模型可以正确加载和使用。以下是Hugging Face存储模型的主要文件和目录结构：</p>
+<ol>
+<li>目录结构</li>
+</ol>
+<p>一个典型的Hugging Face模型目录结构如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">model_directory/</span></span><br><span class="line"><span class="string">│</span></span><br><span class="line"><span class="string">├──</span> <span class="string">config.json</span></span><br><span class="line"><span class="string">├──</span> <span class="string">pytorch_model.bin</span></span><br><span class="line"><span class="string">├──</span> <span class="string">tf_model.h5</span> <span class="string">(可选)</span></span><br><span class="line"><span class="string">├──</span> <span class="string">tokenizer_config.json</span></span><br><span class="line"><span class="string">├──</span> <span class="string">vocab.txt</span></span><br><span class="line"><span class="string">├──</span> <span class="string">merges.txt</span> <span class="string">(BPE分词器使用，其他分词器可能没有)</span></span><br><span class="line"><span class="string">└──</span> <span class="string">special_tokens_map.json</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>各个文件的用途</li>
+</ol>
+<ul>
+<li><strong><code>config.json</code></strong>：模型的配置文件，包含了模型的架构参数，如层数、隐藏单元数等。这个文件在模型加载时用于重新构建模型架构。</li>
+<li><strong><code>pytorch_model.bin</code></strong>：PyTorch格式的模型权重文件。模型的参数（权重和偏置）以二进制格式存储在这个文件中。</li>
+<li><strong><code>tf_model.h5</code></strong>：TensorFlow格式的模型权重文件。如果模型是在TensorFlow中训练的或需要在TensorFlow中使用，则会有这个文件。</li>
+<li><strong><code>tokenizer_config.json</code></strong>：分词器的配置文件，包含了分词器的配置信息，如特殊符号、最大长度等。</li>
+<li><strong><code>vocab.txt</code></strong>：分词器的词汇表文件，通常用于基于词汇的分词器，如BERT使用的WordPiece分词器。</li>
+<li><strong><code>merges.txt</code></strong>：BPE（Byte Pair Encoding）分词器使用的合并操作文件，包含了BPE分词器的合并规则。</li>
+<li><strong><code>special_tokens_map.json</code></strong>：映射特殊token的文件，定义了模型使用的特殊符号，如<code>[CLS]</code>、<code>[SEP]</code>等。</li>
+</ul>
+<ol start="3">
+<li>加载模型</li>
+</ol>
+<p>使用Hugging Face的transformers库，可以方便地加载这些文件。例如，以下代码展示了如何加载一个预训练的BERT模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer, BertModel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定模型的路径或名称</span></span><br><span class="line">model_name_or_path = <span class="string">&quot;bert-base-uncased&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载分词器</span></span><br><span class="line">tokenizer = BertTokenizer.from_pretrained(model_name_or_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载模型</span></span><br><span class="line">model = BertModel.from_pretrained(model_name_or_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试模型：编码输入</span></span><br><span class="line">input_text = <span class="string">&quot;Hello, Hugging Face!&quot;</span></span><br><span class="line">inputs = tokenizer(input_text, return_tensors=<span class="string">&quot;pt&quot;</span>)</span><br><span class="line">outputs = model(**inputs)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出模型的最后一层隐藏状态</span></span><br><span class="line"><span class="built_in">print</span>(outputs.last_hidden_state)</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>自定义模型</li>
+</ol>
+<p>如果你有一个自定义训练的模型，可以按照以下方式保存和加载：</p>
+<p><strong>保存模型：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer, BertForSequenceClassification</span><br><span class="line"><span class="comment">#假设我们有一个训练好的模型</span></span><br><span class="line">model = BertForSequenceClassification.from_pretrained(<span class="string">&quot;bert-base-uncased&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#保存模型和分词器</span></span><br><span class="line">model.save_pretrained(<span class="string">&quot;path/to/save/directory&quot;</span>)</span><br><span class="line">tokenizer.save_pretrained(<span class="string">&quot;path/to/save/directory&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>加载模型：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer, BertForSequenceClassification</span><br><span class="line"><span class="comment">#加载自定义保存的模型和分词器</span></span><br><span class="line">model = BertForSequenceClassification.from_pretrained(<span class="string">&quot;path/to/save/directory&quot;</span>)</span><br><span class="line">tokenizer = BertTokenizer.from_pretrained(<span class="string">&quot;path/to/save/directory&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h1><p>参照前面知乎的问题：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/620641385">huggingface的bin模型不需要代码吗？</a> 里讲的。</p>
+<p>Hugging Face 只存储模型的参数（权重）的原因主要有以下几个方面：</p>
+<ol>
+<li>模型架构的标准化</li>
+</ol>
+<p>在 Hugging Face 的 Transformers 库中，模型架构是标准化和预定义的。这意味着模型的结构（层数、每层的神经元数、激活函数等）已经在代码中定义好，不需要在每次保存模型时都重复存储这些信息。</p>
+<ol start="2">
+<li>减少存储空间</li>
+</ol>
+<p>存储整个模型结构和参数会占用大量的存储空间。参数通常是浮点数矩阵，占据了模型的大部分存储需求。而模型的结构信息相对来说占用空间很小，可以通过少量的代码或者配置文件来定义。因此，只存储参数可以大大减少存储需求。</p>
+<ol start="3">
+<li>提高加载速度：</li>
+</ol>
+<p>通过只存储模型参数，可以减少模型的加载时间。模型架构可以直接从库中加载，参数则可以快速加载到这些架构中。这样可以加快模型的初始化过程。</p>
+<p>注：这里还有个blog，可以细看：<a target="_blank" rel="noopener" href="https://huggingface.co/blog/accelerate-large-models">https://huggingface.co/blog/accelerate-large-models</a> （</p>
+<p>摘要：这篇博客介绍了如何使用Hugging Face的<code>Accelerate</code>库，通过PyTorch的功能在有限硬件资源上运行超大模型，如BLOOM和OPT。方法包括创建空模型、计算设备映射以分配层、分片状态字典以管理内存使用，并使用钩子确保权重在GPU、CPU和磁盘之间正确加载和卸载，从而实现大模型在小型硬件配置上的推理。</p>
+<p>）</p>
+<ol start="4">
+<li>灵活性和通用性</li>
+</ol>
+<p>Hugging Face 的 Transformers 库支持多种模型架构（如 BERT、GPT-2、RoBERTa 等）。通过只存储参数，可以在不同的模型架构之间实现灵活的切换和复用。例如，可以在同一架构的不同版本之间共享权重文件，而不需要重新定义架构。</p>
+<ol start="5">
+<li>可扩展性</li>
+</ol>
+<p>只存储模型参数使得库的扩展性更强。用户可以基于已有的模型架构定义新的变种，而不需要修改存储格式。这种方式也便于模型的升级和维护。</p>
+<h1 id="怎么做的？"><a href="#怎么做的？" class="headerlink" title="怎么做的？"></a>怎么做的？</h1><p>这个就没得说了，直接上代码（官方库里的_save方法）：transformers&#x2F;src&#x2F;transformers&#x2F;trainer.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_save</span>(<span class="params">self, output_dir: <span class="type">Optional</span>[<span class="built_in">str</span>] = <span class="literal">None</span>, state_dict=<span class="literal">None</span></span>):</span><br><span class="line">       <span class="comment"># If we are executing this function, we are the process zero, so we don&#x27;t check for that.</span></span><br><span class="line">       output_dir = output_dir <span class="keyword">if</span> output_dir <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="variable language_">self</span>.args.output_dir</span><br><span class="line">       os.makedirs(output_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line">       logger.info(<span class="string">f&quot;Saving model checkpoint to <span class="subst">&#123;output_dir&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">       supported_classes = (PreTrainedModel,) <span class="keyword">if</span> <span class="keyword">not</span> is_peft_available() <span class="keyword">else</span> (PreTrainedModel, PeftModel)</span><br><span class="line">       <span class="comment"># Save a trained model and configuration using save_pretrained().</span></span><br><span class="line">       <span class="comment"># They can then be reloaded using from_pretrained()</span></span><br><span class="line">       <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">isinstance</span>(<span class="variable language_">self</span>.model, supported_classes):</span><br><span class="line">           <span class="keyword">if</span> state_dict <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">               state_dict = <span class="variable language_">self</span>.model.state_dict()</span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> <span class="built_in">isinstance</span>(<span class="variable language_">self</span>.accelerator.unwrap_model(<span class="variable language_">self</span>.model), supported_classes):</span><br><span class="line">               <span class="variable language_">self</span>.accelerator.unwrap_model(<span class="variable language_">self</span>.model).save_pretrained(</span><br><span class="line">                   output_dir, state_dict=state_dict, safe_serialization=<span class="variable language_">self</span>.args.save_safetensors</span><br><span class="line">               )</span><br><span class="line">           <span class="keyword">else</span>:</span><br><span class="line">               logger.info(<span class="string">&quot;Trainer.model is not a PreTrainedModel, only saving its state dict.&quot;</span>)</span><br><span class="line">               <span class="keyword">if</span> <span class="variable language_">self</span>.args.save_safetensors:</span><br><span class="line">                   safetensors.torch.save_file(</span><br><span class="line">                       state_dict, os.path.join(output_dir, SAFE_WEIGHTS_NAME), metadata=&#123;<span class="string">&quot;format&quot;</span>: <span class="string">&quot;pt&quot;</span>&#125;</span><br><span class="line">                   )</span><br><span class="line">               <span class="keyword">else</span>:</span><br><span class="line">                   torch.save(state_dict, os.path.join(output_dir, WEIGHTS_NAME))</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           <span class="variable language_">self</span>.model.save_pretrained(</span><br><span class="line">               output_dir, state_dict=state_dict, safe_serialization=<span class="variable language_">self</span>.args.save_safetensors</span><br><span class="line">           )</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> <span class="variable language_">self</span>.tokenizer <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">           <span class="variable language_">self</span>.tokenizer.save_pretrained(output_dir)</span><br><span class="line"></span><br><span class="line">       <span class="comment"># Good practice: save your training arguments together with the trained model</span></span><br><span class="line">       torch.save(<span class="variable language_">self</span>.args, os.path.join(output_dir, TRAINING_ARGS_NAME))</span><br></pre></td></tr></table></figure>
+
+<p>这段代码展示了如何使用<code>save_pretrained()</code>方法（如果模型已经自定义了&#x2F;继承了）将训练好的模型和配置保存到指定目录。首先，它检查模型是否是支持的类（如<code>PreTrainedModel</code>或<code>PeftModel</code>），然后根据不同情况处理模型的状态字典（<code>state_dict</code>），并保存模型和分词器。同时，还保存训练参数，以便日后可以重现训练环境。该方法确保模型和相关文件以合适的格式和路径存储，以便将来使用<code>from_pretrained()</code>方法重新加载。</p>
+<p>那<code>save_pretrained()</code>方法在哪？在transformers&#x2F;src&#x2F;transformers&#x2F;modeling_utils.py中。代码洋洋洒洒，看了一下有300多行，就不粘贴了，总之，还是存了个state_dict。</p>
+</article><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/07/08/LLM-GPT%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%8A%EF%BC%89/" title="LLM-GPT源码（上）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">LLM-GPT源码（上）</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2025/05/21/AI-Agent%E5%88%9D%E4%BD%93%E9%AA%8C/" title="AI Agent初体验"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">AI Agent初体验</div></div><div class="info-2"><div class="info-item-1">参考文档What We’ve Learned From A Year of Building with LLMs https://applied-llms.org/ 大模型工程 https://github.com/mlabonne/llm-course 是什么让Claude code如此出色，如何在你自己的代理中重现这种魔力 https://minusx.ai/blog/decoding-claude-code/ Claude code 生态 How to implement tool use https://docs.claude.com/en/docs/agents-and-tools/tool-use/implement-tool-use#complete-test-script-for-parallel-tools 背景Claude code横空出世也有一段时间了，对AI Agent的好奇心也达到了前所未有的高度。想要体验AI Agent已经很久了，各种框架也听得眼花缭乱 Langchain, crewAI, n8n, AutoGPT,...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cleozhb"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cleozhb" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:huihuistep@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">为什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">怎么做的？</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/26/Pi-Agent%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/" title="Pi Agent是如何工作的">Pi Agent是如何工作的</a><time datetime="2026-07-26T09:33:46.000Z" title="Created 2026-07-26 17:33:46">2026-07-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/21/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="code agent 系统设计">code agent 系统设计</a><time datetime="2026-06-21T08:34:30.000Z" title="Created 2026-06-21 16:34:30">2026-06-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/05/%E9%A9%AC%E5%85%8B%E5%AE%89%E5%BE%B7%E6%A3%AE%E8%AE%B2Agent%E7%9A%84%E6%9C%AC%E8%B4%A8/" title="马克安德森讲Agent的本质">马克安德森讲Agent的本质</a><time datetime="2026-04-04T17:06:55.000Z" title="Created 2026-04-05 01:06:55">2026-04-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/Lex-fridman-%E5%AF%B9%E8%B0%88Openclaw%E5%88%9B%E5%A7%8B%E4%BA%BA/" title="Lex fridman 对谈Openclaw创始人">Lex fridman 对谈Openclaw创始人</a><time datetime="2026-03-09T17:11:16.000Z" title="Created 2026-03-10 01:11:16">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/28/ChatGPT-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="ChatGPT 系统设计">ChatGPT 系统设计</a><time datetime="2025-11-28T03:34:03.000Z" title="Created 2025-11-28 11:34:03">2025-11-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

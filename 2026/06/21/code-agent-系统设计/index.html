@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>code agent 系统设计 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Code Agent作为唯一真正大规模落地的工业级应用背后到底做了啥？Claude code 这样的code Agent是怎么运行的？前段时间自己也开发了一个简易版本的code Agent runtime，目前还是本地CLI版本。经过调研发现事情没有这么简单。Claude 桌面 APP里面的Claude code 是支持在本地运行同时也支持云端沙箱运行的，而且Claude这样的应用肯定同时有百万用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="code agent 系统设计">
+<meta property="og:url" content="http://example.com/2026/06/21/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="Code Agent作为唯一真正大规模落地的工业级应用背后到底做了啥？Claude code 这样的code Agent是怎么运行的？前段时间自己也开发了一个简易版本的code Agent runtime，目前还是本地CLI版本。经过调研发现事情没有这么简单。Claude 桌面 APP里面的Claude code 是支持在本地运行同时也支持云端沙箱运行的，而且Claude这样的应用肯定同时有百万用">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2026-06-21T08:34:30.000Z">
+<meta property="article:modified_time" content="2026-07-05T16:16:33.309Z">
+<meta property="article:author" content="cleo">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2026/06/21/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'code agent 系统设计',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic11.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">code agent 系统设计</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">code agent 系统设计</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-06-21T08:34:30.000Z" title="Created 2026-06-21 16:34:30">2026-06-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-07-05T16:16:33.309Z" title="Updated 2026-07-06 00:16:33">2026-07-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>Code Agent作为唯一真正大规模落地的工业级应用背后到底做了啥？Claude code 这样的code Agent是怎么运行的？前段时间自己也开发了一个简易版本的code Agent runtime，目前还是本地CLI版本。经过调研发现事情没有这么简单。Claude 桌面 APP里面的Claude code 是支持在本地运行同时也支持云端沙箱运行的，而且Claude这样的应用肯定同时有百万用户发请求，这时候的系统架构又是怎么样的演进？接下来分4个部分来介绍这些设计：</p>
+<ol>
+<li>需求分析</li>
+<li>本地机器环境执行架构</li>
+<li>云端沙箱环境执行架构</li>
+<li>云端沙箱同时支持百万并发请求的架构</li>
+</ol>
+<h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>先来看看一个单机版的 code Agent 需要实现什么功能：</p>
+<p>功能性需求 Functional Requirement</p>
+<ol>
+<li>输入任务：CLI或用户页面中接收用户输入自然语言</li>
+<li>代码库理解能力：读文件，搜索代码，构建上下文</li>
+<li>代码生成&amp;编辑：Agent能够编辑现存的文件也可以写新文件</li>
+<li>执行命令：执行命令，生成输出</li>
+<li>迭代循环：测试失败时Agent能读到错误并修正</li>
+<li>检查点checkpoint：用户能够回滚到这个session之前的任意版本</li>
+<li>权限控制：敏感操作需要用户确认(原则：无修改、可回滚的操作auto模式；不可逆的操作人工审批，删除文件，运行shell命令)</li>
+</ol>
+<p>非功能性需求 nonfunctional requirement</p>
+<ol>
+<li>安全性，Agent 决不能自己执行不可逆的操作</li>
+<li>延迟：首token延迟不超过2秒，用户需要能实时知道Agent现在在干啥</li>
+<li>可靠性：如果在执行任务过程中崩溃了，不能有只编辑了一半的文件，Agent所做的操作必须是原子的，可恢复的。而且需要能从指定的地方恢复。</li>
+<li>成本优化：token使用效率必须是一个设计约束</li>
+<li>上下文限制：Agent必须给模型展示正确的代码片段 </li>
+<li>多模型支持，不能依赖单一模型供应商</li>
+</ol>
+<h1 id="本地机器环境执行架构"><a href="#本地机器环境执行架构" class="headerlink" title="本地机器环境执行架构"></a>本地机器环境执行架构</h1><p><img src="/../imgs/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20260621164345010.png" alt="image-20260621164345010"></p>
+<h3 id="一、-核心中枢：服务端执行环境"><a href="#一、-核心中枢：服务端执行环境" class="headerlink" title="一、 核心中枢：服务端执行环境"></a>一、 核心中枢：服务端执行环境</h3><p>云端大脑+本地执行。服务端的职责是<strong>思考、规划、记忆和调用大模型</strong>。它由以下几个核心组件构成：</p>
+<h4 id="1-Orchestrator-Agent-主Agent"><a href="#1-Orchestrator-Agent-主Agent" class="headerlink" title="1. Orchestrator Agent (主Agent)"></a>1. Orchestrator Agent (主Agent)</h4><p>这是整个系统的大脑中枢。它的主要职责不是亲自写每一行代码，而是做<strong>项目管理</strong>：</p>
+<ul>
+<li><strong>规划与委派 (Plan&#x2F;Delegate)：</strong> 接收到用户的任务后，将其拆解成一个个子步骤，并委派给 Sub Agent 去做。</li>
+<li><strong>循环迭代 (Iterate)：</strong> 根据本地执行返回的结果（成功或报错），决定下一步做什么，直到任务彻底完成。</li>
+<li><strong>上下文管理 (Context Management)：</strong> 大模型的上下文窗口是有限的。主Agent会在对话太长时将其压缩为Summary，决定什么时候停止，始终掌控全局。</li>
+</ul>
+<h4 id="2-Sub-Agent"><a href="#2-Sub-Agent" class="headerlink" title="2. Sub Agent"></a>2. Sub Agent</h4><ul>
+<li>上下文隔离。如果主Agent把所有的代码细节都塞进脑子里，它很快就会“死机”或产生幻觉。子Agent专门负责解决单一的、具体的子任务（比如专门负责写一个特定函数的测试用例）。处理完后，只把“结果”汇报给主Agent，保证了主Agent的上下文始终干净清爽。</li>
+</ul>
+<h4 id="3-支撑系统（记忆-上下文）"><a href="#3-支撑系统（记忆-上下文）" class="headerlink" title="3. 支撑系统（记忆&amp;上下文）"></a>3. 支撑系统（记忆&amp;上下文）</h4><ul>
+<li><strong>Context Engine (上下文管理 &#x2F; 代码库)：</strong> 负责理解你的整个项目代码库。它能生成代码地图（repo map），提取函数签名。这意味着Agent不需要把几万行代码全读一遍，而是像查字典一样，<strong>按需读取</strong>所需文件，极大地节省了Token和时间。</li>
+<li><strong>Session Store (会话管理 &#x2F; 短期记忆)：</strong> 保存历史记录和Checkpoint（检查点）。<strong>这是工程化非常重要的一环</strong>。如果Agent改错了代码导致崩溃，系统可以通过Checkpoint进行回滚（Rollback）和崩溃恢复，保证了系统的鲁棒性（稳定性）。</li>
+</ul>
+<h4 id="4-Model-Gateway-模型路由"><a href="#4-Model-Gateway-模型路由" class="headerlink" title="4. Model Gateway (模型路由)"></a>4. Model Gateway (模型路由)</h4><ul>
+<li>通过引入网关层，可以灵活地将请求路由给 OpenAI、Anthropic 或其他本地开源模型。这样做既能防止供应商锁定和限流，又能根据任务复杂度动态选择最划算的模型。</li>
+</ul>
+<h3 id="二、-执行终端：本地机器环境"><a href="#二、-执行终端：本地机器环境" class="headerlink" title="二、 执行终端：本地机器环境"></a>二、 执行终端：本地机器环境</h3><p>本地环境的职责是<strong>接收指令、安全检查并执行物理操作</strong>。</p>
+<h4 id="1-Agent-用户界面-CLI"><a href="#1-Agent-用户界面-CLI" class="headerlink" title="1. Agent 用户界面 CLI"></a>1. Agent 用户界面 CLI</h4><p>这是用户与系统交互的入口。通常是一个命令行工具（CLI），你在这里输入任务，例如：“帮我找一下登录接口的bug并修复”。</p>
+<h4 id="2-Permission-Scope-Layer-权限策略层-——-极其关键"><a href="#2-Permission-Scope-Layer-权限策略层-——-极其关键" class="headerlink" title="2. Permission Scope Layer (权限策略层 ) —— 极其关键"></a>2. Permission Scope Layer (权限策略层 ) —— <strong>极其关键</strong></h4><ul>
+<li><strong>安全兜底。</strong> 大模型是不可控的，有时可能会生成极具破坏性的指令（比如 <code>rm -rf /</code> 删除所有文件）。这个权限层卡在云端指令和本地工具之间，负责拦截高危操作，或者在执行敏感操作（如覆盖重要文件、执行Bash命令）前弹窗询问用户是否允许，确保你的本地机器绝对安全。</li>
+</ul>
+<h4 id="3-工具系统-Tool-System"><a href="#3-工具系统-Tool-System" class="headerlink" title="3. 工具系统 (Tool System)"></a>3. 工具系统 (Tool System)</h4><ul>
+<li><strong>文件操作：</strong> 读文件、写&#x2F;编辑文件。</li>
+<li><strong>代码检索：</strong> grep（全局搜索）、list（列出目录）。</li>
+<li><strong>环境交互：</strong> 执行bash命令（比如运行 <code>npm run test</code> 或 <code>python main.py</code>）、操作Git（提交代码）。</li>
+<li><strong>外部信息：</strong> web search（当遇到没见过的新库时，Agent可以自己去搜文档）。</li>
+</ul>
+<h4 id="4-底层基座"><a href="#4-底层基座" class="headerlink" title="4. 底层基座"></a>4. 底层基座</h4><p>所有工具最终都作用于你本地的 <strong>文件系统 (File System)</strong> 和 <strong>终端 (Terminal)</strong>。</p>
+<h3 id="三、-跑通一个业务闭环（数据流转）"><a href="#三、-跑通一个业务闭环（数据流转）" class="headerlink" title="三、 跑通一个业务闭环（数据流转）"></a>三、 跑通一个业务闭环（数据流转）</h3><p>以输入“帮我写一个按时间排序的函数”为例，系统的运转流程如下：</p>
+<ol>
+<li><strong>用户输入</strong>：你在本地CLI输入需求。</li>
+<li><strong>大脑思考</strong>：主 Agent (Orchestrator) 收到需求，结合 Context Engine 知道该把代码写在哪个文件里。</li>
+<li><strong>下发指令</strong>：主 Agent 生成了一个“写文件”的工具调用指令（Tool Call）。</li>
+<li><strong>安全审查</strong>：指令到达本地，Permission Layer 检查发现只是普通的写文件，放行。</li>
+<li><strong>本地执行</strong>：本地“写文件”工具在你的文件系统里修改了代码。</li>
+<li><strong>反馈结果</strong>：工具将“写入成功”或“语法错误（Error）”反馈给云端（Output&#x2F;Error 链路）。</li>
+<li><strong>循环校验</strong>：主 Agent 收到反馈，可能还会调用 bash 工具跑一下单元测试。如果报错了，就再循环一次，直到测试通过。</li>
+</ol>
+<p>这个设计解决了当前 LLM（大语言模型）辅助编程的几个痛点：</p>
+<ol>
+<li><strong>上下文不够用</strong> -&gt; 用 Context Engine 按需读取 + Sub Agent 隔离解决。</li>
+<li><strong>大模型容易乱改代码</strong> -&gt; 用 Session Store 检查点回滚解决。</li>
+<li><strong>云端执行不安全&#x2F;不方便调试</strong> -&gt; 用 本地执行 + 权限管控层 解决。</li>
+<li><strong>大模型API贵或不稳定</strong> -&gt; 用 Model Gateway 路由解决。</li>
+</ol>
+<p>整体实现需要重点投入 “Context Engine 的精准度” 和 “Permission Layer 的边界设计” 上，这两个是决定该产品用户体验好坏的核心。</p>
+<h1 id="云端沙箱环境执行架构"><a href="#云端沙箱环境执行架构" class="headerlink" title="云端沙箱环境执行架构"></a>云端沙箱环境执行架构</h1><p><img src="/../imgs/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20260621164428304.png" alt="image-20260621164428304"></p>
+<p>云端大脑+云端执行。所有的思考、存储、甚至代码的实际修改和执行，都在服务器上完成。</p>
+<h3 id="一、-接入与安全网关层-Gatekeeper"><a href="#一、-接入与安全网关层-Gatekeeper" class="headerlink" title="一、 接入与安全网关层 (Gatekeeper)"></a>一、 接入与安全网关层 (Gatekeeper)</h3><p>因为环境从“用户私有本地”变成了“公共云端”，所以<strong>多租户管理和防滥用</strong>成了第一道门槛。</p>
+<ul>
+<li><strong>API Gateway (API 网关)：</strong> 网关负责统一接收请求、路由分发、防止恶意攻击。</li>
+<li><strong>Auth Service (身份验证 &amp; 套餐限流)：</strong><ul>
+<li><strong>身份验证</strong>：确认“你是谁”（比如通过 Token 或 API Key）。</li>
+<li><strong>套餐限流 (Rate Limiting)</strong>：云端执行和调用大模型都是要烧钱的。</li>
+</ul>
+</li>
+</ul>
+<h3 id="二、-核心中枢与状态持久化层-Brain-Memory"><a href="#二、-核心中枢与状态持久化层-Brain-Memory" class="headerlink" title="二、 核心中枢与状态持久化层 (Brain &amp; Memory)"></a>二、 核心中枢与状态持久化层 (Brain &amp; Memory)</h3><p>核心变成了 <code>Orchestrator Service</code>（编排<strong>服务</strong>），强调了它的服务端属性，并且它增加了<strong>外部存储依赖</strong>。</p>
+<ul>
+<li><strong>Orchestrator Service (主服务)：</strong> 依然负责 <code>Plan -&gt; Delegate -&gt; Iterate</code> 的核心业务循环。</li>
+<li><strong>存储层 (Storage Layer)：状态管理的根本转变</strong><ul>
+<li>在上一版本地架构中，状态可以存在用户本地硬盘。而在云端，服务是无状态的（Stateless），随时可能重启或扩缩容，所以必须依赖外部数据库。</li>
+<li><strong>Redis</strong>：作为高速缓存。保存“正在处理的会话上下文”、“当前执行到哪一步了”。因为读写极快，能支撑高频的循环调度。</li>
+<li><strong>MySQL</strong>：作为持久化数据库。保存“用户的历史对话记录”、“账单信息”、“长期的代码修改记录（审计日志）”。</li>
+</ul>
+</li>
+</ul>
+<h3 id="三、-核心焦点：沙箱执行环境-Sandbox-——-云端隔离沙箱"><a href="#三、-核心焦点：沙箱执行环境-Sandbox-——-云端隔离沙箱" class="headerlink" title="三、 核心焦点：沙箱执行环境 (Sandbox) —— 云端隔离沙箱"></a>三、 核心焦点：沙箱执行环境 (Sandbox) —— 云端隔离沙箱</h3><p><strong>这是整个架构区别于前者的最大核心，也是技术难度最高的地方。</strong></p>
+<p>因为在云端执行大模型生成的代码（尤其是 Bash 命令）是<strong>极其危险</strong>的。如果不加隔离，大模型可能生成一句 <code>rm -rf /</code>，就把你的整个服务器删库跑路了；或者生成一段恶意代码去偷看其他用户的项目。</p>
+<ul>
+<li><strong>沙箱机制 (Sandbox Isolation)：</strong><ul>
+<li>为每一个用户的每一次任务，动态创建一个<strong>完全隔离的、用完即毁的微型虚拟机或容器</strong>（通常使用 Docker、Kubernetes，或者更底层的 Firecracker 等技术）。</li>
+<li><strong>安全保障</strong>：在这个沙箱里，Agent 可以随意调用读写文件、grep、git、执行 bash 等工具。即使代码有毒（比如死循环、内存溢出），也<strong>只会搞死这一个沙箱，绝对不会影响宿主机和其他用户的环境</strong>。</li>
+</ul>
+</li>
+<li><strong>工具系统</strong>：图中的“读文件、执行bash”等操作，全部都是作用于这个云端沙箱里的临时文件系统中。</li>
+</ul>
+<h3 id="四、Pros-and-cons"><a href="#四、Pros-and-cons" class="headerlink" title="四、Pros and cons"></a>四、Pros and cons</h3><h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
+<li><strong>用户体验“极轻”</strong>：用户完全不需要在本地配置复杂的环境（不用装 Python、Node.js、各种依赖库）</li>
+<li><strong>环境统一</strong>：彻底消灭了“在我的电脑上能跑，在你那里报错”的问题。因为运行环境是云端统一提供的标准沙箱。</li>
+<li><strong>安全性</strong>：无论 AI 写出什么毁灭性的代码，用户的本地电脑绝对安全。</li>
+</ol>
+<h4 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h4><ol>
+<li><strong>云端成本极其高昂</strong>：需要为成千上万的用户准备计算资源。启动沙箱、分配内存、跑代码，这都是服务器成本。</li>
+<li><strong>私有化问题</strong>：用户的代码本来在自己本地硬盘里。如果要在云端跑 Agent，<strong>用户必须先把自己的整个代码库上传到云端的沙箱里</strong>。改完之后，还要再同步回本地。对于企业级的大型机密项目，往往不能接受将代码传到外部云端。</li>
+<li><strong>网络延迟</strong>：每一次输入、每一个反馈都要经过网络，实时体验不如本地执行流畅。</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>本地执行</strong>：更适合作为<strong>开发者的高级辅助工具</strong>（类似于本地IDE插件），处理本地既有项目，保护隐私，无服务器执行成本。</li>
+<li><strong>云端沙箱</strong>：更适合作为<strong>在线编程平台、云端 Agent 原生应用</strong>，主打开箱即用。</li>
+</ul>
+<h1 id="百万并发请求的云端架构"><a href="#百万并发请求的云端架构" class="headerlink" title="百万并发请求的云端架构"></a>百万并发请求的云端架构</h1><p><img src="/../imgs/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/image-20260621164551589.png" alt="image-20260621164551589"></p>
+<h3 id="一、-流量洪峰缓冲层：异步解耦"><a href="#一、-流量洪峰缓冲层：异步解耦" class="headerlink" title="一、 流量洪峰缓冲层：异步解耦"></a>一、 流量洪峰缓冲层：异步解耦</h3><p>引入 <strong>消息队列 MQ</strong> 和 配套的消费消息服务 **Session Worker，**将接收用户请求和处理解耦。</p>
+<ul>
+<li><strong>削峰填谷</strong>。用户的请求（API Gateway）不再直接打给处理中枢，而是全部扔进 MQ（比如 Kafka&#x2F;RabbitMQ）里排队。</li>
+<li><strong>Session Worker</strong> 根据当前系统的空闲算力，平滑地从 MQ 里拉取任务，然后启动&#x2F;唤醒一个 Orchestrator 来处理。</li>
+<li><strong>结果</strong>：无论流量涌来多猛，系统都不会挂，最多只是用户排队等候的时间稍微变长一点。</li>
+</ul>
+<h3 id="二、-核心中枢进化：无状态与水平扩容-Stateless-Horizontal-Scaling"><a href="#二、-核心中枢进化：无状态与水平扩容-Stateless-Horizontal-Scaling" class="headerlink" title="二、 核心中枢进化：无状态与水平扩容 (Stateless &amp; Horizontal Scaling)"></a>二、 核心中枢进化：无状态与水平扩容 (Stateless &amp; Horizontal Scaling)</h3><p>需要无限扩展，且绝不能因为某台服务器宕机而导致用户任务丢失。办法就是将Orchestrator（主Agent）改造为<strong>无状态服务（Stateless）</strong>。</p>
+<ul>
+<li><code>Orchestrator 无状态服务</code>。服务器的内存里<strong>不保存任何会话记忆</strong>。</li>
+<li><strong>状态外置</strong>：所有的 AgentLoop（LLM调用、工具调用、执行结果），每走一步，都会立刻保存到 <strong>Redis（实时缓存）</strong> 和 <strong>MySQL（持久化）</strong> 中。</li>
+<li><strong>任意接管</strong>。哪怕正在循环的 Orchestrator 实例突然挂了，可以瞬间启动一个新的实例，新实例从 Redis 读取上一步的状态，<strong>无缝继续执行</strong>，用户完全无感知。这使得系统可以随时扩容到上万个节点。</li>
+</ul>
+<h3 id="三、-成本与性能优化层：Prompt-Cache-大模型缓存"><a href="#三、-成本与性能优化层：Prompt-Cache-大模型缓存" class="headerlink" title="三、 成本与性能优化层：Prompt Cache (大模型缓存)"></a>三、 成本与性能优化层：Prompt Cache (大模型缓存)</h3><p>百万并发意味着海量的 Token 消耗，直接调用 OpenAI&#x2F;Anthropic 消耗巨大；且大模型响应慢，延迟高。解法是在 Model Gateway 中引入了 <strong>Prompt Cache</strong>。</p>
+<ul>
+<li><strong>复用思考过程</strong>。Redis（精确匹配）+ 向量数据库（语义相似度匹配）。代码 Agent 在执行时，会有大量的重复上下文（比如项目的通用设定、常用的系统指令、重复的代码结构）。用户输入一段 Prompt，网关层会去数据库里找，看看以前有没有人问过一模一样（或语义极其相似）的问题。如果找到了，直接把上次存下来的答案返回给用户，不调用大模型。</li>
+</ul>
+<h3 id="四、-核心安全防线：Guardrails-安全护栏"><a href="#四、-核心安全防线：Guardrails-安全护栏" class="headerlink" title="四、 核心安全防线：Guardrails (安全护栏)"></a>四、 核心安全防线：Guardrails (安全护栏)</h3><p>所有生成的 <code>Tool call</code>，在下发给执行端之前，必须经过这道护栏。</p>
+<ul>
+<li><strong>三重机制</strong>：<ul>
+<li><strong>Auto Confirm (自动放行)</strong>：读文件等安全操作。</li>
+<li><strong>Deny (直接拒绝)</strong>：例如 <code>rm -rf</code> 等黑名单高危指令。</li>
+<li><strong>人类审批</strong>：对于敏感操作（如覆盖核心代码），暂停执行，要求用户在界面上确认。</li>
+</ul>
+</li>
+</ul>
+<h3 id="五、-执行与回滚层：混合架构与-Shadow-Git-影子版本库"><a href="#五、-执行与回滚层：混合架构与-Shadow-Git-影子版本库" class="headerlink" title="五、 执行与回滚层：混合架构与 Shadow Git (影子版本库)"></a>五、 执行与回滚层：混合架构与 Shadow Git (影子版本库)</h3><ul>
+<li><strong>本地沙箱隔离</strong>：即使在本地执行，也放在了隔离环境中，保证本地系统安全。</li>
+<li><strong>终极杀手锏：Checkpoint Layer (Shadow Git)</strong>。<ul>
+<li>在大模型修改你本地的几十个文件之前，系统会在底层自动建一个隐形的 Git 节点（Shadow git snapshot）。</li>
+<li>如果 Agent 陷入死循环、或者把代码改乱了、编译不通过，系统可以<strong>瞬间触发回滚（Rollback）</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ol>
+<li><strong>高并发可用</strong>：用 MQ 解耦，用 Redis&#x2F;MySQL 抽离状态，让核心算力可以无限水平扩展。</li>
+<li><strong>成本控制到极致</strong>：用 Prompt Cache 省大模型的钱；</li>
+<li><strong>安全</strong>：加上了 Guardrails 护栏和 Shadow Git 回滚，即使 AI 不稳定，也有人类审批和回滚机制兜底。</li>
+</ol>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a></div><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/07/26/Pi-Agent%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/" title="Pi Agent是如何工作的"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Pi Agent是如何工作的</div></div><div class="info-2"><div class="info-item-1">PI Agent 这个在国内不是很火，但是在国外火爆了。最先知道PI是因为Openclaw底层是用PI，这是可以一个高度定制化的Agent runtime，最近终于有空学习。我非常喜欢它的官网slogan “There are many agent harnesses but this one is yours“。这篇文章就来拆解一下PI 是什么？有哪些特性和设计原则？与其他的Agent runtime 有什么区别？最后是架构和源码分析。 GitHub： https://github.com/earendil-works/pi 官网： https://pi.dev/ Why Pi? Pi is a minimal agent harness. Adapt Pi to your workflows, not the other way around. Customize Pi with extensions, skills, prompt templates, and themes. Bundle them as Pi packages and share via npm or...</div></div></div></a><a class="pagination-related" href="/2026/04/05/%E9%A9%AC%E5%85%8B%E5%AE%89%E5%BE%B7%E6%A3%AE%E8%AE%B2Agent%E7%9A%84%E6%9C%AC%E8%B4%A8/" title="马克安德森讲Agent的本质"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">马克安德森讲Agent的本质</div></div><div class="info-2"><div class="info-item-1">podcast 跨国串门计划 483  马克 安德森总是这么有洞见，这次对谈他讲了Agent的本质。听完记录一下：  在软件世界里，从1973年到Linux诞生一直有一种非常重要的东西，现在也依然重要，就是所谓的unix思维。这个架构是这样的，我们有一个提示符，一个shell，然后所有的功能都以离散模块的形式存在，你可以把这些模块串联起来。没错，所以这就像是操作系统本身变成了一种编程语言，这导致了shell变成了核心。接着，人们开始把UNIX工具串联在一起，随后出现了像Perl这样可以轻松实现这种操作的脚本语言，后来shell变得越来越高级。它是在后台运行，普通人不需要了解它。但如果你做系统架构或应用开发，你肯定对它了如指掌。从那以后它就一直存在于后台。你的Mac其实还有一个UNIX shell, 你的iPhone深处也藏着一个UNIX shell,...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/05/21/AI-Agent%E5%88%9D%E4%BD%93%E9%AA%8C/" title="AI Agent初体验"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-21</div><div class="info-item-2">AI Agent初体验</div></div><div class="info-2"><div class="info-item-1">参考文档What We’ve Learned From A Year of Building with LLMs https://applied-llms.org/ 大模型工程 https://github.com/mlabonne/llm-course 是什么让Claude code如此出色，如何在你自己的代理中重现这种魔力 https://minusx.ai/blog/decoding-claude-code/ Claude code 生态 How to implement tool use https://docs.claude.com/en/docs/agents-and-tools/tool-use/implement-tool-use#complete-test-script-for-parallel-tools 背景Claude code横空出世也有一段时间了，对AI Agent的好奇心也达到了前所未有的高度。想要体验AI Agent已经很久了，各种框架也听得眼花缭乱 Langchain, crewAI, n8n, AutoGPT,...</div></div></div></a><a class="pagination-related" href="/2025/11/28/ChatGPT-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="ChatGPT 系统设计"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-28</div><div class="info-item-2">ChatGPT 系统设计</div></div><div class="info-2"><div class="info-item-1">ChatGPT作为OpenAI的super App，服务是怎么搭建起来的？调研后画个图来记录一下。 如何构建一个类似ChatGPT的大语言模型系统，周活用户达到 10亿，每天发送超过25亿条消息 功能性需求：  返回AI生成的内容回答问题 Accepts user input like prompts or queries &amp; return AI-generated response 流式输出 Support streaming token by token (like typing effect) 多模型支持 Support multiple models  支持用户上传自定义文档 Support custom documents and updated data(RAG) 用户隐私保护  非功能性需求:  多轮对话 自动获取上下文 Context preservation  使用聊天记录作为上下文 低延迟  Low Latency: &lt; 1 second  这是一个预测模型，不可能达到 ms级别的延迟，至少可以尝试1s 优化成本 Cost Efficient...</div></div></div></a><a class="pagination-related" href="/2025/07/08/LLM-GPT%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%8A%EF%BC%89/" title="LLM-GPT源码（上）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-08</div><div class="info-item-2">LLM-GPT源码（上）</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2025/07/09/LLM-GPT%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%8B%EF%BC%89/" title="LLM-GPT源码（下）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-09</div><div class="info-item-2">LLM-GPT源码（下）</div></div><div class="info-2"><div class="info-item-1">导读再看一眼gpt的网络结构，然后开始进入今天前向计算、反向回传、梯度更新工作。  一、前向计算参照decoder的网络结构，gpt2_forward逻辑不难实现，和网络层级一一对应，比较清楚。可以针对性的选择自己感兴趣的、此前不清楚的算子看一下。 前向计算的核心逻辑，共涉及8个算子 1234567891011121314151617181920212223242526272829303132333435// B = batch_size, T = sequence_length, C = channels, V = vocab_size// Step1 构造训练输入：利用token码表和位置码表构建原始输入encoder_forward(acts.encoded, inputs, params.wte, params.wpe, B, T, C); // encoding goes into residual[0]// Step2 计算L层transformerfor (int l = 0; l &lt; L; l++) &#123;    residual = l == 0...</div></div></div></a><a class="pagination-related" href="/2025/09/02/deep-research-Agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="deep research Agent 系统设计"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-02</div><div class="info-item-2">deep research Agent 系统设计</div></div><div class="info-2"><div class="info-item-1">最近deep research 也非常火呀，有 Perplexity明星公司，国内字节也有deer-flow 开源产品。deep research顾名思义做深度搜索，一般过程是：  用户提出一个问题，模型会问问题来澄清问题 模型给出一个简短的回答 然后模型开始搜索资料做总结 最后总结一个最终report返回  那怎么实现这个系统呢？我看到一个项目  https://github.com/ShenSeanChen/launch-DeepResearch-Backend 这个项目在 langchain开源的 deep research项目 https://github.com/langchain-ai/open_deep_research 的基础上做了二次开发。就通过这个项目来学习一下deep research 系统怎么设计。 12345678910111213Design and Launch a Deep Research Agent- Goal:    Run Deep Research on a user query    Generate a report- AI...</div></div></div></a><a class="pagination-related" href="/2025/04/20/%E5%A6%82%E4%BD%95%E4%B8%BA%E4%BD%A0%E7%9A%84RAG%E7%B3%BB%E7%BB%9F%E6%8F%90%E4%BE%9B%E6%95%B0%E6%8D%AE%E2%80%94%E2%80%94docling/" title="如何为你的RAG系统提供数据——docling"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-20</div><div class="info-item-2">如何为你的RAG系统提供数据——docling</div></div><div class="info-2"><div class="info-item-1">背景如何将各种各样的数据高效的提供给RAG系统？向量数据库是怎样做相似性检索的？如何处理数据分块存入向量数据库有利于相似性检索？这些都是做好一个RAG应用我们必须要了解的问题。 文档处理https://github.com/docling-project/docling docling简化文档处理过程，提供格式化的数据与生成式AI系统无缝衔接。将各种文档类型转化为DoclingDocument格式  解析多种文档类型PDF, DOCX, PPTX, XLSX, HTML, WAV, MP3, VTT, images (PNG, TIFF, JPEG, …) PDF 理解，包括页面布局、阅读顺序、表格结构、代码、公式、图像分类等 提供各种导出格式和选项，包括 Markdown、HTML、DocTags 和无损 JSON 本地执行，敏感数据处理便利  支持解析的格式    Format Description    PDF Native PDF documents with layout preservation   DOCX, XLSX, PPTX Microsoft...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cleozhb"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cleozhb" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:huihuistep@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">需求分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E7%8E%AF%E5%A2%83%E6%89%A7%E8%A1%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">本地机器环境执行架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E6%A0%B8%E5%BF%83%E4%B8%AD%E6%9E%A2%EF%BC%9A%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">2.0.1.</span> <span class="toc-text">一、 核心中枢：服务端执行环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Orchestrator-Agent-%E4%B8%BBAgent"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">1. Orchestrator Agent (主Agent)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Sub-Agent"><span class="toc-number">2.0.1.2.</span> <span class="toc-text">2. Sub Agent</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%94%AF%E6%92%91%E7%B3%BB%E7%BB%9F%EF%BC%88%E8%AE%B0%E5%BF%86-%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%89"><span class="toc-number">2.0.1.3.</span> <span class="toc-text">3. 支撑系统（记忆&amp;上下文）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Model-Gateway-%E6%A8%A1%E5%9E%8B%E8%B7%AF%E7%94%B1"><span class="toc-number">2.0.1.4.</span> <span class="toc-text">4. Model Gateway (模型路由)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E6%89%A7%E8%A1%8C%E7%BB%88%E7%AB%AF%EF%BC%9A%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E7%8E%AF%E5%A2%83"><span class="toc-number">2.0.2.</span> <span class="toc-text">二、 执行终端：本地机器环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Agent-%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2-CLI"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">1. Agent 用户界面 CLI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Permission-Scope-Layer-%E6%9D%83%E9%99%90%E7%AD%96%E7%95%A5%E5%B1%82-%E2%80%94%E2%80%94-%E6%9E%81%E5%85%B6%E5%85%B3%E9%94%AE"><span class="toc-number">2.0.2.2.</span> <span class="toc-text">2. Permission Scope Layer (权限策略层 ) —— 极其关键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%B7%A5%E5%85%B7%E7%B3%BB%E7%BB%9F-Tool-System"><span class="toc-number">2.0.2.3.</span> <span class="toc-text">3. 工具系统 (Tool System)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%BA%95%E5%B1%82%E5%9F%BA%E5%BA%A7"><span class="toc-number">2.0.2.4.</span> <span class="toc-text">4. 底层基座</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E8%B7%91%E9%80%9A%E4%B8%80%E4%B8%AA%E4%B8%9A%E5%8A%A1%E9%97%AD%E7%8E%AF%EF%BC%88%E6%95%B0%E6%8D%AE%E6%B5%81%E8%BD%AC%EF%BC%89"><span class="toc-number">2.0.3.</span> <span class="toc-text">三、 跑通一个业务闭环（数据流转）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%91%E7%AB%AF%E6%B2%99%E7%AE%B1%E7%8E%AF%E5%A2%83%E6%89%A7%E8%A1%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">云端沙箱环境执行架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E6%8E%A5%E5%85%A5%E4%B8%8E%E5%AE%89%E5%85%A8%E7%BD%91%E5%85%B3%E5%B1%82-Gatekeeper"><span class="toc-number">3.0.1.</span> <span class="toc-text">一、 接入与安全网关层 (Gatekeeper)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E6%A0%B8%E5%BF%83%E4%B8%AD%E6%9E%A2%E4%B8%8E%E7%8A%B6%E6%80%81%E6%8C%81%E4%B9%85%E5%8C%96%E5%B1%82-Brain-Memory"><span class="toc-number">3.0.2.</span> <span class="toc-text">二、 核心中枢与状态持久化层 (Brain &amp; Memory)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E6%A0%B8%E5%BF%83%E7%84%A6%E7%82%B9%EF%BC%9A%E6%B2%99%E7%AE%B1%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83-Sandbox-%E2%80%94%E2%80%94-%E4%BA%91%E7%AB%AF%E9%9A%94%E7%A6%BB%E6%B2%99%E7%AE%B1"><span class="toc-number">3.0.3.</span> <span class="toc-text">三、 核心焦点：沙箱执行环境 (Sandbox) —— 云端隔离沙箱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Pros-and-cons"><span class="toc-number">3.0.4.</span> <span class="toc-text">四、Pros and cons</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">3.0.4.1.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A3%E5%8A%BF"><span class="toc-number">3.0.4.2.</span> <span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.0.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%99%BE%E4%B8%87%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82%E7%9A%84%E4%BA%91%E7%AB%AF%E6%9E%B6%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">百万并发请求的云端架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E6%B5%81%E9%87%8F%E6%B4%AA%E5%B3%B0%E7%BC%93%E5%86%B2%E5%B1%82%EF%BC%9A%E5%BC%82%E6%AD%A5%E8%A7%A3%E8%80%A6"><span class="toc-number">4.0.1.</span> <span class="toc-text">一、 流量洪峰缓冲层：异步解耦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E6%A0%B8%E5%BF%83%E4%B8%AD%E6%9E%A2%E8%BF%9B%E5%8C%96%EF%BC%9A%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%8E%E6%B0%B4%E5%B9%B3%E6%89%A9%E5%AE%B9-Stateless-Horizontal-Scaling"><span class="toc-number">4.0.2.</span> <span class="toc-text">二、 核心中枢进化：无状态与水平扩容 (Stateless &amp; Horizontal Scaling)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E6%88%90%E6%9C%AC%E4%B8%8E%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%B1%82%EF%BC%9APrompt-Cache-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BC%93%E5%AD%98"><span class="toc-number">4.0.3.</span> <span class="toc-text">三、 成本与性能优化层：Prompt Cache (大模型缓存)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81-%E6%A0%B8%E5%BF%83%E5%AE%89%E5%85%A8%E9%98%B2%E7%BA%BF%EF%BC%9AGuardrails-%E5%AE%89%E5%85%A8%E6%8A%A4%E6%A0%8F"><span class="toc-number">4.0.4.</span> <span class="toc-text">四、 核心安全防线：Guardrails (安全护栏)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81-%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%9B%9E%E6%BB%9A%E5%B1%82%EF%BC%9A%E6%B7%B7%E5%90%88%E6%9E%B6%E6%9E%84%E4%B8%8E-Shadow-Git-%E5%BD%B1%E5%AD%90%E7%89%88%E6%9C%AC%E5%BA%93"><span class="toc-number">4.0.5.</span> <span class="toc-text">五、 执行与回滚层：混合架构与 Shadow Git (影子版本库)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-number">4.0.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/26/Pi-Agent%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/" title="Pi Agent是如何工作的">Pi Agent是如何工作的</a><time datetime="2026-07-26T09:33:46.000Z" title="Created 2026-07-26 17:33:46">2026-07-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/21/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="code agent 系统设计">code agent 系统设计</a><time datetime="2026-06-21T08:34:30.000Z" title="Created 2026-06-21 16:34:30">2026-06-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/05/%E9%A9%AC%E5%85%8B%E5%AE%89%E5%BE%B7%E6%A3%AE%E8%AE%B2Agent%E7%9A%84%E6%9C%AC%E8%B4%A8/" title="马克安德森讲Agent的本质">马克安德森讲Agent的本质</a><time datetime="2026-04-04T17:06:55.000Z" title="Created 2026-04-05 01:06:55">2026-04-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/Lex-fridman-%E5%AF%B9%E8%B0%88Openclaw%E5%88%9B%E5%A7%8B%E4%BA%BA/" title="Lex fridman 对谈Openclaw创始人">Lex fridman 对谈Openclaw创始人</a><time datetime="2026-03-09T17:11:16.000Z" title="Created 2026-03-10 01:11:16">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/28/ChatGPT-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="ChatGPT 系统设计">ChatGPT 系统设计</a><time datetime="2025-11-28T03:34:03.000Z" title="Created 2025-11-28 11:34:03">2025-11-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

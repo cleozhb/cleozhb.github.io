@@ -1,0 +1,30 @@
+/* 1. 强制公式容器允许横向滚动，且隐藏溢出的纵向内容 */
+mjx-container[display="true"] {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    max-width: 100% !important;
+    padding-bottom: 10px; /* 留出一点底部空间给滚动条 */
+}
+
+/* 2. 核心：强制 MathJax 生成的 SVG 矢量图保持原始宽度，不允许被压缩换行 */
+mjx-container[display="true"] > svg {
+    min-width: max-content !important;
+    display: inline-block !important;
+}
+
+/* 3. 兼容其他版本的 MathJax 引擎 */
+.MathJax_Display {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    word-break: keep-all !important;
+    white-space: nowrap !important;
+}
+
+/* 4. 可选：美化横向滚动条，让它变得扁平且半透明，不影响美观 */
+mjx-container[display="true"]::-webkit-scrollbar {
+    height: 6px;
+}
+mjx-container[display="true"]::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}

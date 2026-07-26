@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>deep research Agent 系统设计 | cleo札记</title><meta name="author" content="cleo"><meta name="copyright" content="cleo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最近deep research 也非常火呀，有 Perplexity明星公司，国内字节也有deer-flow 开源产品。deep research顾名思义做深度搜索，一般过程是：  用户提出一个问题，模型会问问题来澄清问题 模型给出一个简短的回答 然后模型开始搜索资料做总结 最后总结一个最终report返回  那怎么实现这个系统呢？我看到一个项目  https:&#x2F;&#x2F;github.com&#x2F;ShenS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="deep research Agent 系统设计">
+<meta property="og:url" content="http://example.com/2025/09/02/deep-research-Agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="cleo札记">
+<meta property="og:description" content="最近deep research 也非常火呀，有 Perplexity明星公司，国内字节也有deer-flow 开源产品。deep research顾名思义做深度搜索，一般过程是：  用户提出一个问题，模型会问问题来澄清问题 模型给出一个简短的回答 然后模型开始搜索资料做总结 最后总结一个最终report返回  那怎么实现这个系统呢？我看到一个项目  https:&#x2F;&#x2F;github.com&#x2F;ShenS">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/11111.jpg">
+<meta property="article:published_time" content="2025-09-02T03:24:01.000Z">
+<meta property="article:modified_time" content="2026-07-05T16:16:33.309Z">
+<meta property="article:author" content="cleo">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/11111.jpg"><link rel="shortcut icon" href="/"><link rel="canonical" href="http://example.com/2025/09/02/deep-research-Agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'deep research Agent 系统设计',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic11.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">deep research Agent 系统设计</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">deep research Agent 系统设计</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-09-02T03:24:01.000Z" title="Created 2025-09-02 11:24:01">2025-09-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-07-05T16:16:33.309Z" title="Updated 2026-07-06 00:16:33">2026-07-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>最近deep research 也非常火呀，有 Perplexity明星公司，国内字节也有deer-flow 开源产品。deep research顾名思义做深度搜索，一般过程是：</p>
+<ol>
+<li>用户提出一个问题，模型会问问题来澄清问题</li>
+<li>模型给出一个简短的回答</li>
+<li>然后模型开始搜索资料做总结</li>
+<li>最后总结一个最终report返回</li>
+</ol>
+<p>那怎么实现这个系统呢？我看到一个项目 </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ShenSeanChen/launch-DeepResearch-Backend">https://github.com/ShenSeanChen/launch-DeepResearch-Backend</a></p>
+<p>这个项目在 langchain开源的 deep research项目 <a target="_blank" rel="noopener" href="https://github.com/langchain-ai/open_deep_research">https://github.com/langchain-ai/open_deep_research</a> 的基础上做了二次开发。就通过这个项目来学习一下deep research 系统怎么设计。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Design <span class="keyword">and</span> Launch a Deep Research Agent</span><br><span class="line"></span><br><span class="line">- Goal:</span><br><span class="line">    Run Deep Research on a user query</span><br><span class="line">    Generate a report</span><br><span class="line"></span><br><span class="line">- AI Agent Flow</span><br><span class="line">    Clarification -&gt; Brief -&gt; Supervisor -&gt;Research -&gt; Report</span><br><span class="line"></span><br><span class="line">- Tools</span><br><span class="line">    Web Search, Strategic think, MCP</span><br><span class="line">    Research: Conduct, Compress, Complete</span><br><span class="line">    AI models: OpenAI, Claude, Kimi K2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../imgs/deep-research-Agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/(null)-20260608112424066.(null)" alt="img"></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a></div><div class="post-share"><div class="social-share" data-image="/img/11111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/09/09/%E3%80%8Adie-with-zero%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="《die with zero》读后感"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">《die with zero》读后感</div></div><div class="info-2"><div class="info-item-1">这两天巧了，在小酒馆的播客中听到了盘点家庭净资产，然后提到《最优人生解》这本书。找到中文版看了一眼竟然是之前没看完的英文书《 die with...</div></div></div></a><a class="pagination-related" href="/2025/07/09/LLM-GPT%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%8B%EF%BC%89/" title="LLM-GPT源码（下）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">LLM-GPT源码（下）</div></div><div class="info-2"><div class="info-item-1">导读再看一眼gpt的网络结构，然后开始进入今天前向计算、反向回传、梯度更新工作。  一、前向计算参照decoder的网络结构，gpt2_forward逻辑不难实现，和网络层级一一对应，比较清楚。可以针对性的选择自己感兴趣的、此前不清楚的算子看一下。 前向计算的核心逻辑，共涉及8个算子 1234567891011121314151617181920212223242526272829303132333435// B = batch_size, T = sequence_length, C = channels, V = vocab_size// Step1 构造训练输入：利用token码表和位置码表构建原始输入encoder_forward(acts.encoded, inputs, params.wte, params.wpe, B, T, C); // encoding goes into residual[0]// Step2 计算L层transformerfor (int l = 0; l &lt; L; l++) &#123;    residual = l == 0...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/05/21/AI-Agent%E5%88%9D%E4%BD%93%E9%AA%8C/" title="AI Agent初体验"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-21</div><div class="info-item-2">AI Agent初体验</div></div><div class="info-2"><div class="info-item-1">参考文档What We’ve Learned From A Year of Building with LLMs https://applied-llms.org/ 大模型工程 https://github.com/mlabonne/llm-course 是什么让Claude code如此出色，如何在你自己的代理中重现这种魔力 https://minusx.ai/blog/decoding-claude-code/ Claude code 生态 How to implement tool use https://docs.claude.com/en/docs/agents-and-tools/tool-use/implement-tool-use#complete-test-script-for-parallel-tools 背景Claude code横空出世也有一段时间了，对AI Agent的好奇心也达到了前所未有的高度。想要体验AI Agent已经很久了，各种框架也听得眼花缭乱 Langchain, crewAI, n8n, AutoGPT,...</div></div></div></a><a class="pagination-related" href="/2025/11/28/ChatGPT-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="ChatGPT 系统设计"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-28</div><div class="info-item-2">ChatGPT 系统设计</div></div><div class="info-2"><div class="info-item-1">ChatGPT作为OpenAI的super App，服务是怎么搭建起来的？调研后画个图来记录一下。 如何构建一个类似ChatGPT的大语言模型系统，周活用户达到 10亿，每天发送超过25亿条消息 功能性需求：  返回AI生成的内容回答问题 Accepts user input like prompts or queries &amp; return AI-generated response 流式输出 Support streaming token by token (like typing effect) 多模型支持 Support multiple models  支持用户上传自定义文档 Support custom documents and updated data(RAG) 用户隐私保护  非功能性需求:  多轮对话 自动获取上下文 Context preservation  使用聊天记录作为上下文 低延迟  Low Latency: &lt; 1 second  这是一个预测模型，不可能达到 ms级别的延迟，至少可以尝试1s 优化成本 Cost Efficient...</div></div></div></a><a class="pagination-related" href="/2025/07/08/LLM-GPT%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%8A%EF%BC%89/" title="LLM-GPT源码（上）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-08</div><div class="info-item-2">LLM-GPT源码（上）</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2025/07/09/LLM-GPT%E6%BA%90%E7%A0%81%EF%BC%88%E4%B8%8B%EF%BC%89/" title="LLM-GPT源码（下）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-09</div><div class="info-item-2">LLM-GPT源码（下）</div></div><div class="info-2"><div class="info-item-1">导读再看一眼gpt的网络结构，然后开始进入今天前向计算、反向回传、梯度更新工作。  一、前向计算参照decoder的网络结构，gpt2_forward逻辑不难实现，和网络层级一一对应，比较清楚。可以针对性的选择自己感兴趣的、此前不清楚的算子看一下。 前向计算的核心逻辑，共涉及8个算子 1234567891011121314151617181920212223242526272829303132333435// B = batch_size, T = sequence_length, C = channels, V = vocab_size// Step1 构造训练输入：利用token码表和位置码表构建原始输入encoder_forward(acts.encoded, inputs, params.wte, params.wpe, B, T, C); // encoding goes into residual[0]// Step2 计算L层transformerfor (int l = 0; l &lt; L; l++) &#123;    residual = l == 0...</div></div></div></a><a class="pagination-related" href="/2026/06/21/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="code agent 系统设计"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-21</div><div class="info-item-2">code agent 系统设计</div></div><div class="info-2"><div class="info-item-1">Code Agent作为唯一真正大规模落地的工业级应用背后到底做了啥？Claude code 这样的code Agent是怎么运行的？前段时间自己也开发了一个简易版本的code Agent runtime，目前还是本地CLI版本。经过调研发现事情没有这么简单。Claude 桌面 APP里面的Claude code 是支持在本地运行同时也支持云端沙箱运行的，而且Claude这样的应用肯定同时有百万用户发请求，这时候的系统架构又是怎么样的演进？接下来分4个部分来介绍这些设计：  需求分析 本地机器环境执行架构 云端沙箱环境执行架构 云端沙箱同时支持百万并发请求的架构  需求分析先来看看一个单机版的 code Agent 需要实现什么功能： 功能性需求 Functional...</div></div></div></a><a class="pagination-related" href="/2025/04/20/%E5%A6%82%E4%BD%95%E4%B8%BA%E4%BD%A0%E7%9A%84RAG%E7%B3%BB%E7%BB%9F%E6%8F%90%E4%BE%9B%E6%95%B0%E6%8D%AE%E2%80%94%E2%80%94docling/" title="如何为你的RAG系统提供数据——docling"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-20</div><div class="info-item-2">如何为你的RAG系统提供数据——docling</div></div><div class="info-2"><div class="info-item-1">背景如何将各种各样的数据高效的提供给RAG系统？向量数据库是怎样做相似性检索的？如何处理数据分块存入向量数据库有利于相似性检索？这些都是做好一个RAG应用我们必须要了解的问题。 文档处理https://github.com/docling-project/docling docling简化文档处理过程，提供格式化的数据与生成式AI系统无缝衔接。将各种文档类型转化为DoclingDocument格式  解析多种文档类型PDF, DOCX, PPTX, XLSX, HTML, WAV, MP3, VTT, images (PNG, TIFF, JPEG, …) PDF 理解，包括页面布局、阅读顺序、表格结构、代码、公式、图像分类等 提供各种导出格式和选项，包括 Markdown、HTML、DocTags 和无损 JSON 本地执行，敏感数据处理便利  支持解析的格式    Format Description    PDF Native PDF documents with layout preservation   DOCX, XLSX, PPTX Microsoft...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/11111.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cleo</div><div class="author-info-description">From zero to hero</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cleozhb"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cleozhb" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:huihuistep@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/26/Pi-Agent%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/" title="Pi Agent是如何工作的">Pi Agent是如何工作的</a><time datetime="2026-07-26T09:33:46.000Z" title="Created 2026-07-26 17:33:46">2026-07-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/21/code-agent-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="code agent 系统设计">code agent 系统设计</a><time datetime="2026-06-21T08:34:30.000Z" title="Created 2026-06-21 16:34:30">2026-06-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/05/%E9%A9%AC%E5%85%8B%E5%AE%89%E5%BE%B7%E6%A3%AE%E8%AE%B2Agent%E7%9A%84%E6%9C%AC%E8%B4%A8/" title="马克安德森讲Agent的本质">马克安德森讲Agent的本质</a><time datetime="2026-04-04T17:06:55.000Z" title="Created 2026-04-05 01:06:55">2026-04-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/10/Lex-fridman-%E5%AF%B9%E8%B0%88Openclaw%E5%88%9B%E5%A7%8B%E4%BA%BA/" title="Lex fridman 对谈Openclaw创始人">Lex fridman 对谈Openclaw创始人</a><time datetime="2026-03-09T17:11:16.000Z" title="Created 2026-03-10 01:11:16">2026-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/28/ChatGPT-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="ChatGPT 系统设计">ChatGPT 系统设计</a><time datetime="2025-11-28T03:34:03.000Z" title="Created 2025-11-28 11:34:03">2025-11-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
