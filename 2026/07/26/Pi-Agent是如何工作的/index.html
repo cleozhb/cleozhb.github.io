@@ -7,7 +7,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/img/11111.jpg">
 <meta property="article:published_time" content="2026-07-26T09:33:46.000Z">
-<meta property="article:modified_time" content="2026-07-26T18:19:16.790Z">
+<meta property="article:modified_time" content="2026-07-27T03:37:10.025Z">
 <meta property="article:author" content="cleo">
 <meta property="article:tag" content="LLM">
 <meta name="twitter:card" content="summary">
@@ -146,7 +146,7 @@
   isHighlightShrink: false,
   isToc: true,
   isShuoshuo: false
-}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic11.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">Pi Agent是如何工作的</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Pi Agent是如何工作的</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-07-26T09:33:46.000Z" title="Created 2026-07-26 17:33:46">2026-07-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-07-26T18:19:16.790Z" title="Updated 2026-07-27 02:19:16">2026-07-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>PI Agent 这个在国内不是很火，但是在国外火爆了。最先知道PI是因为Openclaw底层是用PI，这是可以一个高度定制化的Agent runtime，最近终于有空学习。我非常喜欢它的官网slogan “There are many agent harnesses but this one is <em>yours</em>“。这篇文章就来拆解一下PI 是什么？有哪些特性和设计原则？与其他的Agent runtime 有什么区别？最后是架构和源码分析。</p>
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/11111.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">75</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/pic11.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/11111.jpg" alt="Logo"><span class="site-name">cleo札记</span></a><a class="nav-page-title" href="/"><span class="site-name">Pi Agent是如何工作的</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Pi Agent是如何工作的</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-07-26T09:33:46.000Z" title="Created 2026-07-26 17:33:46">2026-07-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-07-27T03:37:10.025Z" title="Updated 2026-07-27 11:37:10">2026-07-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>PI Agent 这个在国内不是很火，但是在国外火爆了。最先知道PI是因为Openclaw底层是用PI，这是可以一个高度定制化的Agent runtime，最近终于有空学习。我非常喜欢它的官网slogan “There are many agent harnesses but this one is <em>yours</em>“。这篇文章就来拆解一下PI 是什么？有哪些特性和设计原则？与其他的Agent runtime 有什么区别？最后是架构和源码分析。</p>
 <p>GitHub： <a target="_blank" rel="noopener" href="https://github.com/earendil-works/pi">https://github.com/earendil-works/pi</a></p>
 <p>官网： <a target="_blank" rel="noopener" href="https://pi.dev/">https://pi.dev/</a></p>
 <h1 id="Why-Pi"><a href="#Why-Pi" class="headerlink" title="Why Pi?"></a>Why Pi?</h1><blockquote>
@@ -154,7 +154,81 @@
 <p>Pi ships with powerful defaults but skips features like sub-agents and plan mode. Ask Pi to build what you want, or install a package that does it your way.</p>
 <p>Four modes: interactive, print&#x2F;JSON, <a target="_blank" rel="noopener" href="https://github.com/earendil-works/pi/tree/main/packages/coding-agent#programmatic-usage">RPC, and SDK</a>. See <a target="_blank" rel="noopener" href="https://github.com/OpenClaw/OpenClaw">OpenClaw</a> for a real-world integration.</p>
 </blockquote>
-<p>以上是官网说的，非常准确，Pi 是一个最小的Agent harness，可以通过extension，Skill， prompt 等方式定制，并可以通过PI package的方式打包发布，其他人可以用npm或git安装。默认情况下 Pi 没有MCP，没有sub-agent，没有plan模式，甚至没有权限弹窗，可以通过安装包的方式自己定义。这就是为什么Openclaw使用PI作为底层Agent引擎吧，非常独特。</p>
+<p>以上是官网说的，非常准确，Pi 是一个最小的Agent harness，可以通过extension，Skill， prompt 等方式定制，并可以通过PI package的方式打包发布，其他人可以用npm或git安装。默认情况下 Pi 没有MCP，没有sub-agent，没有plan模式，甚至没有权限弹窗，可以通过安装包的方式自己定义。这就是为什么Openclaw使用PI作为底层Agent引擎吧，非常独特。Claude code为了把事情做对，有各种模式让你把事情分解开，有各种预设的默认操作，Pi纯粹是未高级开发者准备的高度定制化Agent。</p>
+<table>
+<thead>
+<tr>
+<th align="left">feature</th>
+<th align="left">Claude code</th>
+<th align="left">Pi</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">源码</td>
+<td align="left">闭源</td>
+<td align="left">开源MIT</td>
+</tr>
+<tr>
+<td align="left">system prompt 大小</td>
+<td align="left">~10000 tokens 包含很多最佳实践</td>
+<td align="left">~200 token 最小可用，相信模型相信开发者</td>
+</tr>
+<tr>
+<td align="left">默认工具</td>
+<td align="left">10+(read, write, edit, bash, glob, grep, websearch, task)</td>
+<td align="left">4 (read, write, edit, bash) + 3 optional</td>
+</tr>
+<tr>
+<td align="left">默认权限模式</td>
+<td align="left">5modes，默认请求权限</td>
+<td align="left">YOLO mode, 默认无权限请求</td>
+</tr>
+<tr>
+<td align="left">hooks</td>
+<td align="left">14 hooks shell based Pre&#x2F;Post Tool use, session start, end</td>
+<td align="left">25 hooks— typescript,tool, session, agent, bash, streaming, input</td>
+</tr>
+<tr>
+<td align="left">运行模式</td>
+<td align="left">plan, acceptEdit, default, don’tAsk, bypassPermission</td>
+<td align="left">没有内置模式，通过工具，flags，extension配置</td>
+</tr>
+<tr>
+<td align="left">可定制性</td>
+<td align="left">允许相当程度的定制Hooks, stateline, system prompt, skills, subagents, commands</td>
+<td align="left">更进一步，几乎所有东西都能定制Hooks, footer, widgets, overlays, themes, system, prompt, tools, commands, skills, confirms, dialogs, more</td>
+</tr>
+<tr>
+<td align="left">memory File</td>
+<td align="left">CLAUDE.md — 从当前工作目录向上找</td>
+<td align="left">CLAUDE.md or AGENT.md 可以通过extension 定制</td>
+</tr>
+<tr>
+<td align="left">skills</td>
+<td align="left">.claude&#x2F;skills</td>
+<td align="left">.pi&#x2F;skills</td>
+</tr>
+<tr>
+<td align="left">commands</td>
+<td align="left">.claude&#x2F;commands&#x2F;*.md— prompt templates with $ARGUMENTS</td>
+<td align="left">.pi&#x2F;prompts&#x2F; - mustache  syntax, 通过packages共享</td>
+</tr>
+<tr>
+<td align="left">sub-agent</td>
+<td align="left">内置工具支持— explore,plan等</td>
+<td align="left">没有内置，需要通过extension扩展</td>
+</tr>
+<tr>
+<td align="left">Tasks list&#x2F;todos</td>
+<td align="left">内置TodoWrite 工具，上下文中结构化任务追踪</td>
+<td align="left">没有内置，需要通过文件或extension扩展</td>
+</tr>
+<tr>
+<td align="left">multi-Agent</td>
+<td align="left">原生team(lead+workers, 共享任务列表，集中式消息总线协同工作和通信)</td>
+<td align="left">没有内置，使用SDK Orchestration script，或自己构建extension</td>
+</tr>
+</tbody></table>
 <h1 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h1><p><img src="/../imgs/Pi-Agent%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/image-20260726183627130.png" alt="image-20260726183627130"></p>
 <p>这个图展示了Pi的工作流程，和所有的Agent一样</p>
 <ol>
